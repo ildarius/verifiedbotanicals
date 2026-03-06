@@ -2232,9 +2232,22 @@ input, select, textarea {
 			input[type="reset"].primary:active,
 			input[type="button"].primary:active,
 			button.primary:active,
-			.button.primary:active {
-				background-color: #1ebdd1;
-			}
+		.button.primary:active {
+			background-color: #1ebdd1;
+		}
+
+	/* Display-only labels that keep the button look without click affordance */
+	.button.pseudo-button {
+		cursor: default !important;
+		user-select: none;
+	}
+
+		.button.pseudo-button:hover,
+		.button.pseudo-button:active {
+			background-color: transparent;
+			box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+			color: #000000 !important;
+		}
 
 /* Form */
 
