@@ -61,7 +61,7 @@ try {
 
     $mailer->setFrom($config['MAIL_FROM_ADDRESS'], $config['MAIL_FROM_NAME']);
     $mailer->addAddress($config['MAIL_TO_ADDRESS']);
-    $mailer->addReplyTo($email);
+    $mailer->addReplyTo($config['MAIL_FROM_ADDRESS'], $config['MAIL_FROM_NAME']);
     $mailer->Subject = 'New Verified Botanicals subscriber';
     $mailer->Body = "A new subscriber joined the list.\n\nEmail: {$email}";
     $mailer->AltBody = $mailer->Body;
