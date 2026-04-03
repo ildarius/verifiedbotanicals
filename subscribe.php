@@ -26,7 +26,7 @@ if ($email === false) {
 }
 
 try {
-    $config = loadEnv(__DIR__ . '/.env');
+    $config = loadEnv(dirname(__DIR__) . '/.env');
 
     $requiredKeys = [
         'SMTP_HOST',
