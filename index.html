@@ -12,6 +12,20 @@
 		<meta name="description" content="Buy kratom in Montreal from Verified Botanicals. Our Canada kratom store offers lab-tested, professionally presented kratom powder for customers shopping in Montreal and Quebec." />
 		<link rel="stylesheet" href="assets/css/main.css?v=20260306-1" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css?v=20260306-1" /></noscript>
+		<style>
+			.subscribe-status {
+				margin-top: 1rem;
+				font-weight: 700;
+			}
+
+			.subscribe-status.success {
+				color: #1f8f43;
+			}
+
+			.subscribe-status.error {
+				color: #b42318;
+			}
+		</style>
 	</head>
 	<body class="is-preload">
 
@@ -118,16 +132,17 @@
 							<p>We're almost ready. Early customers in Montreal, Quebec, and across Canada will be first in line for launch rebates and exclusive offers. Sign up below to secure your spot.
 
 </p>
-							<form method="post" action="#">
+							<form method="post" action="subscribe.php" data-subscribe-form>
 								<div class="fields">
 									<div class="field">
 										<label for="email">Email</label>
-										<input type="email" name="email" id="email" value="" placeholder="you@example.com" />
+										<input type="email" name="email" id="email" value="" placeholder="you@example.com" required />
 									</div>
 								</div>
 								<ul class="actions special">
 									<li><input type="submit" name="submit" id="submit" value="Subscribe" /></li>
 								</ul>
+								<p class="subscribe-status" data-subscribe-status aria-live="polite"></p>
 							</form>
 
 						</div>
@@ -158,6 +173,7 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+			<script src="assets/js/subscribe-form.js"></script>
 
 	</body>
 </html>
