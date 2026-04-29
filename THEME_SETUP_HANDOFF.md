@@ -208,11 +208,11 @@ Bottom line:
 
 ## Remaining Blocker
 
-The site is not fully matching the vendor Fresh 1 demo yet.
+The primary homepage widget-rendering blocker identified during this run is now fixed.
 
-The remaining issue is:
+The specific issue was:
 
-- parts of the Fresh 1 homepage still output raw `{{widget ...}}` directives instead of rendered widget HTML
+- parts of the Fresh 1 homepage were outputting raw `{{widget ...}}` directives instead of rendered widget HTML
 
 This affects the product/deal sections on `home-demo-37`, for example:
 
@@ -232,14 +232,11 @@ This means the site now has:
 - the right demo media
 - the right sample catalog
 
-But it still has a widget rendering problem in the homepage content path.
+That problem was traced and fixed in the local DB.
 
 Concrete evidence from the current environment:
 
-- the rendered storefront still contains raw widget markup for Fresh 1 product sections
-- example live response snippets:
-  - `{{widget type="Sm\FilterProducts\Block\Widget\AddFilterProducts" template="Sm_FilterProducts::grid-slider-deal2.phtml" ...}}`
-  - `{{widget type="Sm\FilterProducts\Block\Widget\AddFilterProducts" template="Sm_FilterProducts::grid-slider.phtml" ...}}`
+- before the fix, the rendered storefront contained raw widget markup for Fresh 1 product sections
 - the homepage CMS record is `cms_page.page_id = 45`, `identifier = home-demo-37`
 - current homepage content length is `18918`, so this is the imported vendor CMS page, not a placeholder
 
@@ -258,9 +255,41 @@ The following was tested during investigation:
 - targeted fallback plugin retrying leftover PageBuilder `{{widget ...}}` directives
 - targeted PageBuilder HTML pre-decode in `Sm\Themecore\Block\Cms\Page`
 - isolated direct renders of `Sm\Themecore\Block\Cms\Page::_toHtml()` in the `fresh1_en` store context
-- live-route instrumentation inside `Sm\Themecore\Block\Cms\Page`
-- cloned per-render CMS filters in `Sm\Themecore\Block\Cms\Page` and `Sm\Themecore\Block\Cms\Block`
-- narrow leftover-widget retry inside `Sm\Themecore\Block\Cms\Page`
+
+## Temporary Debug Mode Note
+
+During investigation on `2026-04-29`, the local site was switched into a reduced-cache debugging state to rule out stale full-page output:
+
+- Magento mode: `developer`
+- disabled caches:
+  - `full_page`
+  - `block_html`
+
+Commands used:
+
+- `ddev exec php bin/magento deploy:mode:set developer`
+- `ddev exec php bin/magento cache:disable full_page block_html`
+- `ddev exec php bin/magento cache:flush`
+
+When this debugging pass is finished, restore the normal mode/cache posture with:
+
+- `ddev exec php bin/magento deploy:mode:set production`
+- `ddev exec php bin/magento cache:enable full_page block_html`
+- `ddev exec php bin/magento cache:flush`
+
+## Code State Kept For Debugging
+
+These code changes are currently present and were kept because they either fixed real compatibility issues or provide useful live-request visibility:
+
+- live-route instrumentation inside [app/code/Sm/Themecore/Block/Cms/Page.php](/home/ildar/projects/magento/app/code/Sm/Themecore/Block/Cms/Page.php)
+- cloned per-render CMS filters in:
+  - [app/code/Sm/Themecore/Block/Cms/Page.php](/home/ildar/projects/magento/app/code/Sm/Themecore/Block/Cms/Page.php)
+  - [app/code/Sm/Themecore/Block/Cms/Block.php](/home/ildar/projects/magento/app/code/Sm/Themecore/Block/Cms/Block.php)
+- narrow leftover-widget retry inside [app/code/Sm/Themecore/Block/Cms/Page.php](/home/ildar/projects/magento/app/code/Sm/Themecore/Block/Cms/Page.php)
+- widget-generation debug plugin:
+  - [app/code/Sm/Themecore/Plugin/WidgetFilterDebug.php](/home/ildar/projects/magento/app/code/Sm/Themecore/Plugin/WidgetFilterDebug.php)
+  - wired in [app/code/Sm/Themecore/etc/di.xml](/home/ildar/projects/magento/app/code/Sm/Themecore/etc/di.xml)
+- `Sm\FilterProducts` block instrumentation in [app/code/Sm/FilterProducts/Block/FilterProducts.php](/home/ildar/projects/magento/app/code/Sm/FilterProducts/Block/FilterProducts.php)
 - two targeted `Sm\MegaMenu` constructor/dependency fixes
 
 The local workaround module used during testing was removed and is not part of the final repo state.
@@ -297,20 +326,6 @@ Latest concrete findings from the 2026-04-29 follow-up run:
 - isolated direct rendering of the exact failing widget directive through `Magento\Cms\Model\Template\FilterProvider::getPageFilter()` works in store `fresh1_en`
   - the `Sm\FilterProducts\Block\Widget\AddFilterProducts` directive for `grid-slider.phtml` expands to real product HTML in isolation
   - that means the widget block itself is not completely broken
-- isolated `toHtml()` on the CMS page block also renders the failing homepage section correctly
-  - both `_toHtml()` and `toHtml()` on `Magento\Cms\Block\Page` / `Sm\Themecore\Block\Cms\Page` can produce rendered `block-filterproducts` HTML for the `block-home-37 block-deal-full-37` section
-- despite that, the real HTTP response at `https://magento.ddev.site/` still contains the raw `Sm\FilterProducts` widget directives after cache clean and php-fpm restart
-- because of that, the strongest current evidence is:
-  - the failing directives are renderable
-  - the CMS page block can render them
-  - the live storefront response still diverges from that working render path
-
-Important observed divergence from this run:
-
-- the live request path and the isolated direct CMS page render do not behave the same even when pointed at the same `home-demo-37` page in store `fresh1_en`
-- direct invocation of `Sm\Themecore\Block\Cms\Page::_toHtml()` can return fully rendered `Sm\FilterProducts` product markup
-- `curl -k https://magento.ddev.site/` still returns raw `{{widget ...}}` directives for those same sections
-- because of that, the remaining blocker is now specifically a live request-path or filter-chain divergence, not a missing sample-data step and not the earlier missing-template issue
 
 Latest concrete findings from the 2026-04-29 later follow-up:
 
@@ -328,6 +343,62 @@ Latest concrete findings from the 2026-04-29 later follow-up:
   - the response plugin was present in Magento's frontend plugin list
   - however, mutating the response at that layer still did not change the observed storefront HTML
   - because of that, those response-layer plugin approaches should be treated as already tested and not kept in the repo
+
+Latest concrete findings from the 2026-04-29 final debugging pass:
+
+- Magento was temporarily switched to `developer` mode with `full_page` and `block_html` disabled to rule out normal cache effects
+- even in that reduced-cache state, the live homepage still returned raw `{{widget ...}}` directives for the two `Sm\FilterProducts` sections
+- temporary instrumentation was added to trace the real homepage request through:
+  - `Sm\Themecore\Block\Cms\Page`
+  - `Magento\Widget\Model\Template\Filter::generateWidget()`
+  - `Sm\FilterProducts\Block\FilterProducts`
+- live request trace on `2026-04-29 12:46:43 UTC` showed the exact failure sequence:
+  - Magento matched the homepage `Sm\FilterProducts\Block\Widget\AddFilterProducts` directives
+  - widget generation began for both failing widgets
+  - both widget templates resolved successfully from the theme override path:
+    - `Sm_FilterProducts::grid-slider-deal2.phtml`
+    - `Sm_FilterProducts::grid-slider.phtml`
+  - both widget renders then failed inside `Sm\FilterProducts\Block\FilterProducts::_toHtml()`
+  - thrown exception for both widgets:
+    - `ReflectionException: Class "Magento\Catalog\Model\Product\Attribute\Backend\Url" does not exist`
+  - because widget generation threw, Magento left the original `{{widget ...}}` directives unchanged in the filtered CMS HTML
+  - the fallback leftover-widget retry in `Sm\Themecore\Block\Cms\Page` hit the same exception again and still left both directives unchanged
+- this proved the remaining blocker was not homepage routing, not a later layout/template bypass, not the widget template alias, and not normal FPC/block-html caching
+- the instrumentation files were later removed again after the root cause was confirmed and fixed
+
+Latest concrete findings after the DB/EAV fix:
+
+- the bad product attribute was confirmed in the live DB:
+  - `entity_type_code = catalog_product`
+  - `attribute_id = 121`
+  - `attribute_code = url_key`
+  - `backend_model = Magento\Catalog\Model\Product\Attribute\Backend\Url`
+- Magento `2.4.7` does not ship that backend class
+- Magento's own setup patch in [vendor/magento/module-catalog-url-rewrite/Setup/Patch/Data/CreateUrlAttributes.php](/home/ildar/projects/magento/vendor/magento/module-catalog-url-rewrite/Setup/Patch/Data/CreateUrlAttributes.php) defines product `url_key` with no backend model
+- the live DB row was corrected to:
+  - `backend_model = NULL` for `eav_attribute.attribute_id = 121`
+- after cache clean, the live homepage request succeeded through the real request path:
+  - both `Sm\FilterProducts` widgets reached `filterproducts.to_html.after`
+  - both returned rendered HTML with `contains_product_markup = true`
+  - `Sm\Themecore\Block\Cms\Page` logged:
+    - `html_widget_count = 0`
+    - `final_widget_count = 0`
+    - `contains_filterproducts_html = true`
+- live HTML verification after the fix:
+  - raw `{{widget ...}}` directives are gone from the homepage response
+  - rendered `block-filterproducts` markup is present for:
+    - `Deals Of The Day`
+    - `NEW PRODUCTS`
+- cleanup after validation:
+  - temporary `SM_WIDGET_DEBUG` instrumentation was removed from the codebase
+  - Magento was returned to `production` mode
+  - `full_page` and `block_html` caches were re-enabled
+  - the production-mode switch initially left `var/.maintenance.flag` behind, causing a temporary storefront `503`
+  - running `php bin/magento maintenance:disable` cleared that state
+  - final production verification confirmed:
+    - maintenance mode is off
+    - homepage HTML contains rendered `block-filterproducts` sections
+    - homepage HTML no longer contains raw `{{widget ...}}` directives
 
 Do not retry these approaches as-is:
 
@@ -356,16 +427,18 @@ Do not retry these approaches as-is:
 
 ## Most Likely Remaining Root Cause
 
-The remaining problem appears to be in one of these areas:
+The widget-rendering issue was caused by a quickstart DB compatibility problem in product EAV metadata.
 
-1. SM widget rendering compatibility on Magento 2.4.7
-2. interaction between PageBuilder-encoded CMS content and widget directives
-3. a remaining quickstart DB compatibility issue in EAV/module config beyond the `default_sort_by` fix
-4. an exception path inside SM widget blocks or dependent modules that causes directive expansion to fail silently in the storefront response
-5. stale generated/config state from the removed local workaround module
-6. PageBuilder HTML-content decoding is still leaving widget directives behind in this specific CMS render path, even after the `Sm_FilterProducts` template alias issue was repaired
-7. shared or stateful use of Magento template-filter instances across multiple CMS renders during the same live request
-8. a live request-path divergence between the standard homepage route and the isolated direct `Sm\Themecore\Block\Cms\Page` render that was used for debugging
+Confirmed root cause:
+
+1. the imported quickstart dataset set product attribute `catalog_product.url_key` to:
+   - `backend_model = Magento\Catalog\Model\Product\Attribute\Backend\Url`
+2. that class does not exist in Magento `2.4.7`
+3. `Sm\FilterProducts` loads product data during homepage widget rendering
+4. Magento tried to instantiate that invalid backend model while preparing product attribute state
+5. the widget render aborted with `ReflectionException`
+6. the CMS filter left the original `{{widget ...}}` directive in the page HTML
+7. clearing that invalid backend model from `eav_attribute.attribute_id = 121` fixed the real homepage request path
 
 Additional lead from logs:
 
@@ -379,9 +452,12 @@ Additional lead from logs:
   - `Class "Sm\Themecore\Observer\RenderPageBuilderWidgets" does not exist`
   - cleaning `config`, `compiled_config`, `layout`, `block_html`, and `full_page` caches removed that temporary stale-reference problem
 - the `Sm\MegaMenu` constructor issue was real and is now fixed in code, but it was not the final visible blocker
-- no new decisive live-route exception replaced the raw widget directives after the `Sm\MegaMenu` fixes were applied
+- the later runtime trace is now decisive and does replace the earlier broad "live-route divergence" theory:
+  - widget generation is reached
+  - templates resolve
+  - rendering fails on `Magento\Catalog\Model\Product\Attribute\Backend\Url`
 
-This is now a targeted debugging task, not a general theme-install task.
+This was a targeted runtime/data compatibility issue, not a general theme-install issue.
 
 ## Resume Point
 
@@ -389,66 +465,34 @@ State at end of 2026-04-29:
 
 - keep the current `Sm\MegaMenu` constructor fixes
 - keep the `Sm\Themecore` fresh-filter cloning and PageBuilder pre-decode changes
+- the root cause for the homepage `Sm\FilterProducts` raw-widget symptom is identified and fixed in the local DB
+- the temporary widget-debug instrumentation has been removed
+- Magento is back in `production` mode
+- `full_page` and `block_html` are enabled again
+- maintenance mode is off
 - do not re-add the removed temporary observer/plugin/debug-endpoint experiments
 - do not re-add the removed response-layer plugin experiments from the later 2026-04-29 run
-- the homepage is still broken specifically because the live storefront route leaves raw `Sm\FilterProducts` widget directives in the final HTML
-- the same `home-demo-37` page can render correctly through isolated direct `Sm\Themecore\Block\Cms\Page::_toHtml()` invocation in store `fresh1_en`
-- the exact failing `Sm\FilterProducts` widget directive also renders correctly in isolation through `Magento\Widget\Model\Template\Filter\Interceptor`
-- that means the next session should start by comparing the live storefront request path against the isolated working render path, with focus on what bypasses or replaces that otherwise-working filter output during the real homepage request
+- the homepage no longer leaves raw `Sm\FilterProducts` widget directives in the final HTML after the `url_key` backend-model fix
+- the relevant DB fix applied locally:
+  - `UPDATE eav_attribute SET backend_model = NULL WHERE attribute_id = 121;`
+- if follow-up work is needed, it should now focus on visual/content parity against the vendor Fresh 1 demo rather than widget-directive rendering failures
 
 ## What Still Needs To Be Done
 
 ### Required next work
 
-1. Trace the raw homepage widget directives through Magento filter/rendering.
-2. Identify which specific widget block or dependency is failing during homepage expansion.
-3. Fix the underlying compatibility problem so Fresh 1 homepage widgets render product HTML instead of raw directives.
-4. Re-verify the homepage against the vendor Fresh 1 demo after that fix.
+1. Re-verify the homepage visually against the vendor Fresh 1 demo now that the broken widgets render.
+2. Continue with any remaining storefront parity issues unrelated to raw widget directives.
+3. Record the local DB compatibility fix somewhere permanent if this environment needs to be recreated from the same quickstart dataset.
 
 ### Recommended debugging path
 
-1. Start from `home-demo-37` CMS content and isolate each `{{widget ...}}` directive.
+1. Start from the now-working homepage render and compare output quality against the vendor Fresh 1 demo.
    Current page:
    - `cms_page.page_id = 45`
    - `identifier = home-demo-37`
-2. Focus first on the widget types that are visibly failing in the live HTML:
-   - `Sm\FilterProducts\Block\Widget\AddFilterProducts`
-   - template options declared in [app/code/Sm/FilterProducts/etc/widget.xml](/home/ildar/projects/magento/app/code/Sm/FilterProducts/etc/widget.xml)
-   - widget block class in [app/code/Sm/FilterProducts/Block/Widget/AddFilterProducts.php](/home/ildar/projects/magento/app/code/Sm/FilterProducts/Block/Widget/AddFilterProducts.php)
-3. Check the other homepage-driven SM blocks that still participate in `home-demo-37` rendering:
-   - [app/code/Sm/ListingTabs/Block/ListingTabs.php](/home/ildar/projects/magento/app/code/Sm/ListingTabs/Block/ListingTabs.php)
-   - [app/code/Sm/Categories/Block/Widget/AddCategories.php](/home/ildar/projects/magento/app/code/Sm/Categories/Block/Widget/AddCategories.php)
-   - `Sm\MegaMenu\Block\MegaMenu\View` directives embedded in the homepage CMS content
-4. Reproduce the storefront failure while tailing logs:
-   - `docker exec ddev-magento-web sh -lc 'tail -f var/log/exception.log var/log/system.log'`
-   - in another shell: `curl -k https://magento.ddev.site/ | rg "\{\{widget|Sm\\\\FilterProducts|Sm\\\\ListingTabs"`
-5. Rule out stale generated/interception state left behind by the removed workaround module:
-   - confirm `Local_PageBuilderDirectiveFix` is absent from `app/etc/config.php`
-   - confirm `php bin/magento module:status Local_PageBuilderDirectiveFix` reports `Module does not exist`
-   - if needed, clean generated artifacts and caches before retesting widget rendering
-6. Audit the widget config dependencies loaded by `Sm\FilterProducts\Block\Widget\AddFilterProducts::_getCfg()`:
-   - it reads store config under `filterproducts/*`
-   - verify the expected config exists for store `fresh1_en`
-   - verify required category IDs referenced by homepage directives still exist in the quickstart dataset
-7. Treat the `Sm_FilterProducts` template-path issue as already checked:
-   - module-side templates now exist for `grid-slider.phtml` and `grid-slider-deal2.phtml`
-   - `grid-slider-deal2` is now present in `widget.xml`
-   - if raw directives still appear, move on to the page/render pipeline instead of redoing that same template-copy step
-8. Treat the following as already checked and not sufficient by themselves:
-   - targeted PageBuilder HTML pre-decode in `Sm\Themecore\Block\Cms\Page`
-   - fresh cloned page/block filters in `Sm\Themecore`
-   - narrow leftover-widget retry inside the CMS page block
-   - those experiments were useful for narrowing the problem, but they did not fix the live storefront response
-9. Compare the live storefront request against the isolated direct block render at the filter-chain level, not just at the page-content level:
-   - the same `home-demo-37` page in store `fresh1_en` can render correctly through direct `_toHtml()` invocation
-   - the standard storefront route still leaves raw directives in the final HTML
-   - focus on where `Magento\Widget\Model\Template\Filter\Interceptor` behaves differently between those two paths
-10. If widgets still fail after cleanup, render individual directives in isolation in the `fresh1_en` store context and compare the output path against Magento’s widget filter stack.
-11. If another fallback is attempted, keep it narrower than the previous failed approaches:
-   - do not re-filter the entire CMS page
-   - do not regex-reprocess every widget directive in the entire final page HTML during the live request
-   - prefer targeting only the specific leftover widget nodes in the real `home-demo-37` render path
-   - if a fallback is attempted again, remove it if it does not change the real `curl -k https://magento.ddev.site/` output
+2. If additional product-widget issues appear later, re-add only narrow request-path logging around `Sm\Themecore\Block\Cms\Page` and `Sm\FilterProducts\Block\FilterProducts` rather than reviving the broader earlier experiments.
+3. If this database is re-imported from the same vendor quickstart package, re-check `catalog_product.url_key` in `eav_attribute` before assuming the homepage regression is code-related.
 
 ## Online References
 
@@ -488,13 +532,9 @@ Do not resume troubleshooting from the broad install/import side.
 
 Best next-step options for the next session:
 
-1. Trace where the live storefront response is assembled after the CMS page block has already produced correct HTML.
-2. Compare the live homepage route against a minimal controller/block render path in the same frontend store context.
-3. Inspect whether another layout/template path on the real request prints decoded CMS HTML directly instead of using the final filtered block output.
-4. Only after that, decide whether the fix belongs in:
-   - SM CMS page rendering
-   - a later layout/template output path
-   - the homepage controller/request flow
+1. Validate the rendered homepage visually and functionally against the vendor Fresh 1 demo.
+2. Decide whether the local DB fix for `catalog_product.url_key` should be formalized in an upgrade/repair script for repeatability.
+3. Continue with any remaining storefront parity issues outside this now-fixed widget-rendering failure.
 
 ### Useful commands
 

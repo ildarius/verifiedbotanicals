@@ -148,4 +148,5 @@ class Page extends \Magento\Cms\Block\Page
 			return $m[0];
 		}
     }
+
 }
