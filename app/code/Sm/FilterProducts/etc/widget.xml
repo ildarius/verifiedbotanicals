@@ -31,6 +31,9 @@
                     <option name="grid-slider-deal" value="Sm_FilterProducts::grid-slider-deal.phtml">
                         <label translate="true">Grid Slider Deal</label>
                     </option>
+                    <option name="grid-slider-deal2" value="Sm_FilterProducts::grid-slider-deal2.phtml">
+                        <label translate="true">Grid Slider Deal 2</label>
+                    </option>
                     <option name="thumb-deals" value="Sm_FilterProducts::thumb-deals.phtml">
                         <label translate="true">Thumb Deals</label>
                     </option>

@@ -28,7 +28,8 @@ class Block extends \Magento\Cms\Block\Block
             $block = $this->_blockFactory->create();
             $block->setStoreId($storeId)->load($blockId);
             if ($block->isActive()) {
-				$html = $this->_filterProvider->getBlockFilter()->setStoreId($storeId)->filter($block->getContent());
+				$filter = clone $this->_filterProvider->getBlockFilter();
+				$html = $filter->setStoreId($storeId)->filter($block->getContent());
 				$_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 				$helper_config = $_objectManager->get('Sm\Themecore\Helper\Data');
 				$useLazyload = $helper_config->getAdvanced('lazyload_group/enable_ladyloading'); /*add config Lazyload*/

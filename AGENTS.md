@@ -62,6 +62,7 @@
 ## Run Findings
 
 - This project runs under DDEV, not plain `docker compose`.
+- Full database backup created on `2026-04-28` at `backups/magento-db-20260428-214114.sql` from the `ddev-magento-db` container (`db` database).
 - The main app URL is `https://magento.ddev.site/`.
 - The Magento admin URI is `/admin`, but authenticated admin URLs use Magento secret keys, so direct guessed admin paths may redirect back to the dashboard.
 - For browser automation, prefer navigating from authenticated admin pages or use the signed URLs already captured in `.playwright/local.env`.

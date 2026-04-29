@@ -18,7 +18,6 @@ use Magento\Framework\Url\DecoderInterface;
 use Magento\Framework\Filter\Email;
 use Magento\Catalog\Helper\Data;
 use Magento\Catalog\Block\Product\AbstractProduct;
-use Magento\Framework\View\Context as ViewContext;
 use Sm\MegaMenu\Block\Cache\Lite;
 
 class View extends Template
@@ -148,7 +147,6 @@ class View extends Template
         Email $email,
         Data $catalogData,
         \Magento\Framework\Image\AdapterFactory $imageFactory,
-        ViewContext $viewContext,
         array $data = []
     )
     {
@@ -159,7 +157,6 @@ class View extends Template
         $this->_product         = $abstractProduct;
         $this->_directory       = $this->_objectManager->get('\Magento\Framework\Filesystem');
         $this->_contentData     = $catalogData;
-        $this->_frontController = $viewContext;
         $this->_filter          = $email;
         $this->_imageFactory    = $imageFactory;
         $this->_urlinterface    = $this->_objectManager->get('\Magento\Framework\UrlInterface');
@@ -250,7 +247,7 @@ class View extends Template
      */
     public function getFrontController()
     {
-        return $this->_frontController;
+        return $this;
     }
 
     /*

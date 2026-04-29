@@ -9,13 +9,13 @@
 namespace Sm\MegaMenu\Model;
 
 use \Magento\Framework\Registry;
-use Magento\Framework\App\Action\Context as ActionContext;
 use Sm\MegaMenu\Api\Data\MenuItemsInterface;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Data\Collection\EntityFactoryInterface;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\Data\Collection;
 use Magento\Framework\DataObject;
+use Magento\Framework\Message\ManagerInterface;
 use Sm\MegaMenu\Helper\Defaults;
 use Magento\Framework\Model\Context as FrameContext;
 use Magento\Framework\Model\ResourceModel\Db\Context;
@@ -36,7 +36,7 @@ class MenuItems extends AbstractModel implements MenuItemsInterface
 
 	public function __construct(
 		EntityFactoryInterface $entityFactory,
-		ActionContext $actionContext,
+		ManagerInterface $messageManager,
 		Context $context,
 		Registry $registry,
 		Collection $collection,
@@ -50,7 +50,7 @@ class MenuItems extends AbstractModel implements MenuItemsInterface
 		$this->_dataCollection = $collection;
 		$this->_dataObject = $dataObject;
 		$this->_defaults = $defaults->get($data);
-		$this->messageManager = $actionContext->getMessageManager();
+		$this->messageManager = $messageManager;
 		$this->_statusChild = \Sm\MegaMenu\Model\Config\Source\Status::STATUS_ENABLED;
 		$this->_tableName = $this->_getResource()->getMainTable();
 	}
