@@ -1,0 +1,55 @@
+<?php
+/**
+ *
+ * SM CartQuickPro - Version 1.0.0
+ * Copyright (c) 2017 YouTech Company. All Rights Reserved.
+ * @license - Copyrighted Commercial Software
+ * Author: YouTech Company
+ * Websites: http://www.magentech.com
+ */
+
+if (!(int)$this->_getConfig('isenabled', 1))
+    return;
+
+$_config            = $this->helper('Sm\Market\Helper\Data');
+$productStyle       = $_config->getThemeLayout('layout_product/product_style');
+$classListContainer = ', .product-item-info[data-container="product-list"] .image-product';
+$customContainer    = ', .box-quickview, .box-quickview-inline';
+
+/**
+ * Default quickview button container
+ */
+$buttonContainer = '.product-item-info[data-container="product-grid"] .actions-secondary' . $classListContainer . $customContainer;
+
+if ($productStyle == 'product-1') {
+    $buttonContainer = '.product-item-info[data-container="product-grid"] .product-item-details' . $classListContainer . $customContainer;
+}
+
+if ($productStyle == 'product-8' || $productStyle == 'product-10') {
+    $buttonContainer = '.product-item-info[data-container="product-grid"] .image-product' . $classListContainer . $customContainer;
+}
+if ($productStyle == 'product-23') {
+	 $buttonContainer = '.product-item-info[data-container="product-grid"] .product-item-details .actions-primary'  . $classListContainer . $customContainer;
+}
+?>
+
+<script>
+    require([
+        'jquery',
+        'quickView',
+        'domReady!'
+    ], function ($, cartQuickView) {
+        var quickViewCf = {
+            isQuickView: <?php echo $this->_isQuickView() ? 'true' : 'false'; ?>,
+            isAjaxCart: <?php echo $this->_isAjaxCart() ? 'true' : 'false'; ?>,
+            product_container: '.product-item',
+            button_container: '<?php echo $buttonContainer; ?>',
+            label_button: '<?php echo $this->_getConfig('label_button'); ?>',
+            base_url: '<?php echo $this->getUrl();?>'
+        }
+        $(quickViewCf.product_container).cartQuickView(quickViewCf);
+        $(document).on("afterAjaxProductsLoaded", function (event) {
+            $(quickViewCf.product_container).cartQuickView(quickViewCf);
+        });
+    });
+</script>	

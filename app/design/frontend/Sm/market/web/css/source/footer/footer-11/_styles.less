@@ -1,0 +1,165 @@
+.page-footer {
+    background-color: #111;
+    color: #bbb;
+
+    a {
+        color: #bbb;
+    }
+}
+
+.footer-block {
+    margin-bottom: 40px;
+
+    .footer-block-title {
+        font-size: 116.67%;
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: #fff;
+    }
+
+    .links-footer {
+        .ul-nostyle();
+
+        li {
+            margin: 0;
+        }
+
+        li a {
+            display: table;
+            padding: 6px 0;
+        }
+
+        li a:hover {
+            color: #fff;
+        }
+    }
+}
+
+.footer-top {
+    padding: 70px 0;
+}
+
+.ft-top-container {
+    text-align: center;
+}
+
+.store-ft-description {
+    margin: 0 auto 30px;
+    max-width: 723px;
+    line-height: 1.8;
+}
+
+.social-footer {
+    .social-title {
+        display: inline-block;
+        vertical-align: top;
+        padding-left: 20px;
+        line-height: 34px;
+    }
+
+    ul {
+        display: inline-block;
+        vertical-align: top;
+        .ul-nostyle();
+        .clearfix();
+    }
+
+    ul li {
+        display: inline-block;
+        vertical-align: top;
+        margin: 0 3px;
+
+        &:last-child {
+            margin-left: 0;
+        }
+
+        a {
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.1);
+            font-size: 18px;
+            display: block;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            line-height: 52px;
+            .transition(.1s);
+            .border-radius(50px);
+        }
+
+    }
+}
+
+.footer-logo {
+    margin-bottom: 30px;
+}
+
+.footer-contact {
+    border-top: 1px dashed #343434;
+    padding: 30px 0 5px;
+
+    ul {
+        .ul-nostyle();
+        .clearfix();
+
+        li {
+            float: left;
+            text-align: center;
+            width: 33.3333%;
+            margin-bottom: 30px;
+        }
+    }
+}
+
+.footer-links {
+    border-top: 1px dashed #343434;
+    padding: 50px 0 40px;
+
+    ul {
+        text-align: center;
+        .ul-nostyle();
+
+        li {
+            display: inline-block;
+            margin: 0 0 10px;
+            vertical-align: top;
+            font-size: 116.67%;
+        }
+
+        li > a {
+            display: block;
+            padding: 0 30px;
+            color: #fff;
+        }
+
+        li:not(:last-child) > a {
+            border-right: 1px solid #383838;
+        }
+    }
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-bottom: 50px;
+
+    address {
+        margin-bottom: 20px;
+    }
+}
+
+/**
+ * Boxed layout
+ */
+
+.layout-boxed {
+    .page-footer {
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+
+    .footer-top,
+    .footer-middle,
+    .footer-bottom {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}

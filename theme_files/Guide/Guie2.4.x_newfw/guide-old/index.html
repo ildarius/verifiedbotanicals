@@ -1,0 +1,1534 @@
+<!doctype html>
+<html class="fixed sidebar-left-sm">
+
+<head>
+    <!-- Basic -->
+    <meta charset="UTF-8">
+    <title>Market Magento Theme Documentation for Magento 2 CE</title>
+    <meta name="keywords" content="Responsive Magento 2 Theme" />
+    <meta name="description" content="Documentation for Market - Ultimate Responsive Magento 2 Theme">
+    <meta name="author" content="MAGENTECH">
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <!-- Web Fonts  -->
+    <link href="http://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="assets/vendor/font-awesome/css/font-awesome.css" />
+    <!-- Specific Page Vendor CSS -->
+    <link rel="stylesheet" href="assets/vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.css" />
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="assets/stylesheets/theme.css" />
+    <!-- Skin CSS -->
+    <link rel="stylesheet" href="assets/stylesheets/skins/default.css" />
+    <!-- Theme Custom CSS -->
+    <link rel="stylesheet" href="assets/stylesheets/theme-custom.css">
+    <!-- Head Libs -->
+	<link rel="shortcut icon" href="http://documentation.ariestheme.com/wp-content/themes/document/assets/img/favicon.ico">
+    <script src="assets/vendor/modernizr/modernizr.js"></script>
+</head>
+
+<body>
+    <section class="body">
+        <!-- start: header -->
+        <header class="header">
+			<div class="logo-container">
+                <a href="http://documentation.ariestheme.com/sm-market-24new/" class="logo"><img src="assets/images/logo.png" alt="market Logo" height="" style= "margin:-3px 0px 0px;"  /></a>
+                <span class="document-title  hidden-xs hidden-sm">Documentation for  
+					 <a href="https://magento2.magentech.com/themes/intro/sm_market/" class="link">Market - Responsive Magento 2 Theme</a>
+				</span>
+                <ul class="demo-view hidden-xs hidden-sm hidden-md  hidden-lg">
+                    <li><a class="btn btn-default" href="https://magento2.magentech.com/themes/intro/sm_market/" target="blank">View Demo</a></li>
+                    <li><a class="btn btn-default" href="https://themeforest.net/item/market-premium-responsive-magento-2-19-store-theme/8945695?ref=magentech" target="blank">More Detail</a></li>
+                </ul>
+                <div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
+                    <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
+                </div>
+            </div>
+            <div class="header-right hidden-xs">
+                <span class="separator"></span>
+                <span class="separator siteground_link"></span>
+                <ul class="list-unstyled">
+				<li><a role="menuitem" tabindex="-1" href="https://1.envato.market/sm-market" target="blank"><i class="fa fa-shopping-cart"></i> Buy This Theme</a></li>
+                    <li><a role="menuitem" tabindex="-1" href="https://themeforest.net/search?utf8=%E2%9C%93&term=magentech&referrer=search&view=list&category=ecommerce%2Fmagento" target="blank"><i class="fa fa-qrcode"></i> Check Other Themes</a></li>
+                    <li><a role="menuitem" tabindex="-1" href="https://www.magentech.com/submit-a-ticket/submit-ticket" target="blank"><i class="fa fa-user"></i> Contact Us</a></li>
+                </ul>
+            </div>
+        </header>
+        <!-- end: header -->
+		
+        <div class="inner-wrapper">
+            <!-- start: sidebar -->
+            <aside id="sidebar-left" class="sidebar-left">
+                <div class="sidebar-header">
+                    <div class="sidebar-title">Navigation</div>
+                </div>
+                <div class="nano">
+                    <div class="nano-content">
+                        <nav id="menu" class="nav-main" role="navigation">
+                            <ul class="nav nav-main">
+                                <li class="nav-active">
+                                    <a href="#gettingstarted"><i class="fa fa-home" aria-hidden="true"></i><span>Getting Started</span></a>
+                                </li>
+                                <li class="nav-parent">
+                                    <a href="#installation"><i class="fa fa-gear" aria-hidden="true"></i><span>Installation</span></a>
+                                    <ul class="nav nav-children">
+                                        <li><a href="#quickstart">Quickstart Installation</a></li>
+                                        <li><a href="#customization">Manual Installation</a></li>        
+                                              										
+                                    </ul>
+                                </li>
+                                <li class="nav-parent">
+                                    <a><i class="fa fa-align-left" aria-hidden="true"></i><span>Theme Configuration</em></span></a>
+                                    <ul class="nav nav-children">
+                                        <li><a href="#homeposition">Layout Position</a></li>
+                                        <li><a href="#homepageconfiguration">Homepage Configuration</a></li>
+										<li><a href="#themesetting">Theme Core Configuarion</a></li>
+										<li><a href="#venussetting">SM Market </a></li>										
+                                    </ul>
+                                </li>
+                            </ul>
+                        </nav>
+						
+                        <nav class="nav-main" role="extensions">
+                            <ul class="nav nav-main">
+                                <li class="title"> <h6>Extensions</h6></li>
+                                <li><a href="#extensions"><i class="fa fa-cubes" aria-hidden="true"></i><span>Magentech Extensions</span></a></li>
+							
+                                
+                            </ul>
+                        </nav>						
+
+                        <nav class="nav-main" role="navigation">
+                            <ul class="nav nav-main">
+                                <li class="title"> <h6>Other</h6></li>
+								<li><a href="#speed"><i class="fa fa-spinner" aria-hidden="true"></i><span>Optimized Speed</span></a></li>
+								<li><a href="#mobile"><i class="fa fa-mobile" aria-hidden="true"></i><span>Mobile Layout</span></a></li>
+								<li class="nav-parent">
+                                    <a href="#howto"><i class="fa fa-question" aria-hidden="true"></i><span>How To</span></a>
+                                    <ul class="nav nav-children">
+                                        <li><a href="#currency">Setup Currency</a></li>
+                                        <li><a href="#languages">Setup Multi Languages</a></li>        
+                                        <li><a href="#translate">Translate Languages</a></li> 
+                                        <li><a href="#logo">Change Logo</a></li>										
+                                    </ul>
+                                </li>
+                                <li><a href="#support"><i class="fa fa-support" aria-hidden="true"></i><span>Support</span></a></li>
+                                <li><a href="#changelog"><i class="fa fa-history" aria-hidden="true"></i><span>Change Log</span></a></li>
+								<li class="title"><span style="text-transform: none">&copy;Copyright 2019 MAGENTECH</span></li>								
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </aside>
+            <!-- end: sidebar -->
+			
+            <section role="main" class="content-body">
+				<!-- start: gettingstarted -->
+				<div id="gettingstarted" class="row">
+					<div class="col-md-12">
+						<h2 class="page-title">Getting Started</h2>
+					</div>
+					<div class="col-md-12">
+						<div class="panel panel-featured panel-featured-primary">
+							<header class="panel-heading">
+								<h2 class="panel-title">Welcome to Market Magento 2 Theme!</h2>
+							</header>
+							<div class="panel-body">
+								<p>Firstly, a huge thanks for purchasing this theme, your support is truly appreciated!</p>
+								<p> This document covers the installation and use of this theme, reveals some answers to common problems and issues. We encourage you to read throughout this document if you are experiencing any difficulties. If you have any questions that are beyond the scope of document, please feel free to contact us via our <strong><a href="https://www.magentech.com/submit-a-ticket/submit-ticket" target="_blank">Support Tickets System</a></strong>
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="panel panel-featured panel-featured-primary">
+							<header class="panel-heading">
+								<h2 class="panel-title">Compatible with Magento</h2>
+							</header>
+							<div class="panel-body">
+								Market Magento Theme is fully compatible with Magento Community Edition version 1.9.x, 2.1.x, 2.2.x, 2.3.x, <b>2.4.x.</b><br>
+								<br>
+								
+								<br>
+								
+								<strong>Note: </strong> If you are using an older version (Magento 1.9.x only), you should not upgrade to the latest version. Because we changed layout's structure in many parts (from version 4.4.0 - Example: We changed Camera slider module to static block...). We recommend you to install a new one.
+								
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<section class="panel panel-featured panel-featured-primary">
+							<header class="panel-heading">
+								<h2 class="panel-title">Magento Information</h2>
+							</header>
+							<div class="panel-body">
+								<p>To install this theme you must have a working version of Magento already installed. If you need help installing Magento, follow below sites and tutorials from magento.com, hope everything that you need are there.</p>
+								<br/>
+								
+								<ul class="col-md-6 li-ct left">
+									<li class="margin-top-bottom-5 padding-left-10"><a href="https://devdocs.magento.com/guides/v2.4/install-gde/system-requirements-tech.html" target="blank"><span class="highlight">System Requirements</span></a> - Required system credentials for your magento installation.</li>
+									<li class="margin-top-bottom-5 padding-left-10"><a href="https://devdocs.magento.com/guides/v2.4/install-gde/composer.html" target="blank"><span class="highlight">Installation Guide</span></a> - Installation guide that describes how to install magento2.</li>
+									<li class="margin-top-bottom-5 padding-left-10"><a href="http://docs.magento.com/m2/ce/user_guide/getting-started.html" target="blank"><span class="highlight">Online Magento 2 guide</span></a> - Online magento documentation that describes about magento2 in detail.</li>
+									<li class="margin-top-bottom-5 padding-left-10"><a href="https://community.magento.com/" target="blank"><span class="highlight">Magento Forum</span></a> - Magento forum site.</li>
+									<li class="margin-top-bottom-5 padding-left-10"><a href="http://stackoverflow.com/questions/tagged/magento" target="blank"><span class="highlight">stackoverflow.com</span></a> - You can also get some useful articles from stackoverflow.</li>
+								</ul>
+								<div class="col-md-6 image-max-100"><img src="assets/images/magento2-logo.png" /></div>
+							</div>
+						</section>
+					</div>
+				</div>
+				<!-- end: gettingstarted -->
+			  
+				<!-- start: gettingstarted -->
+                <div id="installation" class="row">
+                    <div class="col-md-12">
+                        <h2 class="page-title">Installation</h2>
+                    </div>
+                    <div class="col-md-12">
+					
+					 <section class="panel panel-featured panel-featured-primary">
+                            <header class="panel-heading">
+                                <h2 class="panel-title">Elasticsearch</h2>
+                            </header>
+                            <div class="panel-body">
+								<p>As of Magento 2.4.0, MySQL is no longer used for search. You must use <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html">Elasticsearch</a>. Magento supports Elasticsearch 7.6.x.</p>
+								<Strong>Note: </strong> Magento no longer supports Elasticsearch <a href="https://www.elastic.co/support/eol">2.x, 5.x, and 6.x.</a>						
+								</div>
+                           
+                        </section>
+					
+					
+				
+					
+					
+                        <section class="panel panel-featured panel-featured-primary">
+                            <header class="panel-heading">
+                                <h2 class="panel-title">Prepare Installation</h2>
+                            </header>
+                            <div class="panel-body">
+								<p>There are two ways to install a Magento Theme:</p>
+								<ul>
+									<li><strong>Quickstart Installation:</strong> Suitable if you have your first installation and want to get a whole new fresh site as our Demo.</li>
+									<li><strong>Manual Installation (including Theme Installation):</strong> Manual Installation (including Theme Installation): Suitable if your store is full with data/content (category, products...) that you don't want to overwrite.</li>
+								</ul>
+								<div class="alert alert-warning margin-top-bottom-5">
+								<Strong>Note: </strong>
+								<li>To use magento 2.2.4+ most effectively we recommend using PHP 7.1</li>
+								<li>To use magento 2.3.x  most effectively we recommend using PHP 7.1.3+</li>
+								<li>To use magento 2.4.x  most effectively we recommend using PHP 7.4.0</li>
+								</div>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="col-md-12" id="quickstart">
+                        <section class="panel panel-featured panel-featured-primary">
+                            <header class="panel-heading">
+                                <h2 class="panel-title">Quickstart Installation</h2>
+                            </header>
+                            <div class="panel-body">
+								<p>Magentech provides SM Quickstart package for each theme which aims to ease the installation for users. If you plan to start your site from the beginning, it will help you save much time of installing and configuring. Please follow steps below:  </p>
+								<h3 style="color: red;"><Strong>Important: </strong>You must use the command line to install Magento 2.4+.</h3>
+								
+								<ul>
+									<li><strong>Step 1: Download the quickstart package</strong> named as <strong><em>sm_market_quickstart_pl_m2.4.3_v9.0.0</em></strong></li>
+									
+									<li><strong>Step 2:</strong> <strong>Upload and Extract</strong> the whole<strong> Quickstart package to your server</strong>. In Quickstart folder you will see the extracted folder that include all sample data</li>
+									<img style="border: 1px solid #cccccc;" alt="" src="assets\images\install\upload.png" /><br>
+									<br>
+									After upload quickstart package, please extract package by this command: <code>unzip file.zip</code><br>
+									<img style="border: 1px solid #cccccc;" alt="" src="assets\images\install\unzip.png" /><br>
+									<li><strong>Step 3:</strong> <strong>Create a Database</strong> for your Magento site
+										<div class="alert alert-warning margin-top-bottom-5">
+										  <h4><i class="fa fa-warning"></i> Important!</h4>
+										  You need to remember the database name to use in the next steps
+										</div>
+										<img style="border: 1px solid #cccccc;" alt="" src="assets\images\install\create-database.png" />										
+									</li>
+										<li><strong>Step 4:</strong> Import database <strong><em>sample_data.sql</em></strong> under the folder <strong><em>sm_market_quickstart_pl_m2.4.3_v9.0.0\data_quickstart</em></strong> 
+									<blockquote><strong>Note:</strong> You can import database by run this command <code>mysql -u root -p database_name < sample_data.sql</code></blockquote>
+<img style="border: 1px solid #cccccc;" alt="" src="assets\images\install\import.png" />	<br>
+									<strong>Note</strong>: After that set file permissions by run these command:<br>
+<code>chmod -R 777 pub</code><br>
+<code>chmod -R 777 generated</code><br>
+<code>chmod -R 777 var</code><br>
+<code>chmod -R 777 app/etc</code>							
+
+									</li>
+									
+									
+									
+									<li><strong>Step 5:</strong> Install Magento
+										
+										 <p> This example assumes that the Magento install directory is named <code>sm_market</code>, the db-host is on the same machine (localhost), and that the db-name, db-user, and db-password are all <code>magento</code>:</p>
+										 <div class="alert alert-warning margin-top-bottom-5">
+										  php bin/magento setup:install --base-url=http://192.168.1.220/ytc_templates/magento/sm_market/pub --base-url-secure=https://192.168.1.220/ytc_templates/magento/sm_market/pub --db-host=localhost --db-name=magento --db-user=magento --db-password=magento --admin-firstname=admin --admin-lastname=admin --admin-email=admin@admin.com --admin-user=admin --admin-password=admin123 --language=en_US --currency=USD --timezone=America/Chicago --use-rewrites=1 --backend-frontname="admin" --search-engine=elasticsearch7 --elasticsearch-index-prefix=market
+										  </div>
+										  <img style="border: 1px solid #cccccc;" alt="" src="assets\images\install\install1.png" />		<br>
+									<br>
+											Messages similar to the following display to indicate a successful installation:
+
+<div class="alert alert-warning margin-top-bottom-5">
+Post installation file permissions check...<br>
+For security, remove write permissions from these directories: '/var/www/html/ytc_templates/magento/sm_market/app/etc'<br>
+[Progress: 274 / 274]<br>
+[SUCCESS]: Magento installation complete.<br>
+[SUCCESS]: Admin Panel URI: /admin_puu71q	<br>
+</div>									
+<strong>Note: </strong>	You can customize the Admin URI with the --backend-frontname option. However, we recommend omitting this option and allowing the installation command to automatically generate a random URI. A random URI is harder for hackers or malicious software to exploit. The URI displays in your console when installation is complete.<br>
+
+<li><strong>Step 6:</strong> Can't login to admin panel<br>
+When you login to admin will be display like this image:<br>
+<img style="border: 1px solid #cccccc;" alt="" src="assets\images\install\login.png" />		<br>
+
+Please open file <code>app/etc/config.php</code> and change 'Magento_TwoFactorAuth' => 1 to 'Magento_TwoFactorAuth' => 0<br>
+<img style="border: 1px solid #cccccc;" alt="" src="assets\images\install\login2.png" />		<br>
+After that run these command: <br>
+1. <code>php bin/magento setup:upgrade</code><br>
+2. <code>php bin/magento setup:static-content:deploy -f</code><br>
+3. <code>php bin/magento indexer:reindex</code>
+</li>
+
+
+
+
+<li><strong>Step 7:</strong> Finally, permissions for the following folders by run these commands:<br>
+You can refer here: <a href="https://devdocs.magento.com/guides/v2.4/install-gde/composer.html" target="_blank">https://devdocs.magento.com/guides/v2.4/install-gde/composer.html</a>
+
+<div class="alert alert-warning margin-top-bottom-5">
+<code>chmod -R 777 pub</code><br>
+<code>chmod -R 777 generated</code><br>
+<code>chmod -R 777 var</code><br>
+<code>chmod -R 777 app/etc</code>	<br>
+</div>
+								</li>
+									
+								</ul>
+                            </div>
+                        </section>
+                    </div>
+					
+                    <div class="col-md-12" id="customization">
+                        <section class="panel panel-featured panel-featured-primary">
+                            <header class="panel-heading">
+                                <h2 class="panel-title">Manual Installation</h2>
+                            </header>
+                            <div class="panel-body">								
+								<div class="alert alert-warning margin-top-bottom-5">
+								  <h4><i class="fa fa-warning"></i> Important!</h4>
+								  <p>- We recommend you to duplicate your live store on a development store and try installation on it in advance.</p>
+								  <p>- Backup magento files and the store database.</p>
+								  It's very important to backup all of themes and extensions in Magento before installation, especially when you are working on a live server. We strongly recommend you to do not omit this step.
+								  <p>- Note: Manual Installation can only import CMS Page and Static Block. Products, Categories, Megamenu may not display when you use Manual Installation, you need to configure manually (by yourself >> please read documentation carefully)</p>
+								</div>							
+								<ul>
+								<li><strong>Step 1: </strong> Download Magento 2.4.x <code>https://magento.com/tech-resources/download </code>and install on your server
+									</li>
+									<li><strong>Step 2: </strong>Please download <b><em>'sm_market_theme_m2.4.x_v9.0.0.zip' </em></b>  file and upload to the root of your magento site folder on your server, after that unzip by command <code>unzip name_file.zip</code>.<br>
+									<img style="border: 1px solid #cccccc;" src="assets\images\install\upload_theme.png" />
+									</li>
+									
+									<li><strong>Step 3: </strong>
+										Active SM Extensions, open command line in folder root of magento and run commands via ssh using putty or others <code> php bin/magento setup:upgrade</code>
+										<p><img style="border: 1px solid #cccccc;" src="assets\images\install\upgrade.png" /></p>
+										<br>
+										
+										  
+										  
+										 </a>
+										  
+										
+									</li><strong>Step 4: Run deploy command: <code>php bin/magento setup:static-content:deploy -f</code></strong>
+									<img style="border: 1px solid #cccccc;" src="assets\images\install\deploy.png" /><br>
+								
+								
+<div class="alert alert-warning margin-top-bottom-5">
+Finally, permissions for the following folders by run these commands:<br>
+chmod -R 777 pub<br>
+chmod -R 777 generated<br>
+chmod -R 777 var<br>
+chmod -R 777 app/etc
+</div>
+									</li>
+									<li><strong>Step 5:</strong> 
+										Navigate to Content > Design > Configuration > Edit Default Store > Select "SM Market" theme.
+										<p><img class="grey-border-1 margin-top-bottom-5" src="assets\images\install\design-section.png" /></p>
+										<div class="alert alert-warning margin-top-bottom-5">
+										 <h4><i class="fa fa-warning"></i> Important!</h4>
+										 For Magento 2.2.4, 2.2.5: Something went wrong while saving this configuration: Area is already set. Don't worry, please click <a href="https://magento.stackexchange.com/questions/225628/something-went-wrong-while-saving-this-configuration-area-is-already-set"> here </a> to fix this issues
+										  </div>
+									</li>
+									
+									<li><strong>Step 5: </strong>Click "Save Configuarion" button to save your changes.</li>
+									<li><strong>Step 6:</strong> Navigate to <strong>Stores&gt;&gt; Settings&gt;&gt; Configuration &gt;&gt; MAGENTECH.COM &gt;&gt; Sm Market &gt;&gt; Theme Installation</strong>. Press the buttons named <b>'Static Blocks'</b> and <b>'Pages'</b> to import all default blocks and pages. Click "Save Configuarion" button to save your changes.
+									<img class="grey-border-1 margin-top-bottom-5" src="assets\images\install\import-data-stt-block-pages.png" /></li>
+									<li><strong>Step 7:</strong> Click <b>"Demo X"</b> button to install demo version that you prefer to install. After that, click "Save config" button on the top.</p>
+									<img class="grey-border-1 margin-top-bottom-5" src="assets\images\install\import-demo.png" /></li>
+									<p><b>Note.</b> Please remember that: If you have imported these <b>Static Blocks</b>, <b>Pages</b> successfully, you would have all blocks and pages provided with this theme and you <b>do not</b> need to create any static blocks or pages manually as the following instruction of this document.</p>
+									<li><strong>Step 8:</strong> Flush Cache: </b> After successfully import your demo, save <b>Theme Settings</b> and <b>Design Settings</b> and clear the cache by using this command as <b><em>php bin/magento cache:flush</b>
+										</em> in Command Prompt. Or you could go to <b>System &gt;&gt; Tools &gt;&gt; Cache Management</b>, click <b>'Flush Cache Storage'</b> button to flush all the cache.</p>
+									<img class="grey-border-1 margin-top-bottom-5" src="assets\images\install\flush-cache.png" />
+									<li><strong>Step 9:</strong> Finally, go to front-end to view demo (example import demo 1).<br>
+									<strong>Note:</strong> In front-end, you will see some extension don't display product as below image:
+									<img class="grey-border-1 margin-top-bottom-5" src="assets\images\install\after_install.png" /><br>
+									Because in some extension: SM Filter Products, SM Listing Tabs,  you must change id of categories that you created.<br>
+									Please go to Content >> Elements >> Pages >> Edit Homepage. In code content, search Filter product or Listing Tab module and change id of categories as below image:
+									<img class="grey-border-1 margin-top-bottom-5" src="assets\images\install\change.png" />
+									<Strong>Note: </strong> How to know id of categories? <br>
+									After created categories, please see below image:
+										<img class="grey-border-1 margin-top-bottom-5" src="assets\images\id-categories.gif" /><br>
+								</ul>
+                            </div>
+                        </section>
+                    </div>
+					 
+                </div>
+				<!-- end: gettingstarted -->
+
+				<!-- start: themeconfiguration -->
+				<div id="themeconfiguration">
+					<div id="homeposition" class="row">
+						<div class="col-md-12">
+							<h2 class="page-title">Layout Position</h2>
+						</div>
+						<div class="col-md-12 toggle" data-plugin-toggle="">
+							<section class="toggle active">
+								<label></i>Position Home page</label>
+								<div class="toggle-content  " style="display: block;">
+									<div class="col-md-12 position-item">
+										<a href="assets\images\index_01.jpg" target="_blank">
+											<img src="assets\images\index_01.jpg" alt="home 1"/>											
+										</a>
+										<span>Home Style 1</span>
+									</div>
+									
+											<p style="text-align: left;"><strong>Note:</strong> In the New Framework version you can edit the content of all homepage (26 homepage) in the CMS Page. Go to Admin Panel > Content > Elements > Pages > Edit Homepage</strong>
+										<img src="assets\images\config-page\banner2.png" style="max-width:  100%;" class="grey-border-1" /></p>
+								</div>
+			
+							</section>
+							
+					</div>
+				</div>
+					
+					
+					<div id="homepageconfiguration" class="row">
+						<div class="col-md-12">
+							<h2 class="page-title">Homepage Configuration</h2>
+						</div>
+						<div class="col-md-12 toggle" data-plugin-toggle="">
+							<section class="toggle active">
+								<label></i>Set Default Page</label>
+								<div class="toggle-content" style="display: block;">
+									<ul>
+										<p>
+											<li>To configure the default home page for your store, please go to <strong>Stores&gt;&gt; Settings &gt;&gt;Configuration&gt;&gt;General&gt;&gt;Web&gt;&gt;Default Pages</strong> tab, select <a href="assets\images\install\default-page-settings.png" target="_blank">the desired page in the CMS Home Page field</a> and save configuration.</li>
+										</p>
+										<p>
+											<li>You need to change to the website / store view that you want to change (the dropdown menu in the upper left corner). You will probably have to create a new CMS page if you want to have something different from your default home page.</li>
+										</p>
+									</ul>
+								</div>
+							</section>
+
+							<section class="toggle">
+								<label></i>Edit Homepage</label>
+								<div class="toggle-content">
+									<p> From the top menu, please select <b>Content &gt;&gt; Elements &gt;&gt; Pages</b>. Here you can find all the store pages that you have imported, so you don't need to add them. You only need to update the pages HTML and XML content as you wish. </p>
+									<ul>
+										<li><b>Step 1.</b> Open any of them in order to get the access to the content. </a>
+										</li>
+										<a href="assets\images\config-page\select-page.png" target="_blank"> <img src="assets\images\config-page\select-page.png" style="max-width:  100%;" class="grey-border-1" />
+										</a>
+										<br><br>
+										<li><b>Step 2.</b> Edit the content as you desire</li>
+										<a href="assets\images\config-page\edit-page.png" target="_blank"> <img src="assets\images\config-page\edit-page.png" style="max-width: 100%;" class="grey-border-1" />
+										</a>
+										<br><br>
+										<li><b>Step 3.</b> Press <b>Save Page</b> button to save your configuration</li>
+										<a href="assets\images\config-page\save-page.png" target="_blank"> <img src="assets\images\config-page\save-page.png" style="max-width: 100%;" class="grey-border-1" />
+										</a>
+									</ul>
+								</div>
+							</section>													
+								<section class="toggle">
+								<label></i>How to edit "Newsletter Popup" in homepage?</label>
+								<div class="toggle-content">
+								
+									<img src="assets\images\config-page\newsletter.png" style="max-width: 100%;" class="grey-border-1"/><br/>
+									<li> <strong>How to edit description?</strong><br>
+									To edit description, please go to Admin Panel > Content > Elements > Blocks > Search Identifier "short-description-newsletter-popup". <br>
+									Please try to use below example code in <a href="assets\images\config-page\newsletter-be1.png" target="_blank">your cms contents.</a><br/>
+<pre><code>&lt;p&gt;Subscribe to the Market mailing list to receive updates on new arrivals, special offers and other discount information.&lt;/p&gt;</code></pre>	</li>
+
+<li> <strong>How to edit social?</strong><br>
+									To edit social, please go to Admin Panel > Content > Elements > Blocks > Search Identifier "social-newsletter-popup". <br>
+									Please try to use below example code in <a href="assets\images\config-page\newsletter-be2.png" target="_blank">your cms contents.</a><br/>
+<pre><code>&lt;ul class="social-list"&gt;
+&lt;li&gt;&lt;a title="title" href="#"&gt;&lt;i class="fa fa-facebook"&gt;&lt;/i&gt;&lt;span class="hidden"&gt;Facebook&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a title="title" href="#"&gt;&lt;i class="fa fa-twitter"&gt;&lt;/i&gt;&lt;span class="hidden"&gt;Twitter&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a title="title" href="#"&gt;&lt;i class="fa fa-google-plus"&gt;&lt;/i&gt;&lt;span class="hidden"&gt;Google&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a title="title" href="#"&gt;&lt;i class="fa fa-tumblr"&gt;&lt;/i&gt;&lt;span class="hidden"&gt;Tumblr&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a title="title" href="#"&gt;&lt;i class="fa fa-pinterest"&gt;&lt;/i&gt;&lt;span class="hidden"&gt;Pinterest&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a title="title" href="#"&gt;&lt;i class="fa fa-linkedin"&gt;&lt;/i&gt;&lt;span class="hidden"&gt;Linkedin&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</code></pre>	</li>		
+
+<li> <strong>How to change background image?</strong><br>
+									In the code directory, Please go to 2 folders and coppy override background image:<br>
+                                   <code> pub/static/frontend/Sm/market/en_US/images/bg-newsletter.jpg</code><br>
+
+                                   <code> app/design/frontend/Sm/market/web/images/bg-newsletter.jpg</code>
+
+									</li>		
+								</div>
+							</section>	
+							
+							<section class="toggle">
+								<label></i>How to edit "Store Locations" in homepage?</label>
+								<div class="toggle-content">
+								
+									<img src="assets\images\config-page\location.png" style="max-width: 100%;" class="grey-border-1"/><br/>
+									<li>To edit the "Store Locations", please go to Admin Panel > Content > Elements > Blocks > Search with Identifier "location-link-header". <br>
+									Edit this code in <a href="assets\images\config-page\location1.png" target="_blank">your cms contents.</a><br/>
+<pre><code>&lt;div class="location"&gt;&lt;a href="#"&gt;Store Location&lt;/a&gt;&lt;/div&gt;</code></pre>	
+				
+								</div>
+							</section>	
+							
+						
+							<section class="toggle">
+								<label></i>How to edit "Slideshow & Banner" in homepage?</label>
+								<div class="toggle-content">
+								
+									<img src="assets\images\config-page\slideshow.png" style="max-width: 100%;" class="grey-border-1"/><br/>
+									<li>To edit the "Slideshow & Banner", please go to Admin Panel > Content > Elements > Pages > Edit Homepage <br>
+									You can edit code HTML in <a href="assets\images\config-page\slideshow2.png" target="_blank">your cms contents.</a><br/>
+<pre><code>&lt;div class="home-page-1 enable-vertical-menu title-style-1"&gt;
+&lt;div class="container"&gt;
+&lt;div class="top-home"&gt;
+&lt;div class="top-home-search"&gt;
+&lt;ul&gt;
+&lt;li&gt;Top Search:&lt;/li&gt;
+&lt;li&gt;&lt;a href="#"&gt;Tattoo Kits&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#"&gt;Electronic Cigarettes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#"&gt;Sexy Lingerie&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#"&gt;Eye Makeup&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#"&gt;iPad Mini Cases&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#"&gt;Tattoo Supplies&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#"&gt;RC Helicopters&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="slidershow"&gt;
+&lt;div class="slidershow-type-1 hover-to-show"&gt;
+&lt;div data-owl="owl-slider" data-autoplay="true" data-nav="true" data-dots="false" data-screen0="1" data-screen481="1" data-screen768="1" data-screen992="1" data-screen1200="1" data-screen1441="1" data-screen1681="1" data-screen1920="1" data-margin="1" data-autoplayhoverpause="true" data-loop="true" data-center="false" data-stagepadding="0" data-mousedrag="true" data-touchdrag="true"&gt;
+&lt;div class="owl-carousel owl-theme"&gt;
+&lt;div class="item"&gt;&lt;a title="Slide 1" href="#"&gt; &lt;img src="{{media url="wysiwyg/slidershow/home-1/item-1.jpg"}}" alt="Slider 1" width="400" height="422"&gt; &lt;/a&gt;&lt;/div&gt;
+&lt;div class="item"&gt;&lt;a title="Slide 1" href="#"&gt; &lt;img src="{{media url="wysiwyg/slidershow/home-1/item-2.jpg"}}" alt="Slider 2" width="400" height="422"&gt; &lt;/a&gt;&lt;/div&gt;
+&lt;div class="item"&gt;&lt;a title="Slide 1" href="#"&gt; &lt;img src="{{media url="wysiwyg/slidershow/home-1/item-3.jpg"}}" alt="Slider 3" width="400" height="422"&gt; &lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="right-banner"&gt;
+&lt;div class="banner-image"&gt;&lt;a href="#"&gt;&lt;img src="{{media url="wysiwyg/banner/banner-1.jpg"}}" alt="Banner" width="260" height="134"&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;div class="banner-image"&gt;&lt;a href="#"&gt;&lt;img src="{{media url="wysiwyg/banner/banner-2.jpg"}}" alt="Banner" width="260" height="134"&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;div class="banner-image"&gt;&lt;a href="#"&gt;&lt;img src="{{media url="wysiwyg/banner/banner-3.jpg"}}" alt="Banner" width="260" height="134"&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="home-services" style="margin-bottom: 40px;"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="#"&gt; &lt;span class="service-icon"&gt; &lt;img src="{{media url="wysiwyg/icon-image/icon-1.png"}}" alt="Service" width="60" height="60"&gt; &lt;/span&gt; &lt;span class="service-info"&gt;FAST &amp; FREE SHIPPING ON ALL ORDERS&lt;/span&gt; &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#"&gt; &lt;span class="service-icon"&gt; &lt;img src="{{media url="wysiwyg/icon-image/icon-2.png"}}" alt="Service" width="60" height="60"&gt; &lt;/span&gt; &lt;span class="service-info"&gt;30 DAYS MONEY BACK GUARANTEE&lt;/span&gt; &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#"&gt; &lt;span class="service-icon"&gt; &lt;img src="{{media url="wysiwyg/icon-image/icon-3.png"}}" alt="Service" width="60" height="60"&gt; &lt;/span&gt; &lt;span class="service-info"&gt;SAFE SHOPPING GUARANTEE&lt;/span&gt; &lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;</code></pre>	
+You can change slideshow image, banner image... by change link url. Example below image: <br>
+<img src="assets\images\config-page\id1-change1.png"><br>
+
+				
+								</div>
+							</section>	
+												
+							<section class="toggle">
+							
+							
+								<label></i>How to edit "BEST SELLERS or NEW ARRIVALS" in homepage?</label>
+								
+								<div class="toggle-content">
+								<img src="assets\images\config-page\id1-block21.png" style="max-width: 100%;" class="grey-border-1"/><br/>
+								<li>To eidt the "BEST SELLERS or NEW ARRIVALS", please go to Admin Panel > Content > Elements > Pages > Edit Homepage <br>
+									You can edit code HTML in <a href="assets\images\config-page\id1-block22.png" target="_blank">your cms contents.</a><br/>
+<pre><code>&lt;div class="tabs-product" style="margin-bottom: 40px;"&gt;{{block class="Sm\ListingTabs\Block\ListingTabs" template="Sm_ListingTabs::default.phtml" row_items="1" title="BEST SELLERS" type_show="slider" type_listing="all" display_countdown="0" type_filter="categories" order_by="ordered_qty" order_dir="DESC" category_tabs="16,4,11" limitation="6" data-autoplay="false" data-nav="true" data-dots="false" data-screen0="2" data-screen481="2" data-screen768="3" data-screen992="3" data-screen1200="4" data-screen1441="4" data-screen1681="4" data-screen1920="4" data-margin="30" data-autoplayhoverpause="true" data-loop="false" data-center="false" data-stagepadding="0" data-mousedrag="true" data-touchdrag="true"}}&lt;/div&gt;</code></pre>	
+You can change categories to show in module SM Listing Tabs (Best Sellers, New Arrivals) by change id of categories. Example below image: 
+<img src="assets\images\config-page\id2-change23.png"><br>
+			
+								</div>
+							</section>	
+							
+							<section class="toggle">
+								<label></i>How to edit "Banner" in homepage?</label>
+								<div class="toggle-content">
+								
+									<img src="assets\images\config-page\banner.png" style="max-width: 100%;" class="grey-border-1"/><br/>
+									<li>To edit the "Banner", please go to Admin Panel > Content > Elements > Pages > Edit Homepage <br>
+									You can edit code HTML in <a href="assets\images\config-page\banner2.png" target="_blank">your cms contents.</a><br/>
+<pre><code>&lt;div class="banner-block-1" style="margin-bottom: 10px;"&gt;
+&lt;div class="row"&gt;
+&lt;div class="col-lg-4 col-sm-4"&gt;
+&lt;div class="banner-image"&gt;&lt;a href="#"&gt;&lt;img src="{{media url="wysiwyg/banner/banner-4.jpg"}}" alt="Banner" width="370" height="340"&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="col-lg-4 col-sm-4 middle-banner"&gt;
+&lt;div class="banner-image"&gt;&lt;a href="#"&gt;&lt;img src="{{media url="wysiwyg/banner/banner-5.jpg"}}" alt="Banner" width="370" height="200"&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;div class="banner-image"&gt;&lt;a href="#"&gt;&lt;img src="{{media url="wysiwyg/banner/banner-6.jpg"}}" alt="Banner" width="370" height="110"&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="col-lg-4 col-sm-4"&gt;
+&lt;div class="banner-image"&gt;&lt;a href="#"&gt;&lt;img src="{{media url="wysiwyg/banner/banner-7.jpg"}}" alt="Banner" width="370" height="340"&gt;&lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</code></pre>	
+You can change slideshow image, banner image... by insert image from your computer. Example below image: <br>
+<img src="assets\images\config-page\id1-change1.png"><br>
+
+				
+								</div>
+							</section>	
+							
+							   <section class="toggle">
+							
+							
+								<label></i>How to edit "TOP COLLECTIONS" in homepage?</label>
+								
+								<div class="toggle-content">
+								<img src="assets\images\config-page\collections.png" style="max-width: 100%;" class="grey-border-1"/><br/>
+							
+							<li>To edit the "TOP COLLECTIONS", please go to Content >> Elements >> Pages >> Edit Homepage. <br></li>
+You can edit code HTML in <a href="assets\images\config-page\collections2.png" target="_blank">your cms contents.</a>	
+<pre><code> &lt;div class="block home-collection" style="margin-bottom: 35px;"&gt;
+&lt;div class="block-title"&gt;&lt;strong&gt;TOP COLLECTIONS&lt;/strong&gt;&lt;/div&gt;
+&lt;div class="block-content"&gt;
+&lt;div data-owl="owl-slider" data-autoplay="false" data-nav="true" data-dots="false" data-screen0="2" data-screen481="4" data-screen768="5" data-screen992="6" data-screen1200="7" data-screen1441="7" data-screen1681="7" data-screen1920="7" data-margin="0" data-autoplayhoverpause="true" data-loop="false" data-center="false" data-stagepadding="0" data-mousedrag="true" data-touchdrag="true"&gt;
+&lt;div class="owl-carousel owl-theme"&gt;
+&lt;div class="item"&gt;&lt;a href="#"&gt; &lt;img src="{{media url="wysiwyg/icon-image/icon-4.png"}}" alt="Furniture" width="88" height="88"&gt; &lt;strong&gt;FURNITURE&lt;/strong&gt; &lt;/a&gt;&lt;/div&gt;
+&lt;div class="item"&gt;&lt;a href="#"&gt; &lt;img src="{{media url="wysiwyg/icon-image/icon-5.png"}}" alt="Furniture" width="88" height="88"&gt; &lt;strong&gt;ELECTRONICS&lt;/strong&gt; &lt;/a&gt;&lt;/div&gt;
+&lt;div class="item"&gt;&lt;a href="#"&gt; &lt;img src="{{media url="wysiwyg/icon-image/icon-6.png"}}" alt="Furniture" width="88" height="88"&gt; &lt;strong&gt;MOM &amp; BABY&lt;/strong&gt; &lt;/a&gt;&lt;/div&gt;
+&lt;div class="item"&gt;&lt;a href="#"&gt; &lt;img src="{{media url="wysiwyg/icon-image/icon-7.png"}}" alt="Furniture" width="88" height="88"&gt; &lt;strong&gt;OUTDOOR&lt;/strong&gt; &lt;/a&gt;&lt;/div&gt;
+&lt;div class="item"&gt;&lt;a href="#"&gt; &lt;img src="{{media url="wysiwyg/icon-image/icon-8.png"}}" alt="Furniture" width="88" height="88"&gt; &lt;strong&gt;FASHION&lt;/strong&gt; &lt;/a&gt;&lt;/div&gt;
+&lt;div class="item"&gt;&lt;a href="#"&gt; &lt;img src="{{media url="wysiwyg/icon-image/icon-9.png"}}" alt="Furniture" width="88" height="88"&gt; &lt;strong&gt;HEALTH &amp; BEAUTY&lt;/strong&gt; &lt;/a&gt;&lt;/div&gt;
+&lt;div class="item"&gt;&lt;a href="#"&gt; &lt;img src="{{media url="wysiwyg/icon-image/icon-10.png"}}" alt="Furniture" width="88" height="88"&gt; &lt;strong&gt;JEWELLERY&lt;/strong&gt; &lt;/a&gt;&lt;/div&gt;
+&lt;div class="item"&gt;&lt;a href="#"&gt; &lt;img src="{{media url="wysiwyg/icon-image/icon-7.png"}}" alt="Furniture" width="88" height="88"&gt; &lt;strong&gt;FURNITURE&lt;/strong&gt; &lt;/a&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</code></pre></li>	
+							
+								</div>
+							</section>	
+							
+							   <section class="toggle">
+							
+							
+								<label></i>How to show "Hot Categories" in homepage?</label>
+								
+								<div class="toggle-content">
+								<img src="assets\images\config-page\hotcategories1.png" style="max-width: 100%;" class="grey-border-1"/><br/>
+							
+							<li>To edit the "Hot Categories", please go to Content >> Elements >> Pages >> Edit Homepage. <br></li>
+You can edit code HTML in <a href="assets\images\config-page\hotcategories2.png" target="_blank">your cms contents.</a>	
+<pre><code> &Lt;div class="hot-categories"&gt;{{block class="Sm\Categories\Block\Categories" template="Sm_Categories::default-grid.phtml" select_category="9,3,5,15,11,4,7,6" title_module="HOT CATEGORIES" limitation="4"}}&Lt;/div&gt;</code></pre></li>	
+							
+You can change categories to show in module SM Categories (Hot Categories) by change id of categories. Example below image: <br>
+<img src="assets\images\config-page\hotcategories3.png"><br>
+				
+								</div>
+							</section>	
+							<section class="toggle">
+							
+							
+								<label></i>How to show "Footer" in homepage?</label>
+								
+								<div class="toggle-content">
+								<img src="assets\images\config-page\footer1.png" style="max-width: 100%;" class="grey-border-1"/><br/>
+								<li>To create the "Footer", please go to Admin Panel > Content > Elements > Blocks > Add new block with Identifier "footer-1-content". <br>
+									Please try to use below example code in <a href="assets\images\config-page\footer2.png" target="_blank">your cms contents.</a><br/>
+<pre><code>&lt;div class="footer-head"&gt;
+&lt;div class="container"&gt;
+&lt;div class="row"&gt;
+&lt;div class="col-lg-4 col-md-4"&gt;{{block class="Magento\Framework\View\Element\Template" template="Magento_Theme::html/social.phtml"}}&lt;/div&gt;
+&lt;div class="col-lg-8 col-md-8"&gt;{{block class="Magento\Newsletter\Block\Subscribe" template="subscribe-footer.phtml"}}&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="footer-top"&gt;
+&lt;div class="container"&gt;
+&lt;div class="row"&gt;
+&lt;div class="col-lg-4 col-md-4"&gt;
+&lt;div class="contact-col"&gt;
+&lt;div class="footer-block"&gt;
+&lt;div class="footer-block-title"&gt;
+&lt;h3&gt;Contact Us&lt;/h3&gt;
+&lt;/div&gt;
+&lt;div class="footer-block-content"&gt;
+&lt;ul class="links-contact"&gt;
+&lt;li class="add-icon"&gt;Address: No 40 Baria Sreet 133/2 NewYork&lt;br /&gt;City, NY, United States&lt;/li&gt;
+&lt;li class="email-icon middle-content"&gt;Email: contact@market.com&lt;/li&gt;
+&lt;li class="phone-icon"&gt;Phone 1 : 0123456789&lt;br /&gt;Phone 2 : 0123456789&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="col-lg-8 col-md-8"&gt;
+&lt;div class="row"&gt;
+&lt;div class="col-lg-4 col-md-4"&gt;
+&lt;div class="footer-block"&gt;
+&lt;div class="footer-block-title"&gt;
+&lt;h3&gt;About Market&lt;/h3&gt;
+&lt;/div&gt;
+&lt;div class="footer-block-content"&gt;
+&lt;ul class="links-footer"&gt;
+&lt;li&gt;&lt;a title="About Us" href="{{store url=""}}about-us.html"&gt;About Us&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a title="Market Reviews" href="#"&gt;Market Reviews&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a title="Terms of Use" href="#"&gt;Terms of Use&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a title="Privacy Policy" href="#"&gt;Privacy Policy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a title="Site Map" href="#"&gt;Site Map&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="col-lg-4 col-md-4"&gt;
+&lt;div class="footer-block"&gt;
+&lt;div class="footer-block-title"&gt;
+&lt;h3&gt;Customer Service&lt;/h3&gt;
+&lt;/div&gt;
+&lt;div class="footer-block-content"&gt;
+&lt;ul class="links-footer"&gt;
+&lt;li&gt;&lt;a title="Shipping Policy" href="#"&gt;Shipping Policy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a title="Compensation First" href="#"&gt;Compensation First&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a title="My Account" href="{{store url=""}}customer/account"&gt;My Account&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a title="Return Policy" href="#"&gt;Return Policy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a title="Contact Us" href="{{store url=""}}contact-us.html"&gt;Contact Us&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="col-lg-4 col-md-4"&gt;
+&lt;div class="footer-block"&gt;
+&lt;div class="footer-block-title"&gt;
+&lt;h3&gt;Payment &amp; Shipping&lt;/h3&gt;
+&lt;/div&gt;
+&lt;div class="footer-block-content"&gt;
+&lt;ul class="links-footer"&gt;
+&lt;li&gt;&lt;a title="Terms of Use" href="#"&gt;Terms of Use&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a title="Payment Methods" href="#"&gt;Payment Methods&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a title="Shipping Guide" href="#"&gt;Shipping Guide&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a title="Locations We Ship To" href="#"&gt;Locations We Ship To&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a title="Estimated Delivery Time" href="#"&gt;Estimated Delivery Time&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="categories-footer"&gt;
+&lt;div class="container"&gt;
+&lt;div class="footer-links-w"&gt;
+&lt;div class="label-link"&gt;Top Stores : Brand Directory | Store Directory&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;h2&gt;MOST SEARCHED KEYWORDS MARKET:&lt;/h2&gt;
+&lt;a href="#"&gt;Xiaomi Mi3&lt;/a&gt; | &lt;a href="#"&gt;Digiflip Pro XT 712 Tablet&lt;/a&gt; | &lt;a href="#"&gt;Mi 3 Phones&lt;/a&gt; | &lt;a href="#"&gt;View all&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;h2&gt;MOBILES:&lt;/h2&gt;
+&lt;a href="#"&gt;Moto E&lt;/a&gt; | &lt;a href="#"&gt;Samsung Mobile&lt;/a&gt; | &lt;a href="#"&gt;Micromax Mobile&lt;/a&gt; | &lt;a href="#"&gt;Nokia Mobile&lt;/a&gt; | &lt;a href="#"&gt;HTC Mobile&lt;/a&gt; | &lt;a href="#"&gt;Sony Mobile&lt;/a&gt; | &lt;a href="#"&gt;Apple Mobile&lt;/a&gt; | &lt;a href="#"&gt;LG Mobile&lt;/a&gt; | &lt;a href="#"&gt;Karbonn Mobile&lt;/a&gt; | &lt;a href="#"&gt;View all&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;h2&gt;CAMERA:&lt;/h2&gt;
+&lt;a href="#"&gt;Nikon Camera&lt;/a&gt; | &lt;a href="#"&gt;Canon Camera&lt;/a&gt; | &lt;a href="#"&gt;Sony Camera&lt;/a&gt; | &lt;a href="#"&gt;Samsung Camera&lt;/a&gt; | &lt;a href="#"&gt;Point shoot camera&lt;/a&gt; | &lt;a href="#"&gt;Camera Lens&lt;/a&gt; | &lt;a href="#"&gt;Camera Tripod&lt;/a&gt; | &lt;a href="#"&gt;Camera Bag&lt;/a&gt; | &lt;a href="#"&gt;View all&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;h2&gt;LAPTOPS:&lt;/h2&gt;
+&lt;a href="#"&gt;Apple Laptop&lt;/a&gt; | &lt;a href="#"&gt;Acer Laptop&lt;/a&gt; | &lt;a href="#"&gt;Samsung Laptop&lt;/a&gt; | &lt;a href="#"&gt;Lenovo Laptop&lt;/a&gt; | &lt;a href="#"&gt;Sony Laptop&lt;/a&gt; | &lt;a href="#"&gt;Dell Laptop&lt;/a&gt; | &lt;a href="#"&gt;Asus Laptop&lt;/a&gt; | &lt;a href="#"&gt;Toshiba Laptop&lt;/a&gt; | &lt;a href="#"&gt;LG Laptop&lt;/a&gt; | &lt;a href="#"&gt;HP Laptop&lt;/a&gt; | &lt;a href="#"&gt;Notebook&lt;/a&gt; | &lt;a href="#"&gt;View all&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;h2&gt;TVS:&lt;/h2&gt;
+&lt;a href="#"&gt;Sony TV&lt;/a&gt; | &lt;a href="#"&gt;Samsung TV&lt;/a&gt; | &lt;a href="#"&gt;LG TV&lt;/a&gt; | &lt;a href="#"&gt;Panasonic TV&lt;/a&gt; | &lt;a href="#"&gt;Onida TV&lt;/a&gt; | &lt;a href="#"&gt;Toshiba TV&lt;/a&gt; | &lt;a href="#"&gt;Philips TV&lt;/a&gt; | &lt;a href="#"&gt;Micromax TV&lt;/a&gt; | &lt;a href="#"&gt;LED TV&lt;/a&gt; | &lt;a href="#"&gt;LCD TV&lt;/a&gt; | &lt;a href="#"&gt;Plasma TV&lt;/a&gt; | &lt;a href="#"&gt;3D TV&lt;/a&gt; | &lt;a href="#"&gt;Smart TV&lt;/a&gt; | &lt;a href="#"&gt;View all&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;h2&gt;TABLETS:&lt;/h2&gt;
+&lt;a href="#"&gt;Micromax Tablets&lt;/a&gt; | &lt;a href="#"&gt;HCL Tablets&lt;/a&gt; | &lt;a href="#"&gt;Samsung Tablets&lt;/a&gt; | &lt;a href="#"&gt;Lenovo Tablets&lt;/a&gt; | &lt;a href="#"&gt;Karbonn Tablets&lt;/a&gt; | &lt;a href="#"&gt;Asus Tablets&lt;/a&gt; | &lt;a href="#"&gt;Apple Tablets&lt;/a&gt; | &lt;a href="#"&gt;View all&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;h2&gt;WATCHES:&lt;/h2&gt;
+&lt;a href="#"&gt;FCUK Watches&lt;/a&gt; | &lt;a href="#"&gt;Titan Watches&lt;/a&gt; | &lt;a href="#"&gt;Casio Watches&lt;/a&gt; | &lt;a href="#"&gt;Fastrack Watches&lt;/a&gt; | &lt;a href="#"&gt;Timex Watches&lt;/a&gt; | &lt;a href="#"&gt;Fossil Watches&lt;/a&gt; | &lt;a href="#"&gt;Diesel Watches&lt;/a&gt; | &lt;a href="#"&gt;Luxury Watches&lt;/a&gt; | &lt;a href="#"&gt;View all&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;h2&gt;CLOTHING:&lt;/h2&gt;
+&lt;a href="#"&gt;Shirts&lt;/a&gt; | &lt;a href="#"&gt;Jeans&lt;/a&gt; | &lt;a href="#"&gt;T shirts&lt;/a&gt; | &lt;a href="#"&gt;Kurtis&lt;/a&gt; | &lt;a href="#"&gt;Sarees&lt;/a&gt; | &lt;a href="#"&gt;Levis Jeans&lt;/a&gt; | &lt;a href="#"&gt;Killer Jeans&lt;/a&gt; | &lt;a href="#"&gt;Pepe Jeans&lt;/a&gt; | &lt;a href="#"&gt;Arrow Shirts&lt;/a&gt; | &lt;a href="#"&gt;Ethnic Wear&lt;/a&gt; | &lt;a href="#"&gt;Formal Shirts&lt;/a&gt; | &lt;a href="#"&gt;Peter England Shirts&lt;/a&gt; | &lt;a href="#"&gt;View all&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;h2&gt;FOOTWEAR:&lt;/h2&gt;
+&lt;a href="#"&gt;Shoes&lt;/a&gt; | &lt;a href="#"&gt;Casual Shoes&lt;/a&gt; | &lt;a href="#"&gt;Sports Shoes&lt;/a&gt; | &lt;a href="#"&gt;Formal Shoes&lt;/a&gt; | &lt;a href="#"&gt;Adidas Shoes&lt;/a&gt; | &lt;a href="#"&gt;Gas Shoes&lt;/a&gt; | &lt;a href="#"&gt;Puma Shoes&lt;/a&gt; | &lt;a href="#"&gt;Reebok Shoes&lt;/a&gt; | &lt;a href="#"&gt;Woodland Shoes&lt;/a&gt; | &lt;a href="#"&gt;Red tape Shoes&lt;/a&gt; | &lt;a href="#"&gt;Nike Shoes&lt;/a&gt; | &lt;a href="#"&gt;View all&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</code></pre>	
+			
+								</div>
+							</section>	
+							
+							
+							
+							<section class="toggle">
+							
+							
+								<label></i>How to edit "Copyright" in the footer?</label>
+								
+								<div class="toggle-content">
+								<img src="assets\images\config-page\copyrigh.png" style="max-width: 100%;" class="grey-border-1"/><br/>
+								<li>To edit copyright, in admin panel please go to Store >> Configuarion >> Theme Core Configuarion >> Advanced >> Copyright tab and edit in here.</li>
+			                        <img src="assets\images\config-page\copyrigh-edit.png" style="max-width: 100%;" class="grey-border-1"/><br/>
+								</div>
+							</section>	
+							
+							<section class="toggle">
+							
+							
+								<label></i>How to edit "About Us" page in the homepage?</label>
+								
+								<div class="toggle-content">
+								<img src="assets\images\about-fe.png" style="max-width: 100%;" class="grey-border-1"/><br/>
+								<li>To edit "About us" page,  please go to Admin Panel > Content > Elements > Pages > Search with URL key "about-us". <br>
+									You can edit code HTML in <a href="assets\images\config-page\about-be.png" target="_blank">your cms contents.</a><br/>
+<pre><code>&lt;div class="about-us"&gt;
+&lt;h1 class="title-shop-page"&gt;ABOUT US&lt;/h1&gt;
+&lt;div class="top-about-us"&gt;
+&lt;div class="row"&gt;
+&lt;div class="col-lg-9"&gt;
+&lt;div class="title-bonus"&gt;&lt;strong&gt;Welcome To Shop&lt;/strong&gt;&lt;/div&gt;
+&lt;div class="top-shop-info"&gt;
+&lt;div class="top-image"&gt;&lt;img src="{{media url="wysiwyg/about-us/about-us.png"}}" alt="About Us" width="270" height="187"&gt;&lt;/div&gt;
+&lt;div class="top-info"&gt;
+&lt;p&gt;Nulla auctor mauris ut dui luctus semper. In hac habitasse platea dictumst. Duis pellentesque ligula a risus suscipit dignissim. Nunc non nisl lacus. Integer pharetra lacinia dapibus. Donec eu dolor dui, vel posuere mauris.&lt;/p&gt;
+&lt;p&gt;Pellentesque semper congue sodales. In consequat, metus eget con sequat ornare, augue dolor blandit purus, vitae lacinia nisi tellus in erat. Nulla ac justo eget massa aliquet sodales. Maecenas mattis male suada sem, in fringilla massa dapibus quis. Suspendisse aliquam leo id neque auctor molestie. Etiam at nulla tellus.&lt;/p&gt;
+&lt;p&gt;Nulla auctor mauris ut dui luctus semper. In hac habitasse platea dictumst. Duis pellentesque ligula a risus suscipit dignissim.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="col-lg-3"&gt;
+&lt;div class="list-why-choose"&gt;
+&lt;div class="title-bonus"&gt;&lt;strong&gt;Why Choose Us&lt;/strong&gt;&lt;/div&gt;
+&lt;ul class="why-list"&gt;
+&lt;li&gt;&lt;a title="Shipping &amp; Returns" href="#"&gt;Shipping &amp; Returns&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a title="Secure Shopping" href="#"&gt;Secure Shopping&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a title="International Shipping" href="#"&gt;International Shipping&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a title="Affiliates" href="#"&gt;Affiliates&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a title="Group Sales" href="#"&gt;Group Sales&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="our-member"&gt;
+&lt;div class="title-bonus"&gt;&lt;strong&gt;Our Member&lt;/strong&gt;&lt;/div&gt;
+&lt;p class="description"&gt;Consectetur adipiscing elit. Donec pellentesque venenatis elit, quis aliquet mauris malesuada vel. Donec vitae libero dolor, eget dapibus justo. Aenean facilisis aliquet feugiat. Suspendisse lacinia congue est ac semper. Nulla ut elit magna, vitae volutpat magna.&lt;/p&gt;
+&lt;div class="slider-member"&gt;
+&lt;div data-owl="owl-slider" data-autoplay="false" data-nav="false" data-dots="true" data-screen0="1" data-screen481="2" data-screen768="3" data-screen992="4" data-screen1200="4" data-screen1441="4" data-screen1681="4" data-screen1920="4" data-margin="30" data-autoplayhoverpause="true" data-loop="false" data-center="false" data-stagepadding="0" data-mousedrag="true" data-touchdrag="true"&gt;
+&lt;div class="owl-carousel owl-theme"&gt;
+&lt;div class="item"&gt;
+&lt;div class="member-image"&gt;&lt;img src="{{media url="wysiwyg/about-us/member-1.png"}}" alt="About Us" width="270" height="201"&gt;&lt;/div&gt;
+&lt;div class="member-info"&gt;
+&lt;div class="member-name"&gt;Jennifer lawrence&lt;/div&gt;
+&lt;div class="member-job"&gt;Tech Leader&lt;/div&gt;
+&lt;div class="member-text"&gt;Pellentesque dictumst nibh nulla dui at urna leo wisi dui&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="item"&gt;
+&lt;div class="member-image"&gt;&lt;img src="{{media url="wysiwyg/about-us/member-2.png"}}" alt="About Us" width="270" height="201"&gt;&lt;/div&gt;
+&lt;div class="member-info"&gt;
+&lt;div class="member-name"&gt;Jennifer lawrence&lt;/div&gt;
+&lt;div class="member-job"&gt;Tech Leader&lt;/div&gt;
+&lt;div class="member-text"&gt;Pellentesque dictumst nibh nulla dui at urna leo wisi dui&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="item"&gt;
+&lt;div class="member-image"&gt;&lt;img src="{{media url="wysiwyg/about-us/member-3.png"}}" alt="About Us" width="270" height="201"&gt;&lt;/div&gt;
+&lt;div class="member-info"&gt;
+&lt;div class="member-name"&gt;Jennifer lawrence&lt;/div&gt;
+&lt;div class="member-job"&gt;Tech Leader&lt;/div&gt;
+&lt;div class="member-text"&gt;Pellentesque dictumst nibh nulla dui at urna leo wisi dui&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="item"&gt;
+&lt;div class="member-image"&gt;&lt;img src="{{media url="wysiwyg/about-us/member-4.png"}}" alt="About Us" width="270" height="201"&gt;&lt;/div&gt;
+&lt;div class="member-info"&gt;
+&lt;div class="member-name"&gt;Jennifer lawrence&lt;/div&gt;
+&lt;div class="member-job"&gt;Tech Leader&lt;/div&gt;
+&lt;div class="member-text"&gt;Pellentesque dictumst nibh nulla dui at urna leo wisi dui&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="item"&gt;
+&lt;div class="member-image"&gt;&lt;img src="{{media url="wysiwyg/about-us/member-1.png"}}" alt="About Us" width="270" height="201"&gt;&lt;/div&gt;
+&lt;div class="member-info"&gt;
+&lt;div class="member-name"&gt;Jennifer lawrence&lt;/div&gt;
+&lt;div class="member-job"&gt;Tech Leader&lt;/div&gt;
+&lt;div class="member-text"&gt;Pellentesque dictumst nibh nulla dui at urna leo wisi dui&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="testimonial-container"&gt;
+&lt;div class="testimonial-title"&gt;Happy customer says&lt;/div&gt;
+&lt;div class="testimonial-slider"&gt;
+&lt;div data-owl="owl-slider" data-autoplay="false" data-nav="true" data-dots="false" data-screen0="1" data-screen481="1" data-screen768="1" data-screen992="1" data-screen1200="1" data-screen1441="1" data-screen1681="1" data-screen1920="1" data-margin="30" data-autoplayhoverpause="true" data-loop="false" data-center="false" data-stagepadding="0" data-mousedrag="true" data-touchdrag="true"&gt;
+&lt;div class="owl-carousel owl-theme"&gt;
+&lt;div class="item"&gt;In congue, justo non cursus adipiscing, dui nibh scelerisque justo, lorem ipsum dolor sit amet, consectetur adipiscing elit. quis pretium turpis neque eget nulla. Curabitur dictum consectetur metus nec dignissim. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In congue, justo non cursus adipiscing, dui nibh scelerisque justo non cursus adipiscing, dui nibh scelerisque justo, quis pretium turpis.
+&lt;div class="client-about"&gt;&lt;span class="name"&gt;- Mama Duo - &lt;/span&gt;Social Media Strategist&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="item"&gt;In congue, justo non cursus adipiscing, dui nibh scelerisque justo, lorem ipsum dolor sit amet, consectetur adipiscing elit. quis pretium turpis neque eget nulla. Curabitur dictum consectetur metus nec dignissim. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In congue, justo non cursus adipiscing, dui nibh scelerisque justo non cursus adipiscing, dui nibh scelerisque justo, quis pretium turpis.
+&lt;div class="client-about"&gt;&lt;span class="name"&gt;- Mama Duo - &lt;/span&gt;Social Media Strategist&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="item"&gt;In congue, justo non cursus adipiscing, dui nibh scelerisque justo, lorem ipsum dolor sit amet, consectetur adipiscing elit. quis pretium turpis neque eget nulla. Curabitur dictum consectetur metus nec dignissim. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In congue, justo non cursus adipiscing, dui nibh scelerisque justo non cursus adipiscing, dui nibh scelerisque justo, quis pretium turpis.
+&lt;div class="client-about"&gt;&lt;span class="name"&gt;- Mama Duo - &lt;/span&gt;Social Media Strategist&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</code></pre>	
+			
+								</div>
+							</section>	
+							
+							
+							
+							<section class="toggle">
+							
+							
+								<label></i>How to edit "Contact Us" page in the homepage?</label>
+								
+								<div class="toggle-content">
+								<img src="assets\images\contact-fe.png" style="max-width: 100%;" class="grey-border-1"/><br/>
+								<li>To edit "Google maps",  please go to Admin Panel > Content > Elements > Blocks > Add new block with Identifier "google-map". <br>
+									You can edit code HTML in <a href="assets\images\contact2-be.png" target="_blank">your cms contents.</a><br/>
+<pre><code>&lt;div class="google-map"&gt;&lt;iframe style="border: 0;" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.8402891185415!2d144.95373631585633!3d-37.817209742014676!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d4c2b349649%3A0xb6899234e561db11!2sEnvato!5e0!3m2!1svi!2s!4v1527494727294" width="600" height="450" frameborder="0" allowfullscreen=""&gt;&lt;/iframe&gt;&lt;/div&gt;
+</code></pre>	
+			</li>
+			
+			<li>To edit "Information",  please go to Admin Panel > Content > Elements > Blocks > Add new block with Identifier "contact-store-info". <br>
+									You can edit code HTML in <a href="assets\images\contact3-be.png" target="_blank">your cms contents.</a><br/>
+<pre><code>&lt;div class="title-bonus-page"&gt;
+&lt;h2&gt;Contact Us&lt;/h2&gt;
+&lt;/div&gt;
+&lt;div class="contact-content"&gt;
+&lt;p class="contact-description"&gt;Lorem ipsum dolor sit amet conse ctetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam&lt;br /&gt; Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat sed do eiusmod tempor incididunt ut labore dolore&lt;/p&gt;
+&lt;ul class="address-info"&gt;
+&lt;li class="add-icon"&gt;123 Suspendis mattis, Sollicitudin District,&lt;br /&gt;Accums Fringilla&lt;/li&gt;
+&lt;li class="email-icon"&gt;Email: &lt;a title="Send Email" href="mailto:support@domainstore.com"&gt;support@domainstore.com&lt;/a&gt;&lt;/li&gt;
+&lt;li class="phone-icon"&gt;Hotline: &lt;a title="Call" href="tel:0123456789"&gt;0123456789&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+</code></pre>	
+			</li>
+								</div>
+							</section>	
+							
+							
+							
+							
+												
+						</div>						
+					</div>
+					
+					<div id="themesetting" class="row">
+						<div class="col-md-12">
+							<h2 class="page-title">Theme Core Setting</h2>
+						</div>
+						<div class="col-md-12 toggle" data-plugin-toggle="">
+							<section class="toggle active">
+								<label></i>Configuration</label>
+								<div class="toggle-content" style="display: block;">
+									<p>In Magento admin panel, navigate to <strong>Stores &gt;&gt; Settings &gt;&gt; Configuration &gt;&gt; MagenTech.COM &gt;&gt; Theme Core Configuration</strong> and configure as you want.</p>
+									<img class="grey-border-1 margin-top-bottom-5" src="assets\images\theme-setting\sm-setting.png" />
+									<p></strong>Please click <a href="assets\images\theme-setting\sm-general-setting.png" target="_blank">Here</a> to view the <b>theme core configuration</b>.</p>
+								
+								</div>
+							</section>
+							
+							<section class="toggle">
+								<label></i>General Options</label>
+								<div class="toggle-content">
+								<div class="row">
+							        <div class="col-lg-6">
+									
+									
+										<a href="assets\images\theme-setting\general.png" target="_blank"><img class=" grey-border-1" src="assets\images\theme-setting\general.png"/></a>
+								
+									</div>
+									<div class="row">
+							        <div class="col-lg-6">
+									<h4 class="text-primary">General Options:</h4>
+								
+									<h4 class="text-primary">Primary, Body Font, Background, Element Google Font.</h4>
+									<p>In these options, you can change main font, font size, link color, text color, background, etc.</p>
+									<h4 class="text-primary">Navigation</h4>
+									<p><b>Menu Style:</b> This theme support 2 types: mega menu and css menu. You can select a menu style that you want.</p>
+									<li>Mega Menu: The menu are items that you have created from module megamenu.</li>
+									<li>CSS Menu:  The menu are categories that you have created.</li>
+									<p><b>Sticky Menu:</b> Choose "Yes" to turn on "Sticky Menu" feature, the menu will be fixed on top when scroll down the page.</p>
+									<p><b>Mobile Layout:</b> Allow to set logo on mobile and config width and height of logo.</p>
+									
+									</div>
+								</div>
+							</section>	
+
+							<section class="toggle">
+								<label></i>Theme Layout</label>
+								<div class="toggle-content">
+								<div class="row">
+							        <div class="col-lg-6">
+									<a href="assets\images\theme-setting\theme-layout.png" target="_blank"><img class=" grey-border-1" src="assets\images\theme-setting\theme-layout.png"/></a>
+									</div>
+									<div class="row">
+							        <div class="col-lg-6">
+									<p><b>Max width:</b> Allow to set width of content.<br>
+									<p><b>Enable boxed layout:</b> This theme support boxed layout.<br>
+									
+									
+									</p>
+									</div>
+								</div>
+							</section>	
+
+							<section class="toggle">
+								<label></i>Product Listing</label>
+								<div class="toggle-content">
+								<div class="row">
+							        <div class="col-lg-6">
+									
+									<a href="assets\images\theme-setting\product-listing.png" target="_blank"><img class=" grey-border-1" src="assets\images\theme-setting\product-listing.png"/></a>
+									</div>
+									<div class="row">
+							        <div class="col-lg-6">
+									
+									
+									<p>
+									We provides flexible grid system includes: layout 1 column, layout 2 columns, layout 3 columns. You can change product's quantity per row to fit each screen.
+									</p>
+									</div>
+								</div>
+							</section>
+
+							<section class="toggle">
+								<label></i>Product Detail</label>
+								<div class="toggle-content">
+								<div class="row">
+							        <div class="col-lg-6">
+									<a href="assets\images\theme-setting\product-detail.png" target="_blank"><img class=" grey-border-1" src="assets\images\theme-setting\product-detail.png"/></a>
+									</div>
+									<div class="row">
+							        <div class="col-lg-6">
+									
+									<h4 class="text-primary">Image Box</h4>
+									<p><b>Thumbs Styles:</b> This option allow you choose thumb style types that you want.<br>
+									<b>Enable Loop:</b> Choose "Yes" to repeat your loop.<br>
+									<b>Enable Keyboard Trigger:</b> Choose "Yes/No" to "Enable/Disable" keyboard trigger feature.<br>
+									<b>Show Navigation:</b> Choose "Yes/No" to "Show/Hide" navigation.<br>
+									<b>Enable Popup Fullscreen:</b> Choose "Yes" to show fullscreen popup when you mouse click on the product detail.<br>
+									<b>Show Thumbs Navigation:</b> Choose "Yes/No" to "Show/Hide" thumb navigation.<br>
+									<b>Thumbs Margin:</b> Distance between the thumb images.<br>
+									<b>Thumbs Border Active Width:</b> You can change width of thumb boder when active.<br>
+									<b>Breakpoints:</b> Breakpoints are used to set up the screen width at which the design of thumbnails changes.<br>
+						
+									<b>Enable Product Image Zoom:</b> Choose "Yes/No" to "Allow/Not Allow" show product image zoom when you mouse hover on the product image.
+									</p>
+									
+									
+								<h4 class="text-primary">Related - Upsell Product</h4>
+									<p>In these options, you can choose "Yes/No" to "Show/Hide"  for related and upsell products.<br>
+									Slider Configuration: You can customize the set of product numbers on each screen
+									</p>
+									
+									<h4 class="text-primary">Tab</h4>
+									<p>We support 3 types: Horizontal, vertical and accordion. You can show "Custom Tab" by sellect "Yes"
+									</p>
+									
+									<h4 class="text-primary">Custom Tab</h4>
+									<p>Choose "Yes", you can change name and add content for Custom Tab.
+									</p>
+									
+								</div>
+							</section>		
+
+							<section class="toggle">
+								<label></i>Advanced</label>
+								<div class="toggle-content">
+								<div class="row">
+							        <div class="col-lg-6">
+											<a href="assets\images\theme-setting\advanced.png" target="_blank"><img class=" grey-border-1" src="assets\images\theme-setting\advanced.png"/></a>
+									</div>
+									<div class="row">
+							        <div class="col-lg-6">
+									<h4 class="text-primary">Advanced</h4>
+									<p> Choose "Yes/No" to "Show/Hide" Back to top, Go to Top, Add to Cart, Add to Wishlist, Add to Compare, Newsletter Popup, Copyright, etc.
+									
+									</p>
+									
+									<h4 class="text-primary">Developer</h4>
+									<p>
+									Choose "Yes" To custom Css or Javascript
+									</p>
+									</div>
+									
+								</div>
+								
+							</section>
+
+							
+
+							
+						</div>
+					</div>
+				</div>
+				
+					<div id="venussetting" class="row">
+						<div class="col-md-12">
+							<h2 class="page-title">SM Market Settings</h2>
+						</div>
+						<div class="col-md-12 toggle" data-plugin-toggle="">
+							<section class="toggle active">
+								<label></i>Configuration</label>
+								<div class="toggle-content" style="display: block;">
+								<p>In Magento admin panel, navigate to <strong>Stores &gt;&gt; Settings &gt;&gt; Configuration &gt;&gt; MagenTech.COM &gt;&gt; SM Market</strong> and configure its settings as you want.</p>
+									<img class="grey-border-1 margin-top-bottom-5" src="assets\images\market-setting\sm-market.png" />
+							</section>		
+							<section class="toggle">
+								<label></i>Theme Layout</label>
+								<div class="toggle-content">
+								<div class="row">
+							        <div class="col-lg-6">
+									<a href="assets\images\market-setting\theme-layout2.png" target="_blank"><img class=" grey-border-1" src="assets\images\market-setting\theme-layout2.png"/></a>
+									</div>
+									<div class="row">
+							        <div class="col-lg-6">
+									<h4 class="text-primary">Header Style, Footer Style, Product Style</h4>
+									<p>Choose the header, footer, product style to fit your site.</p>
+								
+									<h4 class="text-primary">Right To Left Layout</h4>
+									<p> Choose "Yes" to enable the "right to left" layout here.</p>
+									
+									</div>
+									
+								</div>
+								</div>
+								</div>
+							</section>		
+	<section class="toggle">
+								<label></i>Theme Layout Mobile</label>
+								<div class="toggle-content">
+								<div class="row">
+							        <div class="col-lg-6">
+									<a href="assets\images\market-setting\theme-layout-mobile.png" target="_blank"><img class=" grey-border-1" src="assets\images\market-setting\theme-layout-mobile.png"/></a>
+									</div>
+									<div class="row">
+							        <div class="col-lg-6">
+									<h4 class="text-primary">Theme Layout Mobile</h4>
+									<p>You can select Homepage on mobile layout and set logo, config width and height of logo.</p>
+								
+									
+									
+									</div>
+									
+								</div>
+								</div>
+								</div>
+							</section>
+							
+							<section class="toggle">
+								<label></i>Theme Installation</label>
+								<div class="toggle-content">
+								<div class="row">
+							        <div class="col-lg-6">
+									<a href="assets\images\theme-setting\theme-install.png" target="_blank"><img class=" grey-border-1" src="assets\images\theme-setting\theme-install.png"/></a>
+									</div>
+									<div class="row">
+							        <div class="col-lg-6">
+									<h4 class="text-primary">Import Static Blocks</h4>
+									<p>By clicking this button, you can import all static blocks that are used for our demo site.</p>
+									<h4 class="text-primary">Import Pages</h4>
+									<p>By clicking this button, you can import all pages that are used for our demo site.</p>
+									<h4 class="text-primary">Import Demos</h4>
+									<p> Click "Demo X" button to install demo version that you prefer to install.</p>
+									<blockquote><strong>Note:</strong> When you click "Demo X" button, the administration page will reload automatically. After it finishes reloading, please click "Save Config" button and refesh cache.</blockquote>
+									</div>
+									
+								</div>
+								</div>
+								</div>
+							</section>							
+							
+								</div>
+							</div>
+				<!-- start: themeconfiguration -->
+				
+				<!-- start: extension -->
+                <div id="extensions" class="row">
+                    <div class="col-md-12">
+                        <h2 class="page-title">Extensions</h2>
+                    </div>
+                    <div class="col-md-12" id="sm-extensions">
+                        <section class="panel panel-featured panel-featured-primary">
+                            <header class="panel-heading">
+                                <h2 class="panel-title">Magentech Extensions</h2>
+                            </header>
+							
+							<div class="panel-body">
+								<div id="deals"><strong>1. SM Mega Menu</strong></div>
+								<p> Click <a href="http://documentation.ariestheme.com/sm-megamenu-2x/" target="_blank">here</a> to view documentation of SM Mega Menu module.</p>
+								<a href="assets\images\config-extensions\megamenu.png" target="_blank"><img class="col-md-6 left padding-0 margin-right-10 grey-border-1" src="assets\images\config-extensions\megamenu.png"/></a>
+								
+								<p><b>Enable Extensions:</b> Allow to enable/disable the module. If choose "Disable", magento's default menu style will be applied.<br>
+								<b>Select Mega Menu:</b> Allow to choose Mega Menu.<br>
+								<b>Select Template:</b> This module support 2 templates for presenting of menu (Horizontal and Vertical).<br>
+								<b>Select Effect:</b> We support effects for Mega menu (CSS/Animation/Toggle)<br>
+								
+								</p>
+								<h4 class="text-primary">Advanced Options</h4>
+								<b>Caching:</b> Allow to choose to cache the content of module.
+								
+								<br>
+								<h4 class="text-primary" style="clear: both;">How to create list Menu Items for your menu?</h4>
+								<li><b>Step 1:</b> Log in to <b>Admin</b>, navigate to <strong>SM Megamenu &gt;&gt; <a href="assets\images\config-extensions\add-menu.png" target="_blank"> 
+								Add New Menu</a> &gt;&gt; Menu Group</strong> (add group: "<a href="assets\images\config-extensions\group-menu.png" target="_blank">Mega Menu Demo</a>")</li>
+	<li><strong> Step 2:</strong> Navigate to <strong>SM Megamenu &gt;&gt; Configuration</strong> &amp; fill the <a href="assets\images\config-extensions\megamenu.png" target="_blank"> <strong>ID</strong> number</a> for the created menu in step 1</li>
+	<li><strong> Step 3:</strong> In order to add menu items, go to <strong>SM Megamenu &gt;&gt; <a href="assets\images\config-extensions\menu-manager.png" target="_blank">Menu Manager</a> &gt;&gt; click on <a href="assets\images\config-extensions\menu-edit.png" target="_blank">'Edit'</a></strong> to open <strong><a href="assets\images\config-extensions\menu-config.png" target="_blank">Menu Items</a></strong> to add items as you want.</li>
+	<p><strong>Note:</strong> To enable Horizontal Megamenu on the frontend, please go to Content>> Elements>> Blocks and create a static block with Identifier: “megamenu-horizontal”
+    Please click <a href="assets\images\config-extensions\horizontal-block.png" target="_blank">Here </a>to view the configuration of this static block.</p>
+	<pre><code>&lt;p&gt;{{block class="Sm\MegaMenu\Block\MegaMenu\View" template="Sm_MegaMenu::megamenu-horizontal.phtml" theme="1" group_id="2"}}&lt;/p&gt;
+	</code></pre>
+</ul>	
+For example about megamenu:
+<img src="assets\images\config-extensions\megamenu-create.png"/>
+<ul>
+	<li><strong><span style="color: #999999;"> Sortable Categories Items:</span></strong> Please click <strong><a href="assets\images\config-extensions\sortable.png" target="_blank">Here</a></strong> to view<strong>.</strong></li>
+</ul>
+<ul>
+	<li><strong><span style="color: #999999;">Backend Settings: </span></strong>Please click <strong><a href="assets\images\config-extensions\menu-backend.png" target="_blank">Here</a></strong> to view<strong>.</strong></li>
+</ul>
+<br>
+								
+								<div id="basic" style="clear: both; padding-top: 20px;"><strong>2. SM Filter Product</strong></div>
+								<p> Click <a href="http://documentation.ariestheme.com/sm-filter-products/" target="_blank">here</a> to view documentation of SM Filter Product module.</p>
+								<a href="assets\images\config-extensions\filter-product.png" target="_blank"><img class="col-md-6 left padding-0 margin-right-10 grey-border-1" src="assets\images\config-extensions\filter-product.png"/></a>
+								<h4 class="text-primary">General Settings</h4>
+								<p><b>Enabled </b>: Enable or disable the module displaying on Frontend area.<br>
+								<b>Title Module</b>: Enter the title of the module.<br>
+								
+								<h4 class="text-primary" >Source Options</h4>
+								<p><b>Show Countdown Timer</b>: Allow to show countdown timer for special product when you select “Yes”.<br>
+								<b>Select Category</b>: Allow you to select Category.<br>
+								
+								<b>Product Limitation</b>: Allow to set product limitation.<br>
+								
+								</p>
+							
+								
+								<div id="cart" style="clear: both; padding-top: 20px;"><strong>3. SM Cart Quick Pro</strong></div>
+								<p> Click <a href="http://documentation.ariestheme.com/sm-cart-quick-pro/" target="_blank">here</a> to view documentation of SM Cartquickpro module.</p>
+								<a href="assets\images\config-extensions\sm-cartquick.png" target="_blank"><img class="col-md-6 left padding-0 margin-right-10 grey-border-1" src="assets\images\config-extensions\sm-cartquick.png"/></a>
+								
+									
+								<p><b>Enable Extensions:</b> Enable or Disable this extension.<br>
+								<b>Select Type:</b> This module support 3 types: Both, Quickview, Ajax Cart. Option "Both" including quickview and ajaxcart. <br>
+								<b>Product Class Container:</b> Class of the product.<br>
+								<b>Button Class Container:</b> Where to display the button.<br>
+								<b>Label Button:</b> You can define texts of the quickview labels.<br>
+								<b>Countdown Number:</b> The time of ajax box displaying on the screen.<br>
+                          </p>
+								
+						<div id="listing-tab" style="clear: both; padding-top: 20px;"><strong>4. SM Listing Tabs</strong></div>
+						<p> Click <a href="http://documentation.ariestheme.com/sm-listing-tabs2x/" target="_blank">here</a> to view documentation of SM Listing Tabs module.</p>
+							<a href="assets\images\config-extensions\listing-tabs.png" target="_blank">	<img class="col-md-6 left padding-0 margin-right-10 grey-border-1" src="assets\images\config-extensions\listing-tabs.png"/></a>
+								<h4 class="text-primary">General Options</h4>
+								<p><b>Enabled Extensions</b>: Enable or disable the module displaying on Frontend area.<br>
+								<b>Title</b>: Enter the title of the module. <br>
+								<b>Type Show</b>: We support 2 types: Slider or Loadmore.<br>
+								<b>Type Listing</b>: We support 3 types: All, only deals and under price.<br>
+								<b>Show Countdown Timer</b>: Allow to show countdown timer for special product when you select “Yes”. <br>
+								
+								<h4 class="text-primary" >Source Options</h4>
+								<p><b>Fiter Type</b>: Allow you to select Type of Filter.<br>
+								<b>Select Category</b>: Allow you to select Category.  <br>
+								<b>Order By</b>: Set Product Field to Order By.<br>
+								
+								<b>Ordering Direction</b>: Allow to order ascending/descending direction.<br>
+								<b>Product Limitation</b>: Allow to set product limitation.<br>
+								
+								</p>
+								
+							<div id="deals" style="clear: both; padding-top: 20px;"><strong>5. SM Search Box</strong></div>
+							<p> Click <a href="http://documentation.ariestheme.com/sm-search-box-magento-2/" target="_blank">here</a> to view documentation of SM Search Box module.</p>
+								<a href="assets\images\config-extensions\search-box.png" target="_blank"><img class="col-md-6 left padding-0 margin-right-10 grey-border-1" src="assets\images\config-extensions\search-box.png"/></a>
+								<h4 class="text-primary">General Options</h4>
+								<p><b>Enabled Extensions</b>: Allow to enable/disable the module.<br>
+								<b>Root Catalog Id</b>: Allow to choose root catalog which SM Search Pro uses. <br>
+								<b>Max Level</b>: The number of child category levels to return.<br>
+								<b>Show Popular Search</b>: Allow to show popular search.<br>
+								<b>Limit Popular</b>: Limit number popular search.<br>
+								<b>Show More Popular Search</b>: Allow to show advanced search.<br>
+								<b>Text Show More</b>: Allow to set text for showing more. <br>
+								<b>Show Advanced Search</b>: Allow to show advanced search.<br>
+								<b>Pre-text</b>: Set the text that is showed above an instance of module. <br>
+								<b>Post-text</b>: Set the text that is showed under an instance of module. <br>
+								</p>
+								
+								<div id="category" style="clear: both; padding-top: 20px;"><strong>6. SM Categories</strong></div>
+								<p> Click <a href="http://documentation.ariestheme.com/sm-categories-2x/" target="_blank">here</a> to view documentation of SM Categories module.</p>
+								<a href="assets\images\config-extensions\sm-categories.png" target="_blank"><img class="col-md-6 left padding-0 margin-right-10 grey-border-1" src="assets\images\config-extensions\sm-categories.png"/></a>
+								<h4 class="text-primary">General Options</h4>
+								<p><b>Enabled Extensions</b>: Allow to enable/disable the module.<br>
+								<b>Title</b>: Enter the title of the module. <br>
+								</p>
+								
+								<h4 class="text-primary">Source Options</h4>
+								<p>
+								<b>Select Category</b>: Allow you to select Category.  <br>
+								<b>Category Limitation</b>: Allow to set category limitation. <br>
+								
+								</p>
+									<div id="category" style="clear: both; padding-top: 20px;"><strong>7. SM 360 Degree View</strong></div>
+								<p> Click <a href="http://documentation.ariestheme.com/sm-360view/" target="_blank">here</a> to view documentation of SM 360 Degree View module.</p>
+								<a href="assets\images\config-extensions\sm-360view.png" target="_blank"><img class="col-md-6 left padding-0 margin-right-10 grey-border-1" src="assets\images\config-extensions\sm-360view.png"/></a>
+								
+								
+								</p>
+								
+									<div id="category" style="clear: both; padding-top: 20px;"><strong>8. SM Bundle Image</strong></div>
+								
+								<a href="assets\images\config-extensions\bundle.png" target="_blank"><img class="col-md-6 left padding-0 margin-right-10 grey-border-1" src="assets\images\config-extensions\bundle.png"/></a>
+								<h4 class="text-primary">General Setting</h4>
+								<p><b>Show Quickview</b>: Show Quickview Button for children product.<br>
+								<b>Show button/ popup view configuration</b>: Show button view configuration to display popup your configuration. <br>
+								<b>Show Add to cart</b>: Show add to cart button in popup view configuration.<br>
+								<b>Show Wishlist</b>: Show add to wishlist in popup view configuration. <br>
+								<b>Show Compare</b>: Show add to compare button in popup view configuration. <br>
+								<b>Show Ratting</b>: Show ratting in popup view configuration. <br>
+								<b>Show Print</b>: Show print in popup view configuration. <br>
+								</p>
+								
+								
+								
+							</p>
+							 </section>
+						
+						</div>
+					</div>
+                             <br>     
+                              
+               
+                
+				<!-- end: extension -->				
+
+				<!-- start: other info -->
+                <div id="otherinfo" class="row">
+                     <div class="col-md-12" id="speed">
+                        <section class="panel panel-featured panel-featured-primary">
+                            <header class="panel-heading">
+                                <h2 class="panel-title">Optimized Speed</h2>
+                            </header>
+                            <div class="panel-body">
+								<p>
+								When your store is ready to go, you should go to admin panel to config and set the Magento 2 in <strong>Production</strong> mode. Because it help you improve the performance of the store, improve security and ease of use.<br>
+								<li>Step 1: Go to Admin panel >> Store >> Configuration >> Advanced >> Developer >> Javascrip Settings and enable these options</li>
+								<a href="assets\images\javascrip.png" target="_blank"><img class=" grey-border-1" src="assets\images\javascrip.png"/></a><br>
+								<li> Step 2: To change or set the <code>Production</code> mode, you can use the following CLI command in your SSH Terminal:<br>
+
+
+                                <code>php bin/magento deploy:mode:set production</code><br>
+                                
+
+                               
+                                Following is a summary of messages that display:<br>
+								<img alt="" src="assets\images\mode1.png" /><br>
+								<p style="margin-top: 20px;">You’ll get the next messages:</p><br>
+								<img alt="" src="assets\images\mode2.png"  /><br>
+								<br>
+                                After changing the mode, you should clean the cache as well by running the following command:<br>
+
+
+                               <code>php bin/magento cache:clean</code><br></li>
+							 
+
+								
+								
+								
+								</p>
+								
+							
+                            </div>
+							
+                        </section>
+                    </div>
+                     <div class="col-md-12" id="mobile">
+                        <section class="panel panel-featured panel-featured-primary">
+                            <header class="panel-heading">
+                                <h2 class="panel-title">Mobile Layout</h2>
+                            </header>
+                            <div class="panel-body">
+								<p>
+								Specially, unlike other themes which support responsive layouts only, Market is built with both responsive layouts and mobile layouts with full of shop features, specifically designed and developed for mobile devices.<br>
+								<h2>1. To use the mobile layout, please follow steps below:</h2>
+								<li>In Magento admin panel, navigate to Content>> Design>> Configuration>> Select store that you want show mobile layout and click "Edit". </li>
+								<li>Click "Add New User Agent Rule" button to add device that you want show mobile layout. </li>
+								<li>In "Theme Name" column, select "SM Market Mobile".<br>
+                                   <strong>Note:</strong> If you click "Remove" in "Actions" column, your site will be automatically applied the Responsive layouts on mobile device.	</li>
+								</p>
+								
+								<div class="row">
+									<div class="col-md-12 image-size-100 left">
+										<a href="assets\images\mobile.png" target="_blank"><img src="assets\images\mobile.png"/></a>
+									</div>
+									
+								</div>
+								<li>Finally, Go to Stores >> Configuarion >> SM Market >> General Options >> "Mobile Layout"  and in "CMS Homepage Moblie" options you can select layout that you want.<br>
+								<a href="assets\images\mobile3.png" target="_blank"><img src="assets\images\mobile3.png"/></a></br></br>
+								<p><strong>Important: </strong>Example if you select "Home - SM Market Layout2", you must scroll down and choose the corresponding layout
+								<a href="assets\images\mobile4.png" target="_blank"><img src="assets\images\mobile4.png"/></a></p>
+								
+								
+								<h2>2. How to edit <a href="assets\images\footer-mobile.png" target="_blank"> "footer"</a> in the mobile layout?</h2>
+								To edit footer, in admin panel please go to Content >> Blocks >> search  Identifier "footer-mobile"
+								<a href="assets\images\footer-mobile2.png" target="_blank"><img src="assets\images\footer-mobile2.png"/></a>
+								<br>
+								<a href="assets\images\footer-mobile3.png" target="_blank"><img src="assets\images\footer-mobile3.png" style="padding-top: 16px;"/></a>
+                            </div>
+							
+                        </section>
+                    </div>
+					
+					 <div class="col-md-12" id="currency">
+                        <section class="panel panel-featured panel-featured-primary">
+                            <header class="panel-heading">
+                                <h2 class="panel-title">How To Setup Currency?</h2>
+                            </header>
+							<div class="panel-body">
+                          <p> To setup currency, you can go to Store -> Configuration -> General -> Currency Setup. Set Allowed Currencies are the currency you want on your store:
+						  <img alt="" src="assets\images\question\currencies.png" />
+						  </p>
+						  </div>
+                        </section>
+                    </div>
+					<div class="col-md-12" id="languages">
+                        <section class="panel panel-featured panel-featured-primary">
+                            <header class="panel-heading">
+                                <h2 class="panel-title">How To Setup Multi Languages?</h2>
+                            </header>
+							<div class="panel-body">
+                          <p> To setup multi languages, you can go to Admin -> Stores -> All Stores -> Create Store View<br>
+						  <img alt="" src="assets\images\question\create-store.png" /><br>
+						  Example with French:
+
+                          <li> Name: French</li>
+                          <li> Code: fr</li>
+                          <li> Status: Enable</li>
+						  <img alt="" src="assets\images\question\create2-store.png" />
+						  </p>
+						  </div>
+                        </section>
+                    </div>
+				<div class="col-md-12" id="translate">
+                        <section class="panel panel-featured panel-featured-primary">
+                            <header class="panel-heading">
+                                <h2 class="panel-title">How To Translate Languages?</h2>
+                            </header>
+							<div class="panel-body">
+                          <p> You can translate the interface lables into other languages.
+						  Example: To translate the interface into Arabic languages, follow these instruction:<br>
+						    <li><strong>Step 1:</strong> In admin panel, Go to <code>Store >> Configuration >> General</code><br>
+						  <img alt="" src="assets\images\question\translate1.png" /></li><br>
+
+                        	 <li><strong>Step 2:</strong> In folder code, go to <code>app/design/frontend/Sm/market/i18n</code> and open file <code>ar_SA.csv</code><br>
+						  <img alt="" src="assets\images\question\translate2.png" style="margin-left: 16px;" /> </li><br>
+						  
+						  <li><strong>Step 3:</strong> Open <code>ar_SA.csv</code> file and make all required changes in your translation. File opened in a text editor might look like this:<br>
+						  <img alt="" src="assets\images\question\translate3.png" style="margin-left: 16px;" /> </li><br>
+						  The first column contains the original character strings. In the second column you can place your translation of each string.
+						    <li><strong>Step 4:</strong> Because you use another language so you need to specify it along with the command like: <code>php bin/magento setup:static-content:deploy ar_SA</code><br>
+							<strong>Note:</strong> Do not forget to change <code>ar_SA</code> to your own language tag.
+						  <li><strong>Step 5:</strong> Well done! Please refresh the frontend of your store to see result.<br>
+						  </p>
+						  </div>
+                        </section>
+                </div>
+				<div class="col-md-12" id="logo">
+                        <section class="panel panel-featured panel-featured-primary">
+                            <header class="panel-heading">
+                                <h2 class="panel-title">How To Change Logo?</h2>
+                            </header>
+							<div class="panel-body">
+                          <p> To change logo, in admin panel please go to Content >> Configuarion >> Edit Store >> Header tab. After, upload logo that you want.
+						 
+						  <img alt="" src="assets\images\question\logo.png" /></li><br>
+
+						  </p>
+						  </div>
+                        </section>
+                </div>
+					
+					
+					
+					
+					
+					
+					
+					
+					
+                    <div class="col-md-12" id="support">
+                        <section class="panel panel-featured panel-featured-primary">
+                            <header class="panel-heading">
+                                <h2 class="panel-title">Support</h2>
+                            </header>
+                            <div class="panel-body">
+								<p>
+									SUPPORT - If you have any questions that are beyond the scope of this help file, please feel free to send us via: 
+									<a href="https://www.magentech.com/submit-a-ticket/submit-ticket" target="_blank">Support Tickets System</a>
+								</p>
+								<p>
+									FAQs - Go to 
+									<a href="http://documentation.ariestheme.com/category/frequently-asked-questions/" target="_blank">Here</a> to view more the Frequently Asked Questions.
+								</p>
+								<br/>
+								<div class="row">
+									<div class="col-md-6 image-size-100 left">
+										<a href="https://www.magentech.com/submit-a-ticket/submit-ticket" target="_blank"><img src="assets\images\ticket.png"/></a>
+									</div>
+									<div class="col-md-6 image-size-100 right">
+										<a href="http://documentation.ariestheme.com/category/frequently-asked-questions/" target="_blank"><img src="assets\images\faq.png"/></a>
+									</div>
+								</div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+              <div id="changelog" class="row">
+                    <div class="col-md-12">
+                        <h2 class="page-title">Change Log</h2>
+                    </div>
+					<div class="toggle col-md-12 margin-top-0" data-plugin-toggle="">
+					
+Click <a href="https://themeforest.net/item/market-premium-responsive-magento-2-19-store-theme/8945695#item-description__change-logs" target="_blank">here</a> to view changelog.
+                    
+					
+                </div>
+               <!-- end: other info -->
+			   
+            </section>
+        </div>
+    </section>
+    <!-- Vendor -->
+    <script src="assets/vendor/jquery/jquery.js"></script>
+    <script src="assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="assets/vendor/nanoscroller/nanoscroller.js"></script>
+    <script src="assets/vendor/jquery-ui/js/jquery-ui-1.10.4.custom.js"></script>
+    <!-- Theme Base, Components and Settings -->
+    <script src="assets/javascripts/theme.js"></script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<?php
+$_product    = $block->getProduct();
+$typeProduct = $_product->getTypeId();
+$buttonText  = '';
+
+if ($typeProduct == "bundle") {
+    $buttonText = __('Customize / Add to Cart');
+} else {
+    $buttonText = __('Add to Cart');
+}
+?>
+
+<div class="sticky-action-cart">
+    <div class="container">
+        <div class="sticky-content">
+            <div class="sticky-title">
+                <?php echo $this->getChildHtml("sticky.title"); ?>
+            </div>
+
+            <div class="sticky-product-info">
+                <div class="sticky-price">
+                    <?php echo $this->getChildHtml("product.price.final.sticky"); ?>
+                </div>
+
+                <div class="sticky-qty">
+                    <div class="qty-control">
+                        <label class="label" for="sticky-qty"><?php echo __('Qty') ?></label>
+                        <input type="number" name="sticky-qty" id="sticky-qty" min="0" value="1" title="Qty"
+                               class="input-text tf-qty">
+
+                        <!--
+                        <div class="qty-button">
+                            <span class="qty-btn qty-plus"></span>
+                            <span class="qty-btn qty-minus"></span>
+                        </div>
+                        -->
+                    </div>
+                </div>
+
+                <div class="sticky-button">
+                    <button type="submit" title="<?php echo __('Add to Cart') ?>"
+                            class="action primary sticky-tocart" id="sticky-addtocart">
+                        <span><?php echo $buttonText ?></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php if ($typeProduct == "configurable") { ?>
+    <script>
+        require([
+            'jquery'
+        ], function ($) {
+            $('body').on('click', '.product-options-wrapper .swatch-option', function () {
+                var priceHtml = $(".product-info-price .price-box").html();
+                $(".sticky-price .price-box").html(priceHtml);
+            });
+        });
+    </script>
+<?php } ?>
+
+<script>
+    require([
+        'jquery'
+    ], function ($) {
+        /**
+         * Action Add to Cart
+         */
+        $("#sticky-addtocart").click(function () {
+            $(".product-info-main .action.tocart, .product-info-main #bundle-slide, .bundle-info .action.tocart").trigger("click");
+        });
+
+        function stickyToDefault() {
+            var stickyQtyValue = $("#sticky-qty").val();
+            $(".box-tocart #qty").val(stickyQtyValue);
+        }
+
+        function defaultToSticky() {
+            var qtyValue = $(".box-tocart #qty").val();
+            $("#sticky-qty").val(qtyValue);
+        }
+
+        $("#sticky-qty").on('input', function () {
+            stickyToDefault();
+        });
+
+        $(".box-tocart #qty").on('input', function () {
+            defaultToSticky();
+        });
+    });
+</script>

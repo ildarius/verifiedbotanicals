@@ -1,0 +1,66 @@
+<?php
+$_product         = $block->getProduct();
+$_config          = $this->helper('Sm\BundleImage\Helper\Data');
+$imageDisplayArea = 'bundle_image_popup_custom';
+$imgUrl           = $_config->getItemImage($_product->getId(), $imageDisplayArea);
+?>
+
+<div id="popup-modal-bundle" style="display:none;">
+    <div id="config-bundle-container" class="config-bundle-container">
+        <?php echo $this->getChildHtml("sm.bundle.messages"); ?>
+        <div id="message-bundle" class="message-bundle" style="display: none;">
+            <div class="error message">
+                <span></span>
+            </div>
+        </div>
+
+        <div class="bundle-top">
+            <div class="bundle-name">
+                <?php echo $this->getChildHtml("bundle.custom.title"); ?>
+
+                <div class="bundle-addto">
+                    <?php
+                    if ($_config->getGeneral('show_addtowishlist')) {
+                        echo $this->getChildHtml("modal.addto.wishlist.bundle");
+                    }
+
+                    if ($_config->getGeneral('show_addtocompare')) {
+                        echo $this->getChildHtml("modal.addto.compare.bundle");
+                    }
+                    ?>
+
+                    <?php if ($_config->getGeneral('show_print')) { ?>
+                        <a id="bundle-print" class="action bundle-print"
+                           href="javascript:void(0);"><span><?php echo __('Print') ?></span></a>
+                    <?php } ?>
+
+                </div>
+            </div>
+
+            <?php if ($_config->getGeneral('show_addtocart')) { ?>
+                <div class="bundle-button">
+                    <button class="action primary" id="bundle-trigger">
+                        <span><?php echo __('Add to Cart') ?></span>
+                    </button>
+                </div>
+            <?php } ?>
+        </div>
+
+        <div id="bundle-product-info" class="bundle-product-info">
+            <div class="bundle-image">
+                <img src="<?php echo $imgUrl; ?>" width="400" height="400">
+            </div>
+
+            <?php if ($_config->getGeneral('show_rating')) { ?>
+                <div class="bundle-review">
+                    <?php echo $this->getChildHtml("modal.bundle.review"); ?>
+                </div>
+            <?php } ?>
+
+            <div id="bundle-custom-price" class="bundle-custom-price"></div>
+        </div>
+
+        <div class="selection-summary"><?php echo __('Selection Summary') ?></div>
+        <div id="bundle-product-config" class="bundle-product-config"></div>
+    </div>
+</div>

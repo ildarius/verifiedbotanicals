@@ -1,0 +1,166 @@
+<?php
+/**
+ * Copyright © Coduzion, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php
+// @codingStandardsIgnoreStart
+
+/** @var Coduzion\Lookbook\Block\Lookbooks\LookbooksList $block */
+
+// phpcs:disable Generic.Files.LineLength.TooLong
+// phpcs:disable Magento2.Templates.ThisInTemplate.FoundHelper
+?>
+<?php
+
+$helper = $this->helper('Coduzion\Lookbook\Helper\Data');
+// @codingStandardsIgnoreEnd
+
+if ($block->isModuleEnabled() &&
+    $block->getLookbookCollection() &&
+    $block->getLookbookCollection()->getSize()
+): ?>
+    <?php
+    $type = 'widget-lookbook-grid';
+    $mode = 'grid';
+    $items = $block->getLookbookCollection();
+    $mediaUrl = $block->getMediaUrl();
+    $markerImageUrl = $block->getMarkerImage();
+    $markerWidth = $block->getMarkerWidth();
+    $markerHeight = $block->getMarkerHeight();
+    $fontColor = $block->getMarkerFontColor();
+    $backgroundColor = $block->getMarkerBgColor();
+    $fontSize = $block->getFontSize();
+    $opacity = $block->getOpacity();
+    $unique_id = uniqid();
+    $customergroup = $helper->getGroupId();
+    $currentstoreId = $helper->getStoreId();
+    ?>
+    <div class="block widget block-products-list <?= /* @noEscape */ $mode ?>">
+        <?php if ($block->getTitle()): ?>
+            <div class="block-title">
+                <strong><?= $block->escapeHtml(__($block->getTitle())) ?></strong>
+            </div>
+        <?php endif ?>
+        <div class="block-content two-columns-grid">
+            <div class="lookbooks-<?= /* @noEscape */ $mode ?> <?= /* @noEscape */ $mode ?>">
+                <div id="lookbook-items-<?= /* @noEscape */ $unique_id ?>" 
+                    class="lookbook-items <?= /* @noEscape */ $type ?>">
+                    <?php foreach ($items as $_item): ?>
+                        <?php
+
+                            $storeids =  $_item->getStoreIds();
+                            $allowedstores = explode(',', $storeids);
+                            $allstore = implode(" ", $allowedstores);
+
+                            $customergroups = $_item->getCustomerGroupIds();
+                            $allowedgroups = explode(',', $customergroups);
+                            // @codingStandardsIgnoreStart
+                            if ((($allstore == 0) || (in_array($currentstoreId, $allowedstores))) && in_array($customergroup, $allowedgroups)) {
+                            // @codingStandardsIgnoreEnd
+                            ?>
+                        <div class="lookbook-item">
+                            <?php
+                            $look_id = $_item->getLookbookId();
+                            $markers = $_item['markers'];
+
+                            if ($markers) {
+                                $data = json_decode($markers, true);
+                                    
+                                $applyTypes = [];
+
+                                $dynamicKey = 'lookbook_' . $look_id;
+
+                                if (isset($data[$dynamicKey]) && is_array($data[$dynamicKey])) {
+                                    foreach ($data[$dynamicKey] as $key => $item) {
+                                        if (isset($item['apply_type']) && $item['apply_type'] === 'products') {
+                                            $productId = $item['product_id'];
+                                            $product = $helper->getProductInfoFromId($productId);
+                                            $imgurl = $helper->getProductImg($productId);
+                                        
+                                            $data[$dynamicKey][$key]['url'] = $product->getProductUrl();
+                                            $data[$dynamicKey][$key]['imgurl'] = $imgurl;
+                                            $data[$dynamicKey][$key]['name'] = $product->getName();
+                                            // @codingStandardsIgnoreStart
+                                            $data[$dynamicKey][$key]['price'] = $helper->getFormattedPrice($product->getPrice());
+                                            // @codingStandardsIgnoreEnd
+                                        }
+                                    }
+                                }
+
+                                $markers = json_encode($data);
+                            }
+
+                            $lookImgUrl = '';
+                            if ($_item['lookbook_image']) {
+                                $lookImgUrl = $mediaUrl. $_item['lookbook_image'];
+                            }
+                            ?>
+
+                            <?php if ($lookImgUrl): ?>
+                                
+                                
+                                <div class="lookbook_image" id="wrapper" style="max-width: max-content; margin: auto;">
+                                    <img 
+                                        src="<?= $block->escapeUrl($lookImgUrl); ?>" 
+                                        class="pin_<?= /* @noEscape */ $look_id ?>" 
+                                        easypin-id="lookbook_<?= /* @noEscape */ $look_id; ?>" 
+                                        style="display: block;" 
+                                    />
+                                </div>
+
+                                <?php if ($_item->getTitle()) { ?>
+                                    <div class="lookbook_title" id="lookbook_title">
+                                        <span><?= /* @noEscape */ $_item->getTitle(); ?></span>
+                                    </div>
+                                <?php } ?>
+                                <?php if ($_item->getShowDescription()) { ?>
+                                    <div class="lookbook_decsription" id="lookbook_decsription">
+                                        <span><?= /* @noEscape */ $_item->getDescription(); ?></span>
+                                    </div>
+                                <?php } ?>
+                            <?php endif; ?>
+
+                            <?php // @codingStandardsIgnoreStart ?>
+                            <div style="display:none;" width="130" shadow="false" easypin-tpl popover>
+                                <popover>
+                                    <div style="height:auto; background-color:<?= /* @noEscape */ $backgroundColor ?>;color: <?= /* @noEscape */ $fontColor ?>; opacity: <?= /* @noEscape */ $opacity ?>; font-size: <?= /* @noEscape */ $fontSize ?>px">
+                                        {[content]}
+                                    </div>
+                                </popover>
+
+                                <marker>
+                                    <div style="width:<?= /* @noEscape */ $markerWidth ?>px; height:<?= /* @noEscape */ $markerHeight ?>px;">
+                                        <img class="markerpin_img" src="<?= $block->escapeUrl($markerImageUrl) ?>" width="<?= /* @noEscape */ $markerWidth ?>" height="<?= /* @noEscape */ $markerHeight ?>"/>
+                                    </div>
+                                </marker>
+                            </div>
+                            
+                            <script type="text/javascript">
+                                require([
+                                    'jquery',
+                                    'Coduzion_Lookbook/js/easing',
+                                    'Coduzion_Lookbook/js/easypin'
+                                ], function ($) {
+                                    jQuery(document).ready(function () {
+                                        jQuery('#lookbook-items-<?= $unique_id ?> .pin_<?= /* @noEscape */ $look_id ?>').easypinShow({
+                                            data: '<?= /* @noEscape */ $markers ?>',
+                                            responsive: true,
+                                            popover: {
+                                                show: false,
+                                                animate: false
+                                            }
+                                        });
+                                    });
+                                });
+                            </script>
+                        </div>
+                        <?php } ?>
+                    <?php endforeach ?>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif;?>
+<?php // @codingStandardsIgnoreEnd ?>

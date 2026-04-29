@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * Copyright © Coduzion, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+	<route url="/V1/lookbook" method="GET">
+		<service class="Coduzion\Lookbook\Api\LookbookManagementInterface" method="getLookbook"/>
+		<resources>
+			<resource ref="anonymous"/>
+		</resources>
+	</route>
+	<route url="/V1/lookbook" method="POST">
+		<service class="Coduzion\Lookbook\Api\LookbookRepositoryInterface" method="save"/>
+		<resources>
+			<resource ref="Coduzion_Lookbook::Lookbook_save"/>
+		</resources>
+	</route>
+	<route url="/V1/lookbook/search" method="GET">
+		<service class="Coduzion\Lookbook\Api\LookbookRepositoryInterface" method="getList"/>
+		<resources>
+			<resource ref="Coduzion_Lookbook::Lookbook_view"/>
+		</resources>
+	</route>
+	<route url="/V1/lookbook/:lookbookId" method="GET">
+		<service class="Coduzion\Lookbook\Api\LookbookRepositoryInterface" method="get"/>
+		<resources>
+			<resource ref="Coduzion_Lookbook::Lookbook_view"/>
+		</resources>
+	</route>
+	<route url="/V1/lookbook/:lookbookId" method="PUT">
+		<service class="Coduzion\Lookbook\Api\LookbookRepositoryInterface" method="save"/>
+		<resources>
+			<resource ref="Coduzion_Lookbook::Lookbook_update"/>
+		</resources>
+	</route>
+	<route url="/V1/lookbook/:lookbookId" method="DELETE">
+		<service class="Coduzion\Lookbook\Api\LookbookRepositoryInterface" method="deleteById"/>
+		<resources>
+			<resource ref="Coduzion_Lookbook::Lookbook_delete"/>
+		</resources>
+	</route>
+</routes>

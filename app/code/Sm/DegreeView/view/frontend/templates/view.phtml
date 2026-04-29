@@ -1,0 +1,119 @@
+<?php
+$_config    = $this->helper('Sm\DegreeView\Helper\Data');
+$fileIndex  = $block->getFileIndex();
+$fileCount  = $block->getCountImage();
+$autoPlay   = $_config->getGeneral('autoplay');
+$zoom       = $_config->getGeneral('enable_zoom');
+$fullscreen = $_config->getGeneral('enable_fullscreen');
+$input      = $_config->getGeneral('mouse_style');
+$zoomIndex  = "_zoom";
+?>
+
+<?php if ($fileCount) { ?>
+
+    <div class="toggle-degree-view">
+        <a id="btn-degree-view" class="btn-degree-action btn-degree-view"
+           title="<?php echo __('Toggle View 360') ?>"
+           href="javascript:void(0);"><span><?php echo __('Toggle View 360') ?></span></a>
+    </div>
+
+    <div class="sm-degree-container">
+        <div class="sm-degree-content">
+            <div class="degree-action-group">
+                <?php if ($zoom) { ?>
+                    <a class="btn-degree-action btn-degree-zoom" title="<?php echo __('Toggle Zoom') ?>"
+                       href="#"><span><?php echo __('Toggle Zoom') ?></span></a>
+                <?php } ?>
+
+                <?php if ($fullscreen) { ?>
+                    <a class="btn-degree-action btn-degree-full" title="<?php echo __('Fullscreen') ?>"
+                       href="#"><span><?php echo __('Fullscreen') ?></span></a>
+                <?php } ?>
+            </div>
+
+            <div class="sm-spritespin"></div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+        require([
+            'jquery',
+            'spritespin'
+        ], function ($, SpriteSpin) {
+
+            var galleryWidth = 0,
+                galleryHeight = 0;
+
+            $('.btn-degree-view').click(function () {
+                if (galleryWidth == 0 && galleryHeight == 0) {
+                    galleryWidth = $(".product.media .fotorama__stage").width();
+                    galleryHeight = $(".product.media .fotorama__stage").width();
+                }
+
+                if ($(this).hasClass("active")) {
+                    setTimeout(function () {
+                        $(".product.media .fotorama__stage").css({"width": galleryWidth, "height": galleryHeight});
+                        $(".product.media .fotorama__stage__shaft").css({"width": galleryWidth});
+                        $(window).trigger('resize');
+                    }, 100);
+
+
+                }
+
+                $("body").toggleClass("degree-active");
+                $(this).toggleClass("active");
+
+                $('.sm-spritespin').spritespin({
+                    // this image set will be used for zoom images
+                    source: SpriteSpin.sourceArray('<?php echo $fileIndex; ?>{frame}.jpg', {
+                        frame: [1, <?php echo $fileCount;?>],
+                        digits: 1
+                    }),
+
+                    // Add large version of your images with this property
+                    // this is optional and if missing, the source images will be used
+                    sourceZoom: SpriteSpin.sourceArray('<?php echo $fileIndex . $zoomIndex; ?>{frame}.jpg', {
+                        frame: [1, <?php echo $fileCount;?>],
+                        digits: 1
+                    }),
+                    // use mouse wheel to zoom in/out (default is false)
+                    zoomUseWheel: false,
+                    // use double click to in/out (default is true)
+                    zoomUseClick: false,
+                    // prevents changing the frame during zoom (default is true)
+                    zoomPinFrame: false,
+
+                    width: <?php echo $block->getFrameWidth(); ?>,
+                    height: <?php echo $block->getFrameHeight(); ?>,
+                    sense: 1,
+                    <?php if($autoPlay){?>
+                    animate: true,
+                    <?php } else {?>
+                    animate: false,
+                    <?php } ?>
+
+                    responsive: true,
+                    plugins: [
+                        'progress',
+                        '360',  // display plugin
+                        '<?php echo $input; ?>', // interaction plugin
+                        <?php if($zoom){ ?>
+                        'zoom'  // zoom plugin
+                        <?php } ?>
+                    ]
+                });
+            });
+
+            $('.btn-degree-zoom').click(function (e) {
+                e.preventDefault();
+                $('.sm-spritespin').spritespin('api').toggleZoom();
+            });
+
+            $('.btn-degree-full').click(function (e) {
+                e.preventDefault();
+                $('.sm-spritespin').spritespin('api').requestFullscreen();
+            });
+        });
+    </script>
+<?php } ?>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Coduzion, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<page layout="admin-2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+        <css src="jquery/fileUploader/css/jquery.fileupload-ui.css"/>
+        <script src="prototype/prototype.js"/>
+    </head>
+    <update handle="editor"/>
+    <body>
+        <referenceContainer name="content">
+            <block class="Coduzion\Lookbook\Block\Adminhtml\Lookbook\Edit" name="look_edit"/>
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Coduzion\Lookbook\Block\Adminhtml\Lookbook\Edit\Tabs" name="look_edit_tabs"/>
+        </referenceContainer>
+    </body>
+</page>

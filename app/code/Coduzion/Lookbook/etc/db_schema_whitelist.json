@@ -1,0 +1,22 @@
+{
+    "coduzion_lookbook_items": {
+        "column": {
+            "lookbook_id": true,
+            "title": true,
+            "description": true,
+            "lookbook_image": true,
+            "image_resolution": true,
+            "image_alt": true,
+            "markers": true,
+            "creation_time": true,
+            "update_time": true,
+            "status": true
+        },
+        "index": {
+            "CODUZION_LOOKBOOK_ITEMS_TITLE": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}

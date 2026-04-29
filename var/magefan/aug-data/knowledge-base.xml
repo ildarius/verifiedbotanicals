@@ -1,0 +1,1269 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss xmlns:content="http://purl.org/rss/1.0/modules/content/"
+xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+xmlns:dc="http://purl.org/dc/elements/1.1/"
+xmlns:atom="http://www.w3.org/2005/Atom"
+xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+version="2.0" >
+     <channel>
+         <title>Knowledge Base</title>
+         <atom:link href="https://magefan.com/" rel="self type=application/rss+xml/"/>
+         <link>https://magefan.com/</link>
+         <description></description>
+<!-- Dashboard -->
+         <item>
+             <class>adminhtml-dashboard-index </class>
+             <title>How to change default startup page? </title>
+             <link>https://magefan.com/blog/change-default-startup-page-in-magento</link>
+         </item>
+
+         <item>
+             <class>adminhtml-dashboard-index</class>
+             <title>How to change admin URL? </title>
+             <link>https://magefan.com/blog/magento-change-admin-url</link>
+         </item>
+
+         <item>
+            <class>adminhtml-dashboard-index</class>
+            <title>How to change admin panel language?</title>
+            <link>https://magefan.com/blog/how-to-change-locale-of-magneto-2-admin-panel</link>
+        </item>
+
+        <item>
+            <class>adminhtml-dashboard-index</class>
+            <title>How to create new admin user?</title>
+            <link>https://magefan.com/blog/create-new-admin-user-in-magento-2</link>
+        </item>
+
+<!-- Sales > Orders -->
+
+        <item>
+            <class>sales-order-index sales-order-create-index customer-index-edit</class>
+            <title>How to create orders?</title>
+            <link>https://magefan.com/blog/how-to-create-order-in-magento-2-back-office</link>
+        </item>
+
+        <item>
+            <class>sales-order-index sales-order-view sales-order-status-index</class>
+            <title>How to process orders?</title>
+            <link>https://magefan.com/blog/magento-order-fulfillment</link>
+        </item>
+
+        <item>
+            <class>sales-order-index sales-order-view sales-shipment-index sales-creditmemo-index sales-order-creditmemo-view
+</class>
+            <title>How to create refunds?</title>
+            <link>https://magefan.com/blog/create-credit-memo-in-magento-2</link>
+        </item>
+
+        <item>
+            <class>sales-order-index sales-order-view sales-order_invoice-view adminhtml-order_shipment-view</class>
+            <title>How to change order statuses?</title>
+            <link>https://magefan.com/magento-2-better-order-grid-extension/change-order-status</link>
+        </item>
+
+
+       <item>
+            <class>sales-order-index </class>
+            <title>How to see bought items in order grid?</title>
+            <link>https://magefan.com/magento-2-better-order-grid-extension/add-product-image-in-order-grid</link>
+        </item>
+
+        <item>
+            <class>sales-order-index sales-order-view sales-invoice-index sales-shipment-index sales-creditmemo-index sales-order-creditmemo-view sales-order_invoice-view
+</class>
+            <title>How to delete orders?</title>
+            <link>https://magefan.com/magento-2-better-order-grid-extension/delete-order</link>
+        </item>
+
+        <item>
+            <class>sales-order-index </class>
+            <title>How to add coupons to order grid?</title>
+            <link>https://magefan.com/magento-2-better-order-grid-extension/add-coupon-code-in-grid</link>
+        </item>
+
+<!-- Sales > Orders > View -->
+
+        <item>
+            <class>sales-order-view</class>
+            <title>How to edit order without cancelling it?</title>
+            <link>https://magefan.com/magento-2-edit-order-extension/edit-order-without-cancel</link>
+        </item>
+
+        <item>
+            <class>sales-order-view</class>
+            <title>How to manage order comments?</title>
+            <link>https://magefan.com/better-magento-2-checkout-extension/magento-2-order-comments</link>
+        </item>
+
+        <item>
+            <class>sales-order-view</class>
+            <title>How to change customer assigned to order?</title>
+            <link>https://magefan.com/magento2-convert-guest-to-customer/change-order-customer</link>
+        </item>
+
+        <item>
+            <class>sales-order-view customer-index-index customer-index-edit</class>
+            <title>How to convert guests to customers?</title>
+            <link>https://magefan.com/blog/magento2-convert-guest-to-customer</link>
+        </item>
+
+<!-- Sales > Orders > Create > Index -->
+
+        <item>
+            <class>sales-order-create-index adminhtml-system-config-edit-section-payment</class>
+            <title>How to configure payment methods?</title>
+            <link>https://magefan.com/blog/magento-2-payment-methods</link>
+        </item>
+
+<!-- Sales > Invoices -->
+
+        <item>
+            <class>sales-invoice-index sales-order-index sales-order-view</class>
+            <title>How to create invoices?</title>
+            <link>https://magefan.com/blog/create-magento-invoices</link>
+        </item>
+
+        <item>
+            <class>sales-invoice-index adminhtml-system-config-edit-section-sales_pdf sales-order_invoice-view</class>
+            <title>How to print invoices in Magento 2?</title>
+            <link>https://magefan.com/blog/magento-print-invoice</link>
+        </item>
+
+<!-- Sales > Shipments -->
+
+        <item>
+              <class>sales-shipment-index</class>
+              <title>How to create shipments?</title>
+              <link>https://magefan.com/blog/create-shipment-in-magento-2</link>
+        </item>
+
+<!-- Catalog > Products -->
+
+<item>
+      <class>catalog-product-index catalog-product-new</class>
+      <title>How to manage product types?</title>
+      <link>https://magefan.com/blog/magento-2-product-types</link>
+        </item>
+
+        <item>
+      <class>catalog-product-index catalog-product-new</class>
+      <title>How to create simple products?</title>
+      <link>https://magefan.com/blog/create-simple-product-in-magento-2</link>
+        </item>
+
+<item>
+      <class>catalog-product-index catalog-product-new</class>
+      <title>How to create configurable products?</title>
+      <link>https://magefan.com/blog/create-configurable-product-in-magento-2</link>
+        </item>
+
+<item>
+      <class>catalog-product-index catalog-product-new</class>
+      <title>How to create grouped products?</title>
+      <link>https://magefan.com/blog/create-grouped-products-in-magento-2</link>
+        </item>
+
+<item>
+      <class>catalog-product-index catalog-product-new</class>
+      <title>How to create bundle products?</title>
+      <link>https://magefan.com/blog/create-bundle-products-in-magento-2</link>
+        </item>
+
+<item>
+      <class>catalog-product-index catalog-product-new</class>
+      <title>How to create virtual products?</title>
+      <link>https://magefan.com/blog/create-virtual-products-in-magento-2</link>
+        </item>
+
+<item>
+      <class>catalog-product-index</class>
+      <title>How to create downloadable products?</title>
+      <link>https://magefan.com/blog/create-downloadable-products-in-magento-2</link>
+</item>
+
+<item>
+      <class>catalog-product-index catalog-category-edit</class>
+      <title>How bulk update product categories?</title>
+      <link>https://magefan.com/magento-2-product-grid-inline-editor/bulk-update-categories</link>
+</item>
+
+<item>
+      <class>catalog-product-index catalog-product-new catalog-product-edit</class>
+      <title>How to translate products?</title>
+      <link>https://magefan.com/blog/translate-product-in-magento-2</link>
+</item>
+
+<!-- Catalog > Products > New Product-->
+
+<item>
+      <class>catalog-product-new catalog-product-edit</class>
+      <title>How to configure advanced pricing?</title>
+      <link>https://magefan.com/blog/magento-2-tier-price-rules</link>
+        </item>
+
+<item>
+      <class>catalog-product-new catalog-product-edit</class>
+      <title>How to set up special prices?</title>
+      <link>https://magefan.com/blog/special-price-in-magento-2</link>
+</item>
+
+<item>
+      <class>catalog-product-new catalog-product-edit</class>
+      <title>How to set up customer group pricing?</title>
+      <link>https://magefan.com/blog/magento-2-customer-group-pricing</link>
+</item>
+
+<item>
+      <class>catalog-product-new catalog-product-edit</class>
+      <title>How to set up advanced inventory?</title>
+      <link>https://magefan.com/blog/advanced-inventory-magento</link>
+        </item>
+
+<item>
+      <class>catalog-product-new catalog-product-edit catalog-category-edit</class>
+      <title>How to create categories?</title>
+      <link>https://magefan.com/blog/create-new-category-in-magento-2</link>
+        </item>
+
+<item>
+      <class>catalog-product-new catalog-product-edit</class>
+      <title>How to configure custom product options?</title>
+      <link>https://magefan.com/blog/configure-product-custom-options-in-magento-2</link>
+        </item>
+
+<item>
+      <class>catalog-product-new catalog-product-edit</class>
+      <title>How to add related products?</title>
+      <link>https://magefan.com/blog/magento-2-related-products</link>
+</item>
+
+
+<!-- Catalog > Products > Categories-->
+
+
+<item>
+      <class>catalog-category-edit</class>
+      <title>How to create dynamic categories?</title>
+      <link>https://magefan.com/magento-2-dynamic-categories/new-dynamic-category-rule</link>
+</item>
+
+<item>
+      <class>catalog-category-edit</class>
+      <title>How to create categories in bulk?</title>
+      <link>https://magefan.com/magento-2-dynamic-categories/create-categories-by-pattern</link>
+        </item>
+
+<item>
+      <class>catalog-category-edit</class>
+      <title>How to remove a product from all categories in bulk?</title>
+      <link>https://magefan.com/magento-2-product-grid-inline-editor/remove-product-from-all-categories</link>
+</item>
+
+<item>
+      <class>catalog-category-edit</class>
+      <title>How to bulk update product categories?</title>
+      <link>https://magefan.com/magento-2-product-grid-inline-editor/bulk-update-categories</link>
+</item>
+
+        <item>
+      <class>catalog-category-edit</class>
+      <title>How to translate categories?</title>
+      <link>https://magefan.com/blog/translate-category-in-magento-2</link>
+        </item>
+
+<item>
+      <class>catalog-category-edit</class>
+      <title>How to add CMS block to category page?</title>
+      <link>https://magefan.com/blog/how-to-display-cms-block-on-magento-2-category-page</link>
+        </item>
+
+<!-- Customers > All Customers-->
+
+
+<item>
+      <class>customer-index-index customer-index-edit customer-group-index customer-group-new
+</class>
+      <title>How to create and manage customer groups?</title>
+      <link>https://magefan.com/blog/create-and-assign-customer-group-in-magento-2</link>
+        </item>
+
+        <item>
+      <class>customer-index-index customer-index-edit customer-group-index adminhtml-notification-index
+</class>
+      <title>How to set up "new customer" notification?</title>
+      <link>https://magefan.com/magento-2-admin-email-notifications/customer-registration</link>
+        </item>
+
+<!-- Marketing > Promotions > Catalog Price Rules -->
+
+<item>
+      <class>catalog-rule-promo-catalog-index catalog_rule-promo_catalog-edit
+</class>
+      <title>How to сreate сatalog price rules?</title>
+      <link>https://magefan.com/blog/magento-2-catalog-price-rules
+      </link>
+</item>
+
+<item>
+      <class>catalog-rule-promo-catalog-index catalog_rule-promo_catalog-edit sales-rule-promo-quote-index
+</class>
+      <title>How to create customer group discount?</title>
+      <link>https://magefan.com/blog/magento-2-tier-price-rules
+      </link>
+</item>
+
+<!-- Marketing > Promotions > Cart Price Rules -->
+
+<item>
+      <class>sales-rule-promo-quote-index sales-rule-promo-quote-edit adminhtml-system-config-edit-section-promo</class>
+      <title>How to create cart price rules?</title>
+      <link>https://magefan.com/blog/create-cart-price-rule-in-magento-2
+      </link>
+        </item>
+
+<item>
+      <class>sales-rule-promo-quote-index sales-rule-promo-quote-edit adminhtml-system-config-edit-section-promo</class>
+      <title>How to create and manage coupon codes?</title>
+      <link>https://magefan.com/blog/magento-2-create-coupon</link>
+</item>
+<item>
+      <class>sales-rule-promo-quote-index sales-rule-promo-quote-edit</class>
+      <title>How to set up "Buy X Get Y Free" discount?</title>
+      <link>https://magefan.com/blog/buy-x-get-y-free-magento-2</link>
+</item>
+
+<item>
+      <class>sales-rule-promo-quote-index sales-rule-promo-quote-edit</class>
+      <title>How to apply coupon codes automatically?</title>
+      <link>https://magefan.com/blog/magento-apply-coupon-code-automatically</link>
+</item>
+
+<item>
+      <class>sales-rule-promo-quote-index sales-rule-promo-quote-edit</class>
+      <title>How to enable coupon code links?</title>
+      <link>https://magefan.com/blog/enable-coupon-code-links-in-magento</link>
+</item>
+
+<!-- Marketing > Communications > Email Templates -->
+
+<item>
+      <class>adminhtml-email-template-index adminhtml-email-template-edit adminhtml-system-config-edit-section-sales_email</class>
+      <title>How to create and manage email templates?</title>
+      <link>https://magefan.com/blog/customize-magento-2-email-templates</link>
+ </item>
+
+ <item>
+      <class>adminhtml-email-template-index adminhtml-email-template-edit adminhtml-system-config-edit-section-sales_email</class>
+      <title>How to translate email templates?</title>
+      <link>https://magefan.com/blog/translate-email-templates-in-magento-2</link>
+ </item>
+
+
+<!-- Marketing > Communications > Newslatter Templates-->
+
+<item>
+      <class>newsletter-template-index newsletter-template-edit newsletter-queue-index newsletter-subscriber-index adminhtml-system_config-edit-section-newsletter
+</class>
+      <title>How to create and manage newsletter templates?</title>
+      <link>https://magefan.com/blog/configure-newsletters-in-magento-2
+      </link>
+</item>
+
+<!-- Marketing > SEO & Search > URL Rewrites-->
+
+<item>
+      <class>adminhtml-url-rewrite-index adminhtml-url-rewrite-edit</class>
+      <title>How to create 301 and 302 redirects?</title>
+      <link>https://magefan.com/blog/create-301-redirect-in-magento-2</link>
+        </item>
+
+<item>
+      <class>adminhtml-url-rewrite-index adminhtml-url-rewrite-edit
+</class>
+      <title>How to create automatic redirects?</title>
+      <link>https://magefan.com/magento-2-seo-extension/auto-redirects</link>
+        </item>
+
+<item>
+      <class>adminhtml-url-rewrite-index adminhtml-url-rewrite-edit
+</class>
+      <title>How to configure redirect rules?</title>
+      <link>https://magefan.com/magento-2-seo-extension/redirect-rules</link>
+        </item>
+
+<!-- Marketing > SEO & Search > Search Terms-->
+
+<item>
+      <class>search-term-index search-term-edit search-synonyms-index search-synonyms-edit adminhtml-system-config-edit-section-catalog
+</class>
+      <title>How to configure search terms and synonyms?</title>
+      <link>https://magefan.com/blog/configure-magento-2-search-terms-and-synonyms</link>
+        </item>
+
+<item>
+      <class>search-term-index search-term-edit search-synonyms-index search-synonyms-edit adminhtml-system-config-edit-section-catalog
+</class>
+      <title>How to configure product catalog search?</title>
+      <link>https://magefan.com/blog/configure-product-catalog-search-in-magento-2</link>
+</item>
+
+<!-- Marketing > SEO & Search > Site Map-->
+
+<item>
+      <class>adminhtml-sitemap-index adminhtml-sitemap-edit adminhtml-system_config-edit-section-sitemap
+</class>
+      <title>How to configure and generate XML sitemap?</title>
+      <link>https://magefan.com/blog/how-to-configure-magento-2-sitemap
+      </link>
+        </item>
+
+<item>
+      <class>adminhtml-sitemap-index adminhtml-sitemap-edit
+</class>
+      <title>How to exclude pages from XML sitemap?</title>
+      <link>https://magefan.com/magento-2-xml-sitemap-extension/exlude-pages-from-xml-sitemap
+      </link>
+</item>
+
+<item>
+      <class>adminhtml-sitemap-index adminhtml-sitemap-edit theme-design-config-index theme-design-config-edit adminhtml-system_config-edit-section-sitemap
+</class>
+      <title>How to add sitemap to robots.txt file?</title>
+      <link>https://magefan.com/blog/configure-robots.txt-in-magento-2
+      </link>
+</item>
+
+<item>
+      <class>adminhtml-sitemap-index adminhtml-sitemap-edit
+</class>
+      <title>How to create HTML sitemap?</title>
+      <link>https://magefan.com/magento-2-html-sitemap-extension/create-html-sitemap
+      </link>
+</item>
+
+<!-- Marketing > User Content > All Reviews-->
+
+<item>
+      <class>review-product-index review-product-edit review-product-new review-product-pending
+        catalog-product_set-index
+        adminhtml-system-config-edit-section-catalog
+</class>
+      <title>How to manage reviews and ratings?</title>
+      <link>https://magefan.com/blog/manage-magento-2-reviews-and-rating</link>
+</item>
+
+<item>
+      <class>review-product-index review-product-edit review-product-new review-product-pending
+</class>
+      <title>How to set up Google product reviews?</title>
+      <link>https://magefan.com/magento-2-google-customer-reviews/configuration</link>
+</item>
+
+<item>
+      <class>review-product-index review-product-edit review-product-new review-product-pending adminhtml-notification-index
+</class>
+      <title>How to set up "new review" notification?</title>
+      <link>https://magefan.com/magento-2-admin-email-notifications/new-review</link>
+</item>
+
+<!-- Content > Elements > Pages-->
+
+<item>
+      <class>cms-page-index cms-page-edit</class>
+      <title>How to create CMS pages?</title>
+      <link>https://magefan.com/blog/create-cms-page-in-magento-2
+      </link>
+</item>
+
+<item>
+      <class>cms-page-index cms-page-edit</class>
+      <title>How to create dynamic CMS pages?</title>
+      <link>https://magefan.com/magento-2-cms-display-rules-extension/dynamic-pages</link>
+</item>
+
+<item>
+      <class>cms-page-index cms-page-edit</class>
+      <title>How to translate CMS pages?</title>
+      <link>https://magefan.com/blog/magento-2-cms-page-translation</link>
+        </item>
+
+<item>
+      <class>cms-page-edit</class>
+      <title>How to add Open Graph tags for Magento pages?</title>
+      <link>https://magefan.com/magento-2-open-graph-extension-og-tags/configuration
+      </link>
+        </item>
+
+<item>
+      <class>cms-page-edit</class>
+      <title>How to add hreflang tags for CMS pages?</title>
+      <link>https://magefan.com/magento2-alternate-hreflang-extension/cms-page-configuration</link>
+        </item>
+
+<item>
+      <class>cms-page-edit cms-block-index cms-block-edit adminhtml-widget-instance-index adminhtml-widget-instance-edit</class>
+      <title>How to Display CMS Blocks on CMS Pages?</title>
+      <link>https://magefan.com/blog/how-to-display-cms-blocks-on-magento-2-pages</link>
+</item>
+
+<!-- Content > Elements > Blocks-->
+
+<item>
+      <class>cms-block-index cms-block-edit</class>
+      <title>How to create CMS blocks?</title>
+      <link>https://magefan.com/blog/how-to-create-new-cms-block-in-magento-2
+      </link>
+</item>
+
+<item>
+      <class>cms-block-index cms-block-edit</class>
+      <title>How to create dynamic CMS blocks?</title>
+      <link>https://magefan.com/magento-2-cms-display-rules-extension/dynamic-blocks</link>
+</item>
+
+<item>
+      <class>cms-block-index cms-block-edit</class>
+      <title>How to schedule CMS blocks?</title>
+      <link>https://magefan.com/magento-2-cms-display-rules-extension/cms-block-schedule</link>
+</item>
+
+<item>
+      <class>cms-block-index cms-block-edit</class>
+      <title>How to translate CMS blocks?</title>
+      <link>https://magefan.com/blog/magento-2-cms-block-translation
+      </link>
+</item>
+
+<item>
+      <class>cms-block-index cms-block-edit</class>
+      <title>How to add CMS blocks to categories?</title>
+      <link>https://magefan.com/blog/how-to-display-cms-block-on-magento-2-category-page
+      </link>
+</item>
+
+<item>
+      <class>cms-block-index cms-block-edit</class>
+      <title>How to add CMS blocks WYSIWYG editor or page builder?</title>
+      <link>https://magefan.com/blog/how-to-insert-magento-2-cms-block-into-wysiwyg-editor
+      </link>
+</item>
+
+
+<!-- Content > Elements > Widgets-->
+
+<item>
+      <class>adminhtml-widget-instance-index adminhtml-widget-instance-edit</class>
+      <title>How to display CMS blocks using widgets?</title>
+      <link>https://magefan.com/blog/how-to-display-cms-blocks-on-magento-2-pages</link>
+</item>
+
+<item>
+      <class>adminhtml-widget-instance-index adminhtml-widget-instance-edit</class>
+      <title>How to add YouTube video widget?</title>
+      <link>https://magefan.com/blog/magento-2-youtube-video</link>
+</item>
+
+<item>
+      <class>adminhtml-widget-instance-index adminhtml-widget-instance-edit</class>
+      <title>How to add CMS blocks to page top?</title>
+      <link>https://magefan.com/blog/adding-html-block-at-magento-2-page-top</link>
+</item>
+
+<!-- Content > Design > Configuration-->
+
+<item>
+      <class>theme-design-config-index theme-design-config-edit</class>
+      <title>How to add custom code to HTML "head" tag?</title>
+      <link>https://magefan.com/blog/how-to-add-custom-code-in-html-head</link>
+</item>
+
+<item>
+      <class>theme-design-config-index theme-design-config-edit</class>
+      <title>How to disable footer info?</title>
+      <link>https://magefan.com/magento-2-admin-view-extension/remove-admin-footer-information</link>
+</item>
+
+<item>
+      <class>theme-design-config-index theme-design-config-edit</class>
+      <title>How to configure pagination?</title>
+      <link>https://magefan.com/blog/configure-magento-2-pagination</link>
+</item>
+
+<item>
+      <class>theme-design-config-index theme-design-config-edit</class>
+      <title>How to configure product image watermarks?</title>
+      <link>https://magefan.com/blog/product-image-watermarks-magento</link>
+</item>
+<!-- Content > Design > Themes-->
+
+<item>
+      <class>adminhtml-system-design-theme-index adminhtml-system-design-theme-edit</class>
+      <title>How to install a new theme?</title>
+      <link>https://magefan.com/blog/install-magento-2-theme</link>
+</item>
+
+<!-- Stores > Settings > All Stores-->
+
+<item>
+      <class>adminhtml-system-store-index adminhtml-system-store-editStore</class>
+      <title>How to create new store view?</title>
+      <link>https://magefan.com/blog/how-to-create-a-new-store-view-in-magento-2
+      </link>
+</item>
+
+<item>
+      <class>adminhtml-system-store-index adminhtml-system-store-editStore</class>
+      <title>How to setup multiple stores?</title>
+      <link>https://magefan.com/blog/create-multiple-stores-in-magento-2
+      </link>
+</item>
+
+<item>
+      <class>adminhtml-system-store-index adminhtml-system-store-editStore adminhtml-system-config-edit-section-general</class>
+      <title>How to install and enable language packs?</title>
+      <link>https://magefan.com/blog/installation-and-enabling-magento-2-language-packs</link>
+</item>
+
+<item>
+      <class>adminhtml-system-store-index adminhtml-system-store-editStore adminhtml-system-config-edit-section-general</class>
+      <title>How to create a multi-language store?</title>
+      <link>https://magefan.com/blog/how-to-create-multi-language-store-in-magento-2</link>
+</item>
+
+<item>
+      <class>adminhtml-system-store-index adminhtml-system-store-editStore adminhtml-system-config-edit-section-web
+</class>
+      <title>How to add store codes to the URLs?</title>
+      <link>https://magefan.com/blog/magento-2-adding-store-codes-to-the-urls</link>
+</item>
+
+<item>
+      <class>adminhtml-system-store-index adminhtml-system-store-editStore adminhtml-system-config-edit-section-general</class>
+      <title>How to configure language switcher?</title>
+      <link>https://magefan.com/blog/configure-magento2-auto-language-switcher</link>
+</item>
+
+<item>
+      <class>adminhtml-system-store-editStore adminhtml-system-config-edit-section-general</class>
+      <title>How to change Magento admin panel language?</title>
+      <link>https://magefan.com/blog/how-to-change-language-of-magneto-2-admin-panel</link>
+</item>
+
+<!-- Stores > Settings > Configuration > General > Web-->
+
+<item>
+      <class>adminhtml-system-config-edit-section-web adminhtml-system-config-edit-section-admin</class>
+      <title>How to configure store URLs?</title>
+      <link>https://magefan.com/blog/magento-2-store-url</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-web</class>
+      <title>How to set up default pages?</title>
+      <link>https://magefan.com/blog/set-up-default-pages-magento-2</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-web</class>
+      <title>How to manage default cookie settings?</title>
+      <link>https://magefan.com/blog/magento-cookies</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-web</class>
+      <title>How to configure cookie consents?</title>
+      <link>https://magefan.com/magento-2-cookie-consent/configuration</link>
+</item>
+
+
+<!-- Stores > Settings > Configuration > General > Currency Setup-->
+
+<item>
+      <class>adminhtml-system-config-edit-section-currency adminhtml-system-currency-index adminhtml-system-currencysymbol-index</class>
+      <title>How to configure multi currency?</title>
+      <link>https://magefan.com/magento-2-currency-switcher-auto-currency-by-country/multi-currency-configuration</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-currency adminhtml-system-currency-index adminhtml-system-currencysymbol-index</class>
+      <title>How to configure currency rates?</title>
+      <link>https://magefan.com/blog/configure-currency-rates-in-magento-2</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-currency adminhtml-system-currency-index adminhtml-system-currencysymbol-index</class>
+      <title>How to configure auto currency switcher?</title>
+      <link>https://magefan.com/magento-2-currency-switcher-auto-currency-by-country/configuration</link>
+</item>
+
+
+<item>
+      <class>adminhtml-system-config-edit-section-currency</class>
+      <title>How to round off prices?</title>
+      <link>https://magefan.com/magento-2-currency-switcher-auto-currency-by-country/round-off-prices</link>
+</item>
+
+<!-- Stores > Settings > Configuration > General > Store Email Address-->
+
+<item>
+      <class>adminhtml-system-config-edit-section-trans_email adminhtml-system-config-edit-section-sales_email</class>
+      <title>How to manage store email addresses?</title>
+      <link>https://magefan.com/blog/magento-store-email-addresses</link>
+</item>
+
+<!-- Stores > Settings > Configuration > General > Contacts-->
+
+<item>
+      <class>adminhtml-system-config-edit-section-contact</class>
+      <title>How to configure the "Contact Us"page?</title>
+      <link>https://magefan.com/blog/configure-contact-us-page-in-magento-2</link>
+</item>
+
+<!-- Stores > Settings > Configuration > Catalog > Catalog-->
+
+<item>
+      <class>adminhtml-system-config-edit-section-catalog</class>
+      <title>How to configure product listing?</title>
+      <link>https://magefan.com/blog/configure-product-listing-in-magento-2</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-catalog</class>
+      <title>How to configure product alerts?</title>
+      <link>https://magefan.com/blog/configure-product-alerts-magento-2</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-catalog</class>
+      <title>How to set up "recently viewed/compared products?</title>
+      <link>https://magefan.com/blog/configure-recently-viewed-and-compared-products-in-magento-2</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-catalog catalog-category-edit</class>
+      <title>How to configure layered navigation?</title>
+      <link>https://magefan.com/blog/configure-layered-navigation-in-magento-2</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-catalog</class>
+      <title>How to configure downloadable product options?</title>
+      <link>https://magefan.com/blog/configure-downloadable-product-options-in-magento-2</link>
+</item>
+
+
+<!-- Stores > Settings > Configuration > Catalog > Inventory-->
+
+<item>
+      <class>adminhtml-system-config-edit-section-cataloginventory</class>
+      <title>How to configure product stock?</title>
+      <link>https://magefan.com/blog/configure-product-stock-status-in-magento-2</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-cataloginventory</class>
+      <title>How to set up out-of-stock notifications?</title>
+      <link>https://magefan.com/blog/magento-2-out-of-stock-notification</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-cataloginventory adminhtml-notification-index</class>
+      <title>How to configure "low stock" notifications for admins?</title>
+      <link>https://magefan.com/magento-2-admin-email-notifications/low-stock</link>
+</item>
+
+<!-- Stores > Settings > Configuration > Catalog > RSS Feed-->
+
+<item>
+      <class>adminhtml-system-config-edit-section-rss</class>
+      <title>How to configure RSS feed?</title>
+      <link>https://magefan.com/blog/magento-rss-feed</link>
+</item>
+
+<!-- Stores > Settings > Configuration > Catalog > Email to a Friend-->
+
+<item>
+      <class>adminhtml-system-config-edit-section-sendfriend</class>
+      <title>How to set up the "refer a friend" email?</title>
+      <link>https://magefan.com/blog/magento-2-refer-a-friend
+      </link>
+</item>
+
+<!-- Stores > Settings > Configuration > Security -->
+
+<item>
+      <class>adminhtml-system-config-edit-section-magento_securitytxt_securitytxt adminhtml-system-config-edit-section-recaptcha_backend adminhtml-system-config-edit-section-recaptcha_frontend
+</class>
+      <title>How to configure security.txt?</title>
+      <link>https://magefan.com/blog/magento-2-security-txt</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-magento_securitytxt_securitytxt adminhtml-system-config-edit-section-recaptcha_backend adminhtml-system-config-edit-section-recaptcha_frontend adminhtml-system-config-edit-section-admin
+</class>
+      <title>How to configure Magento admin security?</title>
+      <link>https://magefan.com/blog/magento-security</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-magento_securitytxt_securitytxt adminhtml-system-config-edit-section-recaptcha_backend adminhtml-system-config-edit-section-recaptcha_frontend
+</class>
+      <title>How to configure Google ReCAPTCHA?</title>
+      <link>https://magefan.com/blog/magento-2-google-recaptcha</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-magento_securitytxt_securitytxt adminhtml-system-config-edit-section-recaptcha_backend adminhtml-system-config-edit-section-recaptcha_frontend adminhtml-system-config-edit-section-customer
+</class>
+      <title>How to configure Magento ReCAPTCHA?</title>
+      <link>https://magefan.com/blog/configure-magento-2-captcha</link>
+</item>
+
+
+<!-- Stores > Settings > Configuration > Customers > Customer Configuration-->
+
+<item>
+      <class>adminhtml-system-config-edit-section-customer</class>
+      <title>How to configure customer accounts?</title>
+      <link>https://magefan.com/blog/configure-magento-2-customer-accounts</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-customer</class>
+      <title>How to configure new customer account options?</title>
+      <link>https://magefan.com/blog/magento-2-new-customer-account-options</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-customer</class>
+      <title>How to configure customer name and address options?</title>
+      <link>https://magefan.com/blog/magento-customer-name-address-options</link>
+</item>
+
+
+<!-- Stores > Settings > Configuration > Customers > Wish List-->
+
+<item>
+      <class>adminhtml-system-config-edit-section-wishlist</class>
+      <title>How to configure wishlists?</title>
+      <link>https://magefan.com/blog/configure-wishlists-in-magento-2</link>
+</item>
+
+<!-- Stores > Settings > Configuration > Customers > Persistent Shopping Cart-->
+
+<item>
+      <class>adminhtml-system-config-edit-section-persistent</class>
+      <title>How to enable and configure persistent shopping cart?</title>
+      <link>https://magefan.com/blog/magento-persistent-shopping-cart</link>
+</item>
+
+<!-- Stores > Settings > Configuration > Sales > Sales -->
+
+<item>
+      <class>adminhtml-system-config-edit-section-sales adminhtml-system-config-edit-section-checkout</class>
+      <title>How to configure checkout options?</title>
+      <link>https://magefan.com/blog/magento-2-checkout-options</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-sales</class>
+      <title>How to enable reorders?</title>
+      <link>https://magefan.com/blog/enable-and-disable-reorders-in-magento-2</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-sales</class>
+      <title>How to configure invoice and packing slip design?</title>
+      <link>https://magefan.com/blog/configure-invoice-and-packing-slip-design-magento</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-sales</class>
+      <title>How to set up minimum order amount?</title>
+      <link>https://magefan.com/blog/magento-2-minimum-order-amount</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-sales</class>
+      <title>How to configure minimum advertised price?</title>
+      <link>https://magefan.com/blog/configure-minimum-advertised-price-map-in-magento-2</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-sales</class>
+      <title>How to configure instant purchase?</title>
+      <link>https://magefan.com/blog/instant-purchase-magento-2</link>
+</item>
+
+
+<!-- Stores > Settings > Configuration > Sales > Sales Emails-->
+
+<item>
+      <class>adminhtml-system-config-edit-section-sales_email</class>
+      <title>How to configure sales emails?</title>
+      <link>https://magefan.com/blog/magento-sales-emails</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-sales_email adminhtml-notification-index</class>
+      <title>How to configure "new order"email notification?</title>
+      <link>https://magefan.com/blog/new-order-email-notification-in-magento-2</link>
+</item>
+
+<!-- Stores > Settings > Configuration > Sales > Tax-->
+
+<item>
+      <class>adminhtml-system-config-edit-section-tax tax-rule-index tax-rate-index tax-rate-add tax-rule-edit tax-rate-edit</class>
+      <title>How to configure taxes?</title>
+      <link>https://magefan.com/blog/magento-2-tax-configuration</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-tax</class>
+      <title>How to change tax rates for placed orders?</title>
+      <link>https://magefan.com/magento-2-edit-order-extension/change-tax-rates</link>
+</item>
+
+<!-- Stores > Settings > Configuration > Sales > Checkout-->
+
+<item>
+      <class>adminhtml-system-config-edit-section-checkout adminhtml-system-config-edit-section-persistent adminhtml-system-config-edit-section-carriers</class>
+      <title>How to set default  shipping method on checkout?</title>
+      <link>https://magefan.com/better-magento-2-checkout-extension/default-shipping-method</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-checkout adminhtml-system-config-edit-section-persistent</class>
+      <title>How to configure shopping cart options?</title>
+      <link>https://magefan.com/blog/configure-magento-shopping-cart</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-checkout</class>
+      <title>How to set up "payment failed" email?</title>
+      <link>https://magefan.com/blog/magento-payment-failed-email</link>
+</item>
+
+<!-- Stores > Settings > Configuration > Sales > Shipping Settings-->
+
+
+<item>
+      <class>adminhtml-system-config-edit-section-shipping sales-order_create-index adminhtml-system-config-edit-section-carriers</class>
+      <title>How to configure shipping methods?</title>
+      <link>https://magefan.com/blog/magento-shipping-methods</link>
+</item>
+
+<!-- Stores > Settings > Configuration > Sales > Delivery Methods-->
+
+<item>
+      <class>adminhtml-system-config-edit-section-carriers</class>
+      <title>How to configure free shipping?</title>
+      <link>https://magefan.com/blog/configure-free-shipping-method-in-magento-2</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-carriers</class>
+      <title>How to set up UPS carrier?</title>
+      <link>https://magefan.com/blog/set-up-ups-carrier-in-magento</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-carriers</class>
+      <title>How to configure FedEx carrier?</title>
+      <link>https://magefan.com/blog/configure-fedex-carrier-in-magento</link>
+</item>
+
+<!-- Stores > Settings > Configuration > Sales > Google API-->
+
+<item>
+      <class>adminhtml-system-config-edit-section-carriers</class>
+      <title>How to configure Google Tag Manager (GTM)?</title>
+      <link>https://magefan.com/blog/add-google-tag-manager-to-magento-2</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-carriers</class>
+      <title>How to configure Google Analytics 4?</title>
+      <link>https://magefan.com/blog/add-google-analytics-4-to-magento-2</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-carriers</class>
+      <title>How to enable server side tracking?</title>
+      <link>https://magefan.com/magento-2-google-tag-manager/server-side-tracking</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-carriers</class>
+      <title>How to set up GTM server container tracking?</title>
+      <link>https://magefan.com/magento-2-google-tag-manager/gtm-server-container</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-carriers</class>
+      <title>How to set up Google Ads conversions tracking?</title>
+      <link>https://magefan.com/magento-2-google-tag-manager/conversion-tracking</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-carriers</class>
+      <title>How to set up Google Ads dynamic remarketing?</title>
+      <link>https://magefan.com/blog/dynamic-remarketing-in-magento-2</link>
+</item>
+
+<!-- Stores > Settings > Configuration > Sales > Payment Methods-->
+
+<item>
+      <class>adminhtml-system-config-edit-section-payment</class>
+      <title>How to configure PayPal?</title>
+      <link>https://magefan.com/blog/configure-paypal-in-magento-2</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-payment</class>
+      <title>How to configure Braintree?</title>
+      <link>https://magefan.com/blog/configure-braintree-in-magento-2</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-payment</class>
+      <title>How to add icons to payment methods?</title>
+      <link>https://magefan.com/better-magento-2-checkout-extension/add-image-to-payment-method</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-payment adminhtml-system-config-edit-section-checkout adminhtml-system-config-edit-section-persistent</class>
+      <title>How to set default payment method on checkout?</title>
+      <link>https://magefan.com/better-magento-2-checkout-extension/default-payment-method</link>
+</item>
+
+<!-- Stores > Settings > Configuration > Advanced > System-->
+
+<item>
+      <class>adminhtml-system-config-edit-section-system</class>
+      <title>How to configure and manage crons?</title>
+      <link>https://magefan.com/blog/configure-magento-2-cron-jobs</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-system</class>
+      <title>How to run cron jobs from admin panel?</title>
+      <link>https://magefan.com/blog/run-cron-job-manually-in-magento-2</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-system</class>
+      <title>How to check cron job status?</title>
+      <link>https://magefan.com/magento-2-cron-schedule/check-cron-status</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-system</class>
+      <title>How to get cron job notifications?</title>
+      <link>https://magefan.com/magento-2-cron-schedule/notifications</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-system</class>
+      <title>How to create custom cron job?</title>
+      <link>https://magefan.com/blog/create-custom-cron-job-in-magento-2</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-system adminhtml-cache-index</class>
+      <title>How to configure full-page cache?</title>
+      <link>https://magefan.com/blog/magento-2-full-page-cache</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-system adminhtml-cache-index</class>
+      <title>How to set up full-page cache warmer?</title>
+      <link>https://magefan.com/magento-2-full-page-cache-warmer/configuration</link>
+</item>
+
+<!-- Stores > Settings > Configuration > Advanced > Developer-->
+
+<item>
+      <class>adminhtml-system-config-edit-section-dev</class>
+      <title>How to enable template path hints?</title>
+      <link>https://magefan.com/blog/enable-template-path-hints-in-magento-2</link>
+</item>
+
+<item>
+      <class>adminhtml-system-config-edit-section-dev</class>
+      <title>How to use Translate Inline tool?</title>
+      <link>https://magefan.com/blog/translate-magento-2-using-translate-inline-tool</link>
+</item>
+
+<!-- Stores > Settings > Terms and Conditions -->
+
+<item>
+      <class>checkout-agreement-index</class>
+      <title>How to add terms and conditions checkbox?</title>
+      <link>https://magefan.com/blog/magento-2-terms-and-conditions-checkbox</link>
+</item>
+
+<!-- Stores > Settings > Order Status -->
+
+<item>
+      <class>sales-order-status-index sales-order-index</class>
+      <title>How to create and manage order statuses?</title>
+      <link>https://magefan.com/blog/magento-2-order-status</link>
+</item>
+
+<item>
+      <class>sales-order-status-index sales-order-index</class>
+      <title>How to Add Order Status Color in Magento 2?</title>
+      <link>https://magefan.com/magento-2-better-order-grid-extension/add-order-status-color</link>
+</item>
+
+<!-- Stores > Invertory > Sources-->
+
+<item>
+      <class>inventory-source-index inventory-stock-index inventory-source-new inventory-source-edit</class>
+      <title>How to add new inventory source?</title>
+      <link>https://magefan.com/blog/add-new-source-in-magento-2</link>
+</item>
+
+
+<!-- Stores > Invertory > Stocks-->
+<item>
+      <class>inventory-stock-index inventory-stock-edit inventory-stock-new adminhtml-system-config-edit-section-cataloginventory</class>
+      <title>How to configure product stock?</title>
+      <link>https://magefan.com/blog/configure-product-stock-status-in-magento-2</link>
+</item>
+
+<item>
+      <class>inventory-source-index inventory-stock-index inventory-stock-edit inventory-stock-new</class>
+      <title>How to add new inventory stock?</title>
+      <link>https://magefan.com/blog/add-new-stock-in-magento-2</link>
+</item>
+
+<!-- Stores > Attributes -->
+
+<item>
+      <class>catalog-product-attribute-index catalog-product-attribute-edit catalog-product-set-index catalog-product-set-edit catalog-product-set-add catalog-product-new catalog-product-edit</class>
+      <title>How to create product attributes?</title>
+      <link>https://magefan.com/blog/how-to-create-product-attribute-in-magento-2</link>
+        </item>
+
+<item>
+      <class>catalog-product-attribute-index catalog-product-attribute-edit catalog-product-set-index catalog-product-set-edit catalog-product-set-add catalog-product-new catalog-product-edit</class>
+      <title>How to create product attribute sets?</title>
+      <link>https://magefan.com/blog/how-to-create-product-attribute-set-in-magento-2</link>
+</item>
+
+<item>
+      <class>catalog-product-attribute-index catalog-product-attribute-edit catalog-product-set-index catalog-product-set-edit catalog-product-set-add</class>
+      <title>How to translate product attributes and their options?</title>
+      <link>https://magefan.com/blog/translate-product-attributes-and-attribute-options-in-magento-2</link>
+</item>
+
+<item>
+      <class>catalog-product-attribute-index catalog-product-attribute-edit catalog-product-set-index catalog-product-set-edit catalog-product-set-add catalog-product-index</class>
+      <title>How to update product attributes in bulk?</title>
+      <link>https://magefan.com/magento-2-product-grid-inline-editor/update-product-attributes-in-bulk</link>
+</item>
+
+<item>
+      <class>catalog-product-attribute-index catalog-product-attribute-edit catalog-product-set-index catalog-product-set-edit catalog-product-set-add sales-rule-promo-quote-edit  catalog_rule-promo_catalog-edit</class>
+      <title>How to add attribute to sales conditions?</title>
+      <link>https://magefan.com/blog/add-product-attribute-to-sales-rules-conditions</link>
+</item>
+
+<item>
+      <class>catalog-product-attribute-index catalog-product-attribute-edit catalog-product-set-index catalog-product-set-edit catalog-product-set-add</class>
+      <title>How to change attribute set in bulk?</title>
+      <link>https://magefan.com/magento-2-product-grid-inline-editor/change-attribute-set-in-bulk</link>
+</item>
+
+<!-- System > Data Transfer > Import-->
+
+<item>
+      <class>adminhtml-import-index adminhtml-history-index</class>
+      <title>How to import products and product options?</title>
+      <link>https://magefan.com/blog/magento-import-products</link>
+        </item>
+
+<!-- System > Data Transfer > Export-->
+
+<item>
+      <class>adminhtml-export-index adminhtml-history-index</class>
+      <title>How to export products?</title>
+      <link>https://magefan.com/blog/magento-2-export-products</link>
+        </item>
+
+
+<!-- System > Tools > Cache Management-->
+
+<item>
+      <class>adminhtml-cache-index</class>
+      <title>How to enable and clean cache?</title>
+      <link>https://magefan.com/blog/magento-2-clear-cache</link>
+</item>
+
+<item>
+      <class>adminhtml-cache-index</class>
+      <title>How to enable "disabled cache" notification?</title>
+      <link>https://magefan.com/magento-2-admin-email-notifications/disabled-cache</link>
+</item>
+
+<!-- System > Tools > Index Management-->
+
+<item>
+      <class>indexer-indexer-list</class>
+      <title>How to manage Magento reindex?</title>
+      <link>https://magefan.com/blog/magento-2-reindex</link>
+</item>
+
+<item>
+      <class>indexer-indexer-list</class>
+      <title>How to optimize reindex?</title>
+      <link>https://magefan.com/blog/optimize-magento-2-reindex</link>
+</item>
+
+<item>
+      <class>indexer-indexer-list</class>
+      <title>How to run reindex from admin panel?</title>
+      <link>https://magefan.com/blog/how-to-reindex-magento-2-from-admin-panel</link>
+</item>
+
+<!-- System > Tools > Permissions-->
+
+<item>
+      <class>adminhtml-user-index adminhtml-locks-index adminhtml-user-role-index</class>
+      <title>How to create new admin user?</title>
+      <link>https://magefan.com/blog/create-new-admin-user-in-magento-2</link>
+</item>
+
+<item>
+      <class>adminhtml-user-index adminhtml-locks-index adminhtml-user-role-index</class>
+      <title>How to create user role?</title>
+      <link>https://magefan.com/blog/create-user-role-in-magento-2</link>
+</item>
+
+<item>
+      <class>adminhtml-user-index adminhtml-locks-index adminhtml-user-role-index</class>
+      <title>How to track admin user actions in the backend?</title>
+      <link>https://magefan.com/magento-2-admin-action-log/track-admin-actions</link>
+</item>
+
+<item>
+      <class>adminhtml-user-index adminhtml-locks-index adminhtml-user-role-index</class>
+      <title>How to track admin login attempts?</title>
+      <link>https://magefan.com/magento-2-admin-action-log/track-login-activity</link>
+</item>
+
+
+<!-- System > Tools > Other Settings > Custom Variables-->
+
+<item>
+      <class>adminhtml-system-variable-index</class>
+      <title>How to Add Custom Variables in Magento 2?</title>
+      <link>https://magefan.com/blog/magento-2-email-template-variables</link>
+</item>
+
+     </channel>
+</rss>

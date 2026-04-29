@@ -1,0 +1,136 @@
+.page-footer {
+    background-color: #111;
+    color: #aaa;
+
+    a {
+        color: #aaa;
+    }
+}
+
+.footer-top {
+    padding: 40px 0;
+    background-color: #181818;
+}
+
+.menu-footer {
+    list-style: none;
+    margin: 0;
+    padding: 10px 0 0;
+    float: right;
+
+    li {
+        float: left;
+        margin-left: 40px;
+        margin-bottom: 0;
+
+        a {
+            display: block;
+            padding: 5px 0;
+            font-size: 107.69%;
+            color: #fff;
+        }
+    }
+}
+
+.block-subscribe-footer {
+    .newsletter-content {
+        position: relative;
+    }
+
+    #newsletter-footer {
+        height: 50px;
+        padding-right: 70px;
+        padding-left: 20px;
+        border: none;
+        background-color: #fff;
+        color: #222;
+        .border-radius(25px);
+    }
+
+    .action-button button {
+        background: none !important;
+        color: #222 !important;
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        position: absolute;
+        top: 0;
+        right: 10px;
+        padding: 0;
+        .box-shadow-none();
+
+        &:before {
+            .icomoon(e955, 24px);
+        }
+    }
+
+    .action-button button span {
+        display: none;
+    }
+
+}
+
+.ft-bottom-content {
+    padding-top: 40px;
+    padding-bottom: 25px;
+
+    .social-block-list ul {
+        font-size: 0;
+        float: right;
+        .ul-nostyle();
+
+        li {
+            display: inline-block;
+            vertical-align: top;
+            margin-left: 10px;
+            font-size: 16px;
+        }
+
+        li a {
+            display: block;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            text-align: center;
+            .border-radius(50%);
+            .transition(.1s);
+        }
+    }
+}
+
+.footer-add {
+    color: #fff;
+    margin-bottom: 7px;
+    margin-top: 3px;
+}
+
+.subscribe-social {
+    float: right;
+
+    > div {
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .block-subscribe-footer {
+        width: 330px;
+        padding-right: 30px;
+    }
+}
+
+/**
+ * Layout boxed
+ */
+
+.layout-boxed {
+    .page-footer,
+    .footer-bottom,
+    .footer-top {
+        margin-left: -15px;
+        margin-right: -15px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}

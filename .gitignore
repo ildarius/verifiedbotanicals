@@ -1,0 +1,47 @@
+# Magento generated code and caches
+/generated/*
+!/generated/.htaccess
+/var/cache/*
+/var/page_cache/*
+/var/view_preprocessed/*
+/var/composer_home/*
+/var/di/*
+/var/generation/*
+/var/log/*
+/var/report/*
+/var/session/*
+/var/tmp/*
+
+# Magento static assets and media cache
+/pub/static/*
+!/pub/static/.htaccess
+/pub/media/catalog/product/cache/
+/pub/media/catalog/category/cache/
+/pub/media/captcha/
+/pub/media/customer/
+/pub/media/downloadable/
+/pub/media/import/
+/pub/media/theme_customization/
+/pub/media/tmp/
+/pub/media/wysiwyg/.thumbs/
+
+# Application configuration and secrets
+/app/etc/config.php
+/app/etc/env.php
+/auth.json
+
+# Composer and frontend dependencies
+/vendor/
+/node_modules/
+
+# Test, browser automation, and local tooling artifacts
+/.phpunit.result.cache
+/.playwright/
+/playwright-report/
+/test-results/
+
+# IDE, OS, and local developer files
+/.idea/
+/.vscode/
+/.DS_Store
+/Thumbs.db

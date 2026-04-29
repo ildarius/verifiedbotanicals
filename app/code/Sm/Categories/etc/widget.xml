@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget class="Sm\Categories\Block\Widget\AddCategories" id="add_categories">
+    <label>Add Categories</label>
+        <description>Add Categories</description>
+        <parameters>
+            <parameter name="template" xsi:type="select" required="true" visible="true" sort_order="20" >
+                <label translate="true">Template</label>
+                <options>
+                    <option name="default" value="Sm_Categories::default.phtml">
+                        <label translate="true">Default</label>
+                    </option>
+                    <option name="default-grid" value="Sm_Categories::default-grid.phtml">
+                        <label translate="true">Default Grid</label>
+                    </option>
+                    <option name="default-list" value="Sm_Categories::default-list.phtml">
+                        <label translate="true">Default List</label>
+                    </option>
+                    <option name="default-slider" value="Sm_Categories::default-slider.phtml">
+                        <label translate="true">Default Slider</label>
+                    </option>
+                    <option name="default-slider-inner" value="Sm_Categories::default-slider-inner.phtml">
+                        <label translate="true">Default Slider Inner</label>
+                    </option>
+                    <option name="default-slider-txt" value="Sm_Categories::default-slider-txt.phtml">
+                        <label translate="true">Default Slider Txt</label>
+                    </option>
+                    <option name="slider-sub-inner" value="Sm_Categories::slider-sub-inner.phtml">
+                        <label translate="true">Slider Sub Inner</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="title_module" sort_order="21" visible="true" xsi:type="text" >
+                <label>Title</label>
+            </parameter>
+            <parameter name="select_category"  xsi:type="multiselect" visible="true" sort_order="30" required="true"
+                       source_model="Sm\FilterProducts\Model\Config\Source\ListCategory">
+                <label translate="true">Select Categories</label>
+            </parameter>
+            <parameter name="limitation"  xsi:type="text" required="true" visible="true" sort_order="40">
+                <label translate="true">Category Limitation</label>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

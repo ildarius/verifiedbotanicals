@@ -1,0 +1,37 @@
+<?php /**@var Sm\AutoCompleteSearch\Block\Autocomplete $block  */?>
+
+<?php 
+if($block->escapeHtml($block->getSearchEnable()) == 0) return;?>
+<div data-bind="scope: 'smautocomplete_form'">
+    <!-- ko template: getTemplate() --><!-- /ko -->
+</div>
+
+<script type="text/x-magento-init">
+{
+    "*": {
+        "Magento_Ui/js/core/app": {
+            "components": {
+                "smautocomplete_form": {
+                    "component": "Sm_AutoCompleteSearch/js/autocomplete"
+                },
+                "searchsuiteautocompleteBindEvents": {
+                    "component": "Sm_AutoCompleteSearch/js/bindEvents",
+                    "config": {
+                        "searchFormSelector": "#search_mini_form",
+                        "searchButtonSelector": "button.search",
+                        "inputSelector": "#search, #mobile_search, .minisearch input[type=\"text\"]",
+                        "searchDelay": "<?php echo $block->escapeHtml($block->getSearchDelay()) ?>"
+                    }
+                },
+                "searchsuiteautocompleteDataProvider": {
+                    "component": "Sm_AutoCompleteSearch/js/dataProvider",
+                    "config": {
+                        "url": "<?php echo $block->escapeUrl($block->getSearchUrl()) ?>"
+                    }
+                }
+            }
+        }
+    }
+}
+
+</script>

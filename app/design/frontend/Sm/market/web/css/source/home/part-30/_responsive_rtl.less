@@ -1,0 +1,114 @@
+@media (min-width: 1400px) {
+	.gallery-img .block-content{
+		padding:0 125px;
+	}
+}
+@media (min-width: 1200px) {
+	.gallery-img .block-content{
+		padding:0 50px;
+	}
+	.block-saleoff .item { 
+		p{
+			margin:0 55px;
+			 .transition(.3s);
+		}
+		&:hover p {
+			margin:0;
+		}
+	}
+	.fashion-categories{
+		padding: 0 90px;
+	}
+	.block-shop .box-content .box-info{
+		padding: 0 65px;
+	}
+}
+@media (min-width: 1024px) {
+    .tabs-product-slider .ltabs-tabs-container {
+        text-align: center;
+		margin-bottom:40px!important;
+        .ltabs-tabs li {
+            margin: 0 2px;
+            padding:12px 35px;
+            background-color: transparent;
+            color: #111;
+            text-transform: uppercase;
+            .border-radius(25px);
+            .transition(.1s);
+			font-weight: normal;
+			font-size: 114.28%;
+			border:1px solid #ddd;
+        }
+
+        .ltabs-tabs li:hover,
+        .ltabs-tabs li.tab-sel {
+            background-color: #111;
+			border-color: #111;
+            color: #fff;
+        }
+    }
+}
+
+@media (min-width: 992px) and  (max-width: 1199px){
+	.gallery-img .block-content{
+		padding:0 ;
+		h3{
+			margin-bottom:10px;
+		}
+		p.description{
+			margin-bottom:15px;
+		}
+	}
+}
+@media (min-width: 992px){
+	.gallery-img .block-content{
+		
+		top: 50%;
+		position: absolute;
+		z-index: 1;
+		.transform(translateY(-50%));
+	}
+	
+}
+@media (max-width: 991px){
+	.gallery-img .block-content{
+		padding:20px 0 30px ;
+		h3{
+			margin-bottom:10px;
+			&:before{
+				font-size: 20px;
+				margin-bottom: 0;
+			}
+		font-size: 210%;
+		}
+		p.description{
+			margin-bottom:15px;
+			font-size: 100%;
+		}
+	}
+	.block-services-v30 ul{
+		flex-wrap: wrap;
+		li{
+			width:50%;
+			border:0px !important;
+			padding-right:15px;
+			a{
+				justify-content: right;
+			}
+		}
+	}
+	.block-home-30.slidershow .owl-theme .owl-nav [class*='owl-']{
+		&.owl-prev{
+			left: 15px;
+		}
+		&.owl-next{
+			right: 15px;
+		}
+	}
+	
+}
+@media (max-width: 567px){
+	.block-saleoff .item{
+		margin-bottom:30px;
+	}
+}

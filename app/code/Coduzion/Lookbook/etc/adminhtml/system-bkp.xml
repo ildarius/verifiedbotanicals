@@ -1,0 +1,81 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * Copyright © Coduzion, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+	<system>
+		<tab id="coduzion" translate="label" sortOrder="99">
+			<label>Coduzion</label>
+		</tab>
+		<section id="lookbook_configuraiton" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+			<label>configuration</label>
+			<tab>coduzion</tab>
+			<resource>Coduzion_Lookbook::config_coduzion_lookbook</resource>
+			<group id="general" sortOrder="1" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+				<label>General</label>
+				<field id="is_enabled" type="select" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+					<label>is_enabled</label>
+					<comment/>
+					<source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+				</field>
+			</group>
+			<group id="marker" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+				<label>Marker Settings</label>
+				<field id="marker_image" translate="label" type="image" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+				    <label>Marker Image</label>
+				    <backend_model>Coduzion\Lookbook\Model\Config\Backend\Image</backend_model>
+				    <base_url type="media" scope_info="1">lookbook</base_url>
+				    <comment><![CDATA[Allowed file types: jpg, jpeg, gif, png, svg]]></comment>
+				</field>
+				<field id="marker_width" type="text" sortOrder="20" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+					<label>Marker Width</label>
+				</field>
+				<field id="marker_height" type="text" sortOrder="30" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+					<label>Marker Height</label>
+				</field>
+			</group>
+			<group id="popover" sortOrder="20" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+				<label>Popover Settings</label>
+				<field id="font_color" type="text" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+					<label>Font Color</label>
+					<frontend_model>Coduzion\Lookbook\Block\Colorpicker</frontend_model>
+				</field>
+				<field id="background_color" type="text" sortOrder="20" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+					<label>Background Color</label>
+					<frontend_model>Coduzion\Lookbook\Block\Colorpicker</frontend_model>
+				</field>
+				<field id="font_size" type="text" sortOrder="30" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+					<label>Font Size</label>
+				</field>
+				<field id="opacity" type="text" sortOrder="40" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+					<label>Opacity</label>
+				</field>
+			</group>
+			<group id="slider" sortOrder="30" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+				<label>Slider Settings</label>
+				<field id="autoplay" type="select" sortOrder="10" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+					<label>Autoplay</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+				<field id="speed" type="text" sortOrder="20" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+					<label>Autoplay Speed</label>
+				</field>
+				<field id="infinite_loop" type="select" sortOrder="30" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+					<label>Infinite Loop</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+				<field id="next_previous" type="select" sortOrder="40" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+					<label>Show Next Previous Buttons</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+				<field id="dots" type="select" sortOrder="50" showInWebsite="1" showInStore="1" showInDefault="1" translate="label">
+					<label>Show Dots</label>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
+			</group>
+		</section>
+	</system>
+</config>

@@ -1,0 +1,379 @@
+/**
+* $themeColor, $themeColorDarken, $textColor, $textOnThemeColor, $linkColor, $linkHoverColor, $linkOnThemeColor, $linkHoverOnThemeColor
+*/
+
+/**
+* THEME HEADER COLOR
+*/
+<?php include($block->getTemplateFile("Sm_Themecore::themecore/css/theme-header.phtml")); ?>
+
+
+/**
+* THEME HOME
+*/
+<?php include($block->getTemplateFile("Sm_Themecore::themecore/css/theme-home.phtml")); ?>
+
+/**
+* THEME FOOTER
+*/
+<?php include($block->getTemplateFile("Sm_Themecore::themecore/css/theme-footer.phtml")); ?>
+
+/**
+* THEME PRODUCT
+*/
+<?php include($block->getTemplateFile("Sm_Themecore::themecore/css/theme-product.phtml")); ?>
+
+
+/**
+* Header mobile
+*/
+
+.header-mobile .mobile-top{
+background-color: #<?php echo $themeColor; ?>;
+}
+
+.header-mobile .mobile-menu > a span{
+background-color: #<?php echo $textOnThemeColor; ?>;
+}
+
+.minicart-mobile .minicart-wrapper .action.showcart .counter.qty{
+background-color: #<?php echo $textOnThemeColor; ?>;
+color: #<?php echo $themeColor; ?>;
+}
+
+.minicart-mobile .minicart-wrapper .action.showcart:before{
+color: #<?php echo $textOnThemeColor; ?>!important;
+}
+.action.primary, .action-primary,
+button, .cart.table-wrapper .actions-toolbar > .action, .action-gift{
+	background-color: #<?php echo $themeColor; ?>;
+	color: #<?php echo $textOnThemeColor; ?>;
+}
+.action.primary:hover, .action-primary:hover,
+button:hover, .cart.table-wrapper .actions-toolbar > .action:hover, .action-gift:hover{
+	background-color: #<?php echo $themeColorDarken; ?>;
+}
+/**
+* Mobile layout
+*/
+
+.sticky-bottom .block-bottom .button-sticky-bottom.active,
+.sticky-bottom .block-bottom .button-sticky-bottom:hover{
+background-color: #<?php echo $themeColor; ?>;
+color: #<?php echo $textOnThemeColor; ?>;
+}
+
+.myaccount-dropdown .content-dropdown .block-customer-login .actions-toolbar .primary .action{
+background-color: #<?php echo $themeColor; ?>;
+color: #<?php echo $textOnThemeColor; ?>;
+}
+
+.mb-header-device .minicart-wrapper .action.showcart .counter.qty{
+background-color: #<?php echo $themeColor; ?>;
+color: #<?php echo $textOnThemeColor; ?>;
+}
+
+.mb-header-device .block-minicart .block-content > .actions > .primary .action.primary{
+background-color: #<?php echo $themeColor; ?>;
+color: #<?php echo $textOnThemeColor; ?>;
+}
+
+.footer-mobile .footer-top{
+background-color: #<?php echo $themeColor; ?>;
+}
+
+.footer-mobile .support-mobile ul li a{
+color: #<?php echo $textOnThemeColor; ?>;
+}
+
+.footer-mobile .support-mobile ul li a:before {
+color: #<?php echo $themeColor; ?>;
+}
+
+.mobile-newsletter .action-button button{
+background-color: #<?php echo $themeColor; ?>;
+color: #<?php echo $textOnThemeColor; ?>;
+}
+
+.mobile-newsletter .action-button button:active,
+.mobile-newsletter .action-button button:focus,
+.mobile-newsletter .action-button button:hover{
+background-color: #<?php echo $themeColorDarken; ?>;
+}
+
+.footer-mobile .social-footer ul li a:hover{
+background-color: #<?php echo $themeColor; ?>;
+color: #<?php echo $textOnThemeColor; ?>;
+}
+
+/**
+* General
+*/
+
+.mega-feature-content .feature-layout .ft-item:hover{
+border-color: #<?php echo $themeColor; ?>;
+}
+
+.sticky-product-action .sticky-button button{
+background-color: #<?php echo $themeColor; ?>;
+color: #<?php echo $textOnThemeColor; ?>;
+}
+
+.text-theme-color{
+color: #<?php echo $themeColor; ?>;
+}
+
+.social-popup ul li a:hover{
+background-color: #<?php echo $themeColor; ?>;
+color: #<?php echo $textOnThemeColor; ?>;
+}
+
+.bundle-actions .action.primary:hover{
+background-color: #<?php echo $themeColor; ?>;
+color: #<?php echo $textOnThemeColor; ?>;
+}
+
+.mega-feature-content ul li a:hover{
+color: #<?php echo $linkHoverColor; ?>;
+}
+
+.extend-container .sm-listing-tabs .ltabs-tabs-container .ltabs-tabs li.tab-sel{
+color: #<?php echo $themeColor; ?>;
+}
+
+.extend-container .sm-listing-tabs .ltabs-tabs-container .ltabs-tabs li.tab-sel:before{
+background-color: #<?php echo $themeColor; ?>;
+}
+
+.extend-container .sm-listing-tabs .ltabs-items .ltabs-loadmore .ltabs-loadmore-btn{
+background-color: #<?php echo $themeColor; ?>;
+color: #<?php echo $textOnThemeColor; ?>;
+}
+
+.extend-container .sm-listing-tabs .ltabs-items .ltabs-loadmore .ltabs-loadmore-btn:hover{
+background-color: #<?php echo $themeColorDarken; ?>;
+}
+
+.extend-container .deals-countdown .deals-time .num-time{
+background-color: #<?php echo $themeColor; ?>;
+color: #<?php echo $textOnThemeColor; ?>;
+}
+
+.filter-mobile-btn #btn-filter{
+background-color: #<?php echo $themeColor; ?>;
+color: #<?php echo $textOnThemeColor; ?>;
+}
+
+
+/**
+* Listing
+*/
+#price-slider .ui-slider-range{
+background-color: #<?php echo $themeColor; ?>;
+}
+
+.modes .modes-mode:hover,
+.modes .modes-mode.active{
+background-color: #<?php echo $themeColor; ?>;
+border-color: #<?php echo $themeColor; ?>!important;
+color: #<?php echo $textOnThemeColor; ?>;
+}
+
+.pages .item:hover,
+.pages .current{
+background-color: #<?php echo $themeColor; ?>;
+border-color: #<?php echo $themeColor; ?>;
+}
+
+.pages .item a:hover,
+.pages .current strong{
+color: #<?php echo $textOnThemeColor; ?>;
+}
+
+.pages .action:hover:before{
+color: #<?php echo $textOnThemeColor; ?>!important;
+}
+
+.sidebar .block.filter .filter-options .filter-options-content ol li a:hover{
+color: #<?php echo $linkHoverColor; ?>;
+}
+
+.products-list .actions-secondary .action:hover{
+background-color: #<?php echo $themeColor; ?>;
+border-color: #<?php echo $themeColor; ?>;
+color: #<?php echo $textOnThemeColor; ?>;
+}
+
+.products-list .actions-primary button{
+background-color: #<?php echo $themeColor; ?>;
+color: #<?php echo $textOnThemeColor; ?>;
+}
+
+.products-list .actions-primary button:hover{
+background-color: #<?php echo $themeColorDarken; ?>;
+}
+
+.products-list .image-product .quickview-handler{
+background-color: #<?php echo $themeColor; ?>;
+color: #<?php echo $textOnThemeColor; ?>;
+}
+
+.products-list .image-product .quickview-handler:hover{
+background-color: #<?php echo $themeColorDarken; ?>;
+}
+
+/**
+* Detail page
+*/
+
+.child-bundle-items .item .bundle-image + .quickview-handler:hover{
+background-color: #<?php echo $themeColor; ?>;
+color: #<?php echo $textOnThemeColor; ?>;
+}
+
+.fieldset-bundle-options .field.option > .label:before{
+background-color: #<?php echo $themeColor; ?>;
+}
+
+.fieldset-bundle-options .field.choice .detail-btn:hover,
+.fieldset-bundle-options .field.choice .quickview-btn:hover{
+background-color: #<?php echo $themeColor; ?>;
+color: #<?php echo $textOnThemeColor; ?>;
+}
+
+.field.choice.choice-inline .price-container .price{
+color: #<?php echo $themeColor; ?>;
+}
+
+.qty-control .qty-btn:hover{
+background-color: #<?php echo $themeColor; ?>;
+}
+
+.qty-control .qty-btn:hover:after,
+.qty-control .qty-btn:hover:before{
+background-color: #<?php echo $textOnThemeColor; ?>;
+}
+
+.fotorama__active .fotorama__dot{
+background-color: #<?php echo $themeColor; ?>;
+border-color: #<?php echo $themeColor; ?>;
+}
+
+.product-1-style .detail-product-slider .owl-theme .owl-nav [class*='owl-']:hover{
+background-color: #<?php echo $themeColor; ?>;
+border-color: #<?php echo $themeColor; ?>;
+color: #<?php echo $textOnThemeColor; ?>;
+}
+
+.default-style .resp-tabs-list li.active:before{
+background-color: #<?php echo $themeColor; ?>;
+}
+
+.default-style .resp-tabs-list li:not(.active):hover{
+color: #<?php echo $themeColor; ?>;
+}
+
+.vertical-style .resp-tabs-list li.active:before{
+background-color: #<?php echo $themeColor; ?>;
+}
+
+.fotorama__thumb-border{
+border-color: #<?php echo $themeColor; ?>!important;
+}
+
+.gallery-placeholder .fotorama__thumb__arr:hover{
+background-color: #<?php echo $themeColor; ?>;
+border-color: #<?php echo $themeColor; ?>;
+color: #<?php echo $textOnThemeColor; ?>;
+}
+
+.product-info-main .product-social-links .action:hover,
+.product-info-main .product-addto-links .action:hover{
+background-color: #<?php echo $themeColor; ?>!important;
+border-color: #<?php echo $themeColor; ?>!important;
+color: #<?php echo $textOnThemeColor; ?>!important;
+}
+
+.product-info-main .box-tocart .action.tocart,
+.product-options-bottom .box-tocart .action.tocart{
+background-color: #<?php echo $themeColor; ?>;
+color: #<?php echo $textOnThemeColor; ?>;
+border: 1px solid #<?php echo $themeColor; ?>;
+}
+
+.product-info-main .box-tocart .action.tocart:hover,
+.product-options-bottom .box-tocart .action.tocart:hover{
+background-color: #<?php echo $_config->adjustBrightness($themeColor, 0.8); ?>;
+color: #<?php echo $themeColor; ?>;
+}
+
+.review-form .action.submit.primary{
+background-color: #<?php echo $themeColor; ?>;
+color: #<?php echo $textOnThemeColor; ?>!important;
+}
+
+.review-form .action.submit.primary:hover{
+background-color: #<?php echo $themeColorDarken; ?>;
+}
+
+.product.media .towishlist:hover{
+background-color: #<?php echo $themeColor; ?>;
+border-color: #<?php echo $themeColor; ?>;
+color: #<?php echo $textOnThemeColor; ?>;
+}
+
+.product-info-main .product-info-stock-sku .tocompare:hover{
+color: #<?php echo $linkHoverColor; ?> !important;
+}
+
+.product-info-main .box-tocart .fieldset .actions .buynow,
+.product-options-bottom .box-tocart .fieldset .actions .buynow{
+border: 1px solid #<?php echo $themeColor; ?>;
+background: #<?php echo $_config->adjustBrightness($themeColor, 0.8); ?>;
+color: #<?php echo $themeColor; ?>;
+}
+
+.product-info-main .box-tocart .fieldset .actions .buynow:hover,
+.product-options-bottom .box-tocart .fieldset .actions .buynow:hover{
+background-color: #<?php echo $themeColor; ?>;
+color: #<?php echo $textOnThemeColor; ?>;
+}
+
+/**
+* About Us
+*/
+
+.list-why-choose li:before{
+color: #<?php echo $themeColor; ?>;
+}
+
+.slider-member .owl-theme .owl-dots .owl-dot:hover span,
+.slider-member .owl-theme .owl-dots .owl-dot.active span{
+background-color: #<?php echo $themeColor; ?>;
+}
+
+/**
+* Newsletter popup
+*/
+
+.form-newsletter-popup .action-newsletter button{
+background-color: #<?php echo $themeColor; ?>;
+color: #<?php echo $textOnThemeColor; ?>;
+}
+
+.form-newsletter-popup .action-newsletter button:hover{
+background-color: #<?php echo $themeColorDarken; ?>;
+}
+
+/**
+* Blog page
+*/
+
+.post-content.post-custom .post-description .post-info-blog .post-read-more:hover{
+background-color: #<?php echo $themeColor; ?>;
+color: #<?php echo $textOnThemeColor; ?>;
+}
+
+.post-content.post-custom .post-description .post-title a:hover{
+color: #<?php echo $linkHoverColor; ?>;
+}

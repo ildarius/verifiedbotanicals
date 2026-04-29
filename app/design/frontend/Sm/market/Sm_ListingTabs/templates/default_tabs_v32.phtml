@@ -1,0 +1,41 @@
+<?php
+/**
+ *
+ * SM Listing Tabs - Version 2.7.0
+ * Copyright (c) 2017 YouTech Company. All Rights Reserved.
+ * @license - Copyrighted Commercial Software
+ * Author: YouTech Company
+ * Websites: http://www.magentech.com
+ */
+
+$list = $this->getData('list');
+?>
+<div class="ltabs-tabs-wrap" tabindex="-1">
+    <span class="ltabs-current-select"></span>
+    <ul class="ltabs-tabs cf">
+        <?php
+		$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+		$mediaUrl = $objectManager->get(Magento\Store\Model\StoreManagerInterface::class)->getStore() ->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+        foreach ($list as $tab) {
+            ?>
+            <li class="ltabs-tab <?php echo isset($tab['sel']) ? '  tab-sel tab-loaded' : ''; ?>  "
+                data-tab-id="<?php echo $tab['id_tab']; ?>" data-catids="<?php echo $tab['cat_children'] ?>">
+                <?php 
+				$imgCatUrl= $tab['cat_img'];
+				if($imgCatUrl){
+					$arr       = explode('/media/', $imgCatUrl);
+                    $catImgUrl = $mediaUrl . $arr[1];
+				?>
+                <span class="ltabs-tab-img">
+                    <img src="<?php echo $catImgUrl; ?>" title="<?php echo __($tab['name_tab']); ?>" alt=""/>
+                </span>
+                <?php } ?>
+				<span
+                        class="ltabs-tab-label">
+						<?php echo __($tab['name_tab']); ?>
+				</span>
+            </li>
+            <?php
+        } ?>
+    </ul>
+</div>

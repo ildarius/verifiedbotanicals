@@ -1,0 +1,123 @@
+.page-footer {
+    color: #000000;
+}
+
+.footer-top {
+    padding: 40px 0 30px;
+	border-top:1px solid #eeeeee;
+	p {
+		font-size:16px;
+	}
+	.logo-footer {
+		margin: 20px 0;
+	}
+}
+
+.menu-footer ul {
+    list-style: none;
+    margin: 0;
+	padding: 0;
+    li {
+		display:inline-block;
+        margin-right: 10px;
+        margin-bottom: 0;
+
+        a {
+            display: block;
+            padding: 5px 0;
+            font-size: 16px;
+            color: #000000;
+        }
+    }
+}
+.footer-bottom address{
+	color:#888888;
+	font-size:16px;
+	margin:3px 0;
+	text-align: right;
+}
+.block-subscribe-footer {
+	background-color:#002222;
+	padding: 20px;
+    .newsletter-content {
+        position: relative;
+		background-color:#fff;
+		display: flex;
+		.input-box {
+			width: 100%;
+		}
+    }
+    #newsletter-footer {
+        height: 50px;
+        padding-right: 70px;
+        padding-left: 20px;
+        border: none;
+        background-color: #fff;
+        .border-radius(25px);
+		font-size: 14px;
+		color: #999999;
+			&:focus{
+				color: #000;
+			}
+		}
+
+    .action-button button {
+        color: #fff ;
+		font-size: 14px;
+        height: 50px;
+        line-height: 50px;
+        padding: 0 35px;
+		letter-spacing: 2px;
+        .box-shadow-none();  
+		.border-radius(0);	
+		text-transform: uppercase;
+		&:hover {
+			background-color:#000;
+		}
+    }
+    
+
+}
+
+.ft-bottom-content {
+	padding: 30px 0 25px;
+}
+
+
+
+.social-block-list ul {
+        font-size: 0;
+		display: flex;
+		justify-content: end;
+        .ul-nostyle();
+		margin: 18px 0;
+        li {
+            display: inline-block;
+            vertical-align: top;
+            margin-left: 40px;
+            font-size: 20px;
+			margin-bottom:0px;
+        }
+
+        li a {
+            display: block;
+            color: #000000;
+            text-align: center;
+            .transition(.1s);
+        }
+    }
+
+/**
+ * Layout boxed
+ */
+
+.layout-boxed {
+    .page-footer,
+    .footer-bottom,
+    .footer-top {
+        margin-left: -15px;
+        margin-right: -15px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}

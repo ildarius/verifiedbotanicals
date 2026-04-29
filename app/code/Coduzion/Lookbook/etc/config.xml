@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * Copyright © Coduzion, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+	<default>
+		<lookbook_configuraiton>
+			<general>
+				<is_enabled>0</is_enabled>
+			</general>
+			<marker>
+				<marker_width>30</marker_width>
+				<marker_height>30</marker_height>
+			</marker>
+			<popover>
+				<font_color>#000000</font_color>
+				<background_color>#ffffff</background_color>
+				<font_size>16</font_size>
+				<opacity>1</opacity>
+			</popover>
+			<slider>
+				<autoplay>1</autoplay>
+				<speed>500</speed>
+				<infinite_loop>1</infinite_loop>
+				<next_previous>1</next_previous>
+				<dots>1</dots>
+			</slider>
+		</lookbook_configuraiton>
+	</default>
+</config>

@@ -1,0 +1,68 @@
+<?php
+$_config = $this->helper('Sm\Themecore\Helper\Data');
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$welcome = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface')->getValue('design/header/welcome');
+
+?>
+
+<div class="header-container header-style-36">
+    <div class="header-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                     <p class="welcome-msg"><?php echo $welcome; ?></p>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="language-currency">
+                        <?php echo $this->getChildHtml("currency"); ?>
+                        <?php echo $this->getChildHtml("store_language"); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-middle">
+        <div class="container">
+            <div class="left-content">
+                <div class="logo-container">
+                    <?php echo $this->getChildHtml("logo"); ?>
+                </div>
+            </div>
+
+            <div class="right-content">
+                <div class="content">
+                    <div class="search-container">
+                        <?php echo $this->getChildHtml("topSearch"); ?>
+                    </div>
+                    <div class="header-block account-block">
+                        <a href="<?php echo $this->getUrl('customer/account') ?>"><?php echo __('Account');?></a>
+
+                        <div class="header-dropdown">
+                            <div class="customer-links" data-move="customer-mobile">
+                                    <?php echo $this->getChildHtml("header.links"); ?>
+                            </div>
+                        </div>
+                    </div>
+                    <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('help-hd36')->toHtml(); ?>
+                    <div class="minicart-header" data-move="minicart-mobile">
+                        <?php echo $this->getChildHtml("minicart"); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-bottom ontop-element">
+        <div class="container">
+            <div class="desktop-menu">
+
+                <div class="horizontal-block">
+                    <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('megamenu-horizontal')->toHtml(); ?>
+                </div>
+                 <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('hotline-hd36')->toHtml(); ?>
+            </div>
+        </div>
+    </div>
+</div>

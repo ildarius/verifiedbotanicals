@@ -1,0 +1,128 @@
+.page-footer {
+    background-color: #111111;
+    color: #999999;
+	padding-top: 50px;
+
+    a {
+        color: #999999;
+		&:hover{
+			color:#fff;
+		}
+    }
+}
+.newsletter-footer {
+	text-align:center;
+	.newsletter-text{
+		font-size:171.42%;
+		color:#fff;
+		margin-bottom: 20px;
+	}
+	.block-subscribe-footer {
+		.newsletter-content {
+			position: relative;
+			max-width: 450px;
+			margin: 0 auto 35px;
+		}
+
+		#newsletter-footer {
+			height: 42px;
+			padding-right: 70px;
+			padding-left: 20px;
+			border: none;
+			background-color: transparent;
+			color: #999999;
+			font-size:114.28%;
+			.border-radius(25px);
+			 border:1px solid #595959;
+			&:focus{
+				color: #fff;
+				border-color:#fff;
+			}
+			
+		}
+
+		.action-button button {
+			background: none !important;
+			color: #fff !important;
+			width: 42px;
+			height: 42px;
+			line-height: 42px;
+			position: absolute;
+			top: 0;
+			right: 10px;
+			padding: 0;
+			.box-shadow-none();
+
+			&:before {
+				.icomoon(e929, 19px);
+			}
+		}
+
+		.action-button button span {
+			display: none;
+		}
+
+	}
+}
+.footer-block {
+    margin: 20px 0 50px;
+
+    .footer-block-title {
+        font-size: 128.57%;
+        color: #fff;
+        font-weight: normal;
+        margin-bottom: 10px;
+		text-transform: capitalize;
+    }
+
+    .links-footer {
+        .ul-nostyle();
+
+        li {
+            margin: 0;
+        }
+
+        li a {
+            display: table; 
+            padding: 6px 0;
+			[class^="icon-"]{
+				font-size:16px;
+				position: relative;
+				top: 2px;
+			}
+        }
+    }
+	ul.contact-info{
+		.ul-nostyle();
+
+        li {
+            margin: 0;
+			padding: 6px 0;
+        }
+	}
+}
+
+
+
+.footer-bottom {
+	padding: 30px 0 28px;
+	border-top:1px solid rgba(255,255,255,0.05);
+	text-align: center;
+    address {
+        margin:0;
+    }
+
+    .payment-footer {
+        text-align: center;
+		margin-bottom: 15px;
+    }
+}
+
+
+/**
+ * Boxed layout
+ */
+.layout-boxed .page-footer {
+    margin: 0 -15px;
+    padding: 0 15px;
+}

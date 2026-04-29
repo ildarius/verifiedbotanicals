@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget class="Sm\AttributesSearch\Block\Widget\AddAttributesSearch" id="add_attributesSearch">
+        <label>Add AttributesSearch</label>
+        <description>Add AttributesSearch</description>
+        <parameters>
+            <parameter name="template" xsi:type="select" required="true" visible="true" sort_order="20">
+                <label translate="true">Template</label>
+                <options>
+                    <option name="default" value="Sm_AttributesSearch::default.phtml">
+                        <label translate="true">Default</label>
+                    </option>
+                </options>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

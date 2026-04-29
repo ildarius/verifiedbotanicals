@@ -1,0 +1,18 @@
+<?php $_product = $block->getProduct(); ?>
+<?php $buttonTitle = __('Buy Now'); ?>
+<button type="button"
+        title="<?php /* @escapeNotVerified */ echo $buttonTitle ?>"
+        class="action primary buynow"
+        id="product-buynow-button">
+    <span><?php /* @escapeNotVerified */ echo $buttonTitle ?></span>
+</button>
+<script type="text/x-magento-init">
+    {
+        "#product-buynow-button": {
+            "catalogBuyNow": {
+                "form": "#product_addtocart_form",
+                "redirectUrl": "<?php echo $this->getUrl('checkout')?>"
+            }
+        }
+    }
+</script>

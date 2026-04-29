@@ -1,0 +1,61 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/**
+ * @var \Magento\Theme\Block\Html\Header\Logo $block
+ */
+$_config    = $this->helper('Sm\Market\Helper\Data');
+$isHomePage = $_config->isHomePage();
+?>
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/**
+ * @var \Magento\Theme\Block\Html\Header\Logo $block
+ */
+$storeName = $block->getThemeName() ? $block->getThemeName() : $block->getLogoAlt();
+/**
+ * @var \Magento\Theme\ViewModel\Block\Html\Header\LogoSizeResolverInterface|null $logoSizeResolver
+ */
+$logoSizeResolver = $block->getLogoSizeResolver();
+$logoWidth        = $logoSizeResolver !== null && $logoSizeResolver->getWidth()
+    ? $logoSizeResolver->getWidth()
+    : $block->getLogoWidth();
+$logoHeight       = $logoSizeResolver !== null && $logoSizeResolver->getHeight()
+    ? $logoSizeResolver->getHeight()
+    : $block->getLogoHeight();
+?>
+
+<?php if ($isHomePage){ ?>
+<h1 class="logo-content">
+    <?php } else { ?>
+    <h2 class="logo-content">
+        <?php } ?>
+
+        <strong>
+            <?= /* @escapeNotVerified */
+            $storeName ?>
+        </strong>
+
+        <a class="logo" href="<?php echo $block->getUrl(''); ?>" title="<?php /* @escapeNotVerified */
+        echo $storeName ?>">
+            <img src="<?= $block->escapeUrl($block->getLogoSrc()) ?>"
+                 title="<?= $block->escapeHtmlAttr($block->getLogoAlt()) ?>"
+                 alt="<?= $block->escapeHtmlAttr($block->getLogoAlt()) ?>"
+                <?= $logoWidth ? 'width="' . $block->escapeHtmlAttr($logoWidth) . '"' : '' ?>
+                <?= $logoHeight ? 'height="' . $block->escapeHtmlAttr($logoHeight) . '"' : '' ?>
+            />
+        </a>
+        <?php if ($isHomePage){ ?>
+</h1>
+<?php } else { ?>
+    </h2>
+<?php } ?>

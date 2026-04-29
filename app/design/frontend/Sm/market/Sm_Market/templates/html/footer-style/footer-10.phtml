@@ -1,0 +1,19 @@
+<?php
+$_config = $this->helper('Sm\Themecore\Helper\Data');
+?>
+
+<div class="footer-style-10">
+    <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-10-content')->toHtml(); ?>
+
+    <div class="footer-bottom">
+        <div class="container">
+            <?php if ($_config->getAdvanced('copyright_group/custom_copyright')) { ?>
+                <address><?php echo $_config->getAdvanced('copyright_group/copyright_content') ?></address>
+            <?php } else { ?>
+                <address><?php echo $this->getChildHtml("copyright"); ?></address>
+            <?php } ?>
+
+            <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('payment-footer-3')->toHtml(); ?>
+        </div>
+    </div>
+</div>

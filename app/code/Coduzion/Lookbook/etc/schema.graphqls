@@ -1,0 +1,20 @@
+# Copyright © Coduzion, Inc. All rights reserved.
+# See COPYING.txt for license details.
+type Query {
+    lookbooks (
+            id: String @doc(description: "Query by id.")
+    ) : Lookbooks @resolver( class: "Coduzion\\Lookbook\\Model\\Resolver\\Lookbooks") @doc(description: "Query by Get Lookbooks Collection.") @cache( cacheIdentity: "Coduzion\\Lookbook\\Model\\Resolver\\Lookbooks\\Identity")
+}
+
+type Lookbooks {
+    name  : String  @doc(description: "Query by name.") 
+    image  : String  @doc(description: "Query by image.") 
+    description  : String  @doc(description: "Query by description.") 
+    creation_time  : String  @doc(description: "Query by creation_time.") 
+    update_time  : String  @doc(description: "Query by update_time.") 
+    status  : String  @doc(description: "Query by status.") 
+}
+
+type StoreConfig {
+    configuration_general_is_enabled  : String  @doc(description: "Query by configuration_general_is_enabled.") 
+}

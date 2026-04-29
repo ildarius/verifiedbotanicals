@@ -1,0 +1,188 @@
+<?xml version="1.0" ?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget class="Sm\ListingTabs\Block\Widget\AddListingTabs" id="add_listing_tabs">
+        <label>Add ListingTabs</label>
+        <description>Add ListingTabs</description>
+        <parameters>
+            <parameter name="template" xsi:type="select" required="true" visible="true">
+                <label translate="true">Template</label>
+                <options>
+                    <option name="default" value="Sm_ListingTabs::default.phtml">
+                        <label translate="true">Default</label>
+                    </option>
+                    <option name="default_cms" value="Sm_ListingTabs::default_cms.phtml">
+                        <label translate="true">Default CMS</label>
+                    </option>
+                    <option name="default_center" value="Sm_ListingTabs::default_center.phtml">
+                        <label translate="true">Default Center</label>
+                    </option>
+                    <option name="default_left" value="Sm_ListingTabs::default_left.phtml">
+                        <label translate="true">Default Left</label>
+                    </option>
+                    <option name="default_v30" value="Sm_ListingTabs::default_v30.phtml">
+                        <label translate="true">Default v30</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="cms_tab" xsi:type="block" visible="true" required="true" >
+                <label translate="true">Block</label>
+                <depends>
+                    <parameter name="template" value="Sm_ListingTabs::default_cms.phtml" />
+                </depends>
+                <block class="Magento\Cms\Block\Adminhtml\Block\Widget\Chooser">
+                    <data>
+                        <item name="button" xsi:type="array">
+                            <item name="open" xsi:type="string" translate="true">Select Block...</item>
+                        </item>
+                    </data>
+                </block>
+            </parameter>
+
+            <parameter name="title" sort_order="10" visible="true" xsi:type="text" required="true">
+                <label>Title</label>
+            </parameter>
+            <parameter name="type_filter"  xsi:type="select" required="true" visible="true" sort_order="20"
+                       source_model="Sm\ListingTabs\Model\Config\Source\ListSource">
+                <label translate="true">Filter Type</label>
+            </parameter>
+            <parameter name="category_tabs"  xsi:type="multiselect" required="true" visible="true" sort_order="30"
+                       source_model="Sm\ListingTabs\Model\Config\Source\ListCategory">
+                <label translate="true">Select Categories Tabs</label>
+                <depends>
+                    <parameter name="type_filter" value="categories" />
+                </depends>
+            </parameter>
+            <parameter name="category_select"  xsi:type="multiselect" required="true" visible="true" sort_order="30"
+                       source_model="Sm\ListingTabs\Model\Config\Source\ListCategory">
+                <label translate="true">Select Categories</label>
+                <depends>
+                    <parameter name="type_filter" value="fieldproducts" />
+                </depends>
+            </parameter>
+            <parameter name="field_tabs"  xsi:type="multiselect" required="true" visible="true" sort_order="24"
+                       source_model="Sm\ListingTabs\Model\Config\Source\ListField">
+                <label translate="true">Select Fields</label>
+                <depends>
+                    <parameter name="type_filter" value="fieldproducts" />
+                </depends>
+            </parameter>
+            <parameter name="type_show"  xsi:type="select" required="true" visible="true" sort_order="11"
+                       source_model="Sm\ListingTabs\Model\Config\Source\LoadMore">
+                <label translate="true">Load more</label>
+            </parameter>
+            <parameter name="limitation"  xsi:type="text" required="true" visible="true" sort_order="40">
+                <label translate="true">Product Limitation</label>
+            </parameter>
+            <parameter name="row_items" xsi:type="select"  visible="false">
+                <label translate="true">Row Items</label>
+                <options>
+                    <option name="default" value="1" selected="true">
+                        <label translate="true">Default</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="data-autoplay" xsi:type="select" visible="false">
+                <options>
+                    <option name="data-autoplay" value="false" selected="true">
+                        <label translate="true">data-autoplay</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="data-autoplayhoverpause" xsi:type="select" visible="false">
+                <options>
+                    <option name="data-autoplayhoverpause" value="true" selected="true">
+                        <label translate="true">data-autoplayhoverpause</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="data-loop" xsi:type="select" visible="false">
+                <options>
+                    <option name="data-loop" value="true" selected="true">
+                        <label translate="true">data-loop</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="data-center" xsi:type="select" visible="false">
+                <options>
+                    <option name="data-center" value="false" selected="true">
+                        <label translate="true">data-center</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="data-margin" xsi:type="select" visible="false">
+                <options>
+                    <option name="data-margin" value="30" selected="true">
+                        <label translate="true">data-margin</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="data-stagepadding" xsi:type="select" visible="false">
+                <options>
+                    <option name="data-stagepadding" value="0" selected="true">
+                        <label translate="true">data-stagepadding</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="data-nav" xsi:type="select" visible="false">
+                <options>
+                    <option name="data-nav" value="true" selected="true">
+                        <label translate="true">data-nav</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="data-dots" xsi:type="select" visible="false">
+                <options>
+                    <option name="data-dots" value="false" selected="true">
+                        <label translate="true">data-dots</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="data-mousedrag" xsi:type="select" visible="false">
+                <options>
+                    <option name="data-mousedrag" value="true" selected="true">
+                        <label translate="true">data-mousedrag</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="data-touchdrag" xsi:type="select" visible="false">
+                <options>
+                    <option name="data-touchdrag" value="true" selected="true">
+                        <label translate="true">data-touchdrag</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="data-screen0" xsi:type="select" required="true" visible="true"
+                       source_model="Sm\ListingTabs\Model\Config\Source\DataScreen">
+                    <label translate="true">data-screen0</label>
+            </parameter>
+            <parameter name="data-screen481" xsi:type="select" required="true" visible="true"
+                       source_model="Sm\ListingTabs\Model\Config\Source\DataScreen">
+                    <label translate="true">data-screen481</label>
+            </parameter>
+            <parameter name="data-screen768" xsi:type="select" required="true" visible="true"
+                       source_model="Sm\ListingTabs\Model\Config\Source\DataScreen">
+                    <label translate="true">data-screen768</label>
+            </parameter>
+            <parameter name="data-screen992" xsi:type="select" required="true" visible="true"
+                       source_model="Sm\ListingTabs\Model\Config\Source\DataScreen">
+                    <label translate="true">data-screen992</label>
+            </parameter>
+            <parameter name="data-screen1200" xsi:type="select" required="true" visible="true"
+                       source_model="Sm\ListingTabs\Model\Config\Source\DataScreen">
+                    <label translate="true">data-screen1200</label>
+            </parameter>
+            <parameter name="data-screen1441" xsi:type="select" required="true" visible="true"
+                       source_model="Sm\ListingTabs\Model\Config\Source\DataScreen">
+                    <label translate="true">data-screen1441</label>
+            </parameter>
+            <parameter name="data-screen1681" xsi:type="select" required="true" visible="true"
+                       source_model="Sm\ListingTabs\Model\Config\Source\DataScreen">
+                    <label translate="true">data-screen1681</label>
+            </parameter>
+            <parameter name="data-screen1920" xsi:type="select" required="true" visible="true"
+                       source_model="Sm\ListingTabs\Model\Config\Source\DataScreen">
+                    <label translate="true">data-screen1920</label>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

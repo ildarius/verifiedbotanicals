@@ -1,0 +1,53 @@
+<?php
+$_config         = $this->helper('Sm\Themecore\Helper\Data');
+$mediaSrc        = $_config->getMediaUrl();
+$pageLoadingIcon = $_config->getAdvanced('lazyload_group/page_loading_icon');
+?>
+
+<div class="body-loading">
+    <?php if ($pageLoadingIcon) { ?>
+        <div class="page-image-loading">
+            <img src="<?php echo $mediaSrc . "page_loading/" . $pageLoadingIcon ?>"
+                 alt="<?php echo __('Loading...') ?>"/>
+        </div>
+    <?php } else { ?>
+        <div class="lds-ripple">
+            <div></div>
+            <div></div>
+        </div>
+    <?php } ?>
+
+</div>
+
+<style>
+    body {
+        overflow-y: hidden;
+    }
+
+    .body-loading {
+        opacity: 1;
+        visibility: visible;
+        transition: .2s;
+        -webkit-transition: .2s;
+    }
+
+    body.image-loaded {
+        overflow-y: auto;
+    }
+
+    body.image-loaded .body-loading {
+        opacity: 0;
+        visibility: hidden;
+    }
+</style>
+
+<script type="text/javascript">
+    require([
+        'jquery',
+        'domReady!'
+    ], function ($) {
+        $("body img").load(function () {
+            $("body").addClass("image-loaded");
+        });
+    });
+</script>

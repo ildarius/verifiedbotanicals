@@ -1,0 +1,94 @@
+<?xml version="1.0" ?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget class="Sm\FilterProducts\Block\Widget\AddFilterProducts" id="add_filter_products">
+    <label>Add FilterProducts</label>
+        <description>Add FilterProducts</description>
+        <parameters>
+            <parameter name="template" xsi:type="select" required="true" visible="true" sort_order="20" >
+                <label translate="true">Template</label>
+                <options>
+                    <option name="list" value="Sm_FilterProducts::list.phtml">
+                        <label translate="true">List</label>
+                    </option>
+                    <option name="grid-slider" value="Sm_FilterProducts::grid-slider.phtml">
+                        <label translate="true">Grid Slider</label>
+                    </option>
+                    <option name="deal-slider" value="Sm_FilterProducts::deal-slider.phtml">
+                        <label translate="true">Deal Slider</label>
+                    </option>
+                    <option name="list-buttons" value="Sm_FilterProducts::list-buttons.phtml">
+                        <label translate="true">List Buttons</label>
+                    </option>
+                    <option name="default-group" value="Sm_FilterProducts::default-group.phtml">
+                        <label translate="true">Default Group</label>
+                    </option>
+                    <option name="list-slider" value="Sm_FilterProducts::list-slider.phtml">
+                        <label translate="true">List Slider</label>
+                    </option>
+                    <option name="grid-default" value="Sm_FilterProducts::grid-default.phtml">
+                        <label translate="true">Grid Default</label>
+                    </option>
+                    <option name="grid-slider-deal" value="Sm_FilterProducts::grid-slider-deal.phtml">
+                        <label translate="true">Grid Slider Deal</label>
+                    </option>
+                    <option name="thumb-deals" value="Sm_FilterProducts::thumb-deals.phtml">
+                        <label translate="true">Thumb Deals</label>
+                    </option>
+                    <option name="grid-slider2" value="Sm_FilterProducts::grid-slider2.phtml">
+                        <label translate="true">Grid Slider2</label>
+                    </option>
+                    <option name="grid-slider3" value="Sm_FilterProducts::grid-slider3.phtml">
+                        <label translate="true">Grid Slider3</label>
+                    </option>
+                    <option name="grid-slider4" value="Sm_FilterProducts::grid-slider4.phtml">
+                        <label translate="true">Grid Slider4</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="row_items" xsi:type="text"  visible="true" sort_order="24">
+                <label translate="true">Row Items</label>
+                <depends>
+                    <parameter name="template" value="Sm_FilterProducts::list-slider.phtml" />
+                </depends>
+            </parameter>
+            <parameter name="title_module" sort_order="21" visible="true" xsi:type="text" >
+                <label>Title</label>
+            </parameter>
+            <parameter name="product_source" sort_order="25" visible="true" xsi:type="select" required="true"
+                       source_model="Sm\FilterProducts\Model\Config\Source\TypeFilter">
+                <label>Product Source</label>
+            </parameter>
+            <parameter name="description" xsi:type="block" visible="true" required="true" sort_order="26" >
+                <label translate="true">Description</label>
+                <depends>
+                    <parameter name="template" value="Sm_FilterProducts::grid-slider2.phtml" />
+                </depends>
+                <block class="Magento\Cms\Block\Adminhtml\Block\Widget\Chooser">
+                    <data>
+                        <item name="button" xsi:type="array">
+                            <item name="open" xsi:type="string" translate="true">Select Block...</item>
+                        </item>
+                    </data>
+                </block>
+            </parameter>
+
+            <parameter name="date_to" sort_order="27" visible="true" xsi:type="text" required="true">
+                <label>Date To (mm/dd/yy)</label>
+                <depends>
+                    <parameter name="product_source" value="countdown_products"/>
+                </depends>
+            </parameter>
+            <parameter name="select_category"  xsi:type="multiselect" visible="true" sort_order="30"
+                       source_model="Sm\FilterProducts\Model\Config\Source\ListCategory">
+                <label translate="true">Select Categories</label>
+            </parameter>
+            <parameter name="product_limitation"  xsi:type="text" required="true" visible="true" sort_order="40">
+                <label translate="true">Product Limitation</label>
+            </parameter>
+            <parameter name="display_countdown"  xsi:type="select" required="true" visible="true" sort_order="50"
+                       source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Show Countdown Timer</label>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

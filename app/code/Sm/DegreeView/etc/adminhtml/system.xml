@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="magentech" translate="label" sortOrder="1">
+            <label>Magentech.com</label>
+        </tab>
+        <section id="degreeview" translate="label" type="text" sortOrder="170" showInDefault="1" showInWebsite="1"
+                 showInStore="1">
+            <class>separator-top</class>
+            <label>SM 360 Degree View</label>
+            <tab>magentech</tab>
+            <resource>Sm_DegreeView::config_degreeview</resource>
+
+            <group id="general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>General Settings</label>
+
+                <field id="enable_degreeview" translate="label" type="select" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="autoplay" translate="label" type="select" sortOrder="15" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Autoplay</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enable_degreeview">1</field>
+                    </depends>
+                </field>
+
+                <field id="enable_zoom" translate="label" type="select" sortOrder="20" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Show Zoom Button</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enable_degreeview">1</field>
+                    </depends>
+                </field>
+
+                <field id="enable_fullscreen" translate="label" type="select" sortOrder="20" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Show Fullscreen Button</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enable_degreeview">1</field>
+                    </depends>
+                </field>
+
+                <field id="mouse_style" translate="label" type="select" sortOrder="20" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Input</label>
+                    <source_model>Sm\DegreeView\Model\Config\Source\Input</source_model>
+                    <depends>
+                        <field id="enable_degreeview">1</field>
+                    </depends>
+                </field>
+
+                <field id="default_frame_width" translate="label" type="text" sortOrder="25" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Default Frame Width</label>
+                    <comment>Example: 800</comment>
+                    <validate>validate-greater-than-zero integer required-entry validate-number</validate>
+                </field>
+
+                <field id="default_frame_height" translate="label" type="text" sortOrder="30" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Default Frame Width</label>
+                    <comment>Example: 800</comment>
+                    <validate>validate-greater-than-zero integer required-entry validate-number</validate>
+                </field>
+            </group>
+
+            <group id="group_author" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Module Information</label>
+                <field id="author" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label><![CDATA[<p>Author: <a target="_blank" title="Magentech" href="http://www.magentech.com">Magentech</a></p>
+											<p>Version: 1.0.0</p>
+											<p>Userguide: <a target="_blank" title="Usergide" href="http://documentation.ariestheme.com/sm-360view/">Userguide</a></p>
+											<p>Support: <a target="_blank" href="https://www.magentech.com/submit-a-ticket/submit-ticket">Submit a Ticket</a></p>
+								]]></label>
+                    <frontend_model>Magento\Config\Block\System\Config\Form\Field\Heading</frontend_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

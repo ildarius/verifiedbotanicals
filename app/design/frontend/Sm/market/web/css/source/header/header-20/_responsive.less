@@ -1,0 +1,42 @@
+@media (min-width: 1200px) {
+    .ontop-element.menu-on-top {
+        .desktop-menu .vertical-menu-block {
+            .vertical-menu-content {
+                display: none !important;
+            }
+
+            &:hover {
+                .vertical-menu-content {
+                    display: block !important;
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    .header-middle .horizontal-menu .sm_megamenu_menu {
+        padding-left: 10px !important;
+    }
+
+    .header-container .minicart-wrapper {
+        padding-left: 10px;
+    }
+
+    .header-middle .horizontal-block .sm_megamenu_menu > li > a {
+        padding-left: 7px;
+        padding-right: 7px;
+    }
+
+    .header-middle .sm_megamenu_menu {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+}
+
+@media (max-width: 1199px) {
+    .header-container .language-currency .dropdown-switcher {
+        left: auto;
+        right: -1px;
+    }
+}

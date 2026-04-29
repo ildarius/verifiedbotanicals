@@ -1,0 +1,206 @@
+& when (@media-common = true) {
+    html, body {
+        height: unset !important;
+    }
+
+    .selection-summary {
+        display: none;
+    }
+
+    .bundle-options-container .product-options-wrapper {
+        width: 100% !important;
+    }
+
+    .product-add-form .product-options-wrapper .field .control {
+        width: 100% !important;
+    }
+
+    .fieldset-bundle-options {
+        .field.choice {
+            display: flex;
+            align-items: center;
+
+            input {
+                margin-top: 0 !important;
+            }
+
+            .label {
+                margin-left: 10px !important;
+            }
+        }
+
+        img.thumb-bundle {
+            display: inline-block;
+            margin-right: 10px;
+            width: 40px;
+            border: 1px solid #e5e5e5;
+            vertical-align: middle;
+        }
+
+        .view-detail {
+            margin: 0 10px;
+            position: relative;
+            top: -1px;
+        }
+    }
+
+    .child-bundle-items {
+        &.no-quickview .bundle-quickview {
+            display: none !important;
+        }
+    }
+
+    .child-bundle-items .item {
+        display: inline-block;
+        vertical-align: top;
+        margin: 10px 10px 0 0;
+
+        &.no-select {
+            .bundle-quickview {
+                display: none;
+            }
+        }
+
+        a {
+            display: block;
+        }
+
+        .bundle-image {
+            border: 1px solid #e5e5e5;
+            padding: 1px;
+
+            & + .quickview-handler {
+                margin-top: 5px;
+            }
+
+        }
+
+        .bundle-image[href]:not([href="javascript:void(0)"]):hover {
+            border-color: #666;
+        }
+
+        a[href="javascript:void(0)"] {
+            pointer-events: none;
+        }
+
+        img {
+            vertical-align: top;
+        }
+
+        .quickview-handler {
+            margin: 0;
+        }
+    }
+
+    .sm-bundle-modal .modal-inner-wrap {
+        max-width: 1024px;
+    }
+
+    .config-bundle-container {
+        &:after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        .bundle-product-info {
+            float: left;
+            width: 30%;
+            text-align: center;
+        }
+
+        .bundle-product-config {
+            float: right;
+            width: calc(~'70% - 30px');
+        }
+
+        .bundle.items {
+            display: table;
+            width: 100%;
+
+            > li {
+                display: table-row;
+
+                &:nth-child(2n + 1) {
+                    background-color: #f5f5f5;
+                }
+
+                > strong,
+                > div {
+                    display: table-cell;
+                    vertical-align: top;
+                    padding: 10px;
+                }
+            }
+
+        }
+
+        .bundle-image {
+            border: 1px solid #e5e5e5;
+            background-color: #fff;
+            padding: 1px;
+            margin-bottom: 15px;
+
+            img {
+                vertical-align: top;
+            }
+        }
+
+        .price-as-configured .price {
+            font-size: 2.4rem;
+            font-weight: 700;
+        }
+
+        .bundle-top {
+            padding-top: 15px;
+            margin-bottom: 20px;
+
+            &:after {
+                content: "";
+                display: block;
+                clear: both;
+            }
+
+            .bundle-name {
+                float: left;
+            }
+
+            .title {
+                margin: 0 0 10px;
+            }
+
+            .bundle-button {
+                float: right;
+            }
+
+            .bundle-addto .action {
+                margin-right: 20px;
+            }
+        }
+    }
+
+    .view-config-bundle .action.primary {
+        text-align: center;
+    }
+
+    .config-bundle-container .product-reviews-summary .reviews-actions {
+        margin-top: 8px;
+    }
+}
+
+@media (max-width: 767px) {
+    .config-bundle-container .bundle-product-info,
+    .config-bundle-container .bundle-product-config {
+        width: 100%;
+        float: none;
+    }
+
+    .config-bundle-container .bundle-top .bundle-name {
+        float: none;
+        margin-bottom: 20px;
+    }
+
+    .config-bundle-container .bundle-top .bundle-button {
+        float: none;
+    }
+}

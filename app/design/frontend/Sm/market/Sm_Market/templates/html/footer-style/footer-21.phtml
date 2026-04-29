@@ -1,0 +1,32 @@
+<?php
+$_config = $this->helper('Sm\Themecore\Helper\Data');
+?>
+
+<div class="footer-style-21">
+    <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-21-content')->toHtml(); ?>
+
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="ft-bottom-content">
+                <div class="row">
+                    <div class="col-xl-5">
+                        <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-address')->toHtml(); ?>
+
+                        <?php if ($_config->getAdvanced('copyright_group/custom_copyright')) { ?>
+                            <address><?php echo $_config->getAdvanced('copyright_group/copyright_content') ?></address>
+                        <?php } else { ?>
+                            <address><?php echo $this->getChildHtml("copyright"); ?></address>
+                        <?php } ?>
+                    </div>
+
+                    <div class="col-xl-7">
+                        <div class="subscribe-social">
+                            <?php echo $this->getLayout()->createBlock("Magento\Newsletter\Block\Subscribe")->setTemplate("subscribe-footer.phtml")->toHtml() ?>
+                            <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('social-block')->toHtml(); ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <market>
+            <theme_layout>
+                <direction_rtl>0</direction_rtl>
+                <layout_header>
+                    <header_style>header-1</header_style>
+                </layout_header>
+                <layout_footer>
+                    <footer_style>footer-1</footer_style>
+                </layout_footer>
+                <layout_product>
+                    <product_style>product-1</product_style>
+                </layout_product>
+            </theme_layout>
+            <theme_install>
+                <overwrite_blocks>0</overwrite_blocks>
+                <overwrite_pages>0</overwrite_pages>
+            </theme_install>
+            <mobile_theme_layout>
+                <home_page_mobile>home-demo-01</home_page_mobile>
+                <logomobile_width>100</logomobile_width>
+                <logomobile_height>35</logomobile_height>
+                <logo_mobile>default/logo.png</logo_mobile>
+            </mobile_theme_layout>
+            <product_information>
+                <buy_sm_theme>
+                    <show_buytheme>1</show_buytheme>
+                    <buy_theme_name>BUY SM MARKET</buy_theme_name>
+                    <buy_theme_url>
+                        https://themeforest.net/item/market-premium-responsive-magento-2-19-store-theme/8945695
+                    </buy_theme_url>
+                </buy_sm_theme>
+            </product_information>
+        </market>
+    </default>
+</config>

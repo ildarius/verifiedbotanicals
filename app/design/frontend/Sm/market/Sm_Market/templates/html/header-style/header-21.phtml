@@ -1,0 +1,62 @@
+<?php
+$_config = $this->helper('Sm\Themecore\Helper\Data');
+?>
+
+<div class="header-container header-style-21">
+    <div class="header-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="language-currency">
+                        <?php echo $this->getChildHtml("store_language"); ?>
+                        <?php echo $this->getChildHtml("currency"); ?>
+                    </div>
+                </div>
+
+                <div class="col-lg-9">
+                    <div class="header-top-r">
+                        <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('location-link-header')->toHtml(); ?>
+
+                        <div class="customer-links" data-move="customer-mobile">
+                            <?php echo $this->getChildHtml("header.links"); ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-middle ontop-element">
+        <div class="container">
+            <div class="l-content">
+                <div class="logo-container">
+                    <?php echo $this->getChildHtml("logo"); ?>
+                </div>
+            </div>
+
+            <div class="r-content">
+                <div class="content">
+                    <div class="desktop-menu">
+                        <div class="horizontal-block">
+                            <?php
+                            if ($_config->getGeneral('navigation_group/menu_style') == 'megamenu') {
+                                echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('megamenu-horizontal')->toHtml();
+                            } else {
+                                echo $this->getChildHtml("horizontal-css");
+                            }
+                            ?>
+                        </div>
+                    </div>
+
+                    <div class="search-container">
+                        <?php echo $this->getChildHtml("topSearch"); ?>
+                    </div>
+
+                    <div class="minicart-header" data-move="minicart-mobile">
+                        <?php echo $this->getChildHtml("minicart"); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

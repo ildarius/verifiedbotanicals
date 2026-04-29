@@ -1,0 +1,155 @@
+
+.footer-content {
+    background-color: #282828;
+    color: #ffffff;
+	padding: 75px 0 50px;
+}
+
+.ft-newsletter {
+    margin-top: -60px;
+    padding: 38px 40px;
+    .border-radius(10px);
+}
+
+.block-subscribe-footer .newsletter-content {
+    display: block;
+    width: 100%;
+
+    .input-box input{
+        width: 100%;
+	    height: 50px;
+        border-color: #fff;
+		.border-radius(10px);
+		color:#222222;
+		margin-bottom:10px;
+		text-align:center;
+		
+    }
+
+    button {
+        background-color: #fff;
+        height: 50px;
+        line-height: 50px;
+        padding: 0 20px;
+        text-transform: uppercase;
+        .border-radius(10px);
+		display:block;
+		width:100%;
+		font-size:1.4rem;
+		font-weight:bold;
+		&:hover {
+			background-color:#ff7345 !important;
+		}
+    }
+}
+
+
+
+.footer-block {
+    margin-bottom: 32px;
+
+    .footer-block-title {
+        font-size:2.4rem;
+		font-weight:bold;
+        color: #fff;
+        margin-bottom: 25px;
+    }
+
+    .ft-links,.ft-contact{
+        .ul-nostyle();
+
+        a {
+            color: #ffffff;
+			font-size:1.4rem;
+        }
+		li {
+           &.phone  {
+				font-size:2.4rem;
+				font-weight:bold;
+		   }
+        }
+    }
+
+    
+
+    .social-block-list ul {
+        .ul-nostyle();
+        .clearfix();
+
+        li {
+            float: right;
+            margin-left: 10px;
+            margin-bottom: 5px;
+			&.fb a{
+				background-color:#3a559f;
+			}
+			&.tw a{
+				background-color:#1da1f2;
+			}
+			&.pi a{
+				background-color:#7b7b86;
+			}
+			&.yo a{
+				background-color:#ff0101;
+			}
+        }
+
+        li a {
+            display: block;
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            text-align: center;
+            line-height: 50px;
+            font-size: 20px;
+            .border-radius(50%);
+            .transition(.3s);
+			&:hover {
+				.transform(translateY(10px));
+			}
+        }
+    }
+
+    .apps-footer {
+        .ul-nostyle();
+        .clearfix();
+
+        li {
+            float: right;
+            margin-left: 5px;
+        }
+    }
+}
+
+.footer-bottom {
+    background-color: #333333;
+    color: #ffffff;
+    padding: 15px 0 10px;
+	a {
+		color: #ffffff;
+	}
+    address {
+        margin: 0;
+		font-size:1.3rem;
+		text-align: left;
+		a {
+			color: #ffffff;
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+    }
+
+    ul {
+		.ul-nostyle();
+		li {
+			display: inline-block;
+			margin: 0 0 5px 20px;
+			a{
+				font-size:1.3rem;
+				text-transform:uppercase;
+			}
+		}
+	}
+}

@@ -1,0 +1,40 @@
+<?php
+$_config        = $this->helper('Sm\Themecore\Helper\Data');
+$positionSticky = "";
+if ($_config->getProductDetail('sticky_addtocart_tabs/position_bottom')) {
+    $positionSticky = "sticky-bottom";
+}
+?>
+
+<div class="sticky-product-action <?php echo $positionSticky; ?>">
+    <?php echo $this->getChildHtml("sticky.addtocart"); ?>
+    <?php echo $this->getChildHtml("product.info.details.sticky"); ?>
+</div>
+
+<script>
+    require([
+        'jquery'
+    ], function ($) {
+
+        /**
+         * Show/hidden sticky
+         */
+
+        $(function () {
+            $(window).scroll(function () {
+                var tabOffsetTopScroll = 400;
+                if ($(this).scrollTop() > tabOffsetTopScroll) {
+                    $("body").addClass("show-sticky-product");
+                } else {
+                    $("body").removeClass("show-sticky-product");
+                }
+
+                <?php if($positionSticky){?>
+                if ($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
+                    $("body").removeClass("show-sticky-product");
+                }
+                <?php } ?>
+            });
+        });
+    });
+</script>

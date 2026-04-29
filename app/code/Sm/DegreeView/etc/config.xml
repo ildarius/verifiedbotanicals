@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <degreeview>
+            <general>
+                <enable_degreeview>1</enable_degreeview>
+                <autoplay>1</autoplay>
+                <enable_zoom>1</enable_zoom>
+                <enable_fullscreen>1</enable_fullscreen>
+                <mouse_style>drag</mouse_style>
+                <default_frame_width>800</default_frame_width>
+                <default_frame_height>800</default_frame_height>
+            </general>
+        </degreeview>
+    </default>
+</config>

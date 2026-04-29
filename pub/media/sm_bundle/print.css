@@ -1,0 +1,56 @@
+.bundle-addto,
+.bundle-button,
+.bundle-review,
+.config-bundle-container .page.messages,
+.message-bundle {
+    display: none;
+}
+
+.config-bundle-container .bundle-image {
+    border: 1px solid #e5e5e5;
+    text-align: center;
+}
+
+.config-bundle-container .bundle-image img {
+    width: auto;
+    max-height: 300px;
+}
+
+.config-bundle-container .price-as-configured {
+    margin-bottom: 40px;
+}
+
+.config-bundle-container .price-as-configured .price {
+    font-size: 2.4rem;
+    font-weight: 700;
+}
+
+.config-bundle-container .bundle.items {
+    display: table;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid #e5e5e5;
+}
+
+.config-bundle-container .bundle.items > li {
+    display: table-row;
+}
+
+.config-bundle-container .bundle.items > li > strong,
+.config-bundle-container .bundle.items > li > div {
+    display: table-cell;
+    vertical-align: top;
+    padding: 10px 0;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.selection-summary {
+    display: block;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    color: #222;
+}

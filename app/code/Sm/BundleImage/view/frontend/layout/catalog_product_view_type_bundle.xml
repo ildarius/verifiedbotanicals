@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="before.body.end">
+            <block class="Magento\Framework\View\Element\Template" name="bundle.no.selected"
+                   template="Sm_BundleImage::attr-data.phtml"/>
+
+            <block class="Magento\Catalog\Block\Product\View" name="bundle.modal.config"
+                   template="Sm_BundleImage::modal-config.phtml" ifconfig="bundleimage/general/show_viewconfig_button">
+                <container name="sm.bundle.messages" htmlTag="div" htmlClass="page messages">
+                    <block class="Magento\Framework\View\Element\Template" name="sm.ajax.message.placeholder"
+                           template="Magento_Theme::html/messages.phtml"/>
+                    <block class="Magento\Framework\View\Element\Messages" name="sm.messages" as="sm.messages"
+                           template="Magento_Theme::messages.phtml"/>
+                </container>
+
+
+                <block class="Magento\Catalog\Block\Product\View\AddTo\Compare" name="modal.addto.compare.bundle"
+                       template="Magento_Catalog::product/view/addto/compare.phtml">
+                    <arguments>
+                        <argument name="addToCompareViewModel" xsi:type="object">
+                            Magento\Catalog\ViewModel\Product\Checker\AddToCompareAvailability
+                        </argument>
+                    </arguments>
+                </block>
+
+                <block class="Magento\Wishlist\Block\Catalog\Product\View\AddTo\Wishlist"
+                       name="modal.addto.wishlist.bundle"
+                       template="Magento_Wishlist::catalog/product/view/addto/wishlist.phtml"/>
+
+                <block class="Magento\Theme\Block\Html\Title" name="bundle.custom.title"
+                       template="Sm_BundleImage::title.phtml"/>
+
+                <block class="Magento\Catalog\Block\Product\View" name="modal.bundle.review"
+                       template="Magento_Catalog::product/view/review.phtml"/>
+            </block>
+        </referenceContainer>
+
+        <referenceBlock name="product.info.addtocart.bundle">
+            <block class="Magento\Framework\View\Element\Template" name="view.config.bundle"
+                   template="Sm_BundleImage::view-config-bundle.phtml"
+                   ifconfig="bundleimage/general/show_viewconfig_button"/>
+        </referenceBlock>
+    </body>
+</page>

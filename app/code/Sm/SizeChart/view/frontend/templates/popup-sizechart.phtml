@@ -1,0 +1,27 @@
+<?php
+$_config     = $this->helper('Sm\SizeChart\Helper\Data');
+$_product    = $block->getProduct();
+$sizeChartId = $_product->getData('sm_sizechart');
+$title       = $_config->getConfig('general/title_sizechart');
+$sizeCode    = $_config->getConfig('general/sizechart_code');
+$icon        = $_config->getConfig('general/sizechart_icon');
+$mediaPath   = $_config->getMediaUrl();
+?>
+
+<div id="sm-sizechart-container" style="display: none;" data-size-code="<?php echo $sizeCode; ?>">
+    <div class="button-sizechart-container" id="button-sizechart-append">
+        <a href="#" id="sizechart-btn">
+            <?php if ($icon) {
+                $iconpath = $mediaPath . "sm_sizechart/" . $icon;
+                ?>
+                <img class="sm-size-chart-icon" src="<?php echo $iconpath ?>" alt="<?php echo $title; ?>"/>
+            <?php } ?>
+
+            <?php echo $title; ?>
+        </a>
+    </div>
+
+    <div id="modal-sizechart" style="display:none;">
+        <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($sizeChartId)->toHtml(); ?>
+    </div>
+</div>

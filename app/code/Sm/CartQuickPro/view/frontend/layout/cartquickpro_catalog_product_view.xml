@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!--
+/**
+ *
+ * SM CartQuickPro - Version 1.0.0
+ * Copyright (c) 2017 YouTech Company. All Rights Reserved.
+ * @license - Copyrighted Commercial Software
+ * Author: YouTech Company
+ * Websites: http://www.magentech.com
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="catalog_product_view"/>
+    <body>
+        <referenceContainer name="header.container" remove="true"/>
+        <referenceBlock name="catalog.product.related" remove="true"/>
+        <referenceBlock name="product.info.upsell" remove="true"/>
+        <referenceBlock name="header.container" remove="true"/>
+        <referenceBlock name="footer-container" remove="true"/>
+        <referenceBlock name="page.top" remove="true"/>
+        <referenceBlock name="copyright" remove="true"/>
+        <referenceBlock name="authentication-popup" remove="true"/>
+        <referenceBlock name="product.info.details" remove="true"/>
+
+        <referenceBlock name="header.content" remove="true"/>
+        <referenceBlock name="theme_header" remove="true"/>
+        <referenceBlock name="footer.content" remove="true"/>
+        <referenceBlock name="catalog.product.related.theme" remove="true"/>
+        <referenceBlock name="product.info.upsell.theme" remove="true"/>
+        <referenceBlock name="sidebar.main" remove="true"/>
+        <referenceBlock name="sidebar.additional" remove="true"/>
+        <referenceBlock name="recentlyviewed.footer" remove="true"/>
+        <referenceBlock name="form.subscribe.popup" remove="true"/>
+        <referenceBlock name="sm.sizechart" remove="true"/>
+        <referenceBlock name="page.loading" remove="true"/>
+        <referenceBlock name="view.config.bundle" remove="true"/>
+        <referenceBlock name="product.info.buynow" remove="true"/>
+        <referenceBlock name="product.info.buynow.additional" remove="true"/>
+        <referenceBlock name="livechat-demo" remove="true"/>
+
+        <referenceBlock name="aw_sbb.product.brand_products.content_top" remove="true"/>
+        <referenceBlock name="aw_sbb.product.brand_products.before_related_products" remove="true"/>
+        <referenceBlock name="aw_sbb.product.brand_products.after_related_products" remove="true"/>
+        <referenceBlock name="aw_sbb.product.brand_products.content_bottom" remove="true"/>
+        <referenceBlock name="aw_sbb.product.before_short_description" remove="true"/>
+        <referenceBlock name="aw_sbb.product.after_short_description" remove="true"/>
+
+    </body>
+</page>

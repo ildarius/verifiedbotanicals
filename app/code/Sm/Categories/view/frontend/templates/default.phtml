@@ -1,0 +1,70 @@
+<?php
+/*------------------------------------------------------------------------
+# SM Categories - Version 3.2.0
+# Copyright (c) 2016 YouTech Company. All Rights Reserved.
+# @license - Copyrighted Commercial Software
+# Author: YouTech Company
+# Websites: http://www.magentech.com
+-------------------------------------------------------------------------*/
+
+$list = $this->_getList();
+?>
+
+<div class="block block-categories">
+    <div class="block-title">
+        <strong><?php echo $this->_getConfig('title_module'); ?></strong>
+    </div>
+
+    <div class="block-content">
+        <?php if (!empty($list)) { ?>
+            <div class="cat-wrap">
+                <?php foreach ($list as $item) { ?>
+                    <div class="item">
+                        <div class="content-box">
+                            <?php if ($item['cat_image']) { ?>
+                                <div class="image-cat">
+                                    <a href="<?php echo $item['url'] ?>" title="<?php echo $item['name'] ?>">
+                                        <img src="<?php echo $item['cat_image']; ?>"
+                                             alt="<?php echo $item['name'] ?>"/>
+                                    </a>
+                                </div>
+                            <?php } ?>
+
+                            <div class="child-cat">
+                                <div class="cat-title">
+                                    <a href="<?php echo $item['url'] ?>" title="<?php echo $item['name'] ?>">
+                                        <?php echo $item['name']; ?>
+                                    </a>
+                                </div>
+
+                                <ul class="sub-cats">
+                                    <?php
+                                    if (isset($item['children_info']) && !empty($item['children_info'])) {
+                                        $children_cats = $item['children_info'];
+                                        foreach ($children_cats as $children) { ?>
+                                            <li class="child-title">
+                                                <a href="<?php echo $children['url'] ?>"
+                                                   title="<?php echo $children['name'] ?>">
+                                                    <?php echo $children['name']; ?>
+                                                    <span class="count">(<?php echo $children['product_count']; ?>)</span>
+                                                </a>
+                                            </li>
+                                            <?php
+                                        }
+                                    } ?>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                <?php } ?>
+            </div>
+        <?php } else { ?>
+            <div class="message info empty">
+                <div><?php /* @escapeNotVerified */
+                    echo __('We can\'t find categories matching the selection.') ?></div>
+            </div>
+        <?php } ?>
+    </div>
+</div>
+
+

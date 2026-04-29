@@ -1,0 +1,25 @@
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php /** @var $block \Magento\Swatches\Block\Product\Renderer\Configurable */
+$tag_id = $this->getData('tagid');
+ ?>
+<div class=" swatch-opt-<?php /* @escapeNotVerified */ echo $block->getProduct()->getId() ?> <?php echo $tag_id ?>"></div>
+<script>
+    require(["jquery", "jquery/ui", "Magento_Swatches/js/swatch-renderer"], function ($) {
+      if ($('.swatch-opt-<?php  echo $block->getProduct()->getId() ?> .swatch-attribute' ,$('#<?php echo $tag_id ?>')).length <= 0) { 
+        $('.swatch-opt-<?php /* @escapeNotVerified */ echo $block->getProduct()->getId() ?>' ,$('#<?php echo $tag_id ?>')).SwatchRenderer({
+            selectorProduct: '#<?php echo $tag_id ?> .product-item-details',
+            onlySwatches: true,
+            enableControlLabel: false,
+            numberToShow: <?php /* @escapeNotVerified */ echo $block->getNumberSwatchesPerProduct(); ?>,
+            jsonConfig: <?php /* @escapeNotVerified */ echo $block->getJsonConfig(); ?>,
+            jsonSwatchConfig: <?php /* @escapeNotVerified */ echo $block->getJsonSwatchConfig(); ?>,
+            mediaCallback: '<?php /* @escapeNotVerified */ echo $block->getMediaCallback() ?>'
+        });
+     }
+    });
+</script>

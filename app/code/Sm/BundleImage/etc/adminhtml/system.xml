@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="magentech" translate="label" sortOrder="1">
+            <label>Magentech.com</label>
+        </tab>
+        <section id="bundleimage" translate="label" type="text" sortOrder="170" showInDefault="1" showInWebsite="1"
+                 showInStore="1">
+            <class>separator-top</class>
+            <label>SM Bundle Image</label>
+            <tab>magentech</tab>
+            <resource>Sm_BundleImage::config_bundleimage</resource>
+
+            <group id="general" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>General Settings</label>
+
+                <field id="show_quickview" translate="label" type="select" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Show Quickview</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>
+                        <![CDATA[
+                            Show Quickview Button for children product.<br>
+                            Require module <a target="_blank" href="https://www.magentech.com/magento-themes/magento-extensions/item/760-sm-quickcart-pro-optimizing-and-responsive-magento-21x-module">SM_CartQuickPro</a>. <b>Select Type</b>: Both or
+                            Quick View
+						]]>
+                    </comment>
+                </field>
+
+                <field id="show_viewconfig_button" translate="label" type="select" sortOrder="13" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Show Button / Popup View Configuration</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="show_addtocart" translate="label" type="select" sortOrder="15" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Show Add to Cart</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="show_viewconfig_button">1</field>
+                    </depends>
+                    <comment>Show Add to Cart in Popup View Configuration</comment>
+                </field>
+
+                <field id="show_addtowishlist" translate="label" type="select" sortOrder="20" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Show Add to Wishlist</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="show_viewconfig_button">1</field>
+                    </depends>
+                    <comment>Show Add to Wishlist in Popup View Configuration</comment>
+                </field>
+
+                <field id="show_addtocompare" translate="label" type="select" sortOrder="25" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Show Add to Compare</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="show_viewconfig_button">1</field>
+                    </depends>
+                    <comment>Show Add to Compare in Popup View Configuration</comment>
+                </field>
+
+                <field id="show_rating" translate="label" type="select" sortOrder="30" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Show Rating</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="show_viewconfig_button">1</field>
+                    </depends>
+                    <comment>Show Rating in Popup View Configuration</comment>
+                </field>
+
+                <field id="show_print" translate="label" type="select" sortOrder="35" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Show Print</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="show_viewconfig_button">1</field>
+                    </depends>
+                    <comment>Show Print in Popup View Configuration</comment>
+                </field>
+
+                <field id="no_select_image" translate="label" type="image" sortOrder="40" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>No Select Image</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Image</backend_model>
+                    <upload_dir config="system/filesystem/media" scope_info="1">sm_bundle</upload_dir>
+                    <base_url type="media" scope_info="1">sm_bundle</base_url>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

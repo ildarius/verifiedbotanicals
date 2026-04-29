@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../Store/etc/config.xsd">
+    <default>
+        <sizechart>
+            <general>
+                <enable>1</enable>
+                <title_sizechart>Size Chart</title_sizechart>
+                <sizechart_code>size</sizechart_code>
+                <size_chart_position>options</size_chart_position>
+                <sizechart_icon>default/size-chart-icon.png</sizechart_icon>
+            </general>
+        </sizechart>
+    </default>
+</config>

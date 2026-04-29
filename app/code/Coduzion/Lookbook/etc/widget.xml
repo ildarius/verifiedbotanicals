@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © Coduzion, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget id="lookbooks_list" class="Coduzion\Lookbook\Block\Widget\LookbooksList" is_email_compatible="true"
+            placeholder_image="Coduzion_Lookbook::images/lookbook_list.png" ttl="86400">
+        <label translate="true">Coduzion Lookbooks List</label>
+        <description translate="true">List of Lookbooks</description>
+        <parameters>
+            <parameter name="title" xsi:type="text" required="false" visible="true">
+                <label translate="true">Title</label>
+            </parameter>
+            <parameter name="added_time" xsi:type="text" required="false" visible="false">
+                <label translate="true">Widget Added Timestamp</label>
+            </parameter>
+            <parameter name="template" xsi:type="select" required="true" visible="true">
+                <label translate="true">Template</label>
+                <options>
+                    <option name="default" value="Coduzion_Lookbook::lookbook/widget/content/grid.phtml" selected="true">
+                        <label translate="true">Simple Grid - 3 Columns (Recommended Image Size: 409X296 PX)</label>
+                    </option>
+                    <option name="slider"
+                            value="Coduzion_Lookbook::lookbook/widget/content/lookbook_slider.phtml">
+                        <label translate="true">Lookbooks Slider (Recommended Image Size: 291X296 PX)</label>
+                    </option>
+                    <option name="2_col_slider"
+                            value="Coduzion_Lookbook::lookbook/widget/content/2col_lookbook_slider.phtml">
+                        <label translate="true">2 Columns Slider (Recommended Image Size: 576X296 PX)</label>
+                    </option>
+                    <option name="2_col" value="Coduzion_Lookbook::lookbook/widget/content/2columns-grid.phtml">
+                        <label translate="true">2 Columns Grid (Recommended Image Size: 616X376 PX)</label>
+                    </option>
+                    <option name="3_col_slider"
+                            value="Coduzion_Lookbook::lookbook/widget/content/3col_lookbook_slider.phtml">
+                        <label translate="true">3 Columns Slider (Recommended Image Size: 396X346 PX)</label>
+                    </option>
+                    <option name="3_col"
+                            value="Coduzion_Lookbook::lookbook/widget/content/3columns-grid.phtml">
+                        <label translate="true">3 Columns Grid (Recommended Image Size: 409X296 PX)</label>
+                    </option>
+                    <option name="banner"
+                            value="Coduzion_Lookbook::lookbook/widget/content/banner.phtml">
+                        <label translate="true">Banner Template (Recommended Image Size: 896X456 PX)</label>
+                    </option>
+                    <option name="bannerslider"
+                            value="Coduzion_Lookbook::lookbook/widget/content/banner_slider.phtml">
+                        <label translate="true">Banner Slider (Recommended Image Size: 1215X516 PX)</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="condition" xsi:type="conditions" visible="true" required="true" sort_order="10" class="Coduzion\Lookbook\Block\Lookbooks\Widget\Conditions">
+                <label translate="true">Conditions</label>
+            </parameter>
+        </parameters>
+        <containers>
+            <container name="content">
+                <template name="default" value="default" />
+                <template name="slider" value="slider" />
+                <template name="2_col_slider" value="2_col_slider" />
+                <template name="2_col" value="2_col" />
+                <template name="3_col_slider" value="3_col_slider" />
+                <template name="3_col" value="3_col" />
+                <template name="banner" value="banner" />
+                <template name="bannerslider" value="bannerslider" />
+            </container>
+            <container name="content.top">
+                <template name="default" value="default" />
+                <template name="slider" value="slider" />
+                <template name="2_col_slider" value="2_col_slider" />
+                <template name="2_col" value="2_col" />
+                <template name="3_col_slider" value="3_col_slider" />
+                <template name="3_col" value="3_col" />
+                <template name="banner" value="banner" />
+                <template name="bannerslider" value="bannerslider" />
+            </container>
+            <container name="content.bottom">
+                <template name="default" value="default" />
+                <template name="slider" value="slider" />
+                <template name="2_col_slider" value="2_col_slider" />
+                <template name="2_col" value="2_col" />
+                <template name="3_col_slider" value="3_col_slider" />
+                <template name="3_col" value="3_col" />
+                <template name="banner" value="banner" />
+                <template name="bannerslider" value="bannerslider" />
+            </container>
+        </containers>
+    </widget>
+</widgets>

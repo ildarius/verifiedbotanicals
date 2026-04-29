@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Sm_BackEnd::Magentech" title="Magentech" module="Sm_BackEnd" sortOrder="200"
+             resource="Sm_BackEnd::Magentech"/>
+        <add id="Sm_Backend::Marketplace" title="Magentech Marketplace" module="Sm_BackEnd"
+             action="adminhtml/system_config/edit/section/sm_marketplace/" sortOrder="300"
+             parent="Sm_BackEnd::Magentech"
+             resource="Sm_BackEnd::Marketplace"/>
+    </menu>
+</config>

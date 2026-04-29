@@ -1,0 +1,9 @@
+<?php
+/** @var Magento\Customer\Block\Account\Customer $block */
+?>
+<?php if ($block->customerLoggedIn()): ?>
+    <li><a href="<?= $this->getBaseUrl() . 'customer/account/edit' ?>"><?= __('Account Information') ?></a></li>
+    <li><a href="<?= $this->getBaseUrl() . 'sales/order/history' ?>"><?= __('My Orders') ?></a></li>
+    <li><a href="<?= $this->getBaseUrl() . 'customer/address' ?>"><?= __('Address Book') ?></a></li>
+    <li><a href="<?= $this->getBaseUrl() . 'review/customer' ?>"><?= __('My Product Reviews') ?></a></li>
+<?php endif; ?>

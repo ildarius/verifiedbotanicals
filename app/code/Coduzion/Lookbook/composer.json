@@ -1,0 +1,23 @@
+{
+    "name": "coduzion/module-lookbook",
+    "description": "Coduzion Lookbook",
+    "type": "magento2-module",
+    "license": "OSL-3.0",
+    "version": "1.0.1",
+    "authors": [
+        {
+            "name": "Coduzion",
+            "email": "info@coduzion.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Coduzion\\Lookbook\\": ""
+        }
+    }
+}

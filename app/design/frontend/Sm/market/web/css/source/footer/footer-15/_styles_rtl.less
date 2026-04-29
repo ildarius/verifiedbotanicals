@@ -1,0 +1,121 @@
+.page-footer {
+    background-color: #111;
+    color: #aaa;
+
+    a {
+        color: #aaa;
+    }
+}
+
+.footer-top {
+    padding: 50px 0;
+}
+
+.menu-footer {
+    text-align: center;
+    list-style: none;
+    margin: 0;
+    padding: 7px 0 0;
+
+    li {
+        display: inline-block;
+        vertical-align: top;
+        margin: 0 20px;
+
+        a {
+            display: block;
+            padding: 10px 0;
+            font-size: 107.69%;
+            color: #fff;
+        }
+    }
+}
+
+.block-subscribe-footer {
+    .newsletter-content {
+        position: relative;
+    }
+
+    #newsletter-footer {
+        height: 50px;
+        padding-left: 70px;
+        padding-right: 20px;
+        border: none;
+        background-color: #292929;
+        color: #888;
+        .border-radius(25px);
+    }
+
+    .action-button button {
+        background: none !important;
+        color: #fff !important;
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        position: absolute;
+        top: 0;
+        left: 10px;
+        padding: 0;
+        .box-shadow-none();
+
+        &:before {
+            .icomoon(e955, 24px);
+        }
+    }
+
+    .action-button button span {
+        display: none;
+    }
+
+}
+
+.ft-bottom-content {
+    border-top: 1px solid #292929;
+    padding-top: 30px;
+    padding-bottom: 15px;
+
+    .social-block-list ul {
+        font-size: 0;
+        float: left;
+        .ul-nostyle();
+
+        li {
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+
+        li a {
+            display: block;
+            width: 44px;
+            height: 44px;
+            line-height: 42px;
+            background-color: #1a1a1a;
+            border: 1px solid #444;
+            color: #fff;
+            text-align: center;
+            .border-radius(50%);
+            .transition(.1s);
+        }
+    }
+}
+
+.cms-index-index .page-footer {
+    .box-shadow-none();
+}
+
+/**
+ * Layout boxed
+ */
+
+.layout-boxed {
+    .page-footer,
+    .footer-bottom,
+    .footer-top {
+        margin-right: -15px;
+        margin-left: -15px;
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+}

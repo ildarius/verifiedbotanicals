@@ -1,0 +1,63 @@
+<?php
+$_config = $this->helper('Sm\Themecore\Helper\Data');
+?>
+
+<div class="header-container header-style-10">
+    <div class="header-cms">
+        <div class="container">
+            <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('header-services')->toHtml(); ?>
+        </div>
+    </div>
+
+    <div class="header-top">
+        <div class="container">
+            <div class="header-top-l">
+                <div class="language-currency">
+                    <?php echo $this->getChildHtml("store_language"); ?>
+                    <?php echo $this->getChildHtml("currency"); ?>
+                </div>
+
+                <div class="search-container">
+                    <?php echo $this->getChildHtml("topSearch"); ?>
+                </div>
+            </div>
+
+            <div class="header-top-r">
+                <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('location-link-header')->toHtml(); ?>
+
+                <div class="customer-links" data-move="customer-mobile">
+                    <?php echo $this->getChildHtml("header.links"); ?>
+                </div>
+
+                <div class="minicart-header" data-move="minicart-mobile">
+                    <?php echo $this->getChildHtml("minicart"); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-middle">
+        <div class="container">
+            <div class="logo-container">
+                <?php echo $this->getChildHtml("logo"); ?>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-bottom ontop-element">
+        <div class="container">
+            <div class="desktop-menu">
+                <div class="horizontal-block">
+                    <?php
+                    if ($_config->getGeneral('navigation_group/menu_style') == 'megamenu') {
+                        echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('megamenu-horizontal')->toHtml();
+                    } else {
+                        echo $this->getChildHtml("horizontal-css");
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

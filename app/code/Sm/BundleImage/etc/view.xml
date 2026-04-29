@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright © Magento, Inc. All rights reserved.
+* See COPYING.txt for license details.
+*/
+-->
+<view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Config/etc/view.xsd">
+    <media>
+        <images module="Magento_Catalog">
+            <image id="sm_bundle_option_small" type="small_image">
+                <width>90</width>
+                <height>90</height>
+            </image>
+
+            <image id="bundle_image_popup_custom" type="small_image">
+                <width>400</width>
+                <height>400</height>
+            </image>
+        </images>
+    </media>
+</view>

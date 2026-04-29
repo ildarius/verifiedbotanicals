@@ -1,0 +1,41 @@
+<?php
+$_config                 = $this->helper('Sm\Themecore\Helper\Data');
+$store_id                = $_config->getStoreId();
+$_css_load_file          = $this->helper('Sm\Themecore\Helper\Cssconfig');
+$bodyFont                = $_config->getGeneral('bodyfont_group/body_font');
+$enableElementGoogleFont = $_config->getGeneral('element_googlefont_group/use_element_googlefont');
+$enableStoreCode         = $_config->getCoreConfig('web/url/use_store');
+$baseURL                 = $_config->getCoreConfig('web/unsecure/base_url');
+?>
+<?php if ($bodyFont == 'google_font') {
+    echo $_config->getGeneral('bodyfont_group/body_googlefont_link');
+} ?>
+
+<?php if ($enableElementGoogleFont) {
+    echo $_config->getGeneral('element_googlefont_group/element_googlefont_link');
+} ?>
+
+<link rel="stylesheet" type="text/css" media="all" href="<?php echo $_css_load_file->getSettingsFile() ?>"/>
+
+<?php if ($enableStoreCode) { ?>
+    <script type="text/javascript">
+        require([
+            'jquery',
+            'domReady!'
+        ], function ($) {
+            var linkStore = $('a[data-sm-store]');
+            var dataLink;
+            var dataPath = "";
+
+            $(linkStore).each(function () {
+                dataLink = $(this).attr('data-sm-link');
+
+                if (typeof dataLink !== "undefined") {
+                    dataPath = dataLink;
+                }
+
+                $(this).attr('href', "<?php echo $baseURL;?>" + $(this).attr('data-sm-store') + "/" + dataPath);
+            });
+        });
+    </script>
+<?php } ?>

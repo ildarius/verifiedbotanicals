@@ -1,0 +1,88 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * Copyright © Coduzion, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<preference for="Coduzion\Lookbook\Api\LookbookManagementInterface" type="Coduzion\Lookbook\Model\LookbookManagement"/>
+	<preference for="Coduzion\Lookbook\Api\LookbookRepositoryInterface" type="Coduzion\Lookbook\Model\LookbookRepository"/>
+	<preference for="Coduzion\Lookbook\Api\Data\LookbookInterface" type="Coduzion\Lookbook\Model\Lookbook"/>
+	<preference for="Coduzion\Lookbook\Api\Data\LookbookSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+	<virtualType name="Coduzion\Lookbook\Model\ResourceModel\Lookbook\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+		<arguments>
+			<argument name="mainTable" xsi:type="string">coduzion_lookbook_items</argument>
+			<argument name="resourceModel" xsi:type="string">Coduzion\Lookbook\Model\ResourceModel\Lookbook\Collection</argument>
+		</arguments>
+	</virtualType>
+	<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+		<arguments>
+			<argument name="collections" xsi:type="array">
+				<item name="coduzion_lookbook_lookbook_listing_data_source" xsi:type="string">Coduzion\Lookbook\Model\ResourceModel\Lookbook\Grid\Collection</item>
+			</argument>
+		</arguments>
+	</type>
+
+
+    <virtualType name="LookGridFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="LookGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Coduzion\looKbook\Model\ResourceModel\Lookbook\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">LookGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+    <type name="Coduzion\Lookbook\Model\ResourceModel\Lookbook\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">coduzion_lookbook_items</argument>
+            <argument name="eventPrefix" xsi:type="string">coduzion_lookbook_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">lookbook_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Coduzion\looKbook\Model\ResourceModel\Lookbook</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="lookbook_entity_listing_data_source" xsi:type="string">Coduzion\Lookbook\Model\ResourceModel\Lookbook\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+
+	<virtualType name="Magento\Catalog\CategoryImageUpload" type="Magento\Catalog\Model\ImageUploader">
+        <arguments>
+            <argument name="baseTmpPath" xsi:type="string">catalog/tmp/category</argument>
+            <argument name="basePath" xsi:type="string">catalog/category</argument>
+            <argument name="allowedExtensions" xsi:type="array">
+                <item name="jpg" xsi:type="string">jpg</item>
+                <item name="jpeg" xsi:type="string">jpeg</item>
+                <item name="gif" xsi:type="string">gif</item>
+                <item name="png" xsi:type="string">png</item>
+            </argument>
+            <argument name="allowedMimeTypes" xsi:type="array">
+                <item name="jpg" xsi:type="string">image/jpg</item>
+                <item name="jpeg" xsi:type="string">image/jpeg</item>
+                <item name="gif" xsi:type="string">image/gif</item>
+                <item name="png" xsi:type="string">image/png</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Catalog\Controller\Adminhtml\Category\Image\Upload">
+        <arguments>
+            <argument name="imageUploader" xsi:type="object">Magento\Catalog\CategoryImageUpload</argument>
+        </arguments>
+    </type>
+
+    <!-- /** Add plugin to save the unique time for widget added_time */ -->
+    <type name="Magento\Widget\Controller\Adminhtml\Widget\LoadOptions">
+        <plugin name="coduzion_lookbook_widget_loadoption_plugion"
+                type="Coduzion\Lookbook\Plugin\Controller\Adminhtml\Widget\LoadOptionsPlugin" sortOrder="10" />
+    </type>
+</config>

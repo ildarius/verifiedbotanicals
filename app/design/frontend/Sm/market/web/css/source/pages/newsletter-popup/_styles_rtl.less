@@ -1,0 +1,116 @@
+/**
+ * Newsletter popup
+ */
+
+.fancybox-skin {
+    .border-radius(0);
+}
+
+.w-newsletter {
+    width: 880px;
+    padding: 0;
+    background: url("../images/bg-newsletter-rtl.jpg") no-repeat center center;
+}
+
+.w-newsletter .subscribe-bottom .checker {
+    position: relative;
+    top: -1px;
+}
+
+.newsletter-info {
+    margin-right: 445px;
+    padding: 62px 20px 62px;
+    text-align: center;
+}
+
+.newsletter-info {
+    .top-newsletter {
+        font-size: 183.33%;
+        font-weight: 600;
+        color: #2b375d;
+    }
+
+    .bottom-newsletter {
+        font-size: 300%;
+        color: #2b375d;
+        line-height: 1;
+        font-weight: 700;
+        margin: 5px 0 20px;
+    }
+
+    .news-description {
+        color: #2b375d;
+    }
+}
+
+.form-newsletter-popup {
+    position: relative;
+
+    .input-text {
+        background-color: #fff;
+        border: none !important;
+        height: 42px;
+        padding: 0 10px 0 125px;
+        .box-shadow(0 2px 5px rgba(0, 0, 0, .2));
+    }
+
+    .action-newsletter button {
+        height: 34px;
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        font-weight: 700;
+        text-transform: uppercase;
+        padding: 0 20px;
+        .border-radius(0);
+    }
+}
+
+.social-popup {
+    padding-top: 30px;
+
+    ul {
+        .ul-nostyle();
+    }
+
+    ul li {
+        display: inline-block;
+        vertical-align: top;
+        margin: 0 3px;
+    }
+
+    ul li a {
+        display: block;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        background-color: #fff;
+        color: #495678;
+        text-align: center;
+        font-size: 16px;
+        .box-shadow(0 2px 5px rgba(0, 0, 0, .2));
+        .border-radius(2px);
+        .transition(.1s);
+    }
+}
+
+@media (max-width: 1023px) {
+    .w-newsletter {
+        width: 100%;
+
+        .newsletter-info {
+            margin-right: 250px;
+        }
+    }
+}
+
+@media (max-width: 640px) {
+    .w-newsletter {
+        width: 100%;
+        background-size: cover;
+
+        .newsletter-info {
+            margin-right: 0;
+        }
+    }
+}

@@ -1,0 +1,181 @@
+<?php
+/**
+ * Copyright © Coduzion, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php
+    $lookbookId = $block->getRequest()->getParam('lookbook_id');
+    $lookbook = $block->getLook($lookbookId);
+    $lookbook_id = $lookbook['lookbook_id'];
+    $markers = $lookbook['markers'];
+    $lookImgUrl = $block->getMediaUrl() . $lookbook['lookbook_image'];
+    $markerImageUrl =  $block->getMarkerImage();
+    $markerWidth = $block->getMarkerWidth();
+    $markerHeight = $block->getMarkerHeight();
+    $fontColor = $block->getMarkerFontColor();
+    $backgroundColor = $block->getMarkerBgColor();
+    $fontSize = $block->getFontSize();
+    $opacity = $block->getOpacity();
+    // @codingStandardsIgnoreStart
+    $dataurl = $this->getUrl('lookbook/assignproducts/index');
+    // @codingStandardsIgnoreEnd
+?>
+
+<div class="button" style="text-align:right;">
+    <button class="coords action-secondary" type="button" >
+        <span><?= $block->escapeHtml(__("Save Markers")); ?></span>
+    </button>
+</div>
+<div class="lookbook_image"  id="wrapper" >
+    <img id="lb_image" 
+         src="<?= $block->escapeUrl($lookImgUrl); ?>" 
+         class="pin" easypin-id="lookbook_<?= /* @noEscape */ $lookbook_id; ?>">
+</div>
+<div class="easy-modal"  style="display:none;" modal-position="free">
+    <div>
+        <h3><?= $block->escapeHtml(__("Add Markers Information")) ?></h3>
+        <div class="easy-modal-section-1">
+             <label for="apply_type"><?= /* @noEscape */ __('What to Show') ?></label>
+                <select name="apply_type" id="apply_type">
+                    <option value="products"><?= /* @noEscape */ __('Products') ?></option>
+                    <option value="custom"><?= /* @noEscape */ __('Custom') ?></option>
+                </select>
+        </div>
+        <div class="product-fields">
+            <div class="input-product-box-easymodal">
+                <label for="apply_type"><?= /* @noEscape */ __('Product') ?></label>
+                <input class="select_product" name="product_id" type="text" value="" readonly="1" style="width: 50%;">
+                    <button type="button" 
+                            class="load-product-grid" 
+                            id="select-products-link"
+                            data-url="<?= /* @noEscape */ $dataurl; ?>" 
+                            data-lookbookid="<?= /* @noEscape */ $lookbookId; ?>"
+                >Select product</button>
+            </div>
+            <input name="content" type="text" id="content" value="" />
+        </div> 
+        <div class="save-marker-btn">
+            <input type="button" value="Save Marker!" class="easy-submit">
+        </div>
+    </div>
+</div>
+<div id="product-grid-container" style="display: none;">
+    <?php // @codingStandardsIgnoreStart ?>
+    <?php
+        echo $this->getLayout()
+                ->createBlock('Coduzion\Lookbook\Block\Adminhtml\Lookbook\AssignProducts')
+                ->setTemplate('Coduzion_Lookbook::catalog/category/edit/assign_products.phtml')
+                ->toHtml(); 
+                ?>
+    <?php // @codingStandardsIgnoreEnd ?>
+
+</div>
+<?php // @codingStandardsIgnoreStart ?>
+<div style="display:none;" width="130" shadow="false" easypin-tpl popover>
+    <popover>
+        <div style="width:100%;text-align:center;">{[content]}</div>
+    </popover>
+    <marker>
+        <div style="width:<?= /* @noEscape */ $markerWidth ?>px;height:<?= /* @noEscape */ $markerHeight ?>px;">
+            <img src="<?= /* @noEscape */ $markerImageUrl; ?>" width="<?= /* @noEscape */ $markerWidth ?>" height="<?= /* @noEscape */ $markerHeight ?>">
+        </div>
+    </marker>
+</div>
+<?php // @codingStandardsIgnoreEnd ?>
+<input type="hidden" name="markers" id="markers" value='<?= /* @noEscape */ $markers; ?>' >
+
+<?php // @codingStandardsIgnoreStart ?>
+<script type="text/javascript">
+require(['jquery', 'jquery/ui'], function ($) {
+    $('#content').hide();
+    $(document).on('change', '#apply_type', function () {
+        var selectedValue = $('#apply_type').val();
+            if (selectedValue === 'products') {
+                $('.input-product-box-easymodal').show();
+                $('#content').hide();
+            } else {
+                $('.input-product-box-easymodal').hide();
+                $('#content').show();
+            }
+    });
+});
+</script>
+<script type="text/javascript">
+    require([
+        'jquery',
+        'jquery/ui',
+        'Coduzion_Lookbook/js/easing',
+        'Coduzion_Lookbook/js/easypin'
+    ], function ($) {
+        $(document).ready(function () {
+            <?php if ($markers != '') { ?>
+                var $instance = $('.pin').easypin({
+                    init: '<?= /* @noEscape */ $markers; ?>',
+                    markerWidth: <?= $markerWidth ? $markerWidth : 32 ?>,
+                    markerHeight: <?= $markerHeight ? $markerWidth : 32 ?>,
+                    markerSrc: '<?= $block->escapeUrl($markerImageUrl); ?>',
+                    editSrc: '<?= $block->escapeUrl($block->getViewFileUrl('Coduzion_Lookbook::images/edit.png')); ?>',
+                    deleteSrc: '<?= $block->escapeUrl($block->getViewFileUrl('Coduzion_Lookbook::images/remove.png')); ?>',
+                    limit: '',
+                    modalWidth: 200,
+                    responsive: true,
+                    popoverStyle: {
+                        'background-color': '<?= /* @noEscape */ $backgroundColor; ?>',
+                        'color': '<?= /* @noEscape */ $fontColor; ?>',
+                        'font-size': '<?= /* @noEscape */ $fontSize; ?>',
+                        'opacity': '<?= /* @noEscape */ $opacity; ?>'
+
+                    },
+                    drop: function (x, y, element) {
+                        $(".coords").trigger("click");
+                    },
+                    drag: function (x, y, element) {
+                        $(".coords").trigger("click");
+                    },
+                    done: function (element) {
+                        return true;
+                    }
+
+                });
+            <?php } else { ?>
+                var $instance = $('.pin').easypin({
+                    markerWidth: <?= $markerWidth ? $markerWidth : 32 ?>,
+                    markerHeight: <?= $markerHeight ? $markerHeight : 32 ?>,
+                    markerSrc: '<?= $block->escapeUrl($markerImageUrl); ?>',
+                    editSrc: '<?= $block->escapeUrl($block->getViewFileUrl('Coduzion_Lookbook::images/edit.png')); ?>',
+                    deleteSrc: '<?= $block->escapeUrl($block->getViewFileUrl('Coduzion_Lookbook::images/remove.png')); ?>',
+                    limit: '',
+                    modalWidth: 200,
+                    responsive: true,
+                    popoverStyle: {
+                        'background-color': '<?= /* @noEscape */ $backgroundColor; ?>',
+                        'color': '<?= /* @noEscape */ $fontColor; ?>',
+                        'font-size': '<?= /* @noEscape */ $fontSize; ?>',
+                        'opacity': '<?= /* @noEscape */ $opacity; ?>'
+                    },
+                    drop: function (x, y, element) {
+                        $(".coords").trigger("click");
+                    },
+                    drag: function (x, y, element) {
+                        $(".coords").trigger("click");
+                    },
+                    done: function (element) {
+                        $(".coords").trigger("click");
+                        return true;
+                    }
+                });
+            <?php } ?>
+            $instance.easypin.event("get.coordinates", function ($instance, data, params) {
+                $('#markers').val(data);
+            });
+            $(".coords").click(function (e) {
+                $instance.easypin.fire("get.coordinates", {}, function (data) {
+                    return JSON.stringify(data);
+                });
+            });
+        });
+    });
+</script>
+
+<?php // @codingStandardsIgnoreEnd ?>

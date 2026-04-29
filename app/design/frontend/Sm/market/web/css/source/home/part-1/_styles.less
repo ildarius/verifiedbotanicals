@@ -1,0 +1,357 @@
+.slidershow {
+    margin-bottom: 20px;
+}
+
+.slidershow-type-1 {
+    .owl-theme .owl-nav {
+        margin: 0;
+    }
+
+    .owl-theme .owl-nav [class*='owl-'] {
+        background-color: #000;
+        margin: -25px 0 0;
+        padding: 0;
+        width: 30px;
+        height: 50px;
+        line-height: 50px;
+        opacity: .7;
+        position: absolute;
+        top: 50%;
+        z-index: 25;
+        .border-radius(0);
+        .transition(.1s);
+
+        &:before {
+            font-size: 20px;
+        }
+
+        &.owl-next {
+            right: 0;
+        }
+
+        &.owl-prev {
+            left: 0;
+        }
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+
+    .owl-theme .owl-dots {
+        position: absolute;
+        bottom: 10px;
+        left: 0;
+        right: 0;
+
+        span {
+            width: 14px;
+            height: 14px;
+            background-color: #fff;
+            .box-shadow(0 0 10px rgba(0, 0, 0, 0.2));
+            .transition(.1s);
+        }
+    }
+}
+
+.top-home {
+    margin-left: 300px;
+    .clearfix();
+
+    .right-banner {
+        float: right;
+        width: 260px;
+        margin-bottom: 10px;
+    }
+
+    .slidershow {
+        float: left;
+        width: calc(~'100% - 270px');
+    }
+
+    .banner-image {
+        margin-bottom: 10px;
+    }
+}
+
+.top-home-search {
+    padding: 15px 0;
+
+    ul {
+        .ul-nostyle();
+        .clearfix();
+    }
+
+    ul li {
+        float: left;
+        margin: 0 8px 0 0;
+
+        a {
+            color: #666;
+        }
+
+        &:not(:last-child):after {
+            content: ",";
+        }
+
+        &:first-child {
+            color: #222;
+
+            &:after {
+                display: none;
+            }
+        }
+    }
+}
+
+/**
+ * Home services
+ */
+
+.home-services {
+    clear: both;
+    border: 1px solid #e5e5e5;
+
+    ul {
+        display: flex;
+        flex-wrap: wrap;
+        .ul-nostyle();
+    }
+
+    ul li {
+        margin: 0;
+        width: 33.3333333333%;
+        padding: 30px 0;
+    }
+
+    ul li:not(:last-child) a {
+        border-right: 1px solid #e5e5e5;
+    }
+
+    ul li a {
+        display: block;
+        padding: 0 25px;
+        .clearfix();
+        .transition(.1s);
+    }
+
+    ul li span {
+        display: block;
+    }
+
+    .service-icon {
+        width: 60px;
+        float: left;
+    }
+
+    .service-info {
+        margin-left: 80px;
+        font-size: 107.69%;
+        padding-top: 8px;
+    }
+}
+
+/**
+ * Hot categories
+ */
+
+.hot-categories {
+    .block-title {
+        border-bottom: 1px solid #e5e5e5;
+        text-align: center;
+        margin-bottom: 30px;
+        color: #222;
+        font-size: 138.461%;
+
+        strong {
+            display: inline-block;
+            padding-bottom: 6px;
+            margin-bottom: -1px;
+        }
+    }
+
+    .item {
+        width: 25%;
+    }
+
+    .cat-title {
+        font-size: 107.69%;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+
+        a {
+            color: #222;
+        }
+    }
+
+    .sub-cats li {
+        margin: 0 !important;
+    }
+
+    .sub-cats li a {
+        display: inline-block;
+        padding: 3px 0;
+    }
+
+    .sub-cats li a:before {
+        content: "";
+        display: inline-block;
+        vertical-align: middle;
+        width: 4px;
+        height: 4px;
+        background-color: #999;
+        margin-right: 3px;
+        position: relative;
+        top: -1px;
+    }
+
+    .btn-view {
+        display: none;
+    }
+}
+
+.home-collection,
+.tabs-product {
+    .block-title {
+        font-size: 138.461%;
+        color: #222;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+    }
+
+    .block-content {
+        border: 1px solid #e5e5e5;
+    }
+}
+
+/**
+ * Home collections
+ */
+
+.home-collection {
+    .block-content {
+        background-color: #fafafa;
+
+        > div {
+            margin: -1px;
+        }
+    }
+
+    .owl-carousel .owl-item img {
+        width: auto;
+        display: unset;
+    }
+
+    .item {
+        text-align: center;
+    }
+
+    .item a {
+        border: 1px solid transparent;
+        display: block;
+        padding: 20px 10px 20px;
+
+        strong {
+            display: block;
+            font-weight: 400;
+            padding-top: 10px;
+            font-size: 107.69%;
+        }
+
+        &:hover {
+            background-color: #fff;
+        }
+    }
+
+    .owl-theme .owl-nav {
+        margin: 0;
+        position: absolute;
+        top: -44px;
+        right: 0;
+    }
+}
+
+.tabs-product,
+.home-collection {
+    .owl-theme .owl-nav {
+        margin: 0;
+    }
+
+    .owl-theme .owl-nav [class*='owl-'] {
+        margin: 0;
+        padding: 0;
+        width: 26px;
+        height: 34px;
+        line-height: 32px;
+        background-color: #fff;
+        border: 1px solid #e5e5e5;
+        color: #888;
+        .border-radius(0);
+        .transition(.1s);
+
+        &:before {
+            font-size: 18px;
+        }
+
+        &.owl-next {
+            border-left: none;
+        }
+
+        &.owl-prev {
+            border-right: none;
+        }
+    }
+}
+
+/**
+ * Tabs product
+ */
+
+.tabs-product {
+    .sm-listing-tabs {
+        margin-bottom: 0;
+    }
+
+    .sm-listing-tabs.slider .products.wrapper.products-grid .product-items {
+        margin: 0;
+    }
+
+    .sm-listing-tabs.slider .products.wrapper.products-grid.one-row .product-items .product-item {
+        margin-bottom: 0;
+    }
+
+    .sm-listing-tabs.slider .products.wrapper.products-grid.multi-row .product-items .product-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .sm-listing-tabs.slider .products.wrapper.products-grid.one-row .product-items .owl-stage {
+        display: flex;
+
+        .product-item,
+        .item-row {
+            height: 100%;
+        }
+    }
+
+    .sm-listing-tabs .ltabs-wrap .ltabs-tabs-container {
+        margin-bottom: 0;
+        position: absolute;
+        top: -35px;
+        right: 80px;
+
+        .ltabs-tabs li {
+            text-transform: uppercase;
+            height: 35px;
+            border-bottom: 1px solid transparent !important;
+            font-weight: 400;
+            margin-right: 25px;
+        }
+    }
+
+    .owl-theme .owl-nav {
+        margin: 0;
+        position: absolute;
+        top: -44px;
+        right: -1px;
+    }
+}

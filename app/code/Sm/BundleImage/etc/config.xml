@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <bundleimage>
+            <general>
+                <show_quickview>0</show_quickview>
+                <show_addtocart>1</show_addtocart>
+                <show_addtowishlist>1</show_addtowishlist>
+                <show_addtocompare>1</show_addtocompare>
+                <show_rating>1</show_rating>
+                <show_viewconfig_button>1</show_viewconfig_button>
+                <show_print>1</show_print>
+                <no_select_image></no_select_image>
+            </general>
+        </bundleimage>
+    </default>
+</config>

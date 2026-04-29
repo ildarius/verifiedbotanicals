@@ -1,0 +1,14 @@
+<?php
+$_config = $this->helper('Sm\BundleImage\Helper\Data');
+if ($_config->getGeneral('show_print')) {
+    $buttonTxt = __('View / Print Configuration');
+} else {
+    $buttonTxt = __('View Configuration');
+}
+?>
+
+<div class="view-config-bundle">
+    <button id="button-view-config" class="action primary">
+        <span><?php echo $buttonTxt; ?></span>
+    </button>
+</div>

@@ -1,0 +1,66 @@
+<?php
+$_config = $this->helper('Sm\Themecore\Helper\Data');
+?>
+
+<div class="header-container header-style-22">
+    <div class="header-top">
+        <div class="hd-top-content">
+            <div class="container">
+                <div class="logo">
+                    <div class="logo-container">
+                        <?php echo $this->getChildHtml("logo"); ?>
+                    </div>
+                </div>
+            </div>
+
+            <div class="r-header">
+                <div class="search-container">
+                    <?php echo $this->getChildHtml("topSearch"); ?>
+                </div>
+
+                <div class="customer-header">
+                    <div class="header-block setting-block">
+                        <a href="#"><?php echo __('Setting') ?></a>
+
+                        <div class="header-dropdown">
+                            <?php echo $this->getChildHtml("store_language"); ?>
+                            <?php echo $this->getChildHtml("currency"); ?>
+                        </div>
+                    </div>
+
+                    <div class="header-block account-block">
+                        <a href="<?php echo $this->getUrl('customer/account') ?>"><?php echo __('Account') ?></a>
+
+                        <div class="header-dropdown">
+                            <div class="customer-links" data-move="customer-mobile">
+                                <?php echo $this->getChildHtml("header.links"); ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <?php echo $this->getChildHtml("wishlist.header"); ?>
+
+                    <div class="minicart-header" data-move="minicart-mobile">
+                        <?php echo $this->getChildHtml("minicart"); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-bottom">
+        <div class="container">
+            <div class="desktop-menu">
+                <?php
+                if ($_config->getGeneral('navigation_group/menu_style') == 'megamenu') {
+                    echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('megamenu-horizontal')->toHtml();
+                } else {
+                    echo $this->getChildHtml("horizontal-css");
+                }
+                ?>
+
+                <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('email-phone')->toHtml(); ?>
+            </div>
+        </div>
+    </div>
+</div>

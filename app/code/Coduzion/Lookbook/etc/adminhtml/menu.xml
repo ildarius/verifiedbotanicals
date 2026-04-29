@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * Copyright © Coduzion, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+	<menu>
+		<add id="Coduzion_Lookbook::top_menu" title="Coduzion" module="Coduzion_Lookbook" sortOrder="99" resource="Coduzion_Lookbook::top_menu"/>
+		<add id="Coduzion_Lookbook::submenu" title="Lookbook" module="Coduzion_Lookbook" sortOrder="9" resource="Coduzion_Lookbook::submenu" parent="Coduzion_Lookbook::top_menu" />
+		<add id="Coduzion_Lookbook::index_index" title="Manage Lookbook" module="Coduzion_Lookbook" sortOrder="9999" resource="Coduzion_Lookbook::index_index" parent="Coduzion_Lookbook::submenu" action="lookbook/index/index"/>
+	</menu>
+</config>

@@ -1,0 +1,424 @@
+// @codingStandardsIgnoreFile
+& when (@media-common = true) {
+    .slick-slider {
+        position: relative;
+        display: block;
+        box-sizing: border-box;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -ms-touch-action: pan-y;
+        touch-action: pan-y;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .slick-list {
+        position: relative;
+        overflow: hidden;
+        display: block;
+        margin: 0;
+        padding: 0;
+
+        &:focus {
+            outline: none;
+        }
+
+        &.dragging {
+            cursor: pointer;
+            cursor: hand;
+        }
+
+    }
+
+    .slick-slider .slick-track,
+    .slick-slider .slick-list {
+        -webkit-transform: translate3d(0, 0, 0);
+        -moz-transform: translate3d(0, 0, 0);
+        -ms-transform: translate3d(0, 0, 0);
+        -o-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
+
+    .slick-track {
+        position: relative;
+        left: 0;
+        top: 0;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+
+        &:before,
+        &:after {
+            content: "";
+            display: table;
+        }
+
+        &:after {
+            clear: both;
+        }
+
+        .slick-loading & {
+            visibility: hidden;
+        }
+
+    }
+
+    .slick-slide {
+        float: left;
+        height: 100%;
+        min-height: 1px;
+
+        [dir="rtl"] & {
+            float: right;
+        }
+
+        img {
+            display: block;
+        }
+
+        &.slick-loading img {
+            display: none;
+        }
+
+        display: none;
+
+        &.dragging img {
+            pointer-events: none;
+        }
+
+        .slick-initialized & {
+            display: block;
+        }
+
+        .slick-loading & {
+            visibility: hidden;
+        }
+
+        .slick-vertical & {
+            display: block;
+            height: auto;
+            border: 1px solid transparent;
+        }
+
+    }
+
+    .slick-arrow.slick-hidden {
+        display: none;
+    }
+
+    .cms-home .page-title-wrapper {
+        display: none;
+    }
+
+
+    .block-content .lookbooks-grid .lookbook-items {
+        display: flex;
+        align-items: self-start;
+        flex-wrap: wrap;
+    }
+
+    .lookbook-items .lookbook-item {
+        width: 100%;
+    }
+
+    .two-columns-grid .lookbook-items .lookbook-item {
+        width: calc(~'50% - 2px');
+        flex: 0 0 calc(~'50% - 2px');
+    }
+
+    .two-columns-grid .lookbook-items,
+    .three-columns-grid .lookbook-items,
+    .simple-grid-content .lookbook-items {
+        gap: 2px;
+    }
+
+    .three-columns-grid .lookbook-items .lookbook-item,
+    .simple-grid-content .lookbook-items .lookbook-item {
+        width: calc(~'(100% / 3 ) - 2px');
+        flex: 0 0 calc(~'(100% / 3 ) - 2px');
+    }
+
+    .block-content.two_col_lookbook_slider {
+        margin: 0 -10px;
+    }
+
+    .block-content.two_col_lookbook_slider .slick-slide {
+        margin: 0 10px;
+    }
+
+    .block-content.block-content.three-columns-lookbook-slider {
+        margin: 0 -10px;
+    }
+
+    .block-content.block-content.lookbook_slider_content {
+        margin: 0 -10px;
+    }
+
+    .block-content.block-content.lookbook_slider_content .slick-slide {
+        margin: 0 10px;
+    }
+
+    .cms-home .slick-prev,
+    .cms-home .slick-next {
+        top: 45%;
+    }
+
+    .block-content.banner-slider {
+        margin: 0 -10px;
+    }
+
+    .block-content.banner-slider .slick-slide {
+        margin: 0 10px;
+    }
+
+    .easypin-popover {
+        width: 210px;
+        padding: 10px;
+        box-sizing: border-box;
+        font-size: 14px;
+        line-height: 23px;
+        border: solid 1px #ccc;
+    }
+
+ .lookbook-items .lookbook-item .lookbook_title {
+    text-align: center;
+    font-size: 28px;
+    line-height: 36px;
+    font-weight: 700;
+    padding: 15px 0 10px;
+}
+.lookbook-items .lookbook-item .lookbook_decsription {
+    text-align: center;
+    font-size: 17px;
+    line-height: 26px;
+}
+.easypin-popover .easypinpopupinfo {
+    position: relative;
+}
+.easypin-popover .easypinpopupinfo::before {
+    position: absolute;
+    right: 4px;
+    z-index: 1;
+    top: 50%;
+    transform: translateY(-50%);
+    content: '\276F';
+    color: #000;
+}
+.easypin-popover .easypinpopupinfo::after {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 16px;
+    top: 0;
+    right: 0;
+    background: #EDEDED;
+    border-radius: 3px;
+}
+.easypin-marker .easypin-popover:hover .easypinpopupinfo::after{
+    background: #727272;
+}
+.easypin-marker .easypin-popover:hover .easypinpopupinfo::before{
+    color: #fff;
+}
+.easypin-marker .easypin-popover {
+    width: 170px;
+    border-radius: 10px;
+}
+.easypin-marker .easypin-popover .easypinpopup img {
+    width: 100%;
+}
+.easypinpopup a:hover{
+   text-decoration: none;
+}
+.easypin-popover .easypinpopupinfo h3 {
+    font-size: 13px;
+    line-height: 16px;
+    color: #000;
+    font-weight: 700;
+    margin-bottom: 9px;
+        padding-right: 18px;
+}
+.easypin-popover .easypinpopupinfo p {
+    font-size: 11px;
+    line-height: 13px;
+    font-weight: 700;
+    color: #000;
+}
+.lookbook-item .lookbook_image {
+    max-width: unset !important;
+}
+.lookbook-item .lookbook_image img {
+    width: 100%;
+    border-radius: 8px;
+}
+.block-content .lookbooks-grid .lookbook-items {
+    gap: 14px;
+}
+.block-products-list .two-columns-grid .lookbook-items .lookbook-item {
+    flex: unset;
+    width: calc(~'50% - 7px');
+}
+.block-products-list .two-columns-grid .lookbook-items .lookbook-item {
+    flex: unset;
+}
+.block-products-list .three-columns-grid .lookbook-items .lookbook-item ,
+.block-content.simple-grid-content .lookbook-items .lookbook-item{
+    flex: unset;
+        width: calc(~'33.33% - 10px');
+}
+.block-content .lookbooks-grid .lookbook-items .lookbook-item {
+    padding-bottom: 15px;
+}
+.easypin-marker.active-pin img.markerpin_img {
+    transform: rotate(220deg);
+}
+.cms-home .block-content.banner-slider .slick-prev, .cms-home .block-content.banner-slider .slick-next {
+    top: 40%;
+}
+.lookbooks-grid .slick-list{
+  margin: 0 -9px;
+}
+.lookbooks-grid .slick-list .slick-slide {
+    margin: 0 9px;
+}
+.cms-home .block-products-list .slick-prev, .cms-home .block-products-list .slick-next {
+    top: 36%;
+}
+    .lookbook-item .lookbook_image img.markerpin_img {
+    display: none;
+}
+.lookbook-item .lookbook_image .easypin .easypin-marker {
+    transition: border-color 250ms ease-in-out,opacity 250ms ease-in-out,visibility 250ms ease-in-out;
+    transform: translateX(-1rem) translateY(-1rem) scale(0.999);
+    padding: 0;
+    width: 2rem;
+    height: 2rem;
+    border: 2px solid transparent;
+    background: rgba(188,189,189, 0.5);
+    border-radius: 64px;
+    line-height: .5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.lookbook-item .lookbook_image .easypin .easypin-marker:hover{
+    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(17,17,17, 0.4);
+}
+.lookbook-item .lookbook_image .easypin .easypin-marker::after{
+    content: "";
+    transition: transform 250ms ease-in-out;
+    position: relative;
+    display: block;
+    background: #fff;
+    box-shadow: 0 0 0;
+    width: 18px;
+    height: 18px;
+    border-radius: 64px;
+}
+.lookbook-item .lookbook_image .easypin .easypin-marker:hover::after {
+    transform: scale(0.667);
+}
+}
+@media screen and (max-width:1200px) {
+  .block-products-list .block-content.three-columns-lookbook-slider .slick-prev, .block-products-list .block-content.three-columns-lookbook-slider .slick-next {
+    top: 30%;
+}   
+}
+@media screen and (max-width:991px) {
+  .block-products-list .block-content.three-columns-lookbook-slider .slick-prev, .block-products-list .block-content.three-columns-lookbook-slider .slick-next {
+    top: 27%;
+}   
+}
+@media screen and (max-width:850px) {
+  .block-products-list .block-content.three-columns-lookbook-slider .slick-prev, .block-products-list .block-content.three-columns-lookbook-slider .slick-next {
+    top: 23%;
+}   
+}
+@media screen and (max-width:767px) {
+
+    .block-title strong {
+        font-size: 28px !important;
+    }
+.lookbook-items .lookbook-item .lookbook_title {
+    font-size: 20px;
+    line-height: 28px;
+    padding: 15px 0 5px;
+}
+.lookbook-items .lookbook-item .lookbook_decsription {
+    text-align: center;
+    font-size: 14px;
+    line-height: 20px;
+}
+.block-products-list .block-title strong {
+    font-size: 22px !important;
+}
+.block-content .lookbooks-grid .lookbook-items .lookbook-item {
+    padding-bottom: 7px;
+}
+.cms-home .block-content.banner-slider .slick-prev, .cms-home .block-content.banner-slider .slick-next,
+.cms-home .block-products-list .slick-prev, .cms-home .block-products-list .slick-next{
+  height: 28px;
+    width: 30px;
+}
+.block-content.banner-slider .slick-prev:before, .block-content.banner-slider .slick-next:before, 
+.block-content.banner-slider .slick-prev:after, .block-content.banner-slider .slick-next:after ,
+.block-products-list .slick-prev:before, .block-products-list .slick-next:before, 
+.block-products-list .slick-prev:after, .block-products-list .slick-next:after{
+  font-size: 19px;
+}
+.cms-home .block-content.banner-slider .slick-prev, .cms-home .block-content.banner-slider .slick-next {
+    top: 30%;
+}
+.lookbooks-grid .slick-list .slick-slide{
+  padding: 0 10px;
+}
+.twocolumn-lookbook-slider .lookbooks-grid .slick-list .slick-slide{
+  padding: 0;
+}
+    .lookbook-item .lookbook_image .easypin .easypin-marker{
+            width: 20px !important;
+            height: 20px !important;
+    }
+    .lookbook-item .lookbook_image .easypin .easypin-marker::after {
+    width: 10px;
+    height: 10px;
+}
+  .block-products-list .block-content.three-columns-lookbook-slider .slick-prev, .block-products-list .block-content.three-columns-lookbook-slider .slick-next {
+    top: 24%;
+} 
+}
+@media only screen and (max-width: 650px) {
+   .block-products-list .block-content.three-columns-lookbook-slider .slick-prev, .block-products-list .block-content.three-columns-lookbook-slider .slick-next {
+    top: 17%;
+}    
+}
+@media only screen and (max-width: 550px) {
+   .block-products-list .block-content.three-columns-lookbook-slider .slick-prev, .block-products-list .block-content.three-columns-lookbook-slider .slick-next {
+    top: 14%;
+}    
+}
+@media only screen and (max-width: 475px) {
+   .block-products-list .block-content.three-columns-lookbook-slider .slick-prev, .block-products-list .block-content.three-columns-lookbook-slider .slick-next {
+    top: 35%;
+}    
+}
+@media only screen and (max-width: 460px) {
+.lookbook-items .lookbook-item .lookbook_title {
+    font-size: 18px;
+    line-height: 24px;
+}
+}
+@media only screen and (max-width: 400px) {
+.lookbook-items .lookbook-item .lookbook_title {
+    font-size: 16px;
+    line-height: 20px;
+}
+.lookbook-items .lookbook-item .lookbook_decsription {
+    font-size: 12px;
+    line-height: 16px;
+}
+}

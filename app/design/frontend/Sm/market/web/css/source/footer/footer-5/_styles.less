@@ -1,0 +1,258 @@
+.page-footer {
+    background-color: #000;
+    color: #c9c9c9;
+
+    a {
+        color: #c9c9c9;
+    }
+}
+
+.footer-block {
+    margin-bottom: 40px;
+
+    .footer-block-title {
+        font-size: 116.67%;
+        color: #fff;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    .links-footer {
+        .ul-nostyle();
+
+        li {
+            margin: 0;
+        }
+
+        li a {
+            display: table;
+            padding: 6px 0;
+        }
+    }
+}
+
+.footer-block.footer-contact {
+    .footer-block-content {
+        padding-top: 10px;
+    }
+
+    .contact-info {
+        .ul-nostyle();
+
+        li {
+            padding-left: 39px;
+            position: relative;
+            margin: 0;
+        }
+
+        li:not(:last-child) {
+            margin-bottom: 22px;
+        }
+
+        li:before {
+            background-color: #3d3d3d;
+            display: block;
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
+            color: #fff;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            margin-top: -15px;
+            .border-radius(2px);
+        }
+
+        li.address:before {
+            .icomoon(e90a, 20px);
+        }
+
+        li.email:before {
+            .icomoon(e908, 18px);
+        }
+
+        li.phone:before {
+            .icomoon(e967, 18px);
+        }
+    }
+}
+
+.footer-top {
+    padding-top: 40px;
+}
+
+.social-footer {
+    margin-bottom: 40px;
+    text-align: center;
+    border-bottom: 1px solid #1a1a1a;
+    padding-bottom: 35px;
+
+    .social-title {
+        display: inline-block;
+        vertical-align: top;
+        line-height: 40px;
+        font-size: 116.67%;
+        font-weight: 700;
+        padding-right: 20px;
+        white-space: nowrap;
+        color: #fff;
+    }
+
+    ul {
+        display: inline-block;
+        vertical-align: top;
+        .ul-nostyle();
+        .clearfix();
+    }
+
+    ul li {
+        display: inline-block;
+        vertical-align: top;
+        margin: 0 3px;
+
+        a {
+            color: #fff;
+            background-color: #333;
+            font-size: 16px;
+            display: block;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+            .transition(.1s);
+            .border-radius(50px);
+        }
+
+        &.facebook a {
+            background-color: rgb(59, 89, 152);
+        }
+
+        &.twitter a {
+            background-color: rgb(0, 172, 237);
+        }
+
+        &.pinterest a {
+            background-color: rgb(253, 71, 178);
+        }
+
+        &.vimeo a {
+            background-color: rgb(0, 169, 239);
+        }
+
+        &.youtube a {
+            background-color: #f00;
+        }
+    }
+}
+
+.top-content {
+    border-bottom: 1px solid #1a1a1a;
+}
+
+.footer-bottom {
+    padding: 10px 0;
+
+    address {
+        margin: 4px 0 0;
+    }
+
+    .payment-footer {
+        text-align: right;
+    }
+}
+
+.footer-services {
+    padding-top: 20px;
+    border-bottom: 1px solid #1a1a1a;
+}
+
+.footer-services .services-header {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+        width: 33.333333333%;
+        margin: 0 0 20px;
+        text-align: center;
+        color: #999;
+
+        p {
+            margin: 0;
+        }
+
+        &:not(:last-child) {
+            border-right: 1px solid rgb(51, 51, 51);
+        }
+    }
+
+    .sv-container {
+        text-align: left;
+        display: inline-block;
+
+        &:before {
+            content: "";
+            display: inline-block;
+            position: absolute;
+            background-image: url(../images/icon-image.png);
+            background-repeat: no-repeat;
+        }
+    }
+
+    .sv-title {
+        color: #fff;
+        font-weight: 700;
+        font-size: 107.69%;
+        text-transform: uppercase;
+    }
+
+    .sv-return .sv-container {
+        position: relative;
+        padding-left: 47px;
+
+        &:before {
+            width: 33px;
+            height: 33px;
+            background-position: -130px -315px;
+            top: 4px;
+            left: 0;
+        }
+    }
+
+    .free-shipping .sv-container {
+        position: relative;
+        padding-left: 64px;
+
+        &:before {
+            width: 49px;
+            height: 29px;
+            background-position: -183px -317px;
+            top: 7px;
+            left: 0;
+        }
+    }
+
+    .safe-shopping .sv-container {
+        position: relative;
+        padding-left: 45px;
+
+        &:before {
+            width: 30px;
+            height: 30px;
+            background-position: -260px -317px;
+            top: 6px;
+            left: 0;
+        }
+    }
+}
+
+/**
+ * Boxed layout
+ */
+.layout-boxed .page-footer {
+    margin: 0 -15px;
+    padding: 0 15px;
+}

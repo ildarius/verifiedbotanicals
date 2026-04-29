@@ -1,0 +1,167 @@
+.page-footer {
+    background-color: #fff;
+}
+
+.footer-top {
+    background-color: #111;
+    padding: 36px 0;
+}
+
+.sv-footer-item {
+    .sv-icon {
+        float: right;
+        width: 80px;
+    }
+
+    .sv-info {
+        margin-right: 80px;
+        color: #aaa;
+        padding-top: 6px;
+
+        strong {
+            display: block;
+            font-size: 116.67%;
+            margin-bottom: 6px;
+        }
+
+        p {
+            margin: 0;
+            font-size: 107.69%;
+        }
+    }
+}
+
+.footer-middle {
+    padding: 50px 0;
+    background-color: #f7f7f7;
+
+    .logo-footer {
+        float: right;
+    }
+
+    .links-footer {
+        float: left;
+    }
+
+    .links-footer ul {
+        display: flex;
+        flex-wrap: wrap;
+        .ul-nostyle();
+
+        li {
+            text-transform: uppercase;
+            font-size: 116.67%;
+            font-weight: 700;;
+            padding-right: 40px;
+            padding-top: 8px;
+        }
+
+        li a {
+            color: #222;
+        }
+    }
+}
+
+.footer-bottom {
+    padding: 40px 0 25px;
+
+    .add-footer {
+        font-size: 107.69%;
+        color: #222;
+        float: right;
+        padding-top: 4px;
+    }
+
+    address {
+        margin: 0 0 10px;
+    }
+
+    .news-socials {
+        float: left;
+    }
+
+    .ns-content {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .social-block-list {
+        ul {
+            .ul-nostyle();
+            .clearfix();
+        }
+
+        ul li {
+            float: right;
+            margin-right: 10px;
+        }
+
+        ul li a {
+            display: block;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            background-color: #3a559f;
+            color: #fff;
+            font-size: 18px;
+            .border-radius(6px);
+            .transition(.1s);
+        }
+
+        ul li.tw a {
+            background-color: #1da1f2;
+        }
+
+        ul li.pi a {
+            background-color: #e60023;
+        }
+
+        ul li.vi a {
+            background-color: #00adef;
+        }
+
+        ul li.yo a {
+            background-color: #fa1a25;
+        }
+    }
+
+    .block-subscribe-footer {
+        padding-left: 15px;
+    }
+
+    .newsletter-content {
+        position: relative;
+        width: 300px;
+
+        #newsletter-footer {
+            height: 50px;
+            border: 2px solid #eee;
+            padding-left: 55px;
+            .border-radius(4px);
+        }
+
+        .action-button button {
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            padding: 0;
+            background: none;
+            border: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: #222;
+            .box-shadow-none();
+
+            &:before {
+                .icomoon(e955, 24px);
+            }
+
+            span {
+                display: none;
+            }
+        }
+    }
+}

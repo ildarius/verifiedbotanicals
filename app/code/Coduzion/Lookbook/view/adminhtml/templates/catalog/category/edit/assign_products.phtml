@@ -1,0 +1,18 @@
+<?php
+
+$blockGrid = $block->getBlockGrid();
+$gridJsObjectName = $blockGrid->getJsObjectName();
+?>
+<?= $block->getGridHtml(); ?>
+<input type="hidden" name="category_products" id="in_category_products"
+data-form-part="lookbook_index_form" value=""/>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Coduzion_Lookbook/products/assign-products": {
+                "selectedProducts": <?= /* @noEscape */  $block->getProductsJson(); ?>,
+                "gridJsObjectName": <?= /* @noEscape */  '"' . $gridJsObjectName . '"' ?: '{}'; ?>
+            }
+        }
+    }
+</script>

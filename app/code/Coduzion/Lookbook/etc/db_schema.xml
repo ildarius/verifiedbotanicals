@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Coduzion, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="coduzion_lookbook_items" resource="default" engine="innodb" comment="Coduzion Lookbooks">
+        <column xsi:type="smallint" name="lookbook_id" unsigned="false" nullable="false" identity="true"
+                comment="Lookbook ID"/>
+        <column xsi:type="varchar" name="title" nullable="false" length="255" comment="Lookbook Title"/>
+        <column xsi:type="text" name="description" nullable="false" comment="Lookbook Description"/>
+        <column xsi:type="varchar" name="lookbook_image" nullable="true" length="255" comment="Lookbook Image"/>
+        <column xsi:type="varchar" name="lookbook_mobile_image" nullable="true" length="255" comment="Lookbook Mobile Image"/>
+        <column xsi:type="varchar" name="image_resolution" nullable="true" length="255" comment="Lookbook Image Resolution"/>
+        <column xsi:type="varchar" name="image_alt" nullable="true" length="255" comment="Image Alt"/>
+        <column xsi:type="text" name="markers" nullable="true" comment="Lookbook Markers"/>
+        <column xsi:type="timestamp" name="creation_time" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Lookbook Creation Time"/>
+        <column xsi:type="timestamp" name="update_time" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Lookbook Modification Time"/>
+        <column xsi:type="smallint" name="status" unsigned="false" nullable="false" identity="false"
+                default="1" comment="Lookbook Status"/>
+        <column xsi:type="smallint" name="show_description" unsigned="false" nullable="false" identity="false"
+                default="1" comment="Lookbook Description Status"/>
+        <column xsi:type="varchar" name="store_ids" nullable="true" length="255" comment="Store Views"/>
+        <column xsi:type="varchar" name="customer_group_ids" nullable="true" length="255" comment="Customer Groups"/>
+        <column xsi:type="varchar" name="apply_on" nullable="true" length="255" comment="Apply On"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="lookbook_id"/>
+        </constraint>
+        <index referenceId="LOOKBOOK_TITLE" indexType="fulltext">
+            <column name="title"/>
+        </index>
+    </table>
+
+    <!-- <table name="coduzion_lookbookgrid_rel" resource="default" engine="innodb"
+           comment="Coduzion Lookbook Product Attachment relation table">
+        <column xsi:type="int" name="id" nullable="false" identity="true" unsigned="false" comment="id"/>
+        <column xsi:type="smallint" name="lookbook_id" padding="10" unsigned="false" nullable="false" comment="Lookbook ID"/>
+        <column xsi:type="smallint" name="pin_id" unsigned="false" nullable="false" comment="Lookbook Status"/>
+        <column xsi:type="int" name="product_id" padding="10" unsigned="true" nullable="false"
+                comment="Magento Product ID"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+
+        <constraint xsi:type="foreign" referenceId="CODUZION_LOOKBOOKGRID_REL_LOOKBOOK_ID_CODUZION_LOOKBOOK_ITEMS_LOOKBOOK_ID" table="coduzion_lookbookgrid_rel" column="lookbook_id" referenceTable="coduzion_lookbook_items" referenceColumn="lookbook_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="CODUZION_LOOKBOOKGRID_REL_PRODUCT_ID_CATALOG_PRODUCT_ENTITY_ENTITY_ID" table="coduzion_lookbookgrid_rel" column="product_id" referenceTable="catalog_product_entity" referenceColumn="entity_id" onDelete="CASCADE"/>
+    </table> -->
+</schema>

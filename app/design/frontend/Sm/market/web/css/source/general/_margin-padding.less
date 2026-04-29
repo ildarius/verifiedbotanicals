@@ -1,0 +1,44 @@
+/**
+ * Margin and Padding support only Top and Bottom
+ */
+
+.make-margins(@breakpoint, @size: 200, @decrement: 1) when (@size >= 0) {
+    .make-margins(@breakpoint, @size - @decrement);
+
+    @size-px: ~"@{size}px";
+
+    .mt-@{breakpoint}-@{size} {
+        margin-top: @size-px !important;
+    }
+
+    .mb-@{breakpoint}-@{size} {
+        margin-bottom: @size-px !important;
+    }
+}
+
+.make-margins(desktop);
+
+/**
+ * Padding
+ */
+
+.make-paddings(@breakpoint, @size: 200, @decrement: 1) when (@size >= 0) {
+    .make-paddings(@breakpoint, @size - @decrement);
+
+    @size-px: ~"@{size}px";
+
+    .pt-@{breakpoint}-@{size} {
+        padding-top: @size-px !important;
+    }
+
+    .pb-@{breakpoint}-@{size} {
+        padding-bottom: @size-px !important;
+    }
+}
+
+.make-paddings(desktop);
+
+@media (max-width: 768px) {
+    .make-margins(mobile);
+    .make-paddings(mobile);
+}

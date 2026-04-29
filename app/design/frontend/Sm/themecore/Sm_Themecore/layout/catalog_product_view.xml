@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-right"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="product.info.addtocart">
+            <block class="Magento\Catalog\Block\Product\View" name="product.info.buynow" as="buynow"
+                   template="Sm_Themecore::product/view/buynow.phtml"
+                   ifconfig="themecore/product_detail/buynow_button/enable_buynow"/>
+        </referenceBlock>
+
+        <referenceBlock name="product.info.addtocart.additional">
+            <block class="Magento\Catalog\Block\Product\View" name="product.info.buynow.additional"
+                   as="buynow-additional" template="Sm_Themecore::product/view/buynow.phtml"
+                   after="product.info.addtocart" ifconfig="themecore/product_detail/buynow_button/enable_buynow"/>
+        </referenceBlock>
+    </body>
+</page>

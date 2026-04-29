@@ -1,0 +1,105 @@
+& when (@media-common = true) {
+    .product.media {
+        position: relative;
+
+        .spritespin-progress {
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            background-color: #fff;
+            font-size: 14px;
+            color: #666;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            border-radius: 3px;
+            -webkit-border-radius: 3px;
+        }
+
+        .sm-degree-container {
+            display: none;
+        }
+
+        .toggle-degree-view {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 300;
+
+            .btn-degree-view {
+                position: relative;
+            }
+
+            .btn-degree-view span {
+                display: none;
+            }
+        }
+
+        .sm-degree-content {
+            position: relative;
+        }
+
+        .degree-action-group {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 200;
+        }
+
+        .btn-degree-action {
+            background-image: url("../Sm_DegreeView/images/degree-icon.png");
+            background-repeat: no-repeat;
+            display: block;
+            margin-bottom: 10px;
+            width: 50px;
+            height: 50px;
+            opacity: .5;
+            z-index: 200;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+
+        .btn-degree-view {
+            background-position: 0 0;
+        }
+
+        .btn-degree-view.active {
+            background-position: 0 -50px;
+        }
+
+        .btn-degree-zoom {
+            background-position: 0 -100px;
+        }
+
+        .btn-degree-full {
+            background-position: 0 -150px;
+        }
+
+        .btn-degree-action span {
+            display: none;
+        }
+    }
+
+    .degree-active {
+        .product.media {
+            .gallery-placeholder {
+                display: none;
+            }
+
+            .sm-degree-container {
+                display: block;
+            }
+        }
+    }
+}
+
+@media (max-width: 767px) {
+    .product.media .btn-degree-full {
+        display: none !important;
+    }
+}

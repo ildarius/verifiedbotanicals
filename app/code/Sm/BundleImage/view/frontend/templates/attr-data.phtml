@@ -1,0 +1,23 @@
+<?php
+$_config         = $this->helper('Sm\BundleImage\Helper\Data');
+$mediaSrc        = $_config->getMediaUrl();
+$noSelectedImage = $_config->getGeneral('no_select_image');
+$quickViewUrl    = $this->getUrl('') . "cartquickpro/catalog_product/view/id/";
+$quickViewLabel  = $_config->getQuickCartConfig('label_button');
+$checkQuickView  = $_config->checkQuickView();
+$styleFile       = $mediaSrc . "sm_bundle/print.css";
+if ($checkQuickView) {
+    $enableQuickView = "enable-quickview";
+} else {
+    $enableQuickView = "disable-quickview";
+}
+if ($noSelectedImage) {
+    $noSelectedImageSrc = $mediaSrc . "sm_bundle/" . $noSelectedImage;
+} else {
+    $noSelectedImageSrc = $mediaSrc . "sm_bundle/not-selected.jpg";
+}
+?>
+<div style="display: none;" id="bundle-attr-data" data-no-selected="<?php echo $noSelectedImageSrc; ?>"
+     data-check-quickview="<?php echo $enableQuickView; ?>"
+     data-base-url="<?php echo $quickViewUrl; ?>" data-quickview-label="<?php echo $quickViewLabel; ?>"
+     data-style="<?php echo $styleFile; ?>"></div>

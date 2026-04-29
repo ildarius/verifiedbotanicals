@@ -1,0 +1,121 @@
+/**
+ * Fix width and padding layout mobile
+ */
+
+body:not(.layout-boxed) .container, body:not(.layout-boxed) .page-main {
+    max-width: unset !important;
+    width: calc(~'100% - 20px');
+}
+
+body.cms-index-index .page-main {
+    width: 100% !important;
+}
+
+
+
+/**
+ * Hidden back to top
+ */
+
+.back2top {
+    display: none !important;
+}
+
+/**
+ * Account page
+ */
+
+.account.page-layout-2columns-left .column.main {
+    padding: 0;
+}
+
+/**
+ * Stagepadding slider
+ */
+
+.stagepadding-slider-mobile {
+    margin-left: -10px;
+    margin-right: -10px;
+
+    .block .block-title {
+        padding: 0 10px;
+    }
+
+    .owl-carousel .owl-stage {
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+}
+
+/**
+ * Hidden class
+ */
+
+.hidden {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+/**
+ * Listing
+ */
+
+.products.wrapper.products-grid .product-items {
+    margin-left: -5px;
+    margin-right: -5px;
+}
+
+.products.wrapper.products-grid .product-items .product-item {
+    margin: 0 0 10px;
+    padding: 0 5px;
+    clear: initial !important;
+}
+
+.products-grid .product-item-info .product-item-details .product-item-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/**
+ * Product page
+ */
+
+.bottom-title .block .block-title:before {
+    display: none;
+}
+
+.product.data.items.accordion-style .item.title.resp-accordion a:after {
+    margin-top: -2px;
+    float: right;
+    .icomoon(e92e, 18px);
+}
+
+.product.data.items.accordion-style .item.title.resp-accordion.active a:after {
+    .icomoon(e931, 18px);
+}
+
+/**
+ * RESPONSIVE
+ */
+
+@media (min-width: 561px) and (max-width: 768px) {
+    .products.wrapper.products-grid .product-items .product-item {
+        width: 33.3333333% !important;
+
+        &:nth-child(3n+1) {
+            clear: both !important;
+        }
+    }
+}
+
+@media (max-width: 560px) {
+    .products.wrapper.products-grid .product-items .product-item {
+        width: 50% !important;
+
+        &:nth-child(2n+1) {
+            clear: both !important;
+        }
+    }
+}

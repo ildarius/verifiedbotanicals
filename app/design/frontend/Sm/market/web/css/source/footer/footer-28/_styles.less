@@ -1,0 +1,139 @@
+.page-footer {
+     background:#323232;
+     color: #aaa;
+     .footer-top {
+        background:#222222;
+        padding: 20px 0;
+        .footer-block {
+            margin:10px 0;
+            .footer-block-title{
+                margin-bottom: 5px;
+            }
+        }
+     }
+     .footer-middle {
+        padding-top: 40px;
+     }
+}
+.footer-block {
+    margin: 0 0 35px;
+
+    .footer-block-title {
+        font-size: 1.4rem;
+        color: #fff;
+        font-weight: bold;
+        margin-bottom: 15px;
+		text-transform:uppercase;
+    }
+
+    ul {
+        .ul-nostyle();
+
+        li {
+            margin: 0;
+            padding: 0px 0 8px;
+        }
+
+        li a {
+            display: table;
+            color: #aaa;
+            &:hover{
+                color:#fff;
+            }
+        }
+    }
+	.footer-block-content.footer-app ul{
+		display: flex;
+		align-items: center;
+		li {
+			margin-right:8px;
+            padding: 0;
+            &:last-child{
+               margin-right:0;
+            }
+		}
+	}
+}
+
+
+.block-subscribe-footer {
+	margin-top: 6px;
+	.newsletter-content {
+		display:table;
+		position: relative;
+		margin-bottom: 0;
+	}
+    .input-box {
+        width: 350px;
+        display: table-cell;
+    }
+
+    #newsletter-footer {
+        height: 48px;
+        .border-radius(5px);
+		border:0;
+		color:#888888;
+		background:#fff;
+		font-size: 1.4rem;
+    }
+
+    .action-button {
+        display: table-cell;
+        vertical-align: top;
+        button {
+            text-transform: uppercase;
+            height: 48px;
+            line-height: 48px;
+            padding: 0 30px;
+            .border-radius(5px);
+            background:none;
+            font-weight: bold;
+            margin-left: 10px;
+            font-size: 1.4rem;
+            border:1px solid #fff !important;
+            }
+        }
+}
+
+.social-block-list {
+    ul {
+        display: inline-block;
+        vertical-align: top;
+        .ul-nostyle();
+        .clearfix();
+    }
+
+    ul li {
+        display: inline-block;
+        vertical-align: top;
+        margin: 0 15px 5px 0;
+
+        a {
+            color: #7e7e7e;
+            background-color: none;
+            font-size: 18px;
+            display: block;
+            text-align: center;
+            .transition(.1s);
+			padding:0px;
+        }
+
+    }
+}
+
+.footer-bottom {
+    text-align: center;
+    border-top:1px solid #464646;
+    padding:18px 0 12px;
+    color:#cccccc;
+    address a {
+        color:#fff;
+        &:hover{
+            text-decoration: underline;
+        }
+    }
+}
+
+/**
+ * Boxed layout
+ */

@@ -1,0 +1,117 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Magento\Checkout\Block\Cart\Sidebar */
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$priceHelper   = $objectManager->create('Magento\Framework\Pricing\Helper\Data');
+$value         = 0;
+$priceEmpty    = $priceHelper->currency($value, true, false);
+?>
+
+<div data-block="minicart" class="minicart-wrapper">
+    <a class="action showcart" href="<?= /* @escapeNotVerified */
+    $block->getShoppingCartUrl() ?>"
+       data-bind="scope: 'minicart_content'">
+        <span class="text"><?= /* @escapeNotVerified */
+            __('Shopping Cart') ?></span>
+        <span class="text-min-cart"><?= /* @escapeNotVerified */
+            __('My Cart') ?></span>
+        <span class="counter qty empty"
+              data-bind="css: { empty: !!getCartParam('summary_count') == false }, blockLoader: isLoading">
+			  
+			<!-- ko if: getCartParam('summary_count') -->
+            <span class="counter-number"><!-- ko text: getCartParam('summary_count') --><!-- /ko --></span>
+            <!-- /ko -->
+
+            <!-- ko ifnot: getCartParam('summary_count') -->
+				<span class="counter-number">0</span>
+            <!-- /ko -->
+
+            <span class="counter-label">
+                <!-- ko if: getCartParam('summary_count') -->
+                <!-- ko text: getCartParam('summary_count') --><!-- /ko -->
+                <!-- ko i18n: 'items' --><!-- /ko -->
+                <!-- /ko -->
+
+                <!-- ko ifnot: getCartParam('summary_count') -->
+                <!-- ko i18n: '0' --><!-- /ko -->
+                <!-- ko i18n: 'item' --><!-- /ko -->
+                <!-- /ko -->
+            </span>
+
+            <!-- ko if: getCartParam('summary_count') -->
+            <span class="price-minicart">
+                <!-- ko foreach: getRegion('subtotalContainer') -->
+                <!-- ko template: getTemplate() --><!-- /ko -->
+                <!-- /ko -->
+            </span>
+                <!-- /ko -->
+
+                <!-- ko ifnot: getCartParam('summary_count') -->
+            <span class="price-minicart">
+                <div class="subtotal">
+                    <div class="amount price-container">
+                        <span class="price-wrapper">
+                            <span class="price"><?php echo $priceEmpty; ?></span>
+                        </span>
+                    </div>
+                </div>
+            </span>
+                <!-- /ko -->
+        </span>
+
+
+    </a>
+    <?php if ($block->getIsNeedToDisplaySideBar()): ?>
+        <div class="block block-minicart"
+             data-role="dropdownDialog"
+             data-mage-init='{"dropdownDialog":{
+                "appendTo":"[data-block=minicart]",
+                "triggerTarget":".showcart",
+                "timeout": "2000",
+                "closeOnMouseLeave": false,
+                "closeOnEscape": true,
+                "triggerClass":"active",
+                "parentClass":"active",
+                "buttons":[]}}'>
+            <div id="minicart-content-wrapper" data-bind="scope: 'minicart_content'">
+                <!-- ko template: getTemplate() --><!-- /ko -->
+            </div>
+            <?= $block->getChildHtml('minicart.addons') ?>
+        </div>
+    <?php else: ?>
+        <script>
+            require(['jquery'], function ($) {
+                $('a.action.showcart').click(function () {
+                    $(document.body).trigger('processStart');
+                });
+            });
+        </script>
+    <?php endif ?>
+    <script>
+        window.checkout = <?= /* @escapeNotVerified */ $block->getSerializedConfig() ?>;
+    </script>
+    <script type="text/x-magento-init">
+    {
+        "[data-block='minicart']": {
+            "Magento_Ui/js/core/app": <?= /* @escapeNotVerified */
+        $block->getJsLayout() ?>
+        },
+        "*": {
+            "Magento_Ui/js/block-loader": "<?= /* @escapeNotVerified */
+        $block->getViewFileUrl('images/loader-1.gif') ?>"
+        }
+    }
+
+
+
+
+    </script>
+</div>
+
+

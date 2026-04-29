@@ -1,0 +1,253 @@
+/**
+ * Title mobile
+ */
+
+.title-mobile .block .block-title {
+    margin-bottom: 13px !important;
+
+    strong {
+        font-size: 128.571% !important;
+        margin-bottom: 13px !important;
+        font-weight: 700 !important;
+    }
+}
+
+/**
+ * Mobile services
+ */
+
+.mobile-service {
+    border: 1px solid #e5e5e5;
+    padding: 10px 32px;
+    text-align: center;
+
+    .item a {
+        text-transform: uppercase;
+        display: block;
+        padding: 5px 0;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .owl-theme .owl-nav {
+        margin: 0;
+    }
+
+    .owl-theme .owl-nav [class*="owl-"] {
+        background: none;
+        border: none;
+        color: #222;
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+        top: 50%;
+        padding: 0;
+        margin: -15px 0 0;
+
+        &.owl-next {
+            right: -25px;
+        }
+
+        &.owl-next:before {
+            .icomoon(e929, 14px);
+        }
+
+        &.owl-prev {
+            left: -25px;
+        }
+
+        &.owl-prev:before {
+            .icomoon(e927, 14px);
+        }
+    }
+}
+
+/**
+ * Mobile categories
+ */
+
+.mobile-categories {
+    background: url("../images/mobile-categories.jpg") no-repeat top center;
+    background-size: cover;
+    padding: 23px 0 20px;
+
+    .block .block-title strong {
+        color: #fff !important;
+    }
+
+    ul {
+        margin: 0 -5px;
+        padding: 0;
+        list-style: none;
+        .clearfix();
+    }
+
+    ul li {
+        margin: 0 0 10px;
+        padding: 0 5px;
+        float: left;
+        width: 50%;
+    }
+
+    ul li a {
+        position: relative;
+        display: block;
+        height: 50px;
+        line-height: 50px;
+        padding-left: 62px;
+        background-color: rgba(255, 255, 255, 0.13);
+        color: #fff;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding-right: 5px;
+        .border-radius(25px);
+
+        &:hover {
+            background-color: #fff;
+            color: #222;
+        }
+
+        span {
+            display: block;
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            overflow: hidden;
+            background-color: #fff;
+            .border-radius(50%);
+        }
+
+        span img {
+            .border-radius(50%);
+        }
+    }
+}
+
+/**
+ * Slider product
+ */
+
+.product-1-row .products-grid .product-item {
+    margin-bottom: 0;
+}
+
+.title-mobile .mb-product-slider.stagepadding-slider-mobile .block .block-title {
+    margin-bottom: 0 !important;
+}
+
+.mb-product-slider.stagepadding-slider-mobile {
+    .owl-theme .owl-nav.disabled + .owl-dots {
+        margin-top: 0;
+    }
+}
+
+/**
+ * Deal slider
+ */
+
+.mb-deal-full {
+    .products-grid .product-item-info {
+        border: none;
+    }
+
+    .products-grid .product-item-info .product-item-details {
+        padding-top: 57px;
+        position: relative;
+
+        .deals-countdown {
+            background-color: #222;
+            height: 47px;
+            border: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .deals-countdown .deals-time {
+            padding: 0;
+            margin: 0 5px;
+            background: none;
+            border: none;
+        }
+
+        .deals-countdown .deals-time .num-time {
+            font-weight: 400;
+            font-size: 114.285%;
+            line-height: 1;
+            color: #fff;
+            margin: 8px 0 5px;
+        }
+
+        .deals-countdown .deals-time .title-time {
+            color: #aaa;
+            line-height: 1;
+            font-size: 10px;
+            text-transform: uppercase;
+        }
+    }
+
+    .owl-theme .owl-dots .owl-dot {
+        span {
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        &:hover span,
+        &.active span {
+            background: #fff !important;
+        }
+    }
+}
+
+/**
+ * Client say mobile extended from desktop version
+ */
+.testimonial-mobile {
+    .testimonial-slider .client-image {
+        border: 5px solid #fff;
+        margin-bottom: 15px;
+    }
+
+    .testimonial-slider.testimonial-full-mobile .client-say {
+        font-size: 100%;
+        margin-bottom: 10px;
+    }
+
+    .testimonial-slider .client-name {
+        text-transform: capitalize;
+    }
+}
+
+/**
+ * Brand mobile
+ */
+
+.mb-brand-mobile {
+    .item {
+        border: 1px solid transparent;
+        overflow: hidden;
+        .border-radius(4px);
+    }
+}
+
+@media (max-width: 400px) {
+    .mobile-categories ul li {
+        width: 100%;
+        clear: both;
+    }
+
+    .mb-deal-full .products-grid .product-item-info .product-item-details .deals-countdown .deals-time {
+        margin: 0 2px;
+        padding-top: 3px;
+    }
+
+    .mb-deal-full .products-grid .product-item-info .product-item-details .deals-countdown .deals-time .num-time {
+        font-size: 85%;
+    }
+}

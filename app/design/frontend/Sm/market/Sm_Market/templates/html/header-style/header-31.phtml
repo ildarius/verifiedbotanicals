@@ -1,0 +1,47 @@
+<?php
+$_config = $this->helper('Sm\Themecore\Helper\Data');
+?>
+<div class="header-container  ontop-element header-style-31">
+	<div class="container">
+		<div class="header-content clearfix">
+			<div class="logo-container">
+                <?php echo $this->getChildHtml("logo"); ?>
+			</div>
+			<div class="horizontal-block">
+                    <?php
+                    if ($_config->getGeneral('navigation_group/menu_style') == 'megamenu') {
+                        echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('megamenu-horizontal')->toHtml();
+                    } else {
+                        echo $this->getChildHtml("horizontal-css");
+                    }
+                    ?>
+			</div>
+			<div class="customer-actions">
+				<div class="customer-links" data-move="customer-mobile"> 
+					<a href="#">
+						<span><?php echo __('My Account') ?>
+						</span>
+					</a>
+
+                        <?php echo $this->getChildHtml("header.links"); ?>
+				</div>
+				<div class="search-container">
+					<a href="javascript:void(0)" class="icon-search1"><span class="hidden"></span></a>
+                    <?php echo $this->getChildHtml("topSearch"); ?>
+				</div>
+				<?php echo $this->getChildHtml("wishlist.header"); ?>
+				<div class="minicart-header" data-move="minicart-mobile">
+                        <?php echo $this->getChildHtml("minicart"); ?>
+				</div>
+				
+				
+				<div class="setting-block">
+					<div class="header-dropdown">
+                            <?php echo $this->getChildHtml("store_language"); ?>
+                            <?php echo $this->getChildHtml("currency"); ?>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,115 @@
+<?php
+/**
+ * Copyright © 2017 Codazon, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Magento\Customer\Block\Form\Login $block */
+?>
+<?php
+/**
+ * Customer login form template
+ *
+ * @see \Magento\Customer\Block\Form\Login
+ * @var $block \Magento\Customer\Block\Form\Login
+ */
+?>
+<!-- login style default - wishlist -->
+
+<?php
+$customerSession =  $block->getLayout()->createBlock('Sm\CartQuickPro\Block\CartQuickPro');
+$uniqid = uniqid();
+if(!$customerSession->_isLoggedIn()) : 
+?>
+<div class="account-info-summary" data-block="popup-login" id="popup-login" style="display:none;">
+    <div class="info-summary-top">
+        <div class="block-customer-login">
+            <h3><?php echo __('Please login first to add the products to wishlist');?></h3>
+            <form name="loginForm" class="form form-login" action="<?php echo $block->escapeUrl($block->getPostActionUrl()) ?>" method="post" id="login-form" novalidate="novalidate">
+                <?php echo $block->getBlockHtml('formkey'); ?>
+                <?= $this->getChildHtml('form_additional_info') ?>
+                <div class="field email required">
+                    <label class="label" for="email"><span><?= $block->escapeHtml(__('Email')) ?></span></label>
+                    <div class="control">
+                        <input name="login[username]" value="<?= $block->escapeHtmlAttr($block->getUsername()) ?>" <?php if ($block->isAutocompleteDisabled()) : ?> autocomplete="off"<?php endif; ?> id="email" type="email" class="input-text" title="<?= $block->escapeHtmlAttr(__('Email')) ?>" data-mage-init='{"mage/trim-input":{}}' data-validate="{required:true, 'validate-email':true}">
+                    </div>
+                </div>
+                <div class="field password required">
+                    <label for="pass" class="label"><span><?= $block->escapeHtml(__('Password')) ?></span></label>
+                    <div class="control">
+                        <input name="login[password]" type="password" <?php if ($block->isAutocompleteDisabled()) : ?> autocomplete="off"<?php endif; ?> class="input-text" id="pass" title="<?= $block->escapeHtmlAttr(__('Password')) ?>" data-validate="{required:true}">
+                    </div>
+                </div>
+                <?php if ($captcha = $this->getLayout()->getBlock('mini-login-msp-recaptcha')) : ?>
+                <?= $captcha->setCustomRecaptchaId("msp-recaptcha-" . $uniqid)->toHtml(); ?>
+                <?php endif ?>
+                <div class="actions-toolbar">
+                    <div class="primary"><button type="submit" class="action login primary" name="send" id="send2"><span><?= $block->escapeHtml(__('Sign In')) ?></span></button></div>
+                    <div class="secondary"><a class="action remind" href="<?php echo $block->escapeUrl($block->getForgotPasswordUrl()) ?>"><span><?php echo __('Forgot Your Password?'); ?></span></a></div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="info-summary-bottom">
+        <p class="secondary"><span class="create-account-question"><?php echo __('New customer?') ?></span> <a class="create-account-link" href="<?php echo $block->getUrl('customer/account/create'); ?>"><?php echo __('Start Here.') ?></a></p>
+    </div>
+</div>
+
+<script> 
+require([
+    'jquery',
+    'Magento_Ui/js/modal/modal',
+    "domReady!"
+], function ($, modal) {
+	function _popupLogin() {
+		var options = {
+			type: 'popup',
+			responsive: true,
+			innerScroll: true,
+			modalClass: 'sm_popup_login',
+			buttons: []
+		};
+		$('.action.towishlist').removeAttr("data-post");
+		$('.action.towishlist').click(function (e) {
+			$("#popup-login").modal(options).modal("openModal");
+		});
+	}
+	setTimeout(function () {
+        _popupLogin();
+    }, 1000);
+	$(document).on("afterAjaxLazyLoad", function () {
+        _popupLogin();
+    });
+	if ($('#msp-recaptcha-<?= $uniqid ?>-container').length && ($.fn.applyBindings != undefined)) {
+        $('#msp-recaptcha-<?= $uniqid ?>-container').applyBindings();
+    }
+});
+</script>
+<style>
+	@media (min-width: 1200px) {
+		.modal-popup.sm_popup_login .modal-inner-wrap {
+			min-width: 380px !important;
+			margin-top: 15rem;
+			max-width: 25%;
+		}
+	}
+		.modal-popup.sm_popup_login .modal-inner-wrap .modal-header {
+			border:0px;
+		}
+		.info-summary-top .block-customer-login h3{
+			font-size: 15px;
+			color: #000;
+			margin-bottom: 15px;
+			text-align: center;
+		}
+		.info-summary-top .block-customer-login .form-login{
+			margin-bottom:15px;
+		}
+		.info-summary-top .block-customer-login .form-login .field{
+			margin-bottom:15px;
+		}
+	
+</style>
+<?php endif ?>

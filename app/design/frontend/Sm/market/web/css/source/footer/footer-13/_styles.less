@@ -1,0 +1,255 @@
+.page-footer {
+    background-color: #fff;
+}
+
+.footer-head {
+    padding: 25px 0;
+    position: relative;
+    background-color: #23334c;
+
+    .newsletter-title {
+        padding: 5px 0 5px 70px;
+        color: #fff;
+        font-weight: 700;
+        background: url("../images/icon-newsletter-20.png") no-repeat left center;
+
+        .news-top {
+            line-height: 1;
+            font-size: 200%;
+        }
+
+        .news-bottom {
+            line-height: 1;
+            font-size: 130%;
+        }
+    }
+}
+
+.block-subscribe-footer {
+    margin-top: 3px;
+
+    .newsletter-content,
+    .input-box {
+        width: 100%;
+    }
+
+    .newsletter-content {
+        position: relative;
+    }
+
+    .input-box input {
+        border: none;
+        height: 46px;
+        padding-left: 15px;
+        .border-radius(4px);
+    }
+
+    .action-button button {
+        height: 36px;
+        line-height: 36px;
+        position: absolute;
+        padding: 0 20px;
+        text-transform: uppercase;
+        font-weight: 600;
+        top: 5px;
+        right: 5px;
+        .border-radius(4px);
+        .transition(.1s);
+    }
+}
+
+.footer-top {
+    padding-top: 50px;
+    margin-bottom: 20px;
+}
+
+.footer-block {
+    margin-bottom: 40px;
+
+    .footer-block-title {
+        font-size: 116.67%;
+        position: relative;
+        color: #524d5e;
+        font-weight: 700;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+
+        &:before {
+            content: "";
+            display: block;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+        }
+    }
+
+    .links-footer {
+        .ul-nostyle();
+
+        li {
+            margin: 0;
+        }
+
+        li a {
+            display: table;
+            padding: 6px 0;
+        }
+    }
+}
+
+.footer-block.footer-contact {
+    .contact-info {
+        margin: 0;
+        padding: 8px 0 0;
+        list-style: none;
+
+        li {
+            padding-left: 39px;
+            position: relative;
+            margin: 0;
+            color: #444;
+        }
+
+        li:not(:last-child) {
+            margin-bottom: 20px;
+        }
+
+        li:before {
+            display: block;
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            margin-top: -15px;
+            .border-radius(50%);
+        }
+
+        li.address:before {
+            .icomoon(e90a, 20px);
+        }
+
+        li.email:before {
+            .icomoon(e908, 18px);
+        }
+
+        li.phone:before {
+            .icomoon(e967, 18px);
+        }
+    }
+}
+
+.footer-cat-social {
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 35px;
+
+    .social-block-list {
+        ul {
+            list-style: none;
+            margin: -20px 0 40px;
+            text-align: center;
+            padding: 0;
+        }
+
+        ul li {
+            display: inline-block;
+            vertical-align: top;
+            margin: 0 2px;
+        }
+
+        ul li a {
+            display: block;
+            width: 40px;
+            height: 40px;
+            line-height: 38px;
+            text-align: center;
+            background-color: #fff;
+            border: 1px solid #e5e5e5;
+            color: #666;
+            .border-radius(2px);
+            .transition(.1s);
+        }
+    }
+
+    .cat-footer-list {
+        text-align: center;
+
+        ul {
+            .ul-nostyle();
+        }
+    }
+}
+
+.footer-blog .blog-type-list {
+    padding-top: 10px;
+
+    .item {
+        margin-bottom: 13px;
+        .clearfix();
+    }
+
+    .image-post {
+        float: left;
+        width: 70px;
+    }
+
+    .info-post {
+        margin-left: 80px;
+    }
+
+    a.post-item-link {
+        font-size: 107.69%;
+        display: table;
+        margin-bottom: 2px;
+    }
+}
+
+.footer-bottom {
+    .bottom-content {
+        padding: 20px 0;
+    }
+
+    address {
+        margin: 4px 0 0;
+    }
+
+    address a:hover {
+        text-decoration: underline;
+    }
+
+    small, .small {
+        font-size: 100%;
+    }
+}
+
+.payment-footer {
+    text-align: right;
+}
+
+.layout-boxed {
+    .newsletter-footer {
+        padding-right: 20px;
+    }
+
+    .footer-bottom {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
+.layout-boxed {
+    .footer-head,
+    .footer-top,
+    .footer-middle,
+    .footer-bottom {
+        margin-left: -15px;
+        margin-right: -15px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}

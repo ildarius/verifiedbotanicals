@@ -1,0 +1,11 @@
+<?php
+$_config = $this->helper('Sm\Market\Helper\Data');
+$txtBuy  = $_config->getSmThemeInfo('buy_sm_theme/buy_theme_name');
+$urlBuy  = $_config->getSmThemeInfo('buy_sm_theme/buy_theme_url');
+?>
+
+<div class="buy-sm-theme">
+    <a href="<?php echo $urlBuy; ?>" target="_blank">
+        <strong><?php echo $txtBuy; ?></strong>
+    </a>
+</div>

@@ -1,0 +1,31 @@
+<?php
+$_config = $this->helper('Sm\Themecore\Helper\Data');
+?>
+
+<div class="footer-style-29">
+    <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-29-content')->toHtml(); ?>
+
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="bottom-content">
+                <div class="row">
+					 <div class="col-lg-6">
+						<div class="footer-links-bottom">
+							<?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer-links-bottom')->toHtml(); ?>
+						</div>
+					</div>
+                    <div class="col-lg-6">
+                        <?php if ($_config->getAdvanced('copyright_group/custom_copyright')) { ?>
+                            <address><?php echo $_config->getAdvanced('copyright_group/copyright_content') ?></address>
+                        <?php } else { ?>
+                            <address><?php echo $this->getChildHtml("copyright"); ?></address>
+                        <?php } ?>
+                    </div>
+
+                   
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

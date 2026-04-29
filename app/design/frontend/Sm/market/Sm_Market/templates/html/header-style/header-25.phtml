@@ -1,0 +1,64 @@
+<?php
+$_config = $this->helper('Sm\Themecore\Helper\Data');
+?>
+
+<div class="header-container header-style-25">
+    <div class="header-top">
+        <div class="container">
+            <div class="hd-top-content">
+                <div class="logo-container">
+                    <?php echo $this->getChildHtml("logo"); ?>
+                </div>
+
+                <div class="r-container">
+                    <div class="language-currency">
+                        <?php echo $this->getChildHtml("store_language"); ?>
+                        <?php echo $this->getChildHtml("currency"); ?>
+                    </div>
+
+                    <div class="hd-r-customer">
+                        <div class="phone-free">
+                            <?php
+                            echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('phone-free')->toHtml();
+                            ?>
+                        </div>
+
+                        <div class="header-block account-block">
+                            <a href="<?php echo $this->getUrl('customer/account') ?>"><?php echo __('My Account') ?></a>
+
+                            <div class="header-dropdown">
+                                <div class="customer-links" data-move="customer-mobile">
+                                    <?php echo $this->getChildHtml("header.links"); ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="minicart-header" data-move="minicart-mobile">
+                            <?php echo $this->getChildHtml("minicart"); ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-bottom ontop-element">
+        <div class="container">
+            <div class="menu-search">
+                <div class="horizontal-block">
+                    <?php
+                    if ($_config->getGeneral('navigation_group/menu_style') == 'megamenu') {
+                        echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('megamenu-horizontal')->toHtml();
+                    } else {
+                        echo $this->getChildHtml("horizontal-css");
+                    }
+                    ?>
+                </div>
+
+                <div class="search-container">
+                    <?php echo $this->getChildHtml("topSearch"); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,103 @@
+/**
+ * Extended page
+ */
+
+.extend-container {
+    .product-extend .block-title {
+        font-size: 150%;
+        color: #222;
+        margin-bottom: 25px;
+    }
+
+    .ltabs-wrap .ltabs-tabs-container {
+        border-bottom: 1px solid #e5e5e5;
+    }
+
+    .sm-listing-tabs .ltabs-tabs-container .ltabs-tabs li {
+        margin-bottom: -1px;
+        background-color: #eee;
+        border-left: 1px solid #e5e5e5;
+        border-top: 1px solid #e5e5e5;
+        border-bottom: none;
+        margin-right: 0;
+        cursor: pointer;
+        float: left;
+        font-size: 108.33%;
+        padding: 12px 15px;
+        position: relative;
+        font-weight: 600;
+        .transition(.1s);
+
+        &:last-child {
+            border-right: 1px solid #e5e5e5;
+        }
+
+        &:hover,
+        &.tab-sel {
+            background-color: #fff;
+        }
+
+        &.tab-sel:before {
+            content: "";
+            display: block;
+            position: absolute;
+            top: -1px;
+            right: -1px;
+            left: -1px;
+            height: 2px;
+        }
+    }
+
+    .sm-listing-tabs .ltabs-items .ltabs-loadmore .ltabs-loadmore-btn {
+        padding: 10px 50px;
+        border: none;
+        font-size: 107.68%;
+        text-transform: uppercase;
+        .border-radius(2px);
+    }
+
+    .deals-countdown {
+        margin-bottom: 20px;
+
+        .deals-time {
+            padding: 0;
+            border: none;
+            margin: 0 1px;
+        }
+
+        .deals-time .num-time {
+            min-width: 38px;
+            height: 40px;
+            line-height: 40px;
+            padding: 0 5px;
+            font-weight: 700;
+            font-size: 150%;
+            position: relative;
+            margin-bottom: 5px;
+            overflow: hidden;
+            .border-radius(2px);
+        }
+
+        .deals-time .title-time {
+
+        }
+    }
+}
+
+@media (max-width: 1023px) {
+    .extend-container .sm-listing-tabs .ltabs-tabs-container .ltabs-tabs li.tab-sel:before {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .extend-banner .extend-col {
+        width: 100%;
+        max-width: unset;
+        flex: unset;
+
+        img {
+            width: 100%;
+        }
+    }
+}

@@ -1,0 +1,25 @@
+<?php
+$_config  = $this->helper('Sm\Market\Helper\Data');
+$mediaUrl = $_config->getMediaUrl();
+?>
+<script>
+    require([
+        'jquery',
+        'domReady!'
+    ], function ($) {
+        var mediaUrl = "<?php echo $mediaUrl . "sm_layouts/" ?>";
+
+        function newStyle(element) {
+            $(element + " .admin__field-option").each(function () {
+                var imgName = mediaUrl + $(this).find("input[type='radio']").val();
+                var imgHtml = '<img src="' + imgName + '.jpg" />'
+
+                $(this).find(".admin__field-label").prepend(imgHtml);
+            });
+        }
+
+        newStyle("#row_market_theme_layout_layout_header_header_style");
+        newStyle("#row_market_theme_layout_layout_footer_footer_style");
+        newStyle("#row_market_theme_layout_layout_product_product_style");
+    });
+</script>
