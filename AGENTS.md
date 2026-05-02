@@ -6,13 +6,48 @@
 - Composer-based install rooted at this directory
 - Custom PHP code belongs in `app/code/`
 - Custom themes belong in `app/design/frontend/`
+- **Current Mode:** `production` (requires `setup:di:compile` and `setup:static-content:deploy` for most changes).
+- **Custom Modules:**
+  - `Coduzion/Lookbook`: Lookbook functionality.
+  - `Magefan/*`: Blog, Admin User Guide, Wysiwyg Advanced, etc.
+  - `Sm/*`: Core and Market theme-specific modules.
+  - `Local/PageBuilderDirectiveFix`: Currently an empty shell.
+- **Custom Themes:**
+  - `Sm/market`: Primary theme (active, ID 5).
+  - `Sm/market_2`, `Sm/market_3`, `Sm/market_4`: Available theme variants (inactive).
+  - `Sm/themecore`: Parent theme for Sm Market (ID 4).
+  - `Sm/smtheme_mobile`: Mobile-specific theme.
 
 ## Working Rules
 
 - Prefer minimal, targeted changes that fit Magento conventions.
+- **Configuration:** `app/etc/config.php` (enabled modules) and `app/etc/env.php` (database/env settings) are gitignored but are the source of truth for the local environment.
 - Do not edit `vendor/` unless the user explicitly asks for it.
 - Preserve existing local changes; this worktree may be dirty.
 - Use `rg` for search and inspect existing module/theme structure before adding files.
+- **Harness Preservation:** Do not delete harnesses, scripts, or temporary tools created during tasks without explicit user approval. Only propose deletion for items with extremely low re-use potential.
+
+## Product Creation Process
+
+The programmatic product import (`import_products.php`) follows these steps:
+1.  **Attribute Set:** Creates/verifies the `Kratom` attribute set, inheriting from `Default`.
+2.  **Attributes:** Creates/verifies the `kratom_weight` (select) attribute and ensures it is assigned to the `Kratom` attribute set.
+3.  **Options:** Populates `kratom_weight` with options (25g, 50g, etc.) derived from the CSV.
+4.  **Simple Products (Variations):**
+    *   Creates simple products with `Visibility: Not Visible Individually`.
+    *   Maps weight options from the name/SKU to the `kratom_weight` attribute.
+    *   Sets stock status and quantity.
+5.  **Configurable Products (Variables):**
+    *   Creates configurable products with `Visibility: Catalog, Search`.
+    *   Uses `ExtensionAttributes` to link simple products and define the configurable attribute (`kratom_weight`).
+    *   Assigns categories as defined in the CSV.
+
+## Harnesses
+
+- `import_categories.php`: Programmatically imports categories from `data/products.csv`.
+  - Run with: `docker exec -u 1000 ddev-magento-web php import_categories.php`
+- `import_products.php`: Programmatically imports products from `data/products.csv`, creates the 'Kratom' attribute set and 'kratom_weight' attribute, and links variations as configurable products.
+  - Run with: `docker exec -u 1000 ddev-magento-web php import_products.php`
 
 ## Magento Theme Work
 
@@ -35,6 +70,11 @@
 - Cache flush: `php bin/magento cache:flush`
 - Upgrade setup scripts/schema: `php bin/magento setup:upgrade`
 - List modules: `php bin/magento module:status`
+
+## Database Management
+
+- **Backup (DDEV/Docker):** `docker exec ddev-magento-db mysqldump -u db -pdb db | gzip > backups/filename.sql.gz`
+- **Restore (DDEV/Docker):** `zcat backups/filename.sql.gz | docker exec -i ddev-magento-db mysql -u db -pdb db`
 
 ## Validation
 
