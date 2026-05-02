@@ -1,3 +1,6 @@
+backups/
+data/*.csv
+
 # Magento generated code and caches
 /generated/*
 !/generated/.htaccess
