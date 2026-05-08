@@ -34,13 +34,83 @@ if ($config['theme'] == \Sm\MegaMenu\Model\Config\Source\ListTheme::VERTICAL) {
 $instance       = rand() . time();
 $id             = ($this->getFrontController()->getRequest()->getParam('id')) ? $this->getFrontController()->getRequest()->getParam('id') : ($this->getFrontController()->getRequest()->getParam('page_id') ? $this->getFrontController()->getRequest()->getParam('page_id') : '');
 $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$isHomepageProductMenu = $theme === 'vertical'
+    && (int)$this->_getConfig('group_id') === 5
+    && $this->getRequest()->getFullActionName() === 'cms_index_index';
+$productItems = [];
+$blockTitle = __($config['title']);
+$moreLabel = __('More Categories');
+$leafIconUrl = '';
+
+if ($isHomepageProductMenu) {
+    $storeManager = $_objectManager->get(\Magento\Store\Model\StoreManagerInterface::class);
+    $storeId = (int)$storeManager->getStore()->getId();
+    $leafIconUrl = $storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA)
+        . 'wysiwyg/mega-menu/icon/icon-1.png';
+    $productCollection = $_objectManager->create(\Magento\Catalog\Model\ResourceModel\Product\CollectionFactory::class)
+        ->create();
+    $productVisibility = $_objectManager->get(\Magento\Catalog\Model\Product\Visibility::class);
+
+    $productCollection->setStoreId($storeId)
+        ->addStoreFilter($storeId)
+        ->addAttributeToSelect(['name'])
+        ->addAttributeToFilter(
+            'status',
+            \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
+        )
+        ->setVisibility($productVisibility->getVisibleInSiteIds())
+        ->addUrlRewrite()
+        ->setOrder('created_at', 'DESC')
+        ->setPageSize((int)$limitItem)
+        ->setCurPage(1);
+
+    foreach ($productCollection as $product) {
+        $productItems[] = $product;
+    }
+
+    if ($productItems) {
+        $blockTitle = __('Shop by Products');
+        $moreLabel = __('More Products');
+    }
+}
 
 ?>
 <div class="vertical-menu-block">
-    <div class="block-title-menu"><?php echo __($config['title']); ?></div>
+    <div class="block-title-menu"><?php echo $blockTitle; ?></div>
 
     <div class="vertical-menu-content">
-        <?php if (count($itemsStartLv)): ?>
+        <?php if ($isHomepageProductMenu && count($productItems)): ?>
+            <nav class="<?php echo $prefix; ?>wrapper_<?php echo $theme ?>_menu sambar" id="<?php echo $uq; ?>"
+                 data-sam="<?php echo $instance; ?>">
+                <div class="sambar-inner">
+                    <div class="mega-content">
+                        <ul class="<?php echo $theme . '-type ';
+                        if (!$detect->isMobile() && !$detect->isTablet()) {
+                            echo "sm-megamenu-hover";
+                        } ?> <?php echo $prefix; ?>menu <?php echo $prefix; ?>menu_black" data-jsapi="on">
+                            <?php foreach ($productItems as $product): ?>
+                                <li class="other-toggle <?php echo $prefix; ?>lv1 <?php echo $prefix; ?>drop parent">
+                                    <a class="<?php echo $prefix; ?>head <?php echo $prefix; ?>drop"
+                                       href="<?php echo $product->getProductUrl(); ?>"
+                                       id="<?php echo $prefix . 'product-' . (int)$product->getId(); ?>">
+                                        <span class="icon_items"><img
+                                                    src="<?php echo $leafIconUrl; ?>"
+                                                    alt="icon items" width="1" height="1"></span>
+                                        <span class="<?php echo $prefix; ?>icon <?php echo $prefix; ?>nodesc">
+                                            <span class="<?php echo $prefix; ?>title"><?php echo $block->escapeHtml($product->getName()); ?></span>
+                                        </span>
+                                    </a>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+
+                    <div class="more-w">
+                        <span class="more-view"><?php echo $moreLabel; ?></span>
+                    </div>
+                </div>
+            </nav>
+        <?php elseif (count($itemsStartLv)): ?>
             <?php include($block->getTemplateFile("Sm_MegaMenu::js/add_js_by_effect.phtml")); ?>
             <nav class="<?php echo $prefix; ?>wrapper_<?php echo $theme ?>_menu sambar" id="<?php echo $uq; ?>"
                  data-sam="<?php echo $instance; ?>">
@@ -148,7 +218,7 @@ $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 
                     <?php if ($theme == 'vertical') { ?>
                         <div class="more-w">
-                            <span class="more-view"><?php echo __('More Categories') ?></span>
+                            <span class="more-view"><?php echo $moreLabel; ?></span>
                         </div>
                     <?php } ?>
                 </div>
@@ -225,7 +295,7 @@ $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
                     });
                     $(this).removeClass('open');
                     $('.more-w').removeClass('active-i');
-                    $(this).html('<?php /* @escapeNotVerified */ echo __('More Categories')?>');
+                    $(this).html('<?php /* @escapeNotVerified */ echo $moreLabel; ?>');
                 } else {
                     i = 0;
                     $('.sm_megamenu_wrapper_vertical_menu ul.sm_megamenu_menu > li').each(function () {
