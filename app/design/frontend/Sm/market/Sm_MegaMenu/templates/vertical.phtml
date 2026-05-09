@@ -34,9 +34,10 @@ if ($config['theme'] == \Sm\MegaMenu\Model\Config\Source\ListTheme::VERTICAL) {
 $instance       = rand() . time();
 $id             = ($this->getFrontController()->getRequest()->getParam('id')) ? $this->getFrontController()->getRequest()->getParam('id') : ($this->getFrontController()->getRequest()->getParam('page_id') ? $this->getFrontController()->getRequest()->getParam('page_id') : '');
 $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$blockConfigTitle = trim((string)$config['title']);
 $isHomepageProductMenu = $theme === 'vertical'
-    && (int)$this->_getConfig('group_id') === 5
-    && $this->getRequest()->getFullActionName() === 'cms_index_index';
+    && $this->getRequest()->getFullActionName() === 'cms_index_index'
+    && $blockConfigTitle === 'Shop by Categories';
 $productItems = [];
 $blockTitle = __($config['title']);
 $moreLabel = __('More Categories');
@@ -45,26 +46,26 @@ $leafIconUrl = '';
 if ($isHomepageProductMenu) {
     $storeManager = $_objectManager->get(\Magento\Store\Model\StoreManagerInterface::class);
     $storeId = (int)$storeManager->getStore()->getId();
+    $homepageProductSkus = ['GH', 'GM', 'GMD', 'RH', 'RMD', 'RB'];
+    $productRepository = $_objectManager->get(\Magento\Catalog\Api\ProductRepositoryInterface::class);
     $leafIconUrl = $storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA)
         . 'wysiwyg/mega-menu/icon/icon-1.png';
-    $productCollection = $_objectManager->create(\Magento\Catalog\Model\ResourceModel\Product\CollectionFactory::class)
-        ->create();
-    $productVisibility = $_objectManager->get(\Magento\Catalog\Model\Product\Visibility::class);
 
-    $productCollection->setStoreId($storeId)
-        ->addStoreFilter($storeId)
-        ->addAttributeToSelect(['name'])
-        ->addAttributeToFilter(
-            'status',
-            \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
-        )
-        ->setVisibility($productVisibility->getVisibleInSiteIds())
-        ->addUrlRewrite()
-        ->setOrder('created_at', 'DESC')
-        ->setPageSize((int)$limitItem)
-        ->setCurPage(1);
+    foreach ($homepageProductSkus as $sku) {
+        try {
+            $product = $productRepository->get($sku, false, $storeId);
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+            continue;
+        }
 
-    foreach ($productCollection as $product) {
+        if (!(int)$product->getStatus()) {
+            continue;
+        }
+
+        if (!(int)$product->getVisibility()) {
+            continue;
+        }
+
         $productItems[] = $product;
     }
 

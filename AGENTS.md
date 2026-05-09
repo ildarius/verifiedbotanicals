@@ -25,6 +25,7 @@
 - Do not edit `vendor/` unless the user explicitly asks for it.
 - Preserve existing local changes; this worktree may be dirty.
 - Use `rg` for search and inspect existing module/theme structure before adding files.
+- When the user mentions `tmp` or `/tmp` for project assets, treat that as `var/tmp/` unless they explicitly say otherwise.
 - **Harness Preservation:** Do not delete harnesses, scripts, or temporary tools created during tasks without explicit user approval. Only propose deletion for items with extremely low re-use potential.
 
 ## Product Creation Process
@@ -86,6 +87,7 @@ The programmatic product import (`import_products.php`) follows these steps:
 
 - If a task depends on archived assets in `theme_files/`, inspect package compatibility with the current Magento version before installation.
 - Record any required post-install commands in the final handoff.
+- Rotating special deals discovery and implementation planning is documented in [dev/plans/rotating-special-deals.md](/home/ildar/projects/magento/dev/plans/rotating-special-deals.md).
 
 ## Playwright Harness
 
@@ -121,6 +123,11 @@ The programmatic product import (`import_products.php`) follows these steps:
 - import a demo from `Stores > Configuration > MAGENTECH.COM > SM Market`
 - flush cache
 - The imported CMS demo pages include `home-demo-37`, which corresponds to `Fresh 1`.
+- The homepage left vertical menu on `home-demo-37` is not driven by standard category navigation; it is embedded in CMS content via `{{block class="Sm\MegaMenu\Block\MegaMenu\View" template="Sm_MegaMenu::vertical.phtml" theme="2" group_id="5" title="Shop by Categories" limit="7"}}`.
+- To change that left menu without editing the CMS page record directly, override `app/design/frontend/Sm/market/Sm_MegaMenu/templates/vertical.phtml` and branch specifically for `cms_index_index` with MegaMenu `group_id = 5`.
+- The current customization swaps that one homepage menu instance from imported category items to a frontend-visible product collection, keeps the same 7-item limit, and relabels the block to `Shop by Products`.
+- The product rows intentionally reuse the existing `Vegetables` leaf icon from `media/wysiwyg/mega-menu/icon/icon-1.png`.
+- After editing that template, clear at least `block_html` and `full_page` caches in `ddev-magento-web` so the homepage picks up the change.
 - The final homepage setting from this run is `web/default/cms_home_page = home-demo-37`.
 - The final theme setting from this run is `design/theme/theme_id = 5`.
 - The vendor admin screen labels the first demo set by business names like `Shop 1`, `Fresh 1`, etc., not `Demo 1`, even though the documentation uses generic `Demo X` wording.
