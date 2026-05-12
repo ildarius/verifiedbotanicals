@@ -19,5 +19,24 @@
             </block>
         </referenceBlock>
 
+        <referenceContainer name="content">
+            <block class="Magento\Framework\View\Element\Template"
+                   name="home.hero"
+                   template="Sm_Market::home/hero.phtml"
+                   before="-">
+                <block class="Sm\MegaMenu\Block\MegaMenu\View"
+                       name="home.hero.vertical.menu"
+                       as="vertical_menu"
+                       template="Sm_MegaMenu::vertical.phtml">
+                    <arguments>
+                        <argument name="theme" xsi:type="string">2</argument>
+                        <argument name="group_id" xsi:type="string">5</argument>
+                        <argument name="title" xsi:type="string">Shop by Categories</argument>
+                        <argument name="limit" xsi:type="string">7</argument>
+                    </arguments>
+                </block>
+            </block>
+        </referenceContainer>
+
     </body>
 </page>
