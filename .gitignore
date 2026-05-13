@@ -60,3 +60,5 @@ backups/*.sql.gz
 /.vscode/
 /.DS_Store
 /Thumbs.db
+
+/vendor.broken-20260513/
