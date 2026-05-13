@@ -355,6 +355,7 @@ return [
         'Magento_WishlistAnalytics' => 1,
         'Magento_WishlistGraphQl' => 1,
         'Coduzion_Lookbook' => 1,
+        'Local_HomepageAssets' => 1,
         'Magefan_AdminUserGuide' => 1,
         'Magefan_Community' => 1,
         'Magefan_Blog' => 1,

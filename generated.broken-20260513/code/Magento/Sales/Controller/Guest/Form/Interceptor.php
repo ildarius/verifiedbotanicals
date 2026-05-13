@@ -1,0 +1,25 @@
+<?php
+namespace Magento\Sales\Controller\Guest\Form;
+
+/**
+ * Interceptor class for @see \Magento\Sales\Controller\Guest\Form
+ */
+class Interceptor extends \Magento\Sales\Controller\Guest\Form implements \Magento\Framework\Interception\InterceptorInterface
+{
+    use \Magento\Framework\Interception\Interceptor;
+
+    public function __construct(\Magento\Framework\App\Action\Context $context, \Magento\Framework\View\Result\PageFactory $resultPageFactory, ?\Magento\Customer\Model\Session $customerSession = null, ?\Magento\Sales\Helper\Guest $guestHelper = null)
+    {
+        $this->___init();
+        parent::__construct($context, $resultPageFactory, $customerSession, $guestHelper);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function execute()
+    {
+        $pluginInfo = $this->pluginList->getNext($this->subjectType, 'execute');
+        return $pluginInfo ? $this->___callPlugins('execute', func_get_args(), $pluginInfo) : parent::execute();
+    }
+}

@@ -1,0 +1,25 @@
+<?php
+namespace Magento\Backend\Controller\Adminhtml\Index\ChangeLocale;
+
+/**
+ * Interceptor class for @see \Magento\Backend\Controller\Adminhtml\Index\ChangeLocale
+ */
+class Interceptor extends \Magento\Backend\Controller\Adminhtml\Index\ChangeLocale implements \Magento\Framework\Interception\InterceptorInterface
+{
+    use \Magento\Framework\Interception\Interceptor;
+
+    public function __construct(\Magento\Backend\App\Action\Context $context)
+    {
+        $this->___init();
+        parent::__construct($context);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function execute()
+    {
+        $pluginInfo = $this->pluginList->getNext($this->subjectType, 'execute');
+        return $pluginInfo ? $this->___callPlugins('execute', func_get_args(), $pluginInfo) : parent::execute();
+    }
+}
