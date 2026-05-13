@@ -83,7 +83,7 @@ Behavior:
 Executed:
 
 ```bash
-ddev exec php bin/magento setup:upgrade
+docker exec -u 1000 ddev-magento-web php bin/magento setup:upgrade
 ```
 
 Result:
@@ -91,6 +91,51 @@ Result:
 - patch applied successfully
 - caches flushed
 - homepage now renders the moved assets from `static/.../Sm_Market/images/...`
+
+### 7. Moved `home-dropdown` layout preview assets into tracked theme files
+
+Copied into tracked theme assets:
+
+- `app/design/frontend/Sm/market/web/images/shared/layout-demo/layout-*.jpg`
+
+Source files were copied from:
+
+- `pub/media/wysiwyg/layout-demo/*.jpg`
+
+Added:
+
+- `app/code/Local/HomepageAssets/Setup/Patch/Data/MigrateHomeDropdownAssets.php`
+
+Patch behavior:
+
+- rewrites CMS block `home-dropdown`
+- converts `{{media url=wysiwyg/layout-demo/...}}` to `{{view url='Sm_Market::images/shared/layout-demo/...'}}`
+
+### 8. Replaced generated homepage theme CSS with a tracked theme asset for `fresh1_en`
+
+Added:
+
+- `app/design/frontend/Sm/market/Sm_Themecore/templates/html/head.phtml`
+- `app/design/frontend/Sm/market/web/css/settings/settings_fresh1_en.css`
+
+Behavior:
+
+- for store code `fresh1_en`, the head template now loads the tracked static asset
+- other stores still fall back to the vendor helper URL under `pub/media/sm/configed_css/`
+
+### 9. Re-ran production static deploy
+
+Executed successfully:
+
+```bash
+docker exec -u 1000 ddev-magento-web php bin/magento setup:static-content:deploy -f --strategy standard --theme Sm/market en_US
+```
+
+Notes:
+
+- `ddev exec` is not usable from the current root shell
+- `setup:static-content:deploy -f --theme Sm/market en_US` with the default quick strategy failed in `frontend/Magento/blank`
+- rerunning with `--strategy standard` completed successfully for `Magento/blank`, `Sm/market`, and `Sm/themecore`
 
 ## Verified Working
 
@@ -103,32 +148,17 @@ Verified in rendered homepage HTML:
 - homepage banner images
 - homepage service icons
 - homepage farmer images
+- `home-dropdown` layout preview images
+- tracked stylesheet `Sm_Market/css/settings/settings_fresh1_en.css`
 
 These now resolve from:
 
 - `https://magento.ddev.site/static/.../Sm_Market/images/...`
+- `https://magento.ddev.site/static/.../Sm_Market/css/settings/settings_fresh1_en.css`
 
 ## Remaining Portability Gaps
 
-### 1. Homepage still references media layout preview images
-
-Rendered homepage still uses:
-
-- `media/wysiwyg/layout-demo/layout-*.jpg`
-
-These come from the “home-dropdown” content/menu preview area.
-
-### 2. Homepage still depends on generated theme CSS
-
-Rendered homepage still loads:
-
-- `media/sm/configed_css/settings_fresh1_en.css`
-
-This is generated and not tracked.
-
-This may also be where the modified homepage background image is coming from, depending on how it was changed.
-
-### 3. Normal product media/cache paths still appear
+### 1. Normal product media/cache paths still appear
 
 Still present in rendered homepage:
 
@@ -139,80 +169,35 @@ These are expected runtime/media dependencies and were not addressed yet.
 
 ## Most Likely Next Steps
 
-### A. Remove `layout-demo` media dependency
+### A. Decide whether to also vendor the lazyload placeholder
 
-Find the source for the homepage “demo layout preview” assets and switch those references to tracked theme assets.
+Rendered homepage still uses:
 
-Likely sources:
+- `media/lazyloading/blank.png`
 
-- CMS block/page content
-- imported theme content
-- template code rendering `data-src-prev`
+This is not homepage-specific and is still referenced by vendor/product rendering, but if the goal expands to "no homepage HTML may reference `pub/media` except product images", this is the next obvious asset to port.
 
-Useful command:
+### B. Decide how broadly to replace generated theme CSS
 
-```bash
-curl -ks https://magento.ddev.site/ | rg 'layout-demo'
-```
+Current behavior is intentionally narrow:
 
-### B. Remove generated theme CSS dependency
+- `fresh1_en` uses tracked theme CSS
+- other stores still fall back to vendor-generated CSS in `pub/media/sm/configed_css/`
 
-Investigate:
+If full multi-store portability is needed, add tracked CSS copies for the other active store codes and extend the store-code map in:
 
-- which settings generate `media/sm/configed_css/settings_fresh1_en.css`
-- whether the changed homepage background image is coming from those settings
-
-Likely code paths:
-
-- `app/code/Sm/Themecore/...`
-- generated CSS helpers/templates
-
-Goal:
-
-- move critical homepage styling, especially the modified background image, into tracked theme files
-- avoid relying on generated CSS for homepage-critical presentation
-
-Useful command:
-
-```bash
-curl -ks https://magento.ddev.site/media/sm/configed_css/settings_fresh1_en.css | rg 'background|media/'
-```
+- `app/design/frontend/Sm/market/Sm_Themecore/templates/html/head.phtml`
 
 ## Current Relevant Files
 
 - `app/code/Local/HomepageAssets/Setup/Patch/Data/MigrateHomeDemo37Assets.php`
+- `app/code/Local/HomepageAssets/Setup/Patch/Data/MigrateHomeDropdownAssets.php`
+- `app/design/frontend/Sm/market/Sm_Themecore/templates/html/head.phtml`
 - `app/design/frontend/Sm/market/Sm_MegaMenu/templates/vertical.phtml`
 - `app/design/frontend/Sm/market/Sm_Market/templates/html/header-mobile.phtml`
+- `app/design/frontend/Sm/market/web/css/settings/settings_fresh1_en.css`
 - `app/design/frontend/Sm/market/web/images/home-demo-37/`
 - `app/design/frontend/Sm/market/web/images/shared/`
-
-## Current Git Status Notes
-
-Relevant uncommitted changes:
-
-- modified: `app/design/frontend/Sm/market/Sm_Market/templates/html/header-mobile.phtml`
-- modified: `app/design/frontend/Sm/market/Sm_MegaMenu/templates/vertical.phtml`
-- modified: `app/etc/config.php`
-- untracked: `app/code/Local/`
-- untracked: `app/design/frontend/Sm/market/web/images/home-demo-37/`
-- untracked: `app/design/frontend/Sm/market/web/images/shared/`
-
-Extra untracked directories at repo root that look accidental from restore activity:
-
-- `cache/`
-- `captcha/`
-- `customer/`
-- `downloadable/`
-- `import/`
-- `theme_customization/`
-- `tmp/`
-
-These likely do not belong at project root and should be reviewed before any broad `git add`.
-
-Temporary restore backups still present:
-
-- `generated.broken-20260513/`
-- `vendor.broken-20260513/`
 
 ## Resume Commands
 
@@ -232,5 +217,11 @@ curl -ks https://magento.ddev.site/ | rg -o 'https://magento\\.ddev\\.site/(stat
 Re-apply DB patch logic if needed:
 
 ```bash
-ddev exec php bin/magento setup:upgrade
+docker exec -u 1000 ddev-magento-web php bin/magento setup:upgrade
+```
+
+Rebuild production static assets for the active theme:
+
+```bash
+docker exec -u 1000 ddev-magento-web php bin/magento setup:static-content:deploy -f --strategy standard --theme Sm/market en_US
 ```

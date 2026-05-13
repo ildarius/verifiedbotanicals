@@ -49,7 +49,7 @@ if ($isHomepageProductMenu) {
     $storeId = (int)$storeManager->getStore()->getId();
     $homepageProductSkus = ['GH', 'GM', 'GMD', 'RH', 'RMD', 'RB'];
     $productRepository = $_objectManager->get(\Magento\Catalog\Api\ProductRepositoryInterface::class);
-    $leafIconUrl = $assetRepository->getUrl('Sm_Market::images/shared/mega-menu/icon-1.png');
+    $leafIconUrl = $assetRepository->getUrl('images/shared/mega-menu/icon-1.png');
 
     foreach ($homepageProductSkus as $sku) {
         try {

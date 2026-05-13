@@ -14,40 +14,42 @@ class MigrateHomeDemo37Assets implements DataPatchInterface
 
     private const PAGE_REPLACEMENTS = [
         '{{media url=wysiwyg/category/green-maeng-da-300x300.png}}'
-            => "{{view url='Sm_Market::images/home-demo-37/category/green-maeng-da-300x300.png'}}",
+            => "{{view url='images/home-demo-37/category/green-maeng-da-300x300.png'}}",
         '{{media url=wysiwyg/category/red-hulu-red-kapuas-300x300.png}}'
-            => "{{view url='Sm_Market::images/home-demo-37/category/red-hulu-red-kapuas-300x300.png'}}",
+            => "{{view url='images/home-demo-37/category/red-hulu-red-kapuas-300x300.png'}}",
         '{{media url=wysiwyg/category/white-vein-kratom-300x300.png}}'
-            => "{{view url='Sm_Market::images/home-demo-37/category/white-vein-kratom-300x300.png'}}",
+            => "{{view url='images/home-demo-37/category/white-vein-kratom-300x300.png'}}",
         '{{media url=wysiwyg/banner/banner-119.jpg}}'
-            => "{{view url='Sm_Market::images/home-demo-37/banner/banner-119.jpg'}}",
+            => "{{view url='images/home-demo-37/banner/banner-119.jpg'}}",
         '{{media url=wysiwyg/banner/banner-120.jpg}}'
-            => "{{view url='Sm_Market::images/home-demo-37/banner/banner-120.jpg'}}",
+            => "{{view url='images/home-demo-37/banner/banner-120.jpg'}}",
         '{{media url=wysiwyg/banner/banner-121.jpg}}'
-            => "{{view url='Sm_Market::images/home-demo-37/banner/banner-121.jpg'}}",
+            => "{{view url='images/home-demo-37/banner/banner-121.jpg'}}",
         '{{media url=wysiwyg/banner/banner-122.png}}'
-            => "{{view url='Sm_Market::images/home-demo-37/banner/banner-122.png'}}",
+            => "{{view url='images/home-demo-37/banner/kratom_farmer_indonesia.png'}}",
+        "{{view url='images/home-demo-37/banner/banner-122.png'}}"
+            => "{{view url='images/home-demo-37/banner/kratom_farmer_indonesia.png'}}",
         '{{media url=wysiwyg/icon-image/icon-55-1.png}}'
-            => "{{view url='Sm_Market::images/home-demo-37/icon-image/icon-55-1.png'}}",
+            => "{{view url='images/home-demo-37/icon-image/icon-55-1.png'}}",
         '{{media url=wysiwyg/icon-image/icon-55-2.png}}'
-            => "{{view url='Sm_Market::images/home-demo-37/icon-image/icon-55-2.png'}}",
+            => "{{view url='images/home-demo-37/icon-image/icon-55-2.png'}}",
         '{{media url=wysiwyg/icon-image/icon-55-3.png}}'
-            => "{{view url='Sm_Market::images/home-demo-37/icon-image/icon-55-3.png'}}",
+            => "{{view url='images/home-demo-37/icon-image/icon-55-3.png'}}",
         '{{media url=wysiwyg/icon-image/icon-55-4.png}}'
-            => "{{view url='Sm_Market::images/home-demo-37/icon-image/icon-55-4.png'}}",
+            => "{{view url='images/home-demo-37/icon-image/icon-55-4.png'}}",
         '{{media url=wysiwyg/clients/our-1.jpg}}'
-            => "{{view url='Sm_Market::images/home-demo-37/clients/our-1.jpg'}}",
+            => "{{view url='images/home-demo-37/clients/our-1.jpg'}}",
         '{{media url=wysiwyg/clients/our-2.jpg}}'
-            => "{{view url='Sm_Market::images/home-demo-37/clients/our-2.jpg'}}",
+            => "{{view url='images/home-demo-37/clients/our-2.jpg'}}",
         '{{media url=wysiwyg/clients/our-3.jpg}}'
-            => "{{view url='Sm_Market::images/home-demo-37/clients/our-3.jpg'}}",
+            => "{{view url='images/home-demo-37/clients/our-3.jpg'}}",
         '{{media url=wysiwyg/clients/our-4.jpg}}'
-            => "{{view url='Sm_Market::images/home-demo-37/clients/our-4.jpg'}}",
+            => "{{view url='images/home-demo-37/clients/our-4.jpg'}}",
     ];
 
     private const BLOCK_REPLACEMENTS = [
         '{{media url=wysiwyg/support.png}}'
-            => "{{view url='Sm_Market::images/shared/support.png'}}",
+            => "{{view url='images/shared/support.png'}}",
     ];
 
     public function __construct(

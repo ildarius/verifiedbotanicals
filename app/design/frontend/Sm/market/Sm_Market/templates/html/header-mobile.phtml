@@ -18,7 +18,7 @@ $assetRepository = \Magento\Framework\App\ObjectManager::getInstance()
     ->get(\Magento\Framework\View\Asset\Repository::class);
 $mobileLogoUrl = $mediaSrc . 'logomobile/' . $logoMobile;
 if ($logoMobile === 'default/logo-mobile_1.png') {
-    $mobileLogoUrl = $assetRepository->getUrl('Sm_Market::images/shared/logo-mobile_1.png');
+    $mobileLogoUrl = $assetRepository->getUrl('images/shared/logo-mobile_1.png');
 }
 $menuType    = $_configCore->getGeneral('navigation_group/menu_style');
 $breakPoint  = $_configCore->getGeneral('mobile_layout/mobile_break_point');
