@@ -42,7 +42,6 @@ backups/*.sql.gz
 /pub/media/wysiwyg/.thumbs/
 
 # Application configuration and secrets
-/app/etc/config.php
 /app/etc/env.php
 /auth.json
 
