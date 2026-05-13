@@ -1,0 +1,25 @@
+<?php
+namespace Magento\Catalog\Controller\Adminhtml\Category\Grid;
+
+/**
+ * Interceptor class for @see \Magento\Catalog\Controller\Adminhtml\Category\Grid
+ */
+class Interceptor extends \Magento\Catalog\Controller\Adminhtml\Category\Grid implements \Magento\Framework\Interception\InterceptorInterface
+{
+    use \Magento\Framework\Interception\Interceptor;
+
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Framework\Controller\Result\RawFactory $resultRawFactory, \Magento\Framework\View\LayoutFactory $layoutFactory)
+    {
+        $this->___init();
+        parent::__construct($context, $resultRawFactory, $layoutFactory);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function execute()
+    {
+        $pluginInfo = $this->pluginList->getNext($this->subjectType, 'execute');
+        return $pluginInfo ? $this->___callPlugins('execute', func_get_args(), $pluginInfo) : parent::execute();
+    }
+}

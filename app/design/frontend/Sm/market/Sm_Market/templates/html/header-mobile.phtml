@@ -14,6 +14,12 @@ $_config     = $this->helper('Sm\Market\Helper\Data');
 $_configCore = $this->helper('Sm\Themecore\Helper\Data');
 $mediaSrc    = $_config->getMediaUrl();
 $logoMobile  = $_configCore->getGeneral('mobile_layout/logo_mobile');
+$assetRepository = \Magento\Framework\App\ObjectManager::getInstance()
+    ->get(\Magento\Framework\View\Asset\Repository::class);
+$mobileLogoUrl = $mediaSrc . 'logomobile/' . $logoMobile;
+if ($logoMobile === 'default/logo-mobile_1.png') {
+    $mobileLogoUrl = $assetRepository->getUrl('images/shared/logo-mobile_1.png');
+}
 $menuType    = $_configCore->getGeneral('navigation_group/menu_style');
 $breakPoint  = $_configCore->getGeneral('mobile_layout/mobile_break_point');
 ?>
@@ -33,7 +39,7 @@ $breakPoint  = $_configCore->getGeneral('mobile_layout/mobile_break_point');
 
                 <div class="mobile-logo">
                     <a href="<?php echo $this->getUrl('') ?>">
-                        <img src="<?php echo $mediaSrc . 'logomobile/' . $logoMobile; ?>"
+                        <img src="<?php echo $mobileLogoUrl; ?>"
                              alt="<?php /* @escapeNotVerified */
                              echo $block->getLogoAlt() ?>"
                              width="<?php echo $_configCore->getGeneral('mobile_layout/logomobile_width'); ?>"
@@ -89,4 +95,3 @@ $breakPoint  = $_configCore->getGeneral('mobile_layout/mobile_break_point');
 
     </div>
 </div>
-

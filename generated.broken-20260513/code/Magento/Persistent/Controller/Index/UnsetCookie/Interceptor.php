@@ -1,0 +1,25 @@
+<?php
+namespace Magento\Persistent\Controller\Index\UnsetCookie;
+
+/**
+ * Interceptor class for @see \Magento\Persistent\Controller\Index\UnsetCookie
+ */
+class Interceptor extends \Magento\Persistent\Controller\Index\UnsetCookie implements \Magento\Framework\Interception\InterceptorInterface
+{
+    use \Magento\Framework\Interception\Interceptor;
+
+    public function __construct(\Magento\Framework\App\Action\Context $context, \Magento\Persistent\Model\QuoteManager $quoteManager, \Magento\Checkout\Model\Session $checkoutSession, \Magento\Customer\Model\Session $customerSession, \Magento\Persistent\Helper\Session $sessionHelper)
+    {
+        $this->___init();
+        parent::__construct($context, $quoteManager, $checkoutSession, $customerSession, $sessionHelper);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function execute()
+    {
+        $pluginInfo = $this->pluginList->getNext($this->subjectType, 'execute');
+        return $pluginInfo ? $this->___callPlugins('execute', func_get_args(), $pluginInfo) : parent::execute();
+    }
+}

@@ -45,11 +45,11 @@ $leafIconUrl = '';
 
 if ($isHomepageProductMenu) {
     $storeManager = $_objectManager->get(\Magento\Store\Model\StoreManagerInterface::class);
+    $assetRepository = $_objectManager->get(\Magento\Framework\View\Asset\Repository::class);
     $storeId = (int)$storeManager->getStore()->getId();
     $homepageProductSkus = ['GH', 'GM', 'GMD', 'RH', 'RMD', 'RB'];
     $productRepository = $_objectManager->get(\Magento\Catalog\Api\ProductRepositoryInterface::class);
-    $leafIconUrl = $storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA)
-        . 'wysiwyg/mega-menu/icon/icon-1.png';
+    $leafIconUrl = $assetRepository->getUrl('images/shared/mega-menu/icon-1.png');
 
     foreach ($homepageProductSkus as $sku) {
         try {

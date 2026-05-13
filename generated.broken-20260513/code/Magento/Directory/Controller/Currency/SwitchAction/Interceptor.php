@@ -1,0 +1,25 @@
+<?php
+namespace Magento\Directory\Controller\Currency\SwitchAction;
+
+/**
+ * Interceptor class for @see \Magento\Directory\Controller\Currency\SwitchAction
+ */
+class Interceptor extends \Magento\Directory\Controller\Currency\SwitchAction implements \Magento\Framework\Interception\InterceptorInterface
+{
+    use \Magento\Framework\Interception\Interceptor;
+
+    public function __construct(\Magento\Framework\App\Action\Context $context)
+    {
+        $this->___init();
+        parent::__construct($context);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function execute()
+    {
+        $pluginInfo = $this->pluginList->getNext($this->subjectType, 'execute');
+        return $pluginInfo ? $this->___callPlugins('execute', func_get_args(), $pluginInfo) : parent::execute();
+    }
+}

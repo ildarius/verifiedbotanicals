@@ -1,0 +1,25 @@
+<?php
+namespace Magento\Review\Controller\Adminhtml\Product\Pending;
+
+/**
+ * Interceptor class for @see \Magento\Review\Controller\Adminhtml\Product\Pending
+ */
+class Interceptor extends \Magento\Review\Controller\Adminhtml\Product\Pending implements \Magento\Framework\Interception\InterceptorInterface
+{
+    use \Magento\Framework\Interception\Interceptor;
+
+    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Framework\Registry $coreRegistry, \Magento\Review\Model\ReviewFactory $reviewFactory, \Magento\Review\Model\RatingFactory $ratingFactory)
+    {
+        $this->___init();
+        parent::__construct($context, $coreRegistry, $reviewFactory, $ratingFactory);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function execute()
+    {
+        $pluginInfo = $this->pluginList->getNext($this->subjectType, 'execute');
+        return $pluginInfo ? $this->___callPlugins('execute', func_get_args(), $pluginInfo) : parent::execute();
+    }
+}
