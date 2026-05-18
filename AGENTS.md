@@ -139,3 +139,63 @@ The programmatic product import (`import_products.php`) follows these steps:
 - If Playwright clicks fail on those controls because they are hidden, invoking the page's own button handlers by DOM ID is a workable fallback.
 - `php bin/magento setup:static-content:deploy -f` still has a vendor theme compatibility issue in `Sm/themecore`; the storefront can still serve in current mode, but production-mode hardening is still unfinished.
 - A DDEV restart during this run left `ddev-magento-web` stuck in `/pre-start.sh` without launching `/start.sh`. Manually starting `/start.sh` inside the container restored nginx/php-fpm and brought the site back.
+
+## Hand-off
+
+### 2026-05-18
+
+- Goal attempted: replace homepage product sections such as `New Arrivals` on `home-demo-37` with kratom products.
+- The live homepage CMS page is `cms_page.identifier = home-demo-37`.
+- The left vertical homepage menu customization from the earlier run is still in play via `app/design/frontend/Sm/market/Sm_MegaMenu/templates/vertical.phtml`.
+
+- Homepage CMS content was changed directly in the database for `home-demo-37`.
+- The two product areas under the hero were changed from `Sm\FilterProducts` widget directives to inline static HTML product-card markup.
+- Current rendered product cards on the homepage are:
+- deals section: `Green Maeng Da`, `Red Maeng Da`, `Red Bali`
+- new arrivals section: `Green Hulu / Green Kapuas`, `Green Malay`, `Green Maeng Da`, `Red Hulu / Red Kapuas`, `Red Maeng Da`, `Red Bali`
+- The current homepage HTML confirms these product names are rendered around lines `1291-1312` in the fetched storefront HTML.
+
+- Files added or changed during this run:
+- `app/code/Local/HomepageAssets/Setup/Patch/Data/ReplaceHomepageDemoProductsWithKratom.php`
+- `app/code/Local/HomepageAssets/Setup/Patch/Data/SwapHomepageDealsWidgetToLatestKratom.php`
+- `app/code/Local/HomepageAssets/Setup/Patch/Data/ReplaceHomepageProductWidgetsWithKratomBlocks.php`
+- `app/code/Local/HomepageAssets/Block/HomepageKratomProducts.php`
+- `app/code/Local/HomepageAssets/view/frontend/templates/homepage/kratom-products.phtml`
+- `app/code/Sm/FilterProducts/Block/FilterProducts.php`
+- `import_products.php`
+
+- Important: the final homepage behavior is not coming from the custom block/template files above.
+- Reason: this theme/CMS path rendered `{{widget ...}}` directives inside the encoded PageBuilder HTML, but did not successfully render the replacement `{{block ...}}` directives in that same context.
+- As a workaround, the homepage CMS record was then updated directly to inline static HTML for those two product sections.
+- Result: some of the PHP/module changes above may now be unused or only partially relevant.
+
+- `import_products.php` was modified to stop skipping existing simple products and to write MSI default-source rows for simple kratom SKUs when rerun.
+- `docker exec -u 1000 ddev-magento-web php import_products.php` was rerun successfully after those changes.
+- This created `inventory_source_item` rows for simple kratom SKUs like `GMD25`, `GMD50`, `RB25`, `RB50`, `RH25`, `GM25`.
+- The visible configurable parents (`RB`, `RMD`, `RH`, `GMD`, `GM`, `GH`) still showed odd storefront collection behavior and were not reliably retrievable through normal product collection attribute/category filters in this environment.
+
+- `Sm/FilterProducts` was debugged and modified because its category filtering was suspicious:
+- multi-category parsing was normalized
+- category filtering was later switched to resolve product IDs from `catalog_category_product`
+- Even after that, the homepage widget path still failed in this catalog, which is why the final workaround was static CMS HTML.
+
+- Commands run during this attempt:
+- `docker exec -u 1000 ddev-magento-web php bin/magento setup:upgrade`
+- `docker exec -u 1000 ddev-magento-web php bin/magento cache:clean block_html full_page`
+- `docker exec -u 1000 ddev-magento-web php import_products.php`
+- targeted DB inspection via `docker exec ddev-magento-db mysql -u db -pdb db ...`
+- storefront verification via `curl -k -L -s https://magento.ddev.site/`
+
+- Known issues introduced or still unresolved after this run:
+- the homepage has multiple broken things according to the user; only the product-section replacement work was attempted here
+- the homepage product sections currently use inline CMS HTML, not Magento product widgets or a stable custom block path
+- the direct CMS rewrite should be treated as a temporary workaround, not a clean final architecture
+- `app/code/Local/HomepageAssets/...` additions from this run may be dead code unless the next agent decides to reactivate that path
+- `app/code/Sm/FilterProducts/Block/FilterProducts.php` and `import_products.php` were changed during debugging and should be reviewed before keeping
+- `php bin/magento indexer:reindex` can still spill into an unrelated OpenSearch/catalog search mapping error on `/market247_product_111_v2/document/_mapping`
+
+- Suggested next debugging starting points:
+- inspect the current raw `cms_page.content` for `home-demo-37` first, because the live homepage product sections are now embedded there as static encoded HTML
+- decide whether to keep the static CMS workaround or back it out and implement a proper Magento block/widget/module path
+- review whether the new files under `app/code/Local/HomepageAssets/` should remain, be wired up properly, or be removed later
+- review diffs in `import_products.php` and `app/code/Sm/FilterProducts/Block/FilterProducts.php` before further catalog/debug work

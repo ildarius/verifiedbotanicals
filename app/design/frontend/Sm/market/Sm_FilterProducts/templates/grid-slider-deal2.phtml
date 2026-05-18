@@ -53,8 +53,8 @@ if ($block->getPositioned()) {
 						</div>
 					<?php } ?>
 					<?php
-					if ($this->_getConfig('product_source') == 'countdown_products') {
-						$dateTo = $this->_getConfig('date_to', '');
+					$dateTo = $this->_getConfig('date_to', '');
+					if (!empty($dateTo)) {
 						?>
 						 <h3 class="title-deals"><?php echo __('Hurry Up! Offers End in:')?></h3>
 					   <div id="flipdown" class="flipdown <?php echo $tag_id;?>" data-timer="<?php echo date("Y/m/d H:i:s", strtotime($dateTo)); ?>"></div>

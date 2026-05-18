@@ -152,12 +152,43 @@ $categoryFactory = $objectManager->get(\Magento\Catalog\Model\CategoryFactory::c
 $productFactory = $objectManager->get(\Magento\Catalog\Model\ProductFactory::class);
 $productRepository = $objectManager->get(\Magento\Catalog\Api\ProductRepositoryInterface::class);
 $categoryCollectionFactory = $objectManager->get(\Magento\Catalog\Model\ResourceModel\Category\CollectionFactory::class);
+$sourceItemFactory = $objectManager->get(\Magento\InventoryApi\Api\Data\SourceItemInterfaceFactory::class);
+$sourceItemsSave = $objectManager->get(\Magento\InventoryApi\Api\SourceItemsSaveInterface::class);
 
 function getCategoryIds($categoryNames, $categoryCollectionFactory) {
     $names = array_map('trim', explode(',', $categoryNames));
     $collection = $categoryCollectionFactory->create()
         ->addAttributeToFilter('name', ['in' => $names]);
     return $collection->getAllIds();
+}
+
+function isRowInStock(array $row): bool {
+    $value = strtolower(trim((string)($row['In stock?'] ?? '')));
+    return $value === 'yes' || $value === '1';
+}
+
+function getRowQty(array $row): float {
+    $rawQty = trim((string)($row['Stock'] ?? ''));
+    if ($rawQty !== '' && is_numeric($rawQty)) {
+        return (float)$rawQty;
+    }
+
+    return isRowInStock($row) ? 1.0 : 0.0;
+}
+
+function saveDefaultSourceItem(
+    string $sku,
+    float $qty,
+    bool $isInStock,
+    $sourceItemFactory,
+    $sourceItemsSave
+): void {
+    $sourceItem = $sourceItemFactory->create();
+    $sourceItem->setSourceCode('default');
+    $sourceItem->setSku($sku);
+    $sourceItem->setQuantity($qty);
+    $sourceItem->setStatus($isInStock ? 1 : 0);
+    $sourceItemsSave->execute([$sourceItem]);
 }
 
 $simplesByParent = [];
@@ -168,38 +199,42 @@ foreach ($productsData as $row) {
     if ($row['Type'] !== 'variation') continue;
 
     echo "Processing variation: " . $row['SKU'] . "\n";
+    $isInStock = isRowInStock($row);
+    $qty = getRowQty($row);
     
     try {
         $product = $productRepository->get($row['SKU']);
-        echo "Product " . $row['SKU'] . " already exists, skipping.\n";
+        echo "Product " . $row['SKU'] . " already exists, updating.\n";
     } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
         $product = $productFactory->create();
         $product->setSku($row['SKU']);
-        $product->setName($row['Name']);
-        $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
-        $product->setAttributeSetId($attributeSetId);
-        $product->setPrice($row['Regular price'] ?: 0);
-        $product->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_NOT_VISIBLE);
-        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-        $product->setStockData([
-            'use_config_manage_stock' => 0,
-            'manage_stock' => 1,
-            'is_in_stock' => (strtolower($row['In stock?']) == 'yes' || $row['In stock?'] == '1') ? 1 : 0,
-            'qty' => $row['Stock'] ?: 0
-        ]);
-        
-        // Extract weight from name (e.g., "Red Bali - 25g")
-        if (preg_match('/(\d+g)/', $row['Name'], $matches)) {
-            $weightLabel = $matches[1];
-            if (isset($optionMap[$weightLabel])) {
-                $product->setData($attributeCode, $optionMap[$weightLabel]);
-            }
-        }
-        
-        $product->setCategoryIds(getCategoryIds($row['Categories'], $categoryCollectionFactory));
-        $productRepository->save($product);
-        echo "Created simple product: " . $row['SKU'] . "\n";
     }
+
+    $product->setName($row['Name']);
+    $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
+    $product->setAttributeSetId($attributeSetId);
+    $product->setPrice($row['Regular price'] ?: 0);
+    $product->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_NOT_VISIBLE);
+    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+    $product->setStockData([
+        'use_config_manage_stock' => 0,
+        'manage_stock' => 1,
+        'is_in_stock' => $isInStock ? 1 : 0,
+        'qty' => $qty
+    ]);
+
+    // Extract weight from name (e.g., "Red Bali - 25g")
+    if (preg_match('/(\d+g)/', $row['Name'], $matches)) {
+        $weightLabel = $matches[1];
+        if (isset($optionMap[$weightLabel])) {
+            $product->setData($attributeCode, $optionMap[$weightLabel]);
+        }
+    }
+
+    $product->setCategoryIds(getCategoryIds($row['Categories'], $categoryCollectionFactory));
+    $productRepository->save($product);
+    saveDefaultSourceItem($row['SKU'], $qty, $isInStock, $sourceItemFactory, $sourceItemsSave);
+    echo "Created/Updated simple product: " . $row['SKU'] . "\n";
     
     $simplesByParent[$row['Parent']][] = $row['SKU'];
 }
@@ -217,25 +252,24 @@ foreach ($productsData as $row) {
     } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
         $product = $productFactory->create();
         $product->setSku($row['SKU']);
-        $product->setName($row['Name']);
-        $product->setTypeId(\Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE);
-        $product->setAttributeSetId($attributeSetId);
-        $product->setPrice(0);
-        $product->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
-        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-        $product->setDescription($row['Description']);
-        $product->setShortDescription($row['Short Description']);
-        $product->setWeight($row['Weight (kg)'] ?: 0);
-        
-        $product->setStockData([
-            'use_config_manage_stock' => 0,
-            'manage_stock' => 1,
-            'is_in_stock' => 1,
-            'qty' => 0
-        ]);
-        
-        $product->setCategoryIds(getCategoryIds($row['Categories'], $categoryCollectionFactory));
     }
+
+    $product->setName($row['Name']);
+    $product->setTypeId(\Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE);
+    $product->setAttributeSetId($attributeSetId);
+    $product->setPrice(0);
+    $product->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
+    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+    $product->setDescription($row['Description']);
+    $product->setShortDescription($row['Short Description']);
+    $product->setWeight($row['Weight (kg)'] ?: 0);
+    $product->setStockData([
+        'use_config_manage_stock' => 0,
+        'manage_stock' => 1,
+        'is_in_stock' => 1,
+        'qty' => 1
+    ]);
+    $product->setCategoryIds(getCategoryIds($row['Categories'], $categoryCollectionFactory));
 
     // Link simples to configurable
     if (isset($simplesByParent[$row['SKU']])) {

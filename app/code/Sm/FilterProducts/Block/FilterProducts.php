@@ -307,7 +307,7 @@ class FilterProducts extends \Magento\Catalog\Block\Product\AbstractProduct
     private function _countDownProducts() {
         $count = $this->_getConfig('product_limitation');
         $category_id = $this->_getConfig('select_category');
-        !is_array($category_id) && $category_id = preg_split('/[\s|,|;]/', $category_id, -1, PREG_SPLIT_NO_EMPTY);
+        $categoryIds = $this->getCategoryIds($category_id);
         $connection  = $this->_resource->getConnection();
         $collection = $this->_objectManager->create('\Magento\Catalog\Model\ResourceModel\Product\Collection');
         $now = date('Y-m-d H:i:s');
@@ -330,16 +330,7 @@ class FilterProducts extends \Magento\Catalog\Block\Product\AbstractProduct
             ->addAttributeToFilter('special_from_date', ['lteq' => date('Y-m-d  H:i:s', strtotime($now))])
             ->addAttributeToFilter('special_to_date', ['lteq' => date('Y-m-d  H:i:s', strtotime($dateToTime))])
             ->addAttributeToFilter('is_saleable', ['eq' => 1], 'left');
-        if (!empty($category_id) && $category_id){
-            $collection->joinField(
-                'category_id',
-                $connection->getTableName($this->_resource->getTableName('catalog_category_product')),
-                'category_id',
-                'product_id=entity_id',
-                null,
-                'left'
-            )->addAttributeToFilter(array(array('attribute' => 'category_id', 'in' => array( $category_id))));
-        }
+        $this->applyCategoryFilter($collection, $categoryIds, $connection);
         $collection->setVisibility($this->_catalogProductVisibility->getVisibleInCatalogIds());
         $collection->getSelect()->distinct(true)->group('e.entity_id')->limit($count);
         return $collection;
@@ -353,7 +344,7 @@ class FilterProducts extends \Magento\Catalog\Block\Product\AbstractProduct
         $product_order_dir = $this->_getConfig('product_order_dir');
         $count = $this->_getConfig('product_limitation');
         $category_id = $this->_getConfig('select_category');
-        !is_array($category_id) && $category_id = preg_split('/[\s|,|;]/', $category_id, -1, PREG_SPLIT_NO_EMPTY);
+        $categoryIds = $this->getCategoryIds($category_id);
         $connection  = $this->_resource->getConnection();
         $collection = $this->_objectManager->create('\Magento\Catalog\Model\ResourceModel\Product\Collection');
 
@@ -369,16 +360,7 @@ class FilterProducts extends \Magento\Catalog\Block\Product\AbstractProduct
             ->setStoreId($this->_storeId)
             ->addAttributeToFilter('sm_featured', ['eq' => 1], 'left')
             ->addAttributeToFilter('is_saleable', ['eq' => 1], 'left');
-        if (!empty($category_id) && $category_id){
-            $collection->joinField(
-                'category_id',
-                $connection->getTableName($this->_resource->getTableName('catalog_category_product')),
-                'category_id',
-                'product_id=entity_id',
-                null,
-                'left'
-            )->addAttributeToFilter(array(array('attribute' => 'category_id', 'in' => array( $category_id))));
-        }
+        $this->applyCategoryFilter($collection, $categoryIds, $connection);
         $collection->setVisibility($this->_catalogProductVisibility->getVisibleInCatalogIds());
         switch ($product_order_by) {
             case 'entity_id':
@@ -404,7 +386,7 @@ class FilterProducts extends \Magento\Catalog\Block\Product\AbstractProduct
     private function _specialProducts() {
         $count = $this->_getConfig('product_limitation');
         $category_id = $this->_getConfig('select_category');
-        !is_array($category_id) && $category_id = preg_split('/[\s|,|;]/', $category_id, -1, PREG_SPLIT_NO_EMPTY);
+        $categoryIds = $this->getCategoryIds($category_id);
         $connection  = $this->_resource->getConnection();
         $collection = $this->_objectManager->create('\Magento\Catalog\Model\ResourceModel\Product\Collection');
         $now = date('Y-m-d H:i:s');
@@ -426,16 +408,7 @@ class FilterProducts extends \Magento\Catalog\Block\Product\AbstractProduct
             ->addAttributeToFilter('special_from_date', ['lteq' => date('Y-m-d  H:i:s', strtotime($now))])
             ->addAttributeToFilter('special_to_date', ['gteq' => date('Y-m-d  H:i:s', strtotime($now))])
             ->addAttributeToFilter('is_saleable', ['eq' => 1], 'left');
-        if (!empty($category_id) && $category_id){
-            $collection->joinField(
-                'category_id',
-                $connection->getTableName($this->_resource->getTableName('catalog_category_product')),
-                'category_id',
-                'product_id=entity_id',
-                null,
-                'left'
-            )->addAttributeToFilter(array(array('attribute' => 'category_id', 'in' => array( $category_id))));
-        }
+        $this->applyCategoryFilter($collection, $categoryIds, $connection);
         $collection->setVisibility($this->_catalogProductVisibility->getVisibleInCatalogIds());
         $collection->getSelect()->distinct(true)->group('e.entity_id')->limit($count);
         return $collection;
@@ -447,7 +420,7 @@ class FilterProducts extends \Magento\Catalog\Block\Product\AbstractProduct
     private function _bestSellers(){
         $count = $this->_getConfig('product_limitation');
         $category_id = $this->_getConfig('select_category');
-        !is_array($category_id) && $category_id = preg_split('/[\s|,|;]/', $category_id, -1, PREG_SPLIT_NO_EMPTY);
+        $categoryIds = $this->getCategoryIds($category_id);
         $connection  = $this->_resource->getConnection();
         $collection = $this->_objectManager->create('\Magento\Catalog\Model\ResourceModel\Product\Collection');
         $collection->addMinimalPrice()
@@ -458,16 +431,7 @@ class FilterProducts extends \Magento\Catalog\Block\Product\AbstractProduct
             ->setStoreId($this->_storeId)
             ->addAttributeToFilter('is_saleable', ['eq' => 1], 'left');
 
-        if (!empty($category_id) && $category_id){
-            $collection->joinField(
-                'category_id',
-                $connection->getTableName($this->_resource->getTableName('catalog_category_product')),
-                'category_id',
-                'product_id=entity_id',
-                null,
-                'left'
-            )->addAttributeToFilter(array(array('attribute' => 'category_id', 'in' => array( $category_id))));
-        }
+        $this->applyCategoryFilter($collection, $categoryIds, $connection);
         $collection->setVisibility($this->_catalogProductVisibility->getVisibleInCatalogIds());
         $collection->getSelect()->distinct(true)->group('e.entity_id');
         $collection->getSelect()
@@ -486,7 +450,7 @@ class FilterProducts extends \Magento\Catalog\Block\Product\AbstractProduct
     private function _viewedProducts(){
         $count = $this->_getConfig('product_limitation');
         $category_id = $this->_getConfig('select_category');
-        !is_array($category_id) && $category_id = preg_split('/[\s|,|;]/', $category_id, -1, PREG_SPLIT_NO_EMPTY);
+        $categoryIds = $this->getCategoryIds($category_id);
         $connection  = $this->_resource->getConnection();
         $collection = $this->_objectManager->create('\Magento\Catalog\Model\ResourceModel\Product\Collection');
         $collection->addMinimalPrice()
@@ -497,16 +461,7 @@ class FilterProducts extends \Magento\Catalog\Block\Product\AbstractProduct
             ->setStoreId($this->_storeId)
             ->addAttributeToFilter('is_saleable', ['eq' => 1], 'left');
 
-        if (!empty($category_id) && $category_id){
-            $collection->joinField(
-                'category_id',
-                $connection->getTableName($this->_resource->getTableName('catalog_category_product')),
-                'category_id',
-                'product_id=entity_id',
-                null,
-                'left'
-            )->addAttributeToFilter(array(array('attribute' => 'category_id', 'in' => array( $category_id))));
-        }
+        $this->applyCategoryFilter($collection, $categoryIds, $connection);
         $collection->setVisibility($this->_catalogProductVisibility->getVisibleInCatalogIds());
         $collection->getSelect()
             ->joinLeft(['mv' => $connection->getTableName($this->_resource->getTableName('report_event'))],'mv.object_id = e.entity_id', ['*', 'num_view_counts' => 'COUNT(`event_id`)'])
@@ -524,7 +479,7 @@ class FilterProducts extends \Magento\Catalog\Block\Product\AbstractProduct
     private function _newProducts(){
         $count = $this->_getConfig('product_limitation');
         $category_id = $this->_getConfig('select_category');
-        !is_array($category_id) && $category_id = preg_split('/[\s|,|;]/', $category_id, -1, PREG_SPLIT_NO_EMPTY);
+        $categoryIds = $this->getCategoryIds($category_id);
         $connection  = $this->_resource->getConnection();
         $collection = $this->_objectManager->create('\Magento\Catalog\Model\ResourceModel\Product\Collection');
         $collection->addMinimalPrice()
@@ -532,21 +487,45 @@ class FilterProducts extends \Magento\Catalog\Block\Product\AbstractProduct
             ->addTaxPercents()
             ->addAttributeToSelect($this->_catalogConfig->getProductAttributes())
             ->addUrlRewrite()
-            ->setStoreId($this->_storeId)
-            ->addAttributeToFilter('is_saleable',['eq' => 1], 'left');
+            ->setStoreId($this->_storeId);
         $collection->getSelect()->order('created_at  DESC');
-        if (!empty($category_id) && $category_id){
-            $collection->joinField(
-                'category_id',
-                $connection->getTableName($this->_resource->getTableName('catalog_category_product')),
-                'category_id',
-                'product_id=entity_id',
-                null,
-                'left'
-            )->addAttributeToFilter(array(array('attribute' => 'category_id', 'in' => array( $category_id))));
-        }
+        $this->applyCategoryFilter($collection, $categoryIds, $connection);
         $collection->setVisibility($this->_catalogProductVisibility->getVisibleInCatalogIds());
         $collection->getSelect()->distinct(true)->group('e.entity_id')->limit($count);
+
+        if ((int) $collection->getSize() === 0) {
+            return $this->buildFallbackLatestProductsCollection($count, $categoryIds, $connection);
+        }
+
+        return $collection;
+    }
+
+    /**
+     * Magento's indexed price joins can exclude recently imported products in this environment.
+     * Fall back to a plain visible product collection so homepage widgets still render.
+     *
+     * @param int|string $count
+     * @param string[] $categoryIds
+     * @param \Magento\Framework\DB\Adapter\AdapterInterface $connection
+     * @return \Magento\Catalog\Model\ResourceModel\Product\Collection
+     */
+    private function buildFallbackLatestProductsCollection($count, array $categoryIds, $connection)
+    {
+        $collection = $this->_objectManager->create('\Magento\Catalog\Model\ResourceModel\Product\Collection');
+        $collection->addAttributeToSelect($this->_catalogConfig->getProductAttributes())
+            ->addAttributeToSelect(['name', 'image', 'small_image', 'thumbnail'])
+            ->setStoreId($this->_storeId)
+            ->addAttributeToFilter('status', ['eq' => 1]);
+
+        $this->applyCategoryFilter($collection, $categoryIds, $connection);
+
+        $collection->setVisibility($this->_catalogProductVisibility->getVisibleInCatalogIds());
+        $collection->getSelect()
+            ->order('created_at DESC')
+            ->distinct(true)
+            ->group('e.entity_id')
+            ->limit((int) $count);
+
         return $collection;
     }
 
@@ -558,7 +537,7 @@ class FilterProducts extends \Magento\Catalog\Block\Product\AbstractProduct
         $category_id = $this->_getConfig('select_category');
         $product_order_by = $this->_getConfig('product_order_by');
         $product_order_dir = $this->_getConfig('product_order_dir');
-        !is_array($category_id) && $category_id = preg_split('/[\s|,|;]/', $category_id, -1, PREG_SPLIT_NO_EMPTY);
+        $categoryIds = $this->getCategoryIds($category_id);
         $connection  = $this->_resource->getConnection();
         $collection = $this->_objectManager->create('\Magento\Catalog\Model\ResourceModel\Product\Collection');
 
@@ -569,16 +548,7 @@ class FilterProducts extends \Magento\Catalog\Block\Product\AbstractProduct
             ->addUrlRewrite()
             ->setStoreId($this->_storeId)
             ->addAttributeToFilter('is_saleable',  ['eq' => 1], 'left');
-        if (!empty($category_id) && $category_id){
-            $collection->joinField(
-                'category_id',
-                $connection->getTableName($this->_resource->getTableName('catalog_category_product')),
-                'category_id',
-                'product_id=entity_id',
-                null,
-                'left'
-            )->addAttributeToFilter(array(array('attribute' => 'category_id', 'in' => array( $category_id))));
-        }
+        $this->applyCategoryFilter($collection, $categoryIds, $connection);
         $collection->setVisibility($this->_catalogProductVisibility->getVisibleInCatalogIds());
         switch ($product_order_by) {
             case 'entity_id':
@@ -598,6 +568,48 @@ class FilterProducts extends \Magento\Catalog\Block\Product\AbstractProduct
 
         $collection->getSelect()->distinct(true)->group('e.entity_id')->limit($count);
         return $collection;
+    }
+
+    /**
+     * @param mixed $categoryIds
+     * @return string[]
+     */
+    private function getCategoryIds($categoryIds): array
+    {
+        if (!is_array($categoryIds)) {
+            $categoryIds = preg_split('/[\s,;]+/', (string) $categoryIds, -1, PREG_SPLIT_NO_EMPTY);
+        }
+
+        return array_values(array_filter(array_map('strval', $categoryIds), static fn (string $value): bool => $value !== ''));
+    }
+
+    /**
+     * @param \Magento\Catalog\Model\ResourceModel\Product\Collection $collection
+     * @param string[] $categoryIds
+     * @param \Magento\Framework\DB\Adapter\AdapterInterface $connection
+     * @return void
+     */
+    private function applyCategoryFilter($collection, array $categoryIds, $connection): void
+    {
+        if ($categoryIds === []) {
+            return;
+        }
+
+        $productIds = $connection->fetchCol(
+            $connection->select()
+                ->from(
+                    $this->_resource->getTableName('catalog_category_product'),
+                    ['product_id']
+                )
+                ->where('category_id IN (?)', $categoryIds)
+        );
+
+        if ($productIds === []) {
+            $collection->addFieldToFilter('entity_id', ['in' => [0]]);
+            return;
+        }
+
+        $collection->addIdFilter($productIds);
     }
 
     /**
