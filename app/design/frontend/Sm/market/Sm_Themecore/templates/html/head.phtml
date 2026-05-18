@@ -1,0 +1,50 @@
+<?php
+$_config                 = $this->helper('Sm\Themecore\Helper\Data');
+$_cssLoadFile            = $this->helper('Sm\Themecore\Helper\Cssconfig');
+$bodyFont                = $_config->getGeneral('bodyfont_group/body_font');
+$enableElementGoogleFont = $_config->getGeneral('element_googlefont_group/use_element_googlefont');
+$enableStoreCode         = $_config->getCoreConfig('web/url/use_store');
+$baseURL                 = $_config->getCoreConfig('web/unsecure/base_url');
+$storeCode               = \Magento\Framework\App\ObjectManager::getInstance()
+    ->get(\Magento\Store\Model\StoreManagerInterface::class)
+    ->getStore()
+    ->getCode();
+$portableCssStores       = [
+    'fresh1_en' => 'css/settings/settings_fresh1_en.css',
+];
+$settingsCssUrl = isset($portableCssStores[$storeCode])
+    ? $block->getViewFileUrl($portableCssStores[$storeCode])
+    : $_cssLoadFile->getSettingsFile();
+?>
+<?php if ($bodyFont == 'google_font') {
+    echo $_config->getGeneral('bodyfont_group/body_googlefont_link');
+} ?>
+
+<?php if ($enableElementGoogleFont) {
+    echo $_config->getGeneral('element_googlefont_group/element_googlefont_link');
+} ?>
+
+<link rel="stylesheet" type="text/css" media="all" href="<?php echo $settingsCssUrl ?>"/>
+
+<?php if ($enableStoreCode) { ?>
+    <script type="text/javascript">
+        require([
+            'jquery',
+            'domReady!'
+        ], function ($) {
+            var linkStore = $('a[data-sm-store]');
+            var dataLink;
+            var dataPath = "";
+
+            $(linkStore).each(function () {
+                dataLink = $(this).attr('data-sm-link');
+
+                if (typeof dataLink !== "undefined") {
+                    dataPath = dataLink;
+                }
+
+                $(this).attr('href', "<?php echo $baseURL;?>" + $(this).attr('data-sm-store') + "/" + dataPath);
+            });
+        });
+    </script>
+<?php } ?>
