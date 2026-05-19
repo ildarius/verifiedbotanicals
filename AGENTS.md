@@ -43,6 +43,71 @@ The programmatic product import (`import_products.php`) follows these steps:
     *   Uses `ExtensionAttributes` to link simple products and define the configurable attribute (`kratom_weight`).
     *   Assigns categories as defined in the CSV.
 
+## Import Notes (MSI / `inventory_stock_1`)
+
+Magento’s storefront product collections and many theme widgets use MSI/stock joins for “salable” filtering. In this project we hit a failure mode where `inventory_stock_1` (the MSI legacy-stock view) was corrupted, which made native product widgets look “broken” even though products existed in the DB.
+
+### What Can Go Wrong
+
+- After running `import_products.php`, products exist in `catalog_product_entity`, but storefront collections/widgets return empty.
+- Configurable parents can appear “not salable” even if all children are in stock, which can lead to missing widgets and `$0.00`/missing price index rows.
+- Stock-related debugging can be confusing because direct SQL queries show products + categories, but frontend queries that rely on salability filters return zero results.
+
+### How To Verify
+
+From the DB container, confirm `inventory_stock_1` is a real view backed by `cataloginventory_stock_status` joined to `catalog_product_entity`:
+
+```bash
+docker exec ddev-magento-db mysql -u db -pdb -D db -e "SHOW CREATE VIEW inventory_stock_1\\G"
+```
+
+If it looks like a dummy view returning constants (or it’s missing), native storefront filtering can break.
+
+### How To Fix (If Corrupted)
+
+Recreate `inventory_stock_1` as the expected view:
+
+```bash
+docker exec ddev-magento-db mysql -u db -pdb -D db -e "
+DROP TABLE IF EXISTS inventory_stock_1;
+DROP VIEW IF EXISTS inventory_stock_1;
+CREATE VIEW inventory_stock_1 AS
+SELECT DISTINCT
+  legacy_stock_status.product_id AS product_id,
+  legacy_stock_status.website_id AS website_id,
+  legacy_stock_status.stock_id AS stock_id,
+  legacy_stock_status.qty AS quantity,
+  legacy_stock_status.stock_status AS is_salable,
+  product.sku AS sku
+FROM cataloginventory_stock_status AS legacy_stock_status
+JOIN catalog_product_entity AS product
+  ON legacy_stock_status.product_id = product.entity_id;
+"
+```
+
+Then reindex the stock + price indexers:
+
+```bash
+docker exec -u 1000 ddev-magento-web php bin/magento indexer:reindex cataloginventory_stock catalog_product_price
+```
+
+### Configurable Parent `stock_status` Stuck At 0
+
+If configurable parents are still not salable (common symptom: widget sections render, but don’t include the parent products you expect), deleting the bad `cataloginventory_stock_status` rows for the parents and reindexing can force a correct rebuild:
+
+```bash
+docker exec ddev-magento-db mysql -u db -pdb -D db -e "
+DELETE ss
+FROM cataloginventory_stock_status ss
+JOIN catalog_product_entity e ON e.entity_id = ss.product_id
+WHERE e.sku IN ('RB','RMD','RH','GMD','GM','GH');
+"
+
+docker exec -u 1000 ddev-magento-web php bin/magento indexer:reindex cataloginventory_stock
+```
+
+After these fixes, rerunning `import_products.php` and normal theme widgets should behave consistently again.
+
 ## Harnesses
 
 - `import_categories.php`: Programmatically imports categories from `data/products.csv`.
@@ -233,3 +298,11 @@ The programmatic product import (`import_products.php`) follows these steps:
 - review whether the new files under `app/code/Local/HomepageAssets/` should remain, be wired up properly, or be removed later
 - review diffs in `import_products.php` and `app/code/Sm/FilterProducts/Block/FilterProducts.php` before further catalog/debug work
 - review whether the temporary scripts under `var/tmp/` should be preserved for continued debugging or migrated into a cleaner harness
+
+### 2026-05-19
+
+- Removed the temporary homepage static-HTML “hotfix” for `home-demo-37` and restored the native SM Market widgets (`Sm\FilterProducts`) for the Deals + New Arrivals sections.
+- Fixed the underlying catalog/stock visibility issue: `inventory_stock_1` was corrupted and did not reflect real stock/salability. Recreated it as the expected legacy-stock MSI view backed by `cataloginventory_stock_status` joined to `catalog_product_entity` by `product_id`.
+- Fixed kratom configurable parent salability: the kratom configurable parents (`RB`, `RMD`, `RH`, `GMD`, `GM`, `GH`) had `cataloginventory_stock_status.stock_status = 0` stuck. Deleting those rows and reindexing `cataloginventory_stock` rebuilt correct `stock_status = 1`, which restored widget rendering and parent price-index rows.
+- Disabled the `Local_HomepageAssets` module and then removed it from the codebase.
+- Session notes: [dev/notes/homepage-kratom-native-widgets-2026-05-19.md](/home/ildar/projects/magento/dev/notes/homepage-kratom-native-widgets-2026-05-19.md).
