@@ -113,7 +113,7 @@ $_config            = $this->helper('Sm\Themecore\Helper\Data');
                                             echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
                                         </a>
                                     </strong>
-                                    <?php echo $block->getReviewsSummaryHtml($_product, $templateType); ?>
+                                    <?php echo $block->getReviewsSummaryHtml($_product, $templateType, true); ?>
                                     <?php
                                     //var_dump($_product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue(),$_product);die('haiza123123');
                                     /* @escapeNotVerified */
