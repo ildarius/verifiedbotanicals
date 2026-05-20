@@ -1,0 +1,47 @@
+<?php
+declare(strict_types=1);
+
+namespace Local\RotatingSpecialDeals\Setup\Patch\Data;
+
+use Magento\Framework\Setup\ModuleDataSetupInterface;
+use Magento\Framework\Setup\Patch\DataPatchInterface;
+
+class UpdateFooterPhoneNumber implements DataPatchInterface
+{
+    public function __construct(
+        private readonly ModuleDataSetupInterface $moduleDataSetup
+    ) {
+    }
+
+    public function apply(): void
+    {
+        $connection = $this->moduleDataSetup->getConnection();
+        $connection->startSetup();
+
+        try {
+            $cmsBlockTable = $this->moduleDataSetup->getTable('cms_block');
+
+            $connection->query(
+                sprintf('UPDATE %s SET content = REPLACE(content, ?, ?) WHERE identifier = ?', $cmsBlockTable),
+                [
+                    '1800 446 000',
+                    '(263) 366-8232',
+                    'footer-29-content',
+                ]
+            );
+        } finally {
+            $connection->endSetup();
+        }
+    }
+
+    public static function getDependencies(): array
+    {
+        return [];
+    }
+
+    public function getAliases(): array
+    {
+        return [];
+    }
+}
+
