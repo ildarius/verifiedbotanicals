@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="local_rotating_special_deal_cycle" resource="default" engine="innodb" comment="Rotating Special Deal Cycles">
+        <column xsi:type="int" name="cycle_id" nullable="false" identity="true" unsigned="true" comment="Cycle ID"/>
+        <column xsi:type="timestamp" name="started_at" nullable="false" comment="Cycle Start"/>
+        <column xsi:type="timestamp" name="ends_at" nullable="false" comment="Cycle End"/>
+        <column xsi:type="varchar" name="status" nullable="false" length="16" comment="Cycle Status"/>
+        <column xsi:type="varchar" name="homepage_identifier" nullable="false" length="255" comment="Homepage Identifier"/>
+        <column xsi:type="timestamp" name="created_at" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <column xsi:type="timestamp" name="updated_at" nullable="false" default="CURRENT_TIMESTAMP" on_update="true" comment="Updated At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="cycle_id"/>
+        </constraint>
+        <index referenceId="LOCAL_ROTATING_SPECIAL_DEAL_CYCLE_STATUS" indexType="btree">
+            <column name="status"/>
+        </index>
+        <index referenceId="LOCAL_ROTATING_SPECIAL_DEAL_CYCLE_ENDS_AT" indexType="btree">
+            <column name="ends_at"/>
+        </index>
+    </table>
+    <table name="local_rotating_special_deal_item" resource="default" engine="innodb" comment="Rotating Special Deal Items">
+        <column xsi:type="int" name="item_id" nullable="false" identity="true" unsigned="true" comment="Item ID"/>
+        <column xsi:type="int" name="cycle_id" nullable="false" unsigned="true" comment="Cycle ID"/>
+        <column xsi:type="int" name="product_id" nullable="false" unsigned="true" comment="Product ID"/>
+        <column xsi:type="varchar" name="sku" nullable="false" length="64" comment="SKU"/>
+        <column xsi:type="varchar" name="group_key" nullable="false" length="64" comment="Group Key"/>
+        <column xsi:type="timestamp" name="created_at" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="item_id"/>
+        </constraint>
+        <constraint xsi:type="foreign"
+                    referenceId="LOCAL_ROTATING_SPECIAL_DEAL_ITEM_CYCLE_ID_LOCAL_ROTATING_SPECIAL_DEAL_CYCLE_CYCLE_ID"
+                    table="local_rotating_special_deal_item"
+                    column="cycle_id"
+                    referenceTable="local_rotating_special_deal_cycle"
+                    referenceColumn="cycle_id"
+                    onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="LOCAL_ROTATING_SPECIAL_DEAL_ITEM_CYCLE_ID_PRODUCT_ID">
+            <column name="cycle_id"/>
+            <column name="product_id"/>
+        </constraint>
+        <index referenceId="LOCAL_ROTATING_SPECIAL_DEAL_ITEM_PRODUCT_ID" indexType="btree">
+            <column name="product_id"/>
+        </index>
+    </table>
+</schema>
