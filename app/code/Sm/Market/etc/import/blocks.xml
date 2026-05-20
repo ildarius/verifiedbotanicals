@@ -4533,7 +4533,7 @@
 
                         &lt;div class="footer-block-content"&gt;
                             &lt;ul class="ft-contact"&gt;
-                                 &lt;li class="phone text-theme-color"&gt;{{trans "1800 446 000"}}&lt;/li&gt;
+                                 &lt;li class="phone text-theme-color"&gt;{{trans "(263) 366-8232"}}&lt;/li&gt;
                                 &lt;li&gt;{{trans "561 Wellington Road, Street 32, San Francisco"}}&lt;/li&gt;
                                 &lt;li&gt;{{trans "emarket@gmail.com"}}&lt;/li&gt;
                                 &lt;li&gt;{{trans "Hours: 10:00 - 18:00, Mon - Sat"}}&lt;/li&gt;
@@ -4584,7 +4584,7 @@
       <identifier>support-header-37</identifier>
       <content><![CDATA[<div data-content-type="html" data-appearance="default" data-element="main">&lt;div class="support-header"&gt;
 &lt;div class="image"&gt;&lt;img src="{{media url=wysiwyg/support.png}}" alt="" /&gt;&lt;/div&gt;
-&lt;div class="info"&gt;&lt;span&gt;Online Support 24/7&lt;/span&gt;&lt;strong&gt;+84 94344 6000&lt;/strong&gt;&lt;/div&gt;
+&lt;div class="info"&gt;&lt;span&gt;Montreal SMS\Phone&lt;/span&gt;&lt;strong&gt;(263) 366-8232&lt;/strong&gt;&lt;/div&gt;
 &lt;/div&gt;</div>]]></content>
       <is_active>1</is_active>
       <store_id>0</store_id>

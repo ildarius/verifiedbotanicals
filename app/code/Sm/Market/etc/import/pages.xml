@@ -8880,7 +8880,7 @@
           &lt;img class="mark-lazy" src="{{media url=wysiwyg/icon-image/icon-3.jpg}}" alt="" /&gt;
         &lt;/div&gt;
         &lt;div class="info"&gt;
-          &lt;h3&gt;{{trans "Online Support 24/7"}}&lt;/h3&gt;
+          &lt;h3&gt;{{trans "Montreal SMS\Phone"}}&lt;/h3&gt;
         &lt;/div&gt;
       &lt;/div&gt;
     &lt;/div&gt;
@@ -9321,7 +9321,7 @@
                 &lt;img class="mark-lazy" src="{{media url=wysiwyg/icon-image/icon-55-4.png}}" alt="Banner" width="90" height="90" /&gt;
               &lt;/div&gt;
               &lt;div class="info"&gt;
-                &lt;h3&gt;Online Support 24/7&lt;/h3&gt;
+                &lt;h3&gt;Montreal SMS\Phone&lt;/h3&gt;
                 &lt;p&gt;Dolor sit amet, consectetur adipiscing elit, sed eiusmod &lt;br&gt; temporincididunt ut labore et. &lt;/p&gt;
               &lt;/div&gt;
             &lt;/li&gt;
