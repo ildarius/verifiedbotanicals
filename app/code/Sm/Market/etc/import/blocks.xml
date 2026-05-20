@@ -91,7 +91,7 @@
                                 City, NY, United States
                             &lt;/li&gt;
 
-                            &lt;li class="email"&gt;{{trans "Email"}}: contact@market.com&lt;/li&gt;
+                            &lt;li class="email"&gt;{{trans "Email"}}: robert@verifiedbotanicals.com&lt;/li&gt;
 
                             &lt;li class="phone"&gt;{{trans "Phone 1"}} : 0123456789&lt;br&gt;
                                 {{trans "Phone 2"}} : 0123456789
@@ -487,7 +487,7 @@
       <title>Market - Header Support Email</title>
       <identifier>header-support-email</identifier>
       <content><![CDATA[<div data-content-type="html" data-appearance="default" data-element="main">&lt;div class="header-support-email"&gt;
-                        {{trans "Welcome to our store"}}! &lt;strong&gt;&lt;a href="mailto:support@market.com"&gt;{{trans "Email"}}: support@market.com&lt;/a&gt;&lt;/strong&gt;
+                        {{trans "Welcome to our store"}}! &lt;strong&gt;&lt;a href="mailto:robert@verifiedbotanicals.com"&gt;{{trans "Email"}}: robert@verifiedbotanicals.com&lt;/a&gt;&lt;/strong&gt;
                     &lt;/div&gt;</div>]]></content>
       <is_active>1</is_active>
       <store_id>0</store_id>
@@ -511,7 +511,7 @@
 &lt;/div&gt;
 &lt;div class="call-email-content email-content"&gt;
 &lt;div class="call-email-title"&gt;{{trans "Email Us"}}&lt;/div&gt;
-&lt;p&gt;&lt;a href="mailto:support@market.com"&gt;support@market.com&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="mailto:robert@verifiedbotanicals.com"&gt;robert@verifiedbotanicals.com&lt;/a&gt;&lt;/p&gt;
 &lt;/div&gt;</div>]]></content>
       <is_active>1</is_active>
       <store_id>0</store_id>
@@ -628,7 +628,7 @@
                                     City, NY, United States
                                 &lt;/li&gt;
 
-                                &lt;li class="email"&gt;{{trans "Email"}}: contact@market.com&lt;/li&gt;
+                                &lt;li class="email"&gt;{{trans "Email"}}: robert@verifiedbotanicals.com&lt;/li&gt;
 
                                 &lt;li class="phone"&gt;{{trans "Phone"}} 1 : 0123456789&lt;br&gt;
                                     {{trans "Phone"}} 2 : 0123456789
@@ -805,7 +805,7 @@
                                     City, NY, United States
                                 &lt;/li&gt;
 
-                                &lt;li class="email"&gt;{{trans "Email"}}: contact@market.com&lt;/li&gt;
+                                &lt;li class="email"&gt;{{trans "Email"}}: robert@verifiedbotanicals.com&lt;/li&gt;
 
                                 &lt;li class="phone"&gt;{{trans "Phone"}} 1 : 0123456789&lt;br&gt;
                                     {{trans "Phone"}} 2 : 0123456789
@@ -969,7 +969,7 @@
                                     City, NY, United States
                                 &lt;/li&gt;
 
-                                &lt;li class="email"&gt;{{trans "Email"}}: contact@market.com&lt;/li&gt;
+                                &lt;li class="email"&gt;{{trans "Email"}}: robert@verifiedbotanicals.com&lt;/li&gt;
 
                                 &lt;li class="phone"&gt;{{trans "Phone"}} 1 : 0123456789&lt;br&gt;
                                     {{trans "Phone 2"}} : 0123456789
@@ -1118,7 +1118,7 @@
                                     City, NY, United States
                                 &lt;/li&gt;
 
-                                &lt;li class="email"&gt;{{trans "Email"}}: contact@market.com&lt;/li&gt;
+                                &lt;li class="email"&gt;{{trans "Email"}}: robert@verifiedbotanicals.com&lt;/li&gt;
 
                                 &lt;li class="phone"&gt;{{trans "Phone"}} 1 : 0123456789&lt;br&gt;
                                     {{trans "Phone"}} 2 : 0123456789
@@ -1213,7 +1213,7 @@
                                     City, NY, United States
                                 &lt;/li&gt;
 
-                                &lt;li class="email"&gt;{{trans "Email"}}: contact@market.com&lt;/li&gt;
+                                &lt;li class="email"&gt;{{trans "Email"}}: robert@verifiedbotanicals.com&lt;/li&gt;
 
                                 &lt;li class="phone"&gt;{{trans "Phone"}} 1 : 0123456789&lt;br&gt;
                                     {{trans "Phone"}} 2 : 0123456789
@@ -1326,7 +1326,7 @@
                                     City, NY, United States
                                 &lt;/li&gt;
 
-                                &lt;li class="email"&gt;{{trans "Email"}}: contact@market.com&lt;/li&gt;
+                                &lt;li class="email"&gt;{{trans "Email"}}: robert@verifiedbotanicals.com&lt;/li&gt;
 
                                 &lt;li class="phone"&gt;{{trans "Phone"}} 1 : 0123456789&lt;br&gt;
                                     {{trans "Phone"}} 2 : 0123456789
@@ -1483,7 +1483,7 @@
                                     City, NY, United States
                                 &lt;/li&gt;
 
-                                &lt;li class="email"&gt;{{trans "Email"}}: contact@market.com&lt;/li&gt;
+                                &lt;li class="email"&gt;{{trans "Email"}}: robert@verifiedbotanicals.com&lt;/li&gt;
 
                                 &lt;li class="phone"&gt;{{trans "Phone"}} 1 : 0123456789&lt;br&gt;
                                     {{trans "Phone"}} 2 : 0123456789
@@ -1619,7 +1619,7 @@
                                 City, NY, United States
                             &lt;/li&gt;
 
-                            &lt;li class="email"&gt;{{trans "Email"}}: contact@market.com&lt;/li&gt;
+                            &lt;li class="email"&gt;{{trans "Email"}}: robert@verifiedbotanicals.com&lt;/li&gt;
 
                             &lt;li class="phone"&gt;{{trans "Phone"}} 1 : 0123456789&lt;br&gt;
                                 {{trans "Phone"}} 2 : 0123456789
@@ -1807,7 +1807,7 @@
                                     City, NY, United States
                                 &lt;/li&gt;
 
-                                &lt;li class="email"&gt;{{trans "Email"}}: contact@market.com&lt;/li&gt;
+                                &lt;li class="email"&gt;{{trans "Email"}}: robert@verifiedbotanicals.com&lt;/li&gt;
 
                                 &lt;li class="phone"&gt;{{trans "Phone"}} 1 : 0123456789&lt;br&gt;
                                     {{trans "Phone"}} 2 : 0123456789
@@ -1935,8 +1935,8 @@
 
                     &lt;li&gt;
                         &lt;p&gt;&lt;img class="mark-lazy" src="{{media url=wysiwyg/icon-image/icon-21.png}}" alt="Email" width="40" height="38" /&gt;&lt;/p&gt;
-                        {{trans "Email"}} : &lt;a href="mailto:contact@market.com"&gt;contact@market.com&lt;/a&gt;&lt;br&gt;
-                        {{trans "Gmail"}} : &lt;a href="mailto:support@market.com"&gt;support@market.com&lt;/a&gt;
+                        {{trans "Email"}} : &lt;a href="mailto:robert@verifiedbotanicals.com"&gt;robert@verifiedbotanicals.com&lt;/a&gt;&lt;br&gt;
+                        {{trans "Gmail"}} : &lt;a href="mailto:robert@verifiedbotanicals.com"&gt;robert@verifiedbotanicals.com&lt;/a&gt;
                     &lt;/li&gt;
 
                     &lt;li&gt;
@@ -2343,7 +2343,7 @@
                                 City, NY, United States
                             &lt;/li&gt;
 
-                            &lt;li class="email"&gt;{{trans "Email"}}: contact@market.com&lt;/li&gt;
+                            &lt;li class="email"&gt;{{trans "Email"}}: robert@verifiedbotanicals.com&lt;/li&gt;
 
                             &lt;li class="phone"&gt;{{trans "Phone"}} 1 : 0123456789&lt;br&gt;
                                 {{trans "Phone"}} 2 : 0123456789
@@ -2445,7 +2445,7 @@
                                 City, NY, United States
                             &lt;/li&gt;
 
-                            &lt;li class="email"&gt;{{trans "Email"}}: contact@market.com&lt;/li&gt;
+                            &lt;li class="email"&gt;{{trans "Email"}}: robert@verifiedbotanicals.com&lt;/li&gt;
 
                             &lt;li class="phone"&gt;{{trans "Phone"}} 1 : 0123456789&lt;br&gt;
                                 {{trans "Phone"}} 2 : 0123456789
@@ -2675,7 +2675,7 @@
     <cms_item>
       <title>Market - Footer Address</title>
       <identifier>footer-address</identifier>
-      <content><![CDATA[<div data-content-type="html" data-appearance="default" data-element="main">&lt;div class="footer-add"&gt;40 Baria Sreet 133/2 NewYork City, USA - contact@market.com - (888) 9434 6000&lt;/div&gt;</div>]]></content>
+      <content><![CDATA[<div data-content-type="html" data-appearance="default" data-element="main">&lt;div class="footer-add"&gt;40 Baria Sreet 133/2 NewYork City, USA - robert@verifiedbotanicals.com - (888) 9434 6000&lt;/div&gt;</div>]]></content>
       <is_active>1</is_active>
       <store_id>0</store_id>
     </cms_item>
@@ -2685,7 +2685,7 @@
       <content><![CDATA[<div data-content-type="html" data-appearance="default" data-element="main">&lt;div class="email-phone"&gt;
                     &lt;ul&gt;
                         &lt;li class="mail-item"&gt;
-                            {{trans "EMAIL"}}: &lt;a href="#"&gt;CONTACT@MARKET.COM&lt;/a&gt;
+                            {{trans "EMAIL"}}: &lt;a href="#"&gt;robert@verifiedbotanicals.com&lt;/a&gt;
                         &lt;/li&gt;
 
                         &lt;li class="phone-item"&gt;
@@ -2849,8 +2849,8 @@
                 &lt;/div&gt;
 
                 &lt;ul class="footer-contact"&gt;
-                    &lt;li&gt;561 Wellington Road, Street 32, San Francisco&lt;/li&gt;
-                    &lt;li&gt;Magentech@gmail.com&lt;/li&gt;
+                    &lt;li&gt;4950 Queen-Mary suite 100&lt;br&gt;Montreal, Quebec&lt;br&gt;H3W1X2&lt;/li&gt;
+                    &lt;li&gt;robert@verifiedbotanicals.com&lt;/li&gt;
                     &lt;li&gt;{{trans "Monday"}} - {{trans "Saturday"}}:  8:00 - 21:00 {{trans "Sunday"}}: {{trans "CLOSED"}}&lt;/li&gt;
                 &lt;/ul&gt;
             &lt;/div&gt;
@@ -3434,7 +3434,7 @@
               &lt;ul class="contact-info"&gt;
                 &lt;li class="address"&gt;5611 Wellington Road, Suite 115, &lt;br&gt;Gainesville &lt;/li&gt;
                 &lt;li class="phone"&gt;+84 (0) 387 392 056 &lt;/li&gt;
-				&lt;li class="email"&gt;{{trans "Email"}}: contact@market.com&lt;/li&gt;
+				&lt;li class="email"&gt;{{trans "Email"}}: robert@verifiedbotanicals.com&lt;/li&gt;
 				&lt;li class="time"&gt;08:00 to 20:00&lt;/li&gt;
               &lt;/ul&gt;
             &lt;/div&gt;
@@ -3562,7 +3562,7 @@
               &lt;ul class="contact-info"&gt;
                 &lt;li class="address"&gt;5611 Wellington Road, Suite 115, &lt;br&gt;Gainesville &lt;/li&gt;
                 &lt;li class="phone"&gt;+84 (0) 387 392 056 &lt;/li&gt;
-				&lt;li class="email"&gt;{{trans "Email"}}: contact@market.com&lt;/li&gt;
+				&lt;li class="email"&gt;{{trans "Email"}}: robert@verifiedbotanicals.com&lt;/li&gt;
 				&lt;li class="time"&gt;08:00 to 20:00&lt;/li&gt;
               &lt;/ul&gt;
             &lt;/div&gt;
@@ -4534,8 +4534,8 @@
                         &lt;div class="footer-block-content"&gt;
                             &lt;ul class="ft-contact"&gt;
                                  &lt;li class="phone text-theme-color"&gt;{{trans "(263) 366-8232"}}&lt;/li&gt;
-                                &lt;li&gt;{{trans "561 Wellington Road, Street 32, San Francisco"}}&lt;/li&gt;
-                                &lt;li&gt;{{trans "emarket@gmail.com"}}&lt;/li&gt;
+                                &lt;li&gt;{{trans "4950 Queen-Mary suite 100<br>Montreal, Quebec<br>H3W1X2"}}&lt;/li&gt;
+                                &lt;li&gt;{{trans "robert@verifiedbotanicals.com"}}&lt;/li&gt;
                                 &lt;li&gt;{{trans "Hours: 10:00 - 18:00, Mon - Sat"}}&lt;/li&gt;
                             &lt;/ul&gt;
                         &lt;/div&gt;
@@ -4730,7 +4730,7 @@
         &lt;/a&gt;
       &lt;/div&gt;
       &lt;div class="col-lg-4 col-sm-6 address-footer"&gt;
-        &lt;p&gt;561 Wellington Roads, Street 32, San Francisco&lt;/p&gt;
+        &lt;p&gt;4950 Queen-Mary suite 100&lt;br&gt;Montreal, Quebec&lt;br&gt;H3W1X2&lt;/p&gt;
         &lt;p&gt;+ (123) 1800-456-789&lt;/p&gt;
       &lt;/div&gt;
       &lt;div class="col-lg-3 col-sm-6 time-footer"&gt;
