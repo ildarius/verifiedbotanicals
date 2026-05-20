@@ -114,6 +114,16 @@ After these fixes, rerunning `import_products.php` and normal theme widgets shou
   - Run with: `docker exec -u 1000 ddev-magento-web php import_categories.php`
 - `import_products.php`: Programmatically imports products from `data/products.csv`, creates the 'Kratom' attribute set and 'kratom_weight' attribute, and links variations as configurable products.
   - Run with: `docker exec -u 1000 ddev-magento-web php import_products.php`
+  - Current preferred CSV shape is the newer `var/tmp/products.csv` format documented in `dev/notes/kratom-product-import-csv-format.md`.
+  - Pricing behavior:
+    - simple-product prices come from the CSV `price` column
+    - configurable parent prices are set to the minimum child price
+    - if a rotating-special cycle is currently active, the importer refreshes that cycle's `special_price` values so the configured discount remains correct against the newly imported base prices
+- `dev/tools/add_kratom_reviews.php`: Programmatically adds approved storefront reviews to the six kratom configurable parent products (`RB`, `RMD`, `RH`, `GMD`, `GM`, `GH`).
+  - Uses mixed US-based male/female reviewer names.
+  - Inserts separate reviews per supplied review text and applies product ratings.
+  - Idempotent for the current seeded review text set: reruns skip exact existing review bodies instead of duplicating them.
+  - Run with: `docker exec -u 1000 ddev-magento-web php dev/tools/add_kratom_reviews.php`
 
 ## Magento Theme Work
 
@@ -153,6 +163,52 @@ After these fixes, rerunning `import_products.php` and normal theme widgets shou
 - If a task depends on archived assets in `theme_files/`, inspect package compatibility with the current Magento version before installation.
 - Record any required post-install commands in the final handoff.
 - Rotating special deals discovery and implementation planning is documented in [dev/plans/rotating-special-deals.md](/home/ildar/projects/magento/dev/plans/rotating-special-deals.md).
+
+## Rotating Special Deals
+
+- Implemented in `app/code/Local/RotatingSpecialDeals/`.
+- Purpose: automatically run a 14-day homepage deal cycle for exactly 2 products with a 30% discount.
+- Storage:
+  - cycle header table: `local_rotating_special_deal_cycle`
+  - cycle item table: `local_rotating_special_deal_item`
+- Scheduler:
+  - cron job: `local_rotating_special_deals_rotate`
+  - schedule: hourly in `etc/crontab.xml`, but it only rotates when no active cycle remains or when forced manually.
+- Manual trigger:
+  - `docker exec -u 1000 ddev-magento-web php bin/magento local:rotating-special-deals:rotate`
+  - force immediate rotation: `docker exec -u 1000 ddev-magento-web php bin/magento local:rotating-special-deals:rotate --force`
+- Selection rules:
+  - uses configurable parent products only
+  - selects exactly 2 products
+  - products must come from different kratom group categories
+  - current group categories are `377` = `Green Vein Kratom`, `378` = `Red Vein Kratom`, `379` = `White Vein Kratom`
+  - excludes products from the immediately previous cycle
+- Pricing behavior:
+  - uses native product `special_price`, `special_from_date`, and `special_to_date`
+  - current discount factor is `30%` off (`special_price = regular price * 0.70`)
+  - because the imported kratom catalog had `0` prices, the module also seeds reasonable base prices for missing kratom product prices before rotating deals
+  - seeded defaults currently map weights to: `25g=12.99`, `50g=21.99`, `100g=39.99`, `250g=84.99`, `500g=149.99`
+- Homepage integration:
+  - targets CMS page `home-demo-37`
+  - rewrites the homepage `Sm\FilterProducts` deal widget directive to:
+    - `product_source="countdown_products"`
+    - `select_category="377,378,379"`
+    - `product_limitation="2"`
+    - `date_to="<cycle end>"`
+- Important `Sm_FilterProducts` fix:
+  - `app/code/Sm/FilterProducts/Block/FilterProducts.php`
+  - `_countDownProducts()` was tightened to require `special_to_date >= now`, not just `<= widget date_to`
+- Important pricing-display caveat:
+  - Magento’s configurable price renderer in this project does not naturally show the rotated parent special as an old/new price pair even when the indexed `final_price` is discounted
+  - to make the homepage deals block visibly show `Regular Price` and `Special Price`, `grid-slider-deal2.phtml` was patched in both:
+    - `app/design/frontend/Sm/market/Sm_FilterProducts/templates/grid-slider-deal2.phtml`
+    - `app/code/Sm/FilterProducts/view/frontend/templates/grid-slider-deal2.phtml`
+  - this patch is intentionally narrow to the rotating-deals template path
+- Post-change validation commands:
+  - `docker exec -u 1000 ddev-magento-web php bin/magento setup:upgrade`
+  - `docker exec -u 1000 ddev-magento-web php bin/magento setup:di:compile`
+  - `docker exec -u 1000 ddev-magento-web php bin/magento setup:static-content:deploy -f en_US`
+  - `docker exec -u 1000 ddev-magento-web php bin/magento cache:flush`
 
 ## Playwright Harness
 

@@ -15,10 +15,20 @@ try {
     $state->setAreaCode('adminhtml');
 } catch (\Exception $e) {}
 
-$csvFile = 'data/products.csv';
-if (!file_exists($csvFile)) {
-    die("File not found: $csvFile\n");
+$csvCandidates = ['var/tmp/products.csv', 'data/products.csv'];
+$csvFile = null;
+foreach ($csvCandidates as $candidate) {
+    if (file_exists($candidate)) {
+        $csvFile = $candidate;
+        break;
+    }
 }
+
+if ($csvFile === null) {
+    die("File not found. Checked: " . implode(', ', $csvCandidates) . "\n");
+}
+
+echo "Using CSV: $csvFile\n";
 
 $eavConfig = $objectManager->get(\Magento\Eav\Model\Config::class);
 $attributeSetFactory = $objectManager->get(\Magento\Eav\Model\Entity\Attribute\SetFactory::class);
@@ -154,8 +164,27 @@ $productRepository = $objectManager->get(\Magento\Catalog\Api\ProductRepositoryI
 $categoryCollectionFactory = $objectManager->get(\Magento\Catalog\Model\ResourceModel\Category\CollectionFactory::class);
 $sourceItemFactory = $objectManager->get(\Magento\InventoryApi\Api\Data\SourceItemInterfaceFactory::class);
 $sourceItemsSave = $objectManager->get(\Magento\InventoryApi\Api\SourceItemsSaveInterface::class);
+$cycleStorage = $objectManager->get(\Local\RotatingSpecialDeals\Service\CycleStorage::class);
+$rotationConfig = $objectManager->get(\Local\RotatingSpecialDeals\Service\RotationConfig::class);
+$resourceConnection = $objectManager->get(\Magento\Framework\App\ResourceConnection::class);
+$indexerRegistry = $objectManager->get(\Magento\Framework\Indexer\IndexerRegistry::class);
+$cacheTypeList = $objectManager->get(\Magento\Framework\App\Cache\TypeListInterface::class);
+
+function getFirstRowValue(array $row, array $keys, string $default = ''): string {
+    foreach ($keys as $key) {
+        if (array_key_exists($key, $row) && trim((string)$row[$key]) !== '') {
+            return trim((string)$row[$key]);
+        }
+    }
+
+    return $default;
+}
 
 function getCategoryIds($categoryNames, $categoryCollectionFactory) {
+    if (trim((string)$categoryNames) === '') {
+        return [];
+    }
+
     $names = array_map('trim', explode(',', $categoryNames));
     $collection = $categoryCollectionFactory->create()
         ->addAttributeToFilter('name', ['in' => $names]);
@@ -163,12 +192,12 @@ function getCategoryIds($categoryNames, $categoryCollectionFactory) {
 }
 
 function isRowInStock(array $row): bool {
-    $value = strtolower(trim((string)($row['In stock?'] ?? '')));
+    $value = strtolower(getFirstRowValue($row, ['In stock?', 'is_in_stock'], '0'));
     return $value === 'yes' || $value === '1';
 }
 
 function getRowQty(array $row): float {
-    $rawQty = trim((string)($row['Stock'] ?? ''));
+    $rawQty = getFirstRowValue($row, ['Stock', 'qty']);
     if ($rawQty !== '' && is_numeric($rawQty)) {
         return (float)$rawQty;
     }
@@ -191,29 +220,124 @@ function saveDefaultSourceItem(
     $sourceItemsSave->execute([$sourceItem]);
 }
 
+function getRowType(array $row): string {
+    return strtolower(getFirstRowValue($row, ['Type', 'product_type']));
+}
+
+function isSimpleRow(array $row): bool {
+    return in_array(getRowType($row), ['variation', 'simple'], true);
+}
+
+function isConfigurableRow(array $row): bool {
+    return in_array(getRowType($row), ['variable', 'configurable'], true);
+}
+
+function getRowSku(array $row): string {
+    return getFirstRowValue($row, ['SKU', 'sku']);
+}
+
+function getRowName(array $row): string {
+    return getFirstRowValue($row, ['Name', 'name']);
+}
+
+function getRowCategories(array $row): string {
+    return getFirstRowValue($row, ['Categories', 'categories']);
+}
+
+function getRowPrice(array $row): float {
+    $value = getFirstRowValue($row, ['Regular price', 'price'], '0');
+    return is_numeric($value) ? (float)$value : 0.0;
+}
+
+function getRowDescription(array $row): string {
+    return getFirstRowValue($row, ['Description', 'description']);
+}
+
+function getRowShortDescription(array $row): string {
+    return getFirstRowValue($row, ['Short Description', 'short_description']);
+}
+
+function getRowWeightValue(array $row): float {
+    $value = getFirstRowValue($row, ['Weight (kg)', 'weight'], '0');
+    return is_numeric($value) ? (float)$value : 0.0;
+}
+
+function getRowParentSku(array $row): string {
+    return getFirstRowValue($row, ['Parent', '_internal_parent_sku']);
+}
+
+function getRowWeightLabel(array $row): string {
+    $label = getFirstRowValue($row, ['_internal_size_label']);
+    if ($label !== '') {
+        return $label;
+    }
+
+    if (preg_match('/(\d+g)/i', getRowName($row), $matches)) {
+        return $matches[1];
+    }
+
+    return '';
+}
+
+function getStoredPriceBySku(string $sku, $resourceConnection): float {
+    $connection = $resourceConnection->getConnection();
+    $attributeId = (int)$connection->fetchOne(
+        "SELECT attribute_id
+        FROM eav_attribute
+        WHERE attribute_code = 'price'
+          AND entity_type_id = (
+              SELECT entity_type_id
+              FROM eav_entity_type
+              WHERE entity_type_code = 'catalog_product'
+          )"
+    );
+
+    if ($attributeId <= 0) {
+        return 0.0;
+    }
+
+    $value = $connection->fetchOne(
+        "SELECT d.value
+        FROM catalog_product_entity e
+        JOIN catalog_product_entity_decimal d
+          ON d.entity_id = e.entity_id
+        WHERE e.sku = ?
+          AND d.attribute_id = ?
+          AND d.store_id = 0
+        LIMIT 1",
+        [$sku, $attributeId]
+    );
+
+    return $value === false ? 0.0 : round((float)$value, 2);
+}
+
 $simplesByParent = [];
+$simplePricesByParent = [];
+$updatedProductIds = [];
 
 // PASS 1: Create Simple Products (variations)
 echo "Pass 1: Creating Simple Products\n";
 foreach ($productsData as $row) {
-    if ($row['Type'] !== 'variation') continue;
+    if (!isSimpleRow($row)) continue;
 
-    echo "Processing variation: " . $row['SKU'] . "\n";
+    $sku = getRowSku($row);
+    echo "Processing variation: " . $sku . "\n";
     $isInStock = isRowInStock($row);
     $qty = getRowQty($row);
     
     try {
-        $product = $productRepository->get($row['SKU']);
-        echo "Product " . $row['SKU'] . " already exists, updating.\n";
+        $product = $productRepository->get($sku);
+        echo "Product " . $sku . " already exists, updating.\n";
     } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
         $product = $productFactory->create();
-        $product->setSku($row['SKU']);
+        $product->setSku($sku);
     }
 
-    $product->setName($row['Name']);
+    $product->setName(getRowName($row));
     $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
     $product->setAttributeSetId($attributeSetId);
-    $product->setPrice($row['Regular price'] ?: 0);
+    $product->setPrice(getRowPrice($row));
+    $product->setWeight(getRowWeightValue($row));
     $product->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_NOT_VISIBLE);
     $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
     $product->setStockData([
@@ -223,59 +347,67 @@ foreach ($productsData as $row) {
         'qty' => $qty
     ]);
 
-    // Extract weight from name (e.g., "Red Bali - 25g")
-    if (preg_match('/(\d+g)/', $row['Name'], $matches)) {
-        $weightLabel = $matches[1];
-        if (isset($optionMap[$weightLabel])) {
-            $product->setData($attributeCode, $optionMap[$weightLabel]);
-        }
+    $weightLabel = getRowWeightLabel($row);
+    if ($weightLabel !== '' && isset($optionMap[$weightLabel])) {
+        $product->setData($attributeCode, $optionMap[$weightLabel]);
     }
 
-    $product->setCategoryIds(getCategoryIds($row['Categories'], $categoryCollectionFactory));
+    $categoryIds = getCategoryIds(getRowCategories($row), $categoryCollectionFactory);
+    if ($categoryIds !== []) {
+        $product->setCategoryIds($categoryIds);
+    }
+
     $productRepository->save($product);
-    saveDefaultSourceItem($row['SKU'], $qty, $isInStock, $sourceItemFactory, $sourceItemsSave);
-    echo "Created/Updated simple product: " . $row['SKU'] . "\n";
+    $updatedProductIds[] = (int)$product->getId();
+    saveDefaultSourceItem($sku, $qty, $isInStock, $sourceItemFactory, $sourceItemsSave);
+    echo "Created/Updated simple product: " . $sku . "\n";
     
-    $simplesByParent[$row['Parent']][] = $row['SKU'];
+    $parentSku = getRowParentSku($row);
+    if ($parentSku !== '') {
+        $simplesByParent[$parentSku][] = $sku;
+        $simplePricesByParent[$parentSku][] = getRowPrice($row);
+    }
 }
 
 // PASS 2: Create Configurable Products (variables)
 echo "Pass 2: Creating Configurable Products\n";
 foreach ($productsData as $row) {
-    if ($row['Type'] !== 'variable') continue;
+    if (!isConfigurableRow($row)) continue;
 
-    echo "Processing variable product: " . $row['SKU'] . "\n";
+    $sku = getRowSku($row);
+    echo "Processing variable product: " . $sku . "\n";
     
     try {
-        $product = $productRepository->get($row['SKU']);
-        echo "Product " . $row['SKU'] . " already exists, updating links.\n";
+        $product = $productRepository->get($sku);
+        echo "Product " . $sku . " already exists, updating links.\n";
     } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
         $product = $productFactory->create();
-        $product->setSku($row['SKU']);
+        $product->setSku($sku);
     }
 
-    $product->setName($row['Name']);
+    $product->setName(getRowName($row));
     $product->setTypeId(\Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE);
     $product->setAttributeSetId($attributeSetId);
-    $product->setPrice(0);
+    $parentPrices = $simplePricesByParent[$sku] ?? [];
+    $product->setPrice($parentPrices !== [] ? min($parentPrices) : getRowPrice($row));
     $product->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
     $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-    $product->setDescription($row['Description']);
-    $product->setShortDescription($row['Short Description']);
-    $product->setWeight($row['Weight (kg)'] ?: 0);
+    $product->setDescription(getRowDescription($row));
+    $product->setShortDescription(getRowShortDescription($row));
+    $product->setWeight(getRowWeightValue($row));
     $product->setStockData([
         'use_config_manage_stock' => 0,
         'manage_stock' => 1,
         'is_in_stock' => 1,
         'qty' => 1
     ]);
-    $product->setCategoryIds(getCategoryIds($row['Categories'], $categoryCollectionFactory));
+    $product->setCategoryIds(getCategoryIds(getRowCategories($row), $categoryCollectionFactory));
 
     // Link simples to configurable
-    if (isset($simplesByParent[$row['SKU']])) {
+    if (isset($simplesByParent[$sku])) {
         $associatedIds = [];
         $attributeValues = [];
-        foreach ($simplesByParent[$row['SKU']] as $simpleSku) {
+        foreach ($simplesByParent[$sku] as $simpleSku) {
             $simpleProduct = $productRepository->get($simpleSku);
             $associatedIds[] = $simpleProduct->getId();
             $attributeValues[] = $simpleProduct->getData($attributeCode);
@@ -310,7 +442,38 @@ foreach ($productsData as $row) {
     }
 
     $productRepository->save($product);
-    echo "Created/Updated configurable product: " . $row['SKU'] . "\n";
+    $updatedProductIds[] = (int)$product->getId();
+    echo "Created/Updated configurable product: " . $sku . "\n";
 }
+
+// Keep the active rotating cycle at the configured discount against fresh base prices.
+$activeCycle = $cycleStorage->getActiveCycle();
+if ($activeCycle) {
+    echo "Refreshing active rotating cycle {$activeCycle['cycle_id']}\n";
+    foreach ($activeCycle['items'] as $item) {
+        $sku = (string)$item['sku'];
+        $product = $productRepository->getById((int)$item['product_id'], true, 0, true);
+        $basePrice = getStoredPriceBySku($sku, $resourceConnection);
+        if ($basePrice <= 0.0) {
+            echo "Skipped special refresh for {$sku}; base price is 0\n";
+            continue;
+        }
+
+        $specialPrice = round($basePrice * $rotationConfig->getDiscountFactor(), 2);
+        $product->setSpecialPrice($specialPrice);
+        $product->setSpecialFromDate((string)$activeCycle['started_at']);
+        $product->setSpecialToDate((string)$activeCycle['ends_at']);
+        $productRepository->save($product);
+        $updatedProductIds[] = (int)$product->getId();
+        echo "Refreshed active rotating special for {$sku} to {$specialPrice}\n";
+    }
+}
+
+$updatedProductIds = array_values(array_unique(array_filter($updatedProductIds)));
+if ($updatedProductIds !== []) {
+    $indexerRegistry->get('catalog_product_price')->reindexList($updatedProductIds);
+}
+$cacheTypeList->cleanType('block_html');
+$cacheTypeList->cleanType('full_page');
 
 echo "Import finished.\n";

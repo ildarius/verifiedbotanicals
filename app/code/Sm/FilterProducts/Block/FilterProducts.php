@@ -328,6 +328,7 @@ class FilterProducts extends \Magento\Catalog\Block\Product\AbstractProduct
             ->addAttributeToSelect('special_to_date')
             ->addAttributeToFilter('special_price', ['neq' => ''])
             ->addAttributeToFilter('special_from_date', ['lteq' => date('Y-m-d  H:i:s', strtotime($now))])
+            ->addAttributeToFilter('special_to_date', ['gteq' => date('Y-m-d  H:i:s', strtotime($now))])
             ->addAttributeToFilter('special_to_date', ['lteq' => date('Y-m-d  H:i:s', strtotime($dateToTime))])
             ->addAttributeToFilter('is_saleable', ['eq' => 1], 'left');
         $this->applyCategoryFilter($collection, $categoryIds, $connection);
