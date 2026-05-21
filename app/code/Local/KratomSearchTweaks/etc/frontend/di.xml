@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Catalog\Model\Layer">
+        <plugin name="local_kratom_search_tweaks_layer"
+                type="Local\KratomSearchTweaks\Plugin\Layer\KratomSearchOnlyPlugin" />
+    </type>
+    <type name="Magento\LayeredNavigation\Block\Navigation">
+        <plugin name="local_kratom_search_tweaks_layerednav_filters"
+                type="Local\KratomSearchTweaks\Plugin\LayeredNavigation\HideDemoFiltersPlugin" />
+    </type>
+</config>
+

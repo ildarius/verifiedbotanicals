@@ -124,7 +124,8 @@ foreach ($weights as $weight) {
         $option = $attributeOptionFactory->create();
         $option->setLabel($weight);
         $option->setStoreLabels([$optionLabel]);
-        $option->setSortOrder(0);
+        // Keep weight options stable + ordered (small -> big)
+        $option->setSortOrder(((int)array_search($weight, $weights, true) + 1) * 10);
         $option->setIsDefault(false);
 
         $optionManagement->add('catalog_product', $attributeCode, $option);
@@ -138,6 +139,107 @@ foreach ($weights as $weight) {
             }
         }
     }
+}
+
+// Ensure existing option sort order is correct (small -> big)
+try {
+    $resourceConnectionForOptionSort = $objectManager->get(\Magento\Framework\App\ResourceConnection::class);
+    $connectionForOptionSort = $resourceConnectionForOptionSort->getConnection();
+    $optionTable = $resourceConnectionForOptionSort->getTableName('eav_attribute_option');
+
+    foreach ($weights as $idx => $weight) {
+        if (!isset($optionMap[$weight])) {
+            continue;
+        }
+        $optionId = (int)$optionMap[$weight];
+        if ($optionId <= 0) {
+            continue;
+        }
+
+        $connectionForOptionSort->update(
+            $optionTable,
+            ['sort_order' => ($idx + 1) * 10],
+            ['option_id = ?' => $optionId]
+        );
+    }
+} catch (\Throwable $e) {
+    echo "Warning: Failed to enforce kratom_weight option sort order: " . $e->getMessage() . "\n";
+}
+
+// Ensure kratom_weight renders as text swatches (like demo "size" swatches)
+try {
+    $resourceConnectionForSwatches = $objectManager->get(\Magento\Framework\App\ResourceConnection::class);
+    $connectionForSwatches = $resourceConnectionForSwatches->getConnection();
+    $catalogEavAttributeTable = $resourceConnectionForSwatches->getTableName('catalog_eav_attribute');
+    $swatchTable = $resourceConnectionForSwatches->getTableName('eav_attribute_option_swatch');
+
+    $attributeId = (int)$attribute->getId();
+    $existingAdditionalDataRaw = $connectionForSwatches->fetchOne(
+        "SELECT additional_data FROM {$catalogEavAttributeTable} WHERE attribute_id = ?",
+        [$attributeId]
+    );
+
+    $existingAdditionalData = [];
+    if (is_string($existingAdditionalDataRaw) && trim($existingAdditionalDataRaw) !== '') {
+        $decoded = json_decode($existingAdditionalDataRaw, true);
+        if (is_array($decoded)) {
+            $existingAdditionalData = $decoded;
+        }
+    }
+
+    $updatedAdditionalData = array_merge($existingAdditionalData, [
+        'swatch_input_type' => 'text',
+        'update_product_preview_image' => '1',
+        'use_product_image_for_swatch' => 0,
+    ]);
+
+    $connectionForSwatches->update(
+        $catalogEavAttributeTable,
+        [
+            'additional_data' => json_encode($updatedAdditionalData, JSON_UNESCAPED_SLASHES),
+            'is_filterable_in_search' => 1,
+        ],
+        ['attribute_id = ?' => $attributeId]
+    );
+
+    // Seed text swatches for the weight options for admin(0) + default store(1)
+    $swatchRows = [];
+    foreach ($weights as $weight) {
+        if (!isset($optionMap[$weight])) {
+            continue;
+        }
+        $optionId = (int)$optionMap[$weight];
+        if ($optionId <= 0) {
+            continue;
+        }
+
+        foreach ([0, 1] as $storeId) {
+            $swatchRows[] = [
+                'option_id' => $optionId,
+                'store_id' => $storeId,
+                'type' => 0, // 0 = text
+                'value' => $weight,
+            ];
+        }
+    }
+
+    if ($swatchRows !== []) {
+        $connectionForSwatches->insertOnDuplicate($swatchTable, $swatchRows, ['type', 'value']);
+    }
+
+    // Magento caches the swatch attribute list; clean relevant caches so listing swatches appear immediately.
+    try {
+        /** @var \Magento\Framework\App\Cache\TypeListInterface $cacheTypeListForSwatches */
+        $cacheTypeListForSwatches = $objectManager->get(\Magento\Framework\App\Cache\TypeListInterface::class);
+        foreach (['config', 'eav', 'block_html', 'full_page'] as $cacheType) {
+            $cacheTypeListForSwatches->cleanType($cacheType);
+        }
+    } catch (\Throwable $e) {
+        echo "Warning: Failed to clean caches after swatch setup: " . $e->getMessage() . "\n";
+    }
+} catch (\Throwable $e) {
+    // Non-fatal: products/import should still work even if swatch setup fails.
+    echo "Warning: Failed to configure kratom_weight swatches: " . $e->getMessage() . "\n";
 }
 
 // 4. Parse CSV and Import
