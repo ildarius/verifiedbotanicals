@@ -151,6 +151,35 @@ Canada Post sells two relevant box sizes: small ($21.99, max ~1 kg practical) an
   - conditions by weight and destination region
 - Then configure the tiers in the extension’s UI rather than custom code.
 
+---
+
+## Current Repo Implementation (MatrixRate)
+
+We implement **Option B** using the open-source **WebShopApps MatrixRate** module:
+
+- Module: `app/code/WebShopApps/MatrixRate/` (`WebShopApps_MatrixRate`)
+- Rates CSV (source of truth): `dev/notes/shipping-matrixrate-ca-weight-rates.csv`
+- Import helper: `dev/tools/import_matrixrate_rates.php`
+- Regression tests:
+  - Pure weight/address request: `dev/tools/test_matrixrate_shipping.php`
+  - Quote/cart with real products: `dev/tools/test_matrixrate_checkout_quotes.php`
+
+### Local setup commands (DDEV)
+
+```bash
+docker exec -u 1000 ddev-magento-web php bin/magento setup:upgrade
+docker exec -u 1000 ddev-magento-web php bin/magento setup:di:compile
+
+docker exec -u 1000 ddev-magento-web php bin/magento config:set carriers/matrixrate/active 1
+docker exec -u 1000 ddev-magento-web php bin/magento config:set carriers/matrixrate/title "Postage"
+docker exec -u 1000 ddev-magento-web php bin/magento config:set carriers/matrixrate/condition_name package_weight
+docker exec -u 1000 ddev-magento-web php bin/magento config:set carriers/matrixrate/sallowspecific 1
+docker exec -u 1000 ddev-magento-web php bin/magento config:set carriers/matrixrate/specificcountry CA
+
+docker exec -u 1000 ddev-magento-web php dev/tools/import_matrixrate_rates.php
+docker exec -u 1000 ddev-magento-web php bin/magento cache:clean config
+```
+
 ### Concrete build steps (Option A)
 
 1) Create module skeleton: `registration.php`, `etc/module.xml`.

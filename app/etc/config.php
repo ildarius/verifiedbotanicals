@@ -383,6 +383,7 @@ return [
         'Sm_SearchBox' => 1,
         'Sm_ShopBy' => 1,
         'Sm_SizeChart' => 1,
-        'Sm_Themecore' => 1
+        'Sm_Themecore' => 1,
+        'WebShopApps_MatrixRate' => 1
     ]
 ];

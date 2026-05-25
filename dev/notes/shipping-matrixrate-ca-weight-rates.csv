@@ -1,0 +1,22 @@
+Country,Region/State,City,Zip/Postal Code,Zip/Postal Code To,Weight From,Weight To,Shipping Price,Shipping Method
+CA,QC,*,*,*,0,0.025,3.80,Regular Shipping
+CA,QC,*,*,*,0.025,0.125,6.41,Regular Shipping
+CA,QC,*,*,*,0,0.025,17.35,Express Shipping
+CA,QC,*,*,*,0.025,0.125,19.60,Express Shipping
+CA,QC,*,*,*,0.125,1.000,21.99,Express Shipping
+CA,QC,*,*,*,1.000,2.000,24.99,Express Shipping
+CA,QC,*,*,*,2.000,5.000,32.99,Express Shipping
+CA,ON,*,*,*,0,0.025,3.80,Regular Shipping
+CA,ON,*,*,*,0.025,0.125,6.41,Regular Shipping
+CA,ON,*,*,*,0,0.025,17.35,Express Shipping
+CA,ON,*,*,*,0.025,0.125,19.60,Express Shipping
+CA,ON,*,*,*,0.125,1.000,21.99,Express Shipping
+CA,ON,*,*,*,1.000,2.000,24.99,Express Shipping
+CA,ON,*,*,*,2.000,5.000,32.99,Express Shipping
+CA,*,*,*,*,0,0.025,3.80,Regular Shipping
+CA,*,*,*,*,0.025,0.125,6.41,Regular Shipping
+CA,*,*,*,*,0,0.025,26.80,Express Shipping
+CA,*,*,*,*,0.025,0.125,28.10,Express Shipping
+CA,*,*,*,*,0.125,1.000,21.99,Express Shipping
+CA,*,*,*,*,1.000,2.000,24.99,Express Shipping
+CA,*,*,*,*,2.000,5.000,32.99,Express Shipping
