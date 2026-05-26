@@ -1,0 +1,117 @@
+{
+  "generatedAt": "2026-05-25",
+  "scenarioDefaults": {
+    "sku": "RB50",
+    "skuLabel": "RB50-50g",
+    "productPath": "/red-bali.html",
+    "weightLabel": "50g",
+    "shippingMethodTitle": "Regular Shipping",
+    "expectedSubtotalAmount": 17.0,
+    "expectedShippingAmount": 6.41
+  },
+  "provinces": {
+    "AB": {
+      "label": "AB-Alberta",
+      "region": "Alberta",
+      "city": "Calgary",
+      "postcode": "T2P1J9",
+      "taxes": [{ "title": "GST", "percent": 5.0 }]
+    },
+    "BC": {
+      "label": "BC-British-Columbia",
+      "region": "British Columbia",
+      "city": "Vancouver",
+      "postcode": "V5K0A1",
+      "taxes": [
+        { "title": "GST", "percent": 5.0 },
+        { "title": "PST", "percent": 7.0 }
+      ]
+    },
+    "MB": {
+      "label": "MB-Manitoba",
+      "region": "Manitoba",
+      "city": "Winnipeg",
+      "postcode": "R3C4T3",
+      "taxes": [
+        { "title": "GST", "percent": 5.0 },
+        { "title": "RST", "percent": 7.0 }
+      ]
+    },
+    "NB": {
+      "label": "NB-New-Brunswick",
+      "region": "New Brunswick",
+      "city": "Fredericton",
+      "postcode": "E3B1B6",
+      "taxes": [{ "title": "HST", "percent": 15.0 }]
+    },
+    "NL": {
+      "label": "NL-Newfoundland-and-Labrador",
+      "region": "Newfoundland and Labrador",
+      "city": "St Johns",
+      "postcode": "A1C5S7",
+      "taxes": [{ "title": "HST", "percent": 15.0 }]
+    },
+    "NS": {
+      "label": "NS-Nova-Scotia",
+      "region": "Nova Scotia",
+      "city": "Halifax",
+      "postcode": "B3J2K9",
+      "taxes": [{ "title": "HST", "percent": 15.0 }]
+    },
+    "NT": {
+      "label": "NT-Northwest-Territories",
+      "region": "Northwest Territories",
+      "city": "Yellowknife",
+      "postcode": "X1A2P7",
+      "taxes": [{ "title": "GST", "percent": 5.0 }]
+    },
+    "NU": {
+      "label": "NU-Nunavut",
+      "region": "Nunavut",
+      "city": "Iqaluit",
+      "postcode": "X0A0H0",
+      "taxes": [{ "title": "GST", "percent": 5.0 }]
+    },
+    "ON": {
+      "label": "ON-Ontario",
+      "region": "Ontario",
+      "city": "Toronto",
+      "postcode": "M5V1A1",
+      "taxes": [{ "title": "HST", "percent": 13.0 }]
+    },
+    "PE": {
+      "label": "PE-Prince-Edward-Island",
+      "region": "Prince Edward Island",
+      "city": "Charlottetown",
+      "postcode": "C1A4P3",
+      "taxes": [{ "title": "HST", "percent": 15.0 }]
+    },
+    "QC": {
+      "label": "QC-Quebec",
+      "region": "Quebec",
+      "city": "Montreal",
+      "postcode": "H2Y1C6",
+      "taxes": [
+        { "title": "GST", "percent": 5.0 },
+        { "title": "QST", "percent": 9.975 }
+      ]
+    },
+    "SK": {
+      "label": "SK-Saskatchewan",
+      "region": "Saskatchewan",
+      "city": "Saskatoon",
+      "postcode": "S7K0J5",
+      "taxes": [
+        { "title": "GST", "percent": 5.0 },
+        { "title": "PST", "percent": 6.0 }
+      ]
+    },
+    "YT": {
+      "label": "YT-Yukon-Territory",
+      "region": "Yukon Territory",
+      "city": "Whitehorse",
+      "postcode": "Y1A1A1",
+      "taxes": [{ "title": "GST", "percent": 5.0 }]
+    }
+  }
+}

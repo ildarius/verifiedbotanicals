@@ -122,7 +122,8 @@ async function submitHeaderSearch(page, query) {
 }
 
 async function openProduct(page, baseUrl, productPath) {
-  await page.goto(new URL(productPath, baseUrl).toString(), { waitUntil: 'networkidle' });
+  await page.goto(new URL(productPath, baseUrl).toString(), { waitUntil: 'domcontentloaded', timeout: 60000 });
+  await page.waitForLoadState('networkidle', { timeout: 30000 }).catch(() => {});
   await dismissNewsletterPopup(page);
 }
 
@@ -254,10 +255,10 @@ async function fillShippingAddress(page, regionCode) {
   // Email is filled right before continuing to payment, because some checkout flows re-render
   // the email field after address changes and can wipe it.
 
-  await page.locator('input[name="firstname"]').first().fill('Test');
-  await page.locator('input[name="lastname"]').first().fill('User');
-  await page.locator('input[name="street[0]"]').first().fill('1 King St');
-  await page.locator('input[name="city"]').first().fill(address.city);
+  await page.locator('input[name="firstname"]:visible').first().fill('Test');
+  await page.locator('input[name="lastname"]:visible').first().fill('User');
+  await page.locator('input[name="street[0]"]:visible').first().fill('1 King St');
+  await page.locator('input[name="city"]:visible').first().fill(address.city);
 
   // Country.
   const countrySelect = page.locator('select[name="country_id"]').first();
@@ -272,17 +273,24 @@ async function fillShippingAddress(page, regionCode) {
       await regionSelect.selectOption({ label: address.region });
     });
   } else {
-    const regionInput = page.locator('input[name="region"]').first();
+    const regionInput = page.locator('input[name="region"]:visible').first();
     if (await regionInput.isVisible().catch(() => false)) {
       await regionInput.fill(address.region);
     }
   }
 
-  await page.locator('input[name="postcode"]').first().fill(address.postcode);
-  await page.locator('input[name="telephone"]').first().fill('0000000000');
+  await page.locator('input[name="postcode"]:visible').first().fill(address.postcode);
+  await page.locator('input[name="telephone"]:visible').first().fill('0000000000');
 
   // Let the checkout re-calc shipping rates after address edits.
   await page.waitForTimeout(1500);
+
+  // Wait for shipping methods to finish re-rendering (theme/KO bindings can refresh rows after postcode/region changes).
+  const methodsTable = page.locator('.table-checkout-shipping-method tbody').first();
+  if (await methodsTable.isVisible().catch(() => false)) {
+    await page.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => {});
+    await page.waitForTimeout(1000);
+  }
 }
 
 async function ensureGuestEmail(page, emailValue) {
@@ -328,10 +336,23 @@ async function selectShippingMethod(page, methodTitle) {
   await methodRow.waitFor({ state: 'visible', timeout: 60000 });
 
   const radio = methodRow.locator('input[type="radio"]').first();
-  await radio.check({ force: true });
+  const deadline = Date.now() + 60000;
+  while (Date.now() < deadline) {
+    if (await radio.isChecked().catch(() => false)) {
+      // Ensure the selection sticks; KO can re-render the shipping rates table and clear the checked state.
+      await page.waitForTimeout(750);
+      if (await radio.isChecked().catch(() => false)) {
+        return;
+      }
+    }
 
-  // Wait for totals recalculation (best-effort).
-  await page.waitForTimeout(1500);
+    await methodRow.click({ force: true }).catch(() => {});
+    await radio.check({ force: true }).catch(() => {});
+
+    await page.waitForTimeout(500);
+  }
+
+  throw new Error(`Unable to select shipping method "${methodTitle}" (radio remained unchecked/disabled)`);
 }
 
 async function proceedToPayment(page, emailValue) {
@@ -401,7 +422,8 @@ async function runScenario(config, scenario) {
   });
   const page = await context.newPage();
 
-  await page.goto(new URL('/', config.baseUrl).toString(), { waitUntil: 'networkidle' });
+  await page.goto(new URL('/', config.baseUrl).toString(), { waitUntil: 'domcontentloaded', timeout: 60000 });
+  await page.waitForLoadState('networkidle', { timeout: 30000 }).catch(() => {});
   await dismissNewsletterPopup(page);
 
   await openProduct(page, config.baseUrl, scenario.productPath);

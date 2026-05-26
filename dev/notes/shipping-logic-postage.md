@@ -4,6 +4,14 @@
 
 Document the customer-facing shipping options shown at checkout (Regular vs Express), driven by **total order weight** (sum of all items in cart).
 
+---
+
+## Automated Tests
+
+For automated verification (including checkout UI screenshots), see:
+
+- `dev/notes/shipping-automated-tests.md`
+
 ## Source (Required Attribution)
 
 This content comes from the projects file: `Claude\All projects\Sunny Kratom\docs\postage.md`.
@@ -163,6 +171,7 @@ We implement **Option B** using the open-source **WebShopApps MatrixRate** modul
 - Regression tests:
   - Pure weight/address request: `dev/tools/test_matrixrate_shipping.php`
   - Quote/cart with real products: `dev/tools/test_matrixrate_checkout_quotes.php`
+  - Checkout UI screenshots (Playwright): `tools/playwright/storefront-shipping-scenarios.js`
 
 ### Local setup commands (DDEV)
 
@@ -179,6 +188,10 @@ docker exec -u 1000 ddev-magento-web php bin/magento config:set carriers/matrixr
 docker exec -u 1000 ddev-magento-web php dev/tools/import_matrixrate_rates.php
 docker exec -u 1000 ddev-magento-web php bin/magento cache:clean config
 ```
+
+### How to run automated tests
+
+See `dev/notes/shipping-automated-tests.md`.
 
 ### Concrete build steps (Option A)
 

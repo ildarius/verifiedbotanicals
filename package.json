@@ -6,7 +6,8 @@
     "pw:theme-install": "node tools/playwright/vendor-theme-install.js",
     "pw:homepage-check": "node tools/playwright/storefront-homepage-check.js",
     "pw:search-check": "node tools/playwright/storefront-search-check.js",
-    "pw:shipping-screenshots": "node tools/playwright/storefront-shipping-scenarios.js"
+    "pw:shipping-screenshots": "node tools/playwright/storefront-shipping-scenarios.js",
+    "pw:tax-screenshots": "node tools/playwright/storefront-tax-scenarios.js"
   },
   "devDependencies": {
     "playwright": "^1.54.2"
