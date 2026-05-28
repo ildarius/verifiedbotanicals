@@ -56,7 +56,7 @@
       "region": "Nova Scotia",
       "city": "Halifax",
       "postcode": "B3J2K9",
-      "taxes": [{ "title": "HST", "percent": 15.0 }]
+      "taxes": [{ "title": "HST", "percent": 14.0 }]
     },
     "NT": {
       "label": "NT-Northwest-Territories",

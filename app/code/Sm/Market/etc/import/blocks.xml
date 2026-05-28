@@ -4543,7 +4543,7 @@
                 &lt;/div&gt;
                 &lt;div class="col-lg-3 col-sm-6"&gt;
                     &lt;div class="footer-block"&gt;
-                        &lt;div class="footer-block-title"&gt;{{trans "Working Hours"}}&lt;/div&gt;
+                        &lt;div class="footer-block-title"&gt;{{trans "Shipping Hours"}}&lt;/div&gt;
                         &lt;div class="footer-block-content"&gt;
                             &lt;ul class="ft-links"&gt;
                                 &lt;li&gt;&lt;a href="#"&gt;{{trans "Monday   (9:00am - 5:00pm)"}}&lt;/a&gt;&lt;/li&gt;
@@ -4552,6 +4552,7 @@
                                 &lt;li&gt;&lt;a href="#"&gt;{{trans "Thursday   (9:00am - 5:00pm)"}}&lt;/a&gt;&lt;/li&gt;
                                 &lt;li&gt;&lt;a href="#"&gt;{{trans "Friday   (9:00am - 5:00pm)"}}&lt;/a&gt;&lt;/li&gt;
                                 &lt;li&gt;&lt;a href="#"&gt;{{trans "Saturday - Sunday   (Closed)"}}&lt;/a&gt;&lt;/li&gt;
+                                &lt;li&gt;&lt;a href="#"&gt;{{trans "(Eastern Time Zone)"}}&lt;/a&gt;&lt;/li&gt;
                             &lt;/ul&gt;
                         &lt;/div&gt;
                     &lt;/div&gt;

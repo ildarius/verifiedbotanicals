@@ -303,7 +303,7 @@ class InstallCanadaTaxConfiguration implements DataPatchInterface
             ['code' => 'CA-NB-HST', 'region_code' => 'NB', 'title' => 'HST', 'rate' => 15.0000],
             ['code' => 'CA-NL-HST', 'region_code' => 'NL', 'title' => 'HST', 'rate' => 15.0000],
             ['code' => 'CA-NT-GST', 'region_code' => 'NT', 'title' => 'GST', 'rate' => 5.0000],
-            ['code' => 'CA-NS-HST', 'region_code' => 'NS', 'title' => 'HST', 'rate' => 15.0000],
+            ['code' => 'CA-NS-HST', 'region_code' => 'NS', 'title' => 'HST', 'rate' => 14.0000],
             ['code' => 'CA-NU-GST', 'region_code' => 'NU', 'title' => 'GST', 'rate' => 5.0000],
             ['code' => 'CA-ON-HST', 'region_code' => 'ON', 'title' => 'HST', 'rate' => 13.0000],
             ['code' => 'CA-PE-HST', 'region_code' => 'PE', 'title' => 'HST', 'rate' => 15.0000],
