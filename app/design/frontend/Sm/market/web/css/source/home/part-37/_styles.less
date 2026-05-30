@@ -324,34 +324,60 @@
 .cms-home-demo-37 .banner-image{
 	.border-radius(20px); 
 }
-.client-farmer.block-home-37{
-	background:url('../images/bg-2.jpg') no-repeat 0 0;
-	.item {
-		padding: 18px;
-		background-color: #fff;
-		.border-radius(20px);
-		.box-shadow(0 0 60px rgba(0,0,0,.05));
-		border: 2px solid #fff;
-		.info-f {
-			text-align:center;
-			.name-f {
-				font-size: 2.4rem;
-				font-weight: 700;
-				color: #000;
-				text-transform: capitalize;
+	.client-farmer.block-home-37{
+		background:url('../images/bg-2.jpg') no-repeat 0 0;
+		.owl-carousel{
+			.owl-stage{
+				display: flex !important;
+				align-items: stretch;
+			}
+			.owl-item{
+				display: flex !important;
+				align-self: stretch;
+				height: auto !important;
+			}
+		}
+		.item {
+			padding: 18px;
+			background-color: #fff;
+			.border-radius(20px);
+			.box-shadow(0 0 60px rgba(0,0,0,.05));
+			border: 2px solid #fff;
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+			flex: 1 1 auto;
+			width: 100%;
+			.info-f {
+				text-align:center;
+				display: flex;
+				flex-direction: column;
+				flex: 1 1 auto;
+				.name-f {
+					font-size: 2.4rem;
+					font-weight: 700;
+					color: #000;
+					text-transform: capitalize;
 				margin-bottom: 5px;
 				margin-top: 15px;
 			}
-			.des-f {
-				font-size: 1.6rem;
-				color: #888;
-				margin-bottom: 15px;
-			}
-			ul.social-f {
-				.ul-nostyle();
-				li {
-					display:inline-block;
-					a{
+				.des-f {
+					font-size: 1.6rem;
+					color: #888;
+					margin-bottom: 15px;
+					flex: 1 1 auto;
+					min-height: 7.5em;
+				}
+				.rating-summary{
+					margin-top: auto;
+					display: flex;
+					justify-content: center;
+				}
+				ul.social-f {
+					.ul-nostyle();
+					li {
+						display:inline-block;
+						a{
 						display: inline-block;
 						height: 38px;
 						width: 38px;
