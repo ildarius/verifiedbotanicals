@@ -388,3 +388,16 @@ After these fixes, rerunning `import_products.php` and normal theme widgets shou
 - Fixed kratom configurable parent salability: the kratom configurable parents (`RB`, `RMD`, `RH`, `GMD`, `GM`, `GH`) had `cataloginventory_stock_status.stock_status = 0` stuck. Deleting those rows and reindexing `cataloginventory_stock` rebuilt correct `stock_status = 1`, which restored widget rendering and parent price-index rows.
 - Disabled the `Local_HomepageAssets` module and then removed it from the codebase.
 - Session notes: [dev/notes/homepage-kratom-native-widgets-2026-05-19.md](/home/ildar/projects/magento/dev/notes/homepage-kratom-native-widgets-2026-05-19.md).
+
+### 2026-06-02
+
+- Newsletter signup is temporarily disabled in two live data locations:
+- popup signup:
+- controlled by `core_config_data.path = themecore/advanced/newsletter_group/show_newsletter_popup`
+- currently set to `0` for the default scope and the existing store-scope overrides in the local DB
+- re-enable by setting those rows back to `1`, then run `docker exec -u 1000 ddev-magento-web php bin/magento cache:clean config block_html full_page`
+- footer signup:
+- active footer style is `footer-29`, and the visible signup form comes from `cms_block.identifier = footer-29-content`
+- the newsletter column was not deleted; it was hidden by changing its wrapper from `&lt;div class="col-lg-3"&gt;` to `&lt;div class="col-lg-3 newsletter-disabled-temp" style="display:none"&gt;`
+- re-enable by removing ` newsletter-disabled-temp` and ` style="display:none"` from that wrapper in `footer-29-content`, then run `docker exec -u 1000 ddev-magento-web php bin/magento cache:clean block_html full_page`
+- scratch copy of the edited CMS block content from this change is preserved at `var/tmp/footer-29-content-current.html`

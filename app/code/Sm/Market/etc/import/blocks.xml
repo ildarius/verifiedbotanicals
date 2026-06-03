@@ -2287,11 +2287,9 @@
       <identifier>social-block</identifier>
       <content><![CDATA[<div data-content-type="html" data-appearance="default" data-element="main">&lt;div class="social-block-list"&gt;
 &lt;ul&gt;
-&lt;li class="fb"&gt;&lt;a href="http://www.facebook.com/MagenTech/"&gt; &lt;span class="icon-facebook1"&gt;&lt;span class="hidden"&gt;Facebook&lt;/span&gt;&lt;/span&gt; &lt;/a&gt;&lt;/li&gt;
-&lt;li class="tw"&gt;&lt;a href="https://twitter.com/MagenTech"&gt; &lt;span class="icon-twitter1"&gt;&lt;span class="hidden"&gt;Twitter&lt;/span&gt;&lt;/span&gt; &lt;/a&gt;&lt;/li&gt;
-&lt;li class="pi"&gt;&lt;a href="#"&gt; &lt;span class="icon-pinterest"&gt;&lt;span class="hidden"&gt;Pinterest&lt;/span&gt;&lt;/span&gt; &lt;/a&gt;&lt;/li&gt;
-&lt;li class="vi"&gt;&lt;a href="#"&gt; &lt;span class="icon-vimeo"&gt;&lt;span class="hidden"&gt;Vimeo&lt;/span&gt;&lt;/span&gt; &lt;/a&gt;&lt;/li&gt;
-&lt;li class="yo"&gt;&lt;a href="https://www.youtube.com/@magentech"&gt; &lt;span class="icon-youtube"&gt;&lt;span class="hidden"&gt;Youtube&lt;/span&gt;&lt;/span&gt; &lt;/a&gt;&lt;/li&gt;
+&lt;li class="fb"&gt;&lt;a href="https://www.facebook.com/Americankratomassociation"&gt; &lt;span class="icon-facebook1"&gt;&lt;span class="hidden"&gt;Facebook&lt;/span&gt;&lt;/span&gt; &lt;/a&gt;&lt;/li&gt;
+&lt;li class="tw"&gt;&lt;a href="https://twitter.com/TheKratomAssn"&gt; &lt;span class="icon-twitter1"&gt;&lt;span class="hidden"&gt;X&lt;/span&gt;&lt;/span&gt; &lt;/a&gt;&lt;/li&gt;
+&lt;li class="yo"&gt;&lt;a href="https://www.youtube.com/@americankratomassociation"&gt; &lt;span class="icon-youtube"&gt;&lt;span class="hidden"&gt;Youtube&lt;/span&gt;&lt;/span&gt; &lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;</div>]]></content>
       <is_active>1</is_active>
@@ -3062,7 +3060,7 @@
 
                 &lt;div class="col-lg-3"&gt;
                     &lt;div class="footer-block"&gt;
-                        &lt;div class="footer-block-title"&gt;{{trans "CONNECT WITH US"}}&lt;/div&gt;
+                        &lt;div class="footer-block-title"&gt;{{trans "FOLLOW AKA"}}&lt;/div&gt;
 
                         &lt;div class="footer-block-content"&gt;
                             {{block class="Magento\\Cms\\Block\\Block" block_id="social-block"}}
@@ -4559,7 +4557,7 @@
                 &lt;/div&gt;
 				&lt;div class="col-lg-3"&gt;
                     &lt;div class="footer-block"&gt;
-                        &lt;div class="footer-block-title"&gt;{{trans "CONNECT WITH US"}}&lt;/div&gt;
+                        &lt;div class="footer-block-title"&gt;{{trans "FOLLOW AKA"}}&lt;/div&gt;
                         &lt;div class="footer-block-content"&gt;
                             {{block class="Magento\\Cms\\Block\\Block" block_id="social-block"}}
                         &lt;/div&gt;

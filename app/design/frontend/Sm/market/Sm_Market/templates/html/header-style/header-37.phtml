@@ -8,8 +8,6 @@ $welcome = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterfac
 <div class="header-container header-style-37">
     <div class="header-top">
         <div class="container">
-			<?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('top-header-text-1')->toHtml(); ?>
-           
         </div>
     </div>
 
@@ -61,7 +59,6 @@ $welcome = $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterfac
                 <div class="horizontal-block">
                     <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('megamenu-horizontal')->toHtml(); ?>
                 </div>
-                 <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('social-block')->toHtml(); ?>
             </div>
         </div>
     </div>
