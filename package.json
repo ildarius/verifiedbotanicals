@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "pw:admin-login": "node tools/playwright/admin-login.js",
+    "pw:homepage-capture": "node tools/playwright/storefront-homepage-capture.js",
     "pw:theme-install": "node tools/playwright/vendor-theme-install.js",
     "pw:homepage-check": "node tools/playwright/storefront-homepage-check.js",
     "pw:search-check": "node tools/playwright/storefront-search-check.js",

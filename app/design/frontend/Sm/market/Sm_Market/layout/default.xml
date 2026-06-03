@@ -61,13 +61,6 @@
                         <argument name="id_modifier" xsi:type="string">nav</argument>
                     </arguments>
                 </block>
-                <block class="Magento\Directory\Block\Currency" name="store.settings.currency"
-                       template="currency.phtml">
-                    <arguments>
-                        <argument name="id_modifier" xsi:type="string">nav</argument>
-                    </arguments>
-                </block>
-
                 <block class="Magento\Theme\Block\Html\Topmenu" name="nav.mobile" as="nav.mobile"
                        template="Sm_Market::html/mobile/nav-mobile.phtml"/>
 
@@ -88,11 +81,13 @@
         <move element="catalog.compare.link" destination="theme_header" before="-"/>
         <move element="top.search" destination="theme_header"/>
         <move element="minicart" destination="theme_header"/>
-        <move element="currency" destination="theme_header"/>
         <move element="logo" destination="theme_header"/>
         <move element="skip_to_content" destination="theme_header"/>
         <move element="page.main.title" destination="content.top" before="-"/>
         <move element="copyright" destination="footer_block"/>
+
+        <referenceBlock name="currency" remove="true"/>
+        <referenceBlock name="store.settings.currency" remove="true"/>
 
         <referenceContainer name="catalog.topnav" remove="1"/>
         <referenceContainer name="header.container" remove="1"/>

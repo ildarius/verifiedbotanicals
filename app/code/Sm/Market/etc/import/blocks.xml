@@ -350,7 +350,7 @@
       <title>Market - Mobile Layout Menu Bottom</title>
       <identifier>mobile-layout-menu-bottom</identifier>
       <content><![CDATA[<div class="block-bottom">
-    <a class="button-sticky-bottom button-no-dropdown" href="{{store url=""}}under-price">
+    <a class="button-sticky-bottom button-no-dropdown" href="{{store url=""}}#weekly-deals">
         <em class="icon-gift1" style="font-size: 18px;">
             <span class="hidden">Deals</span>
         </em>

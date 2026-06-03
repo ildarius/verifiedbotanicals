@@ -47,15 +47,6 @@
                                                data-validate="{required:true, 'validate-email':true}"/>
                                     </div>
                                 </div>
-                                <div class="field telephone">
-                                    <div class="control">
-                                        <input name="telephone" id="telephone"
-                                               title="<?= $block->escapeHtmlAttr(__('Phone Number')) ?>"
-                                               placeholder="<?= $block->escapeHtmlAttr(__('Phone Number')) ?>"
-                                               value="<?= $block->escapeHtmlAttr($this->helper('Magento\Contact\Helper\Data')->getPostValue('telephone')) ?>"
-                                               class="input-text" type="text"/>
-                                    </div>
-                                </div>
                                 <div class="field comment required">
                                     <div class="control">
                                     <textarea name="comment" id="comment"

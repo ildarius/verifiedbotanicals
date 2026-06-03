@@ -131,6 +131,7 @@ After these fixes, rerunning `import_products.php` and normal theme widgets shou
 - A Magento theme should include at least `registration.php` and `theme.xml`.
 - Check parent theme inheritance before overriding templates or layout XML.
 - Prefer theme-level overrides only when configuration or modules cannot solve the requirement cleanly.
+- **Theme/Demo Icons:** many homepage/demo icons come from Magento’s WYSIWYG media library under `pub/media/wysiwyg/` (for demo icons specifically: `pub/media/wysiwyg/icon-image/`). Some demos also copy a subset into the theme for convenience (e.g. `app/design/frontend/Sm/market/web/images/home-demo-37/icon-image/`), but that theme folder may contain only *some* of the available icons. If you’re looking for more icons in the same “family”, search `pub/media/wysiwyg/icon-image/` first, then confirm usage via CMS content or theme templates.
 
 ## Magento Module Work
 
@@ -157,6 +158,15 @@ After these fixes, rerunning `import_products.php` and normal theme widgets shou
 - After structural Magento changes, run only the narrowest relevant validation first.
 - For theme changes, at minimum validate registration, clear caches, and confirm static assets can deploy if needed.
 - For module changes, validate syntax and run the relevant Magento CLI command before broader testing.
+- When a change is visible in the storefront/admin UI, run the Playwright harness to confirm it renders as expected (and iterate/fix if it doesn’t). Example: `npm run pw:homepage-check`.
+- When asked to run Magento CLI commands, prefer running them directly inside the DDEV containers (e.g. `docker exec -u 1000 ddev-magento-web php bin/magento ...`) and record any required commands in hand-off notes.
+- **Visual change workflow (strict):** for requests that change visible storefront/admin UI output (copy/text tweaks, swapping icons/images, CMS section edits, etc.), first analyze whether the change can be applied with a direct SQL update executed in the DB container (e.g. `docker exec ddev-magento-db mysql -u db -pdb -D db -e "<SQL>"`). Only build a Magento data patch under `app/code/.../Setup/Patch/Data/*.php` (like `UpdateHomeDemo37WhyChooseUs.php`) if the change cannot be done safely/cleanly as a simple SQL query execution.
+  - For large `cms_page.content` / `cms_block.content` updates, prefer a “DB harness + base64” workflow to avoid painful SQL escaping.
+    - Important: don’t `SELECT content ... > file` directly via the `mysql` CLI; it often prints escaped sequences like `\\n` instead of real newlines, and writing that back will literally put `\\n` into the CMS content.
+    - Dump (newline-safe): `docker exec ddev-magento-db mysql -u db -pdb -D db -N -e "SELECT TO_BASE64(content) FROM cms_page WHERE identifier='home-demo-37';" > var/tmp/home-demo-37-content.b64.raw`
+    - Decode: `python3 -c "import re,base64,pathlib; raw=pathlib.Path('var/tmp/home-demo-37-content.b64.raw').read_text(); b64=re.sub(r'\\s+','',raw.replace('\\\\n','')); pathlib.Path('var/tmp/home-demo-37-content.html').write_bytes(base64.b64decode(b64))"`
+    - Edit `var/tmp/home-demo-37-content.html`, then update: `CONTENT_B64=$(base64 -w0 var/tmp/home-demo-37-content.html) && docker exec ddev-magento-db mysql -u db -pdb -D db -e "UPDATE cms_page SET content = FROM_BASE64('${CONTENT_B64}') WHERE identifier='home-demo-37';"`
+    - Clear caches: `docker exec -u 1000 ddev-magento-web php bin/magento cache:clean block_html full_page`
 
 ## Notes For Agents
 
@@ -221,6 +231,22 @@ After these fixes, rerunning `import_products.php` and normal theme widgets shou
 - `npm run pw:theme-install` resumes the vendor theme install flow inside Admin by opening `Stores > Configuration > MAGENTECH.COM > SM Market > Theme Installation` and clicking `Static Blocks`, `Pages`, the configured demo button, and `Save Config`.
 - Harness artifacts and screenshots are written under `.playwright/`.
 - Keep Playwright automation pointed at the DDEV site and run Magento CLI commands inside `ddev-magento-web`, not with the host PHP binary.
+- Homepage history capture:
+  - Timestamped homepage capture command: `npm run pw:homepage-capture`
+  - Saves timestamped screenshots and JSON summaries under `.playwright/artifacts/homepage-history/`
+  - Also refreshes convenience copies:
+    - `.playwright/artifacts/storefront-homepage-latest.png`
+    - `.playwright/artifacts/storefront-homepage-latest.json`
+  - Host-side launcher for scheduled/manual capture: `dev/tools/capture_homepage.sh`
+  - Codex session-start wrapper: `dev/tools/start_codex_with_homepage_capture.sh`
+  - Cron installer: `dev/tools/install_homepage_capture_cron.sh`
+  - Installed schedule target: `/etc/cron.d/magento-homepage-capture`
+  - Current intended cadence: hourly at minute `12`
+  - For homepage/UI work, prefer this flow:
+    - run `npm run pw:homepage-capture` before changes when you need a baseline
+    - run `npm run pw:homepage-capture` after visible homepage changes
+    - compare the latest capture with prior images in `.playwright/artifacts/homepage-history/`
+  - `AGENTS.md` does not auto-run on session start by itself. To capture on each new Codex session, launch Codex through `dev/tools/start_codex_with_homepage_capture.sh`.
 
 ## Run Findings
 

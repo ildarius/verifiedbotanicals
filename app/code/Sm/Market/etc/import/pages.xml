@@ -9229,7 +9229,7 @@
     &lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;
-&lt;div class="block-home-37 block-deal-full-37 hover-to-show"&gt;
+&lt;div id="weekly-deals" class="block-home-37 block-deal-full-37 hover-to-show"&gt;
   &lt;div class="container"&gt;
     &lt;div data-owl="owl-slider" data-autoplay="false" data-nav="true" data-dots="false" data-screen0="1" data-screen481="2" data-screen768="2" data-screen992="2" data-screen1200="2" data-screen1441="2" data-screen1681="2" data-screen1920="2" data-margin="30" data-autoplayhoverpause="true" data-loop="false" data-center="false" data-stagepadding="0" data-mousedrag="true" data-touchdrag="true"&gt;
       {{widget type="Sm\FilterProducts\Block\Widget\AddFilterProducts" template="Sm_FilterProducts::grid-slider-deal2.phtml" product_source="countdown_products" select_category="280" product_limitation="3"  date_to="06/07/2026" title_text="Deals Of The Day" title_module="Grab The Best Offer 
