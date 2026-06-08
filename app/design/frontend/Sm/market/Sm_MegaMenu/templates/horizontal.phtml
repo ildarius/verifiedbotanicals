@@ -69,9 +69,10 @@ $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
                             $_active      = '';
                             $extenal_link = '';
                             if ($hasLinkType) {
+                                $itemLink = $this->getLinkOfType($itemStartLv);
                                 $extenal_link = $this->getCurrentUrl();
                                 $extenal_link = strpos($extenal_link, 'blog/') !== false ? str_replace('blog/', 'blog', $extenal_link) : $extenal_link;
-                                if (strcasecmp($this->getLinkOfType($itemStartLv), $extenal_link) == 0) {
+                                if ($itemLink && strcasecmp((string)$itemLink, $extenal_link) == 0) {
                                     $_active = 'sm_megamenu_actived';
                                 }
                             }

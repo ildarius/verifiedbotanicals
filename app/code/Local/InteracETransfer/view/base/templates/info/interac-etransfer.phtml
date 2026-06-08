@@ -1,0 +1,22 @@
+<?php
+/**
+ * @var \Local\InteracETransfer\Block\Info\InteracETransfer $block
+ */
+$data = $block->getInstructionData();
+?>
+<div class="local-etransfer-info" style="border:1px solid #d6d6d6; padding:16px; margin-top:8px;">
+    <div style="font-weight:600; margin-bottom:8px;"><?= $block->escapeHtml(__('Interac e-Transfer')) ?></div>
+    <div style="margin-bottom:10px;"><?= $block->escapeHtml((string)$data['intro']) ?></div>
+    <?php if ((string)$data['order_number'] !== ''): ?>
+        <div style="margin-bottom:6px;"><strong><?= $block->escapeHtml(__('Order Number')) ?>:</strong> <?= $block->escapeHtml((string)$data['order_number']) ?></div>
+    <?php endif; ?>
+    <?php if ((string)$data['order_total'] !== ''): ?>
+        <div style="margin-bottom:6px;"><strong><?= $block->escapeHtml(__('Order Total')) ?>:</strong> <?= $block->escapeHtml((string)$data['order_total']) ?></div>
+    <?php endif; ?>
+    <div style="margin-bottom:6px;"><strong><?= $block->escapeHtml(__('Recipient')) ?>:</strong> <?= $block->escapeHtml((string)$data['recipient_name']) ?></div>
+    <div style="margin-bottom:6px;"><strong><?= $block->escapeHtml(__('Send To')) ?>:</strong> <?= $block->escapeHtml((string)$data['recipient_email']) ?></div>
+    <div style="margin-bottom:6px;"><strong><?= $block->escapeHtml(__('Payment Deadline')) ?>:</strong> <?= $block->escapeHtml((string)$data['deadline_at']) ?></div>
+    <div style="margin-top:12px;"><?= $block->escapeHtml((string)$data['reference_instruction']) ?></div>
+    <div style="margin-top:6px;"><?= $block->escapeHtml((string)$data['privacy_instruction']) ?></div>
+    <div style="margin-top:6px;"><?= $block->escapeHtml((string)$data['followup_instruction']) ?></div>
+</div>

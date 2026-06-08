@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="payment">
+            <group id="interac_etransfer" translate="label" sortOrder="205" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Interac e-Transfer</label>
+                <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="title" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Title</label>
+                </field>
+                <field id="sort_order" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Sort Order</label>
+                    <validate>validate-number validate-zero-or-greater</validate>
+                </field>
+                <field id="short_notice" translate="label comment" type="textarea" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Checkout Short Notice</label>
+                    <comment>Shown under the payment method during checkout before the order is placed.</comment>
+                </field>
+                <field id="recipient_name" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Recipient Name</label>
+                </field>
+                <field id="recipient_email" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Recipient Email</label>
+                    <validate>validate-email</validate>
+                </field>
+                <field id="payment_window_hours" translate="label comment" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Payment Window Hours</label>
+                    <comment>Unpaid Interac e-Transfer orders are canceled automatically after this many hours.</comment>
+                    <validate>required-entry validate-digits digits-range-1-9999</validate>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

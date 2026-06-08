@@ -8,9 +8,10 @@
     "pw:homepage-check": "node tools/playwright/storefront-homepage-check.js",
     "pw:search-check": "node tools/playwright/storefront-search-check.js",
     "pw:shipping-screenshots": "node tools/playwright/storefront-shipping-scenarios.js",
-    "pw:tax-screenshots": "node tools/playwright/storefront-tax-scenarios.js"
+    "pw:tax-screenshots": "node tools/playwright/storefront-tax-scenarios.js",
+    "pw:checkout-etransfer": "node tools/playwright/storefront-checkout-etransfer.js"
   },
   "devDependencies": {
-    "playwright": "^1.54.2"
+    "playwright": "^1.60.0"
   }
 }

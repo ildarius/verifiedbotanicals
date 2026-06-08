@@ -356,6 +356,7 @@ return [
         'Magento_WishlistGraphQl' => 1,
         'Coduzion_Lookbook' => 1,
         'Local_CanadaTaxSetup' => 1,
+        'Local_InteracETransfer' => 1,
         'Local_KratomSearchTweaks' => 1,
         'Local_RotatingSpecialDeals' => 1,
         'Magefan_AdminUserGuide' => 1,
