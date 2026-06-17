@@ -1,5 +1,7 @@
 # Homepage Asset Portability Handoff
 
+**Status:** Completed. This note stays in `dev/notes/` as the implementation handoff record.
+
 ## Goal
 
 Make the homepage portable from Git by removing dependencies on untracked `pub/media/...`, generated theme CSS, and DB-only asset references.

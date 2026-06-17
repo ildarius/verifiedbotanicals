@@ -14,7 +14,7 @@
                 <group>offline</group>
                 <short_notice>Orders paid by Interac e-Transfer are submitted immediately but remain pending until payment is received and verified. Please complete the transfer promptly after placing your order.</short_notice>
                 <recipient_name>Verified Botanicals</recipient_name>
-                <recipient_email>robert@verifiedbotanicals.com</recipient_email>
+                <recipient_email>vbpay@tutamail.com</recipient_email>
                 <payment_window_hours>72</payment_window_hours>
             </interac_etransfer>
         </payment>

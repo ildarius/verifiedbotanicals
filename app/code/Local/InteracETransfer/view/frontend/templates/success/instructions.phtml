@@ -9,7 +9,12 @@ $data = $block->getInstructionData();
         <div class="local-etransfer-success__panel">
             <p class="local-etransfer-success__eyebrow"><?= $block->escapeHtml(__('Interac e-Transfer')) ?></p>
             <h2 class="local-etransfer-success__title"><?= $block->escapeHtml((string)$data['heading']) ?></h2>
-            <p class="local-etransfer-success__intro"><?= $block->escapeHtml((string)$data['intro']) ?></p>
+            <p class="local-etransfer-success__intro">
+                <?= $block->escapeHtml(__('To complete your order, please send your Interac e-transfer to ')) ?>
+                <strong>
+                    <a href="mailto:<?= $block->escapeHtmlAttr((string)$data['recipient_email']) ?>"><?= $block->escapeHtml((string)$data['recipient_email']) ?></a>
+                </strong>
+            </p>
 
             <div class="local-etransfer-success__meta">
                 <?php if ((string)$data['order_number'] !== ''): ?>
@@ -37,17 +42,17 @@ $data = $block->getInstructionData();
             </div>
 
             <div class="local-etransfer-success__instructions">
-                <p><strong><?= $block->escapeHtml(__('Recipient')) ?>:</strong> <?= $block->escapeHtml((string)$data['recipient_name']) ?></p>
-                <p><strong><?= $block->escapeHtml(__('Send To')) ?>:</strong> <a href="mailto:<?= $block->escapeHtmlAttr((string)$data['recipient_email']) ?>"><?= $block->escapeHtml((string)$data['recipient_email']) ?></a></p>
-                <p><strong><?= $block->escapeHtml(__('Payment Deadline')) ?>:</strong> <?= $block->escapeHtml((string)$data['deadline_at']) ?></p>
+                <p>
+                    <strong><?= $block->escapeHtml((string)$data['reference_instruction']) ?></strong>
+                </p>
+                <p><?= $block->escapeHtml(__('When prompted for a security question, use the following:')) ?></p>
+                <ul class="local-etransfer-success__steps">
+                    <li><strong><?= $block->escapeHtml(__('Security Question:')) ?></strong> <?= $block->escapeHtml((string)$data['security_question']) ?></li>
+                    <li><strong><?= $block->escapeHtml(__('Security Answer:')) ?></strong> <?= $block->escapeHtml((string)$data['security_answer']) ?></li>
+                </ul>
+                <p><?= $block->escapeHtml((string)$data['shipping_cutoff_instruction']) ?></p>
+                <p><?= $block->escapeHtml((string)$data['followup_instruction']) ?></p>
             </div>
-
-            <ul class="local-etransfer-success__steps">
-                <li><?= $block->escapeHtml((string)$data['recipient_instruction']) ?></li>
-                <li><?= $block->escapeHtml((string)$data['reference_instruction']) ?></li>
-                <li><?= $block->escapeHtml((string)$data['privacy_instruction']) ?></li>
-                <li><?= $block->escapeHtml((string)$data['followup_instruction']) ?></li>
-            </ul>
         </div>
     </div>
 <?php endif; ?>

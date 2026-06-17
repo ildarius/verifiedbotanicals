@@ -1,10 +1,12 @@
-# Checkout E-Transfer Flow Proposal
+# Checkout E-Transfer Flow
 
 **Project:** Verified Botanicals  
 **Platform:** Magento Open Source 2.4.7  
 **Last updated:** 2026-06-03
 
-## Goal
+**Status:** Implemented in `app/code/Local/InteracETransfer/`. This note keeps the feature rationale and operating model in the permanent notes area.
+
+## Feature Goal
 
 Allow customers to place an order using Interac e-Transfer instructions shown during checkout/success flow, while keeping the order unpaid until the transfer is received and verified.
 
@@ -16,7 +18,7 @@ Allow customers to place an order using Interac e-Transfer instructions shown du
 - transfer instructions use fixed payee/payment details
 - the order confirmation email includes the full instruction set
 
-## Recommended Magento Approach
+## Implemented Magento Approach
 
 Do not treat this as a generic `pending` order.
 
@@ -45,7 +47,7 @@ Recommended lifecycle:
 - shipment created: order eventually moves through normal fulfillment flow
 - transfer not received by deadline: order canceled
 
-## Proposed Customer Experience
+## Current Customer Experience
 
 ### At checkout
 
@@ -66,9 +68,9 @@ The same instructions should also be included in:
 - the customer account order view
 - optionally the order detail in admin for quick support reference
 
-## Draft Notice Copy
+## Copy History
 
-This is a first-pass content draft, not final design copy.
+This section captures the original implementation copy direction. Live copy may be revised separately.
 
 ### Heading
 
@@ -90,7 +92,7 @@ This is a first-pass content draft, not final design copy.
 
 `Orders paid by Interac e-Transfer are submitted immediately but remain pending until payment is received and verified. Please complete the transfer promptly after placing the order.`
 
-## Proposed Operational Flow
+## Operational Flow
 
 ### 1. Customer places order
 
@@ -179,7 +181,7 @@ The reference image is aggressive and instruction-heavy. For this storefront, th
 4. Payment instructions use fixed recipient details.
 5. The order confirmation email repeats the full instruction set.
 
-## Recommendation Summary
+## Implementation Summary
 
 My recommendation is:
 

@@ -12,7 +12,7 @@ Module: `Local_CanadaTaxSetup` (`app/code/Local/CanadaTaxSetup/`)
   - **BC/MB/SK/QC are split into separate rules per component tax** so Magento shows separate tax lines (e.g., GST + PST) consistently in checkout totals
 - Sets recommended tax configuration defaults (destination-based on shipping address, display settings, shipping tax class)
 
-The source plan/spec is tracked in: `dev/plans/magento2-canada-tax-setup.md`.
+This note is the permanent reference for the implemented tax setup in this repo.
 
 ## Apply / Re-Apply
 
@@ -35,4 +35,3 @@ Then (if you changed storefront behavior and want a clean baseline):
 Use the automated tax checkout verifier:
 
 - `dev/notes/tax-automated-tests.md`
-

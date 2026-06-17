@@ -1,4 +1,6 @@
-# Rotating Special Deals Plan
+# Rotating Special Deals
+
+**Status:** Implemented in `app/code/Local/RotatingSpecialDeals/`. This note preserves the original implementation analysis and resulting feature shape.
 
 ## Goal
 
@@ -11,7 +13,7 @@ Implement a fully automated 14-day promotion cycle that:
 - removes the previous cycle automatically
 - updates the homepage SM deals countdown immediately
 
-This document is based on a scan of the current Magento codebase before any implementation work.
+This note started as a pre-implementation analysis and remains useful as background for the live rotating-deals module.
 
 ## Existing Components We Can Reuse
 

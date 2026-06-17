@@ -53,10 +53,19 @@ class InstructionDataBuilder
             $this->buildDeadlineAtValue($order, $paymentWindowHours)
         );
         $deadlineAt = $this->formatStoredDeadline($deadlineAt, $order, $paymentWindowHours);
+        $referenceInstruction = $orderNumber !== ''
+            ? sprintf(
+                'Important! Include your Order #%s in the message field so we can match your payment to your order.',
+                $orderNumber
+            )
+            : 'Important! Include your Order # in the message field so we can match your payment to your order.';
 
         return [
             'heading' => 'Your order has been placed. Payment is still required.',
-            'intro' => 'We have received your order and placed it on hold pending your Interac e-Transfer. We will begin processing once payment has been received and matched to your order.',
+            'intro' => sprintf(
+                'To complete your order, please send your Interac e-transfer to %s',
+                $recipientEmail !== '' ? $recipientEmail : 'the configured recipient email'
+            ),
             'short_notice' => $this->config->getShortNotice($storeId),
             'recipient_name' => $recipientName,
             'recipient_email' => $recipientEmail,
@@ -65,19 +74,11 @@ class InstructionDataBuilder
             'order_date' => $this->formatOrderDate($order),
             'order_total' => $this->formatOrderTotal($order),
             'deadline_at' => $deadlineAt,
-            'reference_instruction' => $orderNumber !== ''
-                ? sprintf('Include order #%s in the Interac message field so we can match payment quickly.', $orderNumber)
-                : 'Include your Magento order number in the Interac message field so we can match payment quickly.',
-            'recipient_instruction' => sprintf(
-                'Send the transfer to %s at %s.',
-                $recipientName !== '' ? $recipientName : 'Verified Botanicals',
-                $recipientEmail !== '' ? $recipientEmail : 'the configured recipient email'
-            ),
-            'privacy_instruction' => 'For privacy and processing reasons, do not add extra product-related wording in the recipient name or transfer message beyond your order reference.',
-            'followup_instruction' => sprintf(
-                'Once payment is confirmed, your order will move into processing. Orders that remain unpaid beyond %d hours may be canceled automatically.',
-                $paymentWindowHours
-            ),
+            'reference_instruction' => $referenceInstruction,
+            'security_question' => 'What is verified?',
+            'security_answer' => 'Botanicals',
+            'shipping_cutoff_instruction' => 'Orders paid before 12:00 PM PST are processed and shipped the same business day. Orders received after the cutoff, on weekends, or on holidays ship the next business day.',
+            'followup_instruction' => 'You\'ll receive a shipping confirmation email with your tracking number once your order is on its way. Thank you for your order!',
         ];
     }
 

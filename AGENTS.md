@@ -26,6 +26,7 @@
 - Preserve existing local changes; this worktree may be dirty.
 - Use `rg` for search and inspect existing module/theme structure before adding files.
 - When the user mentions `tmp` or `/tmp` for project assets, treat that as `var/tmp/` unless they explicitly say otherwise.
+- Keep `dev/plans/` limited to active or future work. When a feature is implemented or otherwise complete, move its write-up into `dev/notes/` and update any `AGENTS.md` or note links that referenced the old plan path.
 - **Harness Preservation:** Do not delete harnesses, scripts, or temporary tools created during tasks without explicit user approval. Only propose deletion for items with extremely low re-use potential.
 
 ## Product Creation Process
@@ -172,7 +173,7 @@ After these fixes, rerunning `import_products.php` and normal theme widgets shou
 
 - If a task depends on archived assets in `theme_files/`, inspect package compatibility with the current Magento version before installation.
 - Record any required post-install commands in the final handoff.
-- Rotating special deals discovery and implementation planning is documented in [dev/plans/rotating-special-deals.md](/home/ildar/projects/magento/dev/plans/rotating-special-deals.md).
+- Rotating special deals discovery and implementation notes are documented in [dev/notes/rotating-special-deals.md](/home/ildar/projects/magento/dev/notes/rotating-special-deals.md).
 
 ## Rotating Special Deals
 
