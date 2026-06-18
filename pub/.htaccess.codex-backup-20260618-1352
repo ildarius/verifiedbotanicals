@@ -205,18 +205,42 @@
 ## Deny access to release notes to prevent disclosure of the installed Magento version
 
     <Files RELEASE_NOTES.txt>
-        Require all denied
+        <IfVersion < 2.4>
+            order allow,deny
+            deny from all
+        </IfVersion>
+        <IfVersion >= 2.4>
+            Require all denied
+        </IfVersion>
     </Files>
     <Files .htaccess>
-        Require all denied
+        <IfVersion < 2.4>
+            order allow,deny
+            deny from all
+        </IfVersion>
+        <IfVersion >= 2.4>
+            Require all denied
+        </IfVersion>
     </Files>
 ## Deny access  to cron.php
     <Files cron.php>
-        Require all denied
+        <IfVersion < 2.4>
+            order allow,deny
+            deny from all
+        </IfVersion>
+        <IfVersion >= 2.4>
+            Require all denied
+        </IfVersion>
     </Files>
 ## Deny access  to .user.ini
     <Files .user.ini>
-        Require all denied
+        <IfVersion < 2.4>
+            order allow,deny
+            deny from all
+        </IfVersion>
+        <IfVersion >= 2.4>
+            Require all denied
+        </IfVersion>
     </Files>
 
 # For 404s and 403s that aren't handled by the application, show plain 404 response
