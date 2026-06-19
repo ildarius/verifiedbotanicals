@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Local\RotatingSpecialDeals\Service;
 
+use Magento\Framework\App\ObjectManager;
+use Magento\Store\Model\ScopeInterface;
+
 class RotationConfig
 {
     private const CYCLE_DAYS = 14;
     private const DISCOUNT_FACTOR = 0.70;
-    private const HOMEPAGE_IDENTIFIER = 'home-demo-37';
+    private const FALLBACK_HOMEPAGE_IDENTIFIER = 'home-demo-37';
     private const HOMEPAGE_WIDGET_TYPE = 'Sm\FilterProducts\Block\Widget\AddFilterProducts';
     private const HOMEPAGE_WIDGET_TEMPLATE = 'Sm_FilterProducts::grid-slider-deal2.phtml';
     private const HOMEPAGE_PRODUCT_LIMIT = 2;
@@ -49,7 +52,13 @@ class RotationConfig
 
     public function getHomepageIdentifier(): string
     {
-        return self::HOMEPAGE_IDENTIFIER;
+        $scopeConfig = ObjectManager::getInstance()->get(\Magento\Framework\App\Config\ScopeConfigInterface::class);
+        $identifier = (string)$scopeConfig->getValue(
+            'web/default/cms_home_page',
+            ScopeInterface::SCOPE_STORE
+        );
+
+        return $identifier !== '' ? $identifier : self::FALLBACK_HOMEPAGE_IDENTIFIER;
     }
 
     public function getHomepageWidgetType(): string

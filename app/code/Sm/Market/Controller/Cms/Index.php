@@ -37,6 +37,9 @@ class Index extends \Magento\Cms\Controller\Index\Index
             );
             $_config     = $this->_objectManager->get('Sm\Market\Helper\Data');
             $pageId      = $_config->getMobileThemeLayout('home_page_mobile');
+            if (!$pageId || $pageId === 'no-route') {
+                $pageId = $home_pageId;
+            }
             //var_dump('CMS HOME PAGE  ---'.$home_pageId);
             //var_dump('CMS HOME PAGE FOR MOBILE ---'.$pageId);
             $resultPage = $this->_objectManager->get('Magento\Cms\Helper\Page')->prepareResultPage($this, $pageId);

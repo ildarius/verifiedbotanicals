@@ -1,6 +1,6 @@
 backups/
 data/*.csv
-
+error_log
 theme_files/Code_v10.13/magento2.4.x-new-framework/sm_market_quickstart_pl_m2.4.8_v10.13.zip
 theme_files/Code_v10.13/magento2.3.x/sm_market_quickstart_pl_m2.3.5_v9.7.0.zip
 theme_files/Code_v10.13/magento2.4.x-new-framework/sm_market_theme_m2.4.6-2.4.8_v10.13.zip
