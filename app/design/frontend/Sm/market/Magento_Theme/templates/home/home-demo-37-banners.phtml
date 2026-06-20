@@ -1,0 +1,39 @@
+<?php
+/**
+ * Homepage three-banner strip for the home-demo-37 layout.
+ *
+ * Keeping this in a theme template avoids CMS drift across environments and
+ * ensures all three banners are deployed with the same code path.
+ *
+ * @var \Magento\Framework\View\Element\Template $block
+ */
+
+$leftBanner = $block->escapeUrl($block->getViewFileUrl('images/home-demo-37/banner/pure_kratom_leaves.png'));
+$topRightBanner = $block->escapeUrl(
+    $block->getViewFileUrl('images/home-demo-37/banner/verified_botanicals_kratom_mylar_bag.png')
+);
+$bottomRightBanner = $block->escapeUrl($block->getViewFileUrl('images/home-demo-37/banner/kratom_shipment_box.png'));
+?>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="banner-image">
+                <a href="#">
+                    <img class="mark-lazy" src="<?= $leftBanner ?>" alt="Banner" width="750" height="530" />
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="banner-image">
+                <a href="#">
+                    <img class="mark-lazy" src="<?= $topRightBanner ?>" alt="Banner" width="750" height="250" />
+                </a>
+            </div>
+            <div class="banner-image">
+                <a href="#">
+                    <img class="mark-lazy" src="<?= $bottomRightBanner ?>" alt="Banner" width="750" height="250" />
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
