@@ -8,9 +8,10 @@
  * @var $block \Magento\Theme\Block\Html\Title
  */
 $titleHtml = '';
+$pageHeading = trim((string)$block->getPageHeading());
 
-if (trim($block->getPageHeading())) {
-    $pageHeading = trim($block->getPageHeading()) . ' ' . (string)__('Montreal and Canada Wide Shipping');
+if ($pageHeading !== '') {
+    $pageHeading .= ' ' . (string)__('Montreal and Canada Wide Shipping');
     $titleHtml = '<span class="base" data-ui-id="page-title-wrapper" '
         . $block->getAddBaseAttribute()
         . '>'

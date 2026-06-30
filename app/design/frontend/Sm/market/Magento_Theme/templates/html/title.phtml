@@ -9,9 +9,13 @@
  */
 $cssClass = $block->getCssClass() ? ' ' . $block->getCssClass() : '';
 $titleHtml = '';
+$pageHeading = trim((string)$block->getPageHeading());
 
-if (trim($block->getPageHeading())) {
-    $pageHeading = trim($block->getPageHeading()) . ' ' . (string)__('Montreal and Canada Wide Shipping');
+if ($pageHeading !== '') {
+    if ($block->getRequest()->getFullActionName() === 'catalog_product_view') {
+        $pageHeading .= ' ' . (string)__('Montreal and Canada Wide Shipping');
+    }
+
     $titleHtml = '<span class="base" data-ui-id="page-title-wrapper" '
         . $block->getAddBaseAttribute()
         . '>'
