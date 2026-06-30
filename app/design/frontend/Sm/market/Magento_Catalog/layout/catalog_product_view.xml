@@ -9,6 +9,7 @@
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <move element="page.main.title" destination="product.info.main" before="-"/>
+        <referenceBlock name="page.main.title" template="Magento_Catalog::product/view/title-with-shipping.phtml"/>
         <move element="catalog.compare.sidebar" destination="sidebar.additional" after="-"/>
         <move element="view.addto.wishlist" destination="product.info.media"/>
         <move element="view.addto.compare" destination="product.info.stock.sku"/>
