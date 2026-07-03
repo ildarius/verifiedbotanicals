@@ -1,0 +1,9 @@
+[client]
+host=your-remote-db-host
+port=3306
+user=your-remote-db-user
+password=your-remote-db-password
+database=your-remote-db-name
+# Optional:
+# protocol=TCP
+# ssl-mode=REQUIRED

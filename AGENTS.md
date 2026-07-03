@@ -125,6 +125,24 @@ After these fixes, rerunning `import_products.php` and normal theme widgets shou
   - Inserts separate reviews per supplied review text and applies product ratings.
   - Idempotent for the current seeded review text set: reruns skip exact existing review bodies instead of duplicating them.
   - Run with: `docker exec -u 1000 ddev-magento-web php dev/tools/add_kratom_reviews.php`
+- `dev/tools/remote_db.sh`: Remote MySQL harness for read/query access to the non-DDEV store database.
+  - Credentials file path: `var/tmp/remote-db.cnf`
+  - Template: `dev/tools/remote-db.cnf.example`
+  - Execution path: runs `mysql` inside the `ddev-magento-web` container, so DDEV must be running.
+  - File format is MySQL option-file format:
+    ```ini
+    [client]
+    host=your-remote-db-host
+    port=3306
+    user=your-remote-db-user
+    password=your-remote-db-password
+    database=your-remote-db-name
+    ```
+  - `var/tmp/` is gitignored, so credentials stay local.
+  - Interactive session: `dev/tools/remote_db.sh`
+  - One query: `dev/tools/remote_db.sh --sql "SELECT NOW();"`
+  - SQL file: `dev/tools/remote_db.sh --file var/tmp/query.sql`
+  - The harness sets `MYSQL_HISTFILE=/dev/null` to avoid writing query history locally.
 
 ## Magento Theme Work
 
@@ -257,6 +275,24 @@ After these fixes, rerunning `import_products.php` and normal theme widgets shou
 - The Magento admin URI is `/admin`, but authenticated admin URLs use Magento secret keys, so direct guessed admin paths may redirect back to the dashboard.
 - For browser automation, prefer navigating from authenticated admin pages or use the signed URLs already captured in `.playwright/local.env`.
 - A dedicated browser automation admin user exists: `playwright-admin`.
+- If `php bin/magento admin:user:unlock <username>` reports that the user was not locked but login still fails, check `admin_user.is_active` next. In one remote-server incident on `2026-07-01`, the account was not lock-blocked; it was disabled (`is_active = 0`), which surfaces as `DISABLED` in the query below:
+
+```sql
+SELECT
+    user_id,
+    username,
+    is_active,
+    failures_num,
+    first_failure,
+    lock_expires,
+    CASE
+      WHEN is_active = 0 THEN 'DISABLED'
+      WHEN lock_expires IS NOT NULL AND lock_expires > UTC_TIMESTAMP() THEN 'LOCKED'
+      ELSE 'UNLOCKED'
+    END AS status
+  FROM admin_user
+  WHERE username = 'playwright-admin';
+```
 - The theme archive for Magento `2.4.7` is `theme_files/Code_v10.13/magento2.4.x-new-framework/sm_market_theme_m2.4.6-2.4.8_v10.13.zip`.
 - That archive installs both themes under `app/design/frontend/Sm/` and required modules under `app/code/`.
 - Registered Magento theme IDs discovered during this run include:
