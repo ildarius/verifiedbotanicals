@@ -4,9 +4,11 @@ This repo's kratom product import should use `var/tmp/products.csv` as the worki
 
 The current example format in `var/tmp/products.csv` is the format to follow for future imports.
 
+If the CSV is missing the current white-vein set (`WMD`, `WM`, `WH` and their weight children), `import_products.php` now appends a built-in white seed during import so those products can still be created on environments where the working CSV has not been refreshed yet.
+
 ## Expected Row Types
 
-- `product_type=configurable` rows define the parent products such as `RB`, `RMD`, `RH`, `GMD`, `GM`, `GH`.
+- `product_type=configurable` rows define the parent products such as `RB`, `RMD`, `RH`, `GMD`, `GM`, `GH`, `WMD`, `WM`, `WH`.
 - `product_type=simple` rows define the purchasable variations such as `RB25`, `RB50`, `RB100`, etc.
 
 ## Important Columns
@@ -53,6 +55,15 @@ Run:
 ```bash
 docker exec -u 1000 ddev-magento-web php import_products.php
 ```
+
+After the import, the harness now attempts to refresh the key storefront-facing indexes for the touched products:
+
+- `catalog_product_price`
+- `catalog_category_product`
+- `catalog_product_category`
+- `cataloginventory_stock`
+- `inventory`
+- `catalogsearch_fulltext`
 
 `import_products.php` now supports both:
 

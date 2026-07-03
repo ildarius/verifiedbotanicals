@@ -381,6 +381,91 @@ function getRowWeightLabel(array $row): string {
     return '';
 }
 
+function getBundledWhiteKratomRows(): array {
+    $definitions = [
+        [
+            'sku' => 'WMD',
+            'name' => 'White Maeng Da',
+            'categories' => 'White Vein Kratom',
+            'description' => '<p><strong>White Maeng Da Kratom Powder Product Details</strong></p><p>White Maeng Da is a well-known white-vein kratom powder name used in the botanical trade. Our lots are sourced through established Indonesian farm and collection networks with a focus on mature-leaf harvesting, clean handling, controlled drying, and batch traceability.</p><p>After harvest, material is cleaned, dried, milled, microground, filtered, and verified through standard quality-control checks including contaminant, heavy-metals, and microbial screening. This listing is provided for botanical reference and research catalog purposes only. <strong>Not intended for human consumption.</strong></p>',
+            'short_description' => '<p><strong>White Maeng Da</strong> is a white-vein kratom powder name commonly associated with carefully dried mature leaves sourced through established Indonesian farm and collection networks. Lots are selected for consistency, batch traceability, clean handling, and a uniform finished powder. Not intended for human consumption.</p>',
+        ],
+        [
+            'sku' => 'WM',
+            'name' => 'White Malay',
+            'categories' => 'White Vein Kratom',
+            'description' => '<p><strong>White Malay Kratom Powder Product Details</strong></p><p>White Malay is a white-vein kratom powder name used in the botanical marketplace for lots prepared from mature leaves and handled through established regional sourcing networks. The focus is on consistent leaf selection, careful drying, batch traceability, and a clean finished powder.</p><p>Each batch is processed through inspection, drying, milling, microgrinding, contaminant filtration, and routine quality-control checks. This product is offered for botanical reference and research catalog use only. <strong>Not intended for human consumption.</strong></p>',
+            'short_description' => '<p><strong>White Malay</strong> is a white-vein kratom powder name linked with mature-leaf sourcing, careful drying, and consistent batch handling for a clean, uniform botanical powder. Not intended for human consumption.</p>',
+        ],
+        [
+            'sku' => 'WH',
+            'name' => 'White Hulu / White Kapuas',
+            'categories' => 'White Vein Kratom',
+            'description' => '<p><strong>White Hulu / White Kapuas Kratom Powder Product Details</strong></p><p>White Hulu / White Kapuas is a regional white-vein kratom powder name associated with Indonesian sourcing networks and mature-leaf selection. Lots are handled with attention to clean processing, traceability, and consistent post-harvest drying.</p><p>After harvest, material is cleaned, dried, milled, microground, filtered, and verified through routine quality-control checks before release. This listing is for botanical reference and research catalog purposes only. <strong>Not intended for human consumption.</strong></p>',
+            'short_description' => '<p><strong>White Hulu / White Kapuas</strong> is a white-vein kratom powder name associated with Indonesian regional sourcing and consistent post-harvest handling for a smooth, uniform botanical powder. Not intended for human consumption.</p>',
+        ],
+    ];
+
+    $weights = [
+        ['label' => '25g', 'suffix' => '25', 'price' => 9.25, 'weight' => 0.025],
+        ['label' => '50g', 'suffix' => '50', 'price' => 17.00, 'weight' => 0.05],
+        ['label' => '100g', 'suffix' => '100', 'price' => 27.75, 'weight' => 0.1],
+        ['label' => '250g', 'suffix' => '250', 'price' => 55.50, 'weight' => 0.25],
+        ['label' => '500g', 'suffix' => '500', 'price' => 101.75, 'weight' => 0.5],
+    ];
+
+    $rows = [];
+    foreach ($definitions as $definition) {
+        $rows[] = [
+            'sku' => $definition['sku'],
+            'product_type' => 'configurable',
+            'categories' => $definition['categories'],
+            'name' => $definition['name'],
+            'description' => $definition['description'],
+            'short_description' => $definition['short_description'],
+            'is_in_stock' => '1',
+        ];
+
+        foreach ($weights as $weight) {
+            $rows[] = [
+                'sku' => $definition['sku'] . $weight['suffix'],
+                'product_type' => 'simple',
+                'name' => $definition['name'] . ' – ' . $weight['label'],
+                'price' => (string)$weight['price'],
+                'qty' => '999',
+                'is_in_stock' => '1',
+                'weight' => (string)$weight['weight'],
+                '_internal_size_label' => $weight['label'],
+                '_internal_parent_sku' => $definition['sku'],
+            ];
+        }
+    }
+
+    return $rows;
+}
+
+function mergeMissingRowsBySku(array $productsData, array $additionalRows): array {
+    $existingSkus = [];
+    foreach ($productsData as $row) {
+        $sku = getRowSku($row);
+        if ($sku !== '') {
+            $existingSkus[$sku] = true;
+        }
+    }
+
+    foreach ($additionalRows as $row) {
+        $sku = getRowSku($row);
+        if ($sku === '' || isset($existingSkus[$sku])) {
+            continue;
+        }
+
+        $productsData[] = $row;
+        $existingSkus[$sku] = true;
+    }
+
+    return $productsData;
+}
+
 function getStoredPriceBySku(string $sku, $resourceConnection): float {
     $connection = $resourceConnection->getConnection();
     $attributeId = (int)$connection->fetchOne(
@@ -412,6 +497,8 @@ function getStoredPriceBySku(string $sku, $resourceConnection): float {
 
     return $value === false ? 0.0 : round((float)$value, 2);
 }
+
+$productsData = mergeMissingRowsBySku($productsData, getBundledWhiteKratomRows());
 
 $simplesByParent = [];
 $simplePricesByParent = [];
@@ -573,7 +660,25 @@ if ($activeCycle) {
 
 $updatedProductIds = array_values(array_unique(array_filter($updatedProductIds)));
 if ($updatedProductIds !== []) {
-    $indexerRegistry->get('catalog_product_price')->reindexList($updatedProductIds);
+    try {
+        $indexerRegistry->get('catalog_product_price')->reindexList($updatedProductIds);
+    } catch (\Throwable $e) {
+        echo "Warning: Failed partial catalog_product_price reindex: " . $e->getMessage() . "\n";
+    }
+
+    foreach (['catalog_category_product', 'catalog_product_category', 'cataloginventory_stock', 'inventory'] as $indexerId) {
+        try {
+            $indexerRegistry->get($indexerId)->reindexList($updatedProductIds);
+        } catch (\Throwable $e) {
+            echo "Warning: Failed partial {$indexerId} reindex: " . $e->getMessage() . "\n";
+        }
+    }
+
+    try {
+        $indexerRegistry->get('catalogsearch_fulltext')->reindexList($updatedProductIds);
+    } catch (\Throwable $e) {
+        echo "Warning: Failed partial catalogsearch_fulltext reindex: " . $e->getMessage() . "\n";
+    }
 }
 $cacheTypeList->cleanType('block_html');
 $cacheTypeList->cleanType('full_page');
