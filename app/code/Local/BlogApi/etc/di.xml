@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Local\BlogApi\Api\BlogPostSyncManagementInterface"
+                type="Local\BlogApi\Model\BlogPostSyncManagement"/>
+    <type name="Local\BlogApi\Model\IpWhitelist">
+        <arguments>
+            <argument name="allowedIpPatterns" xsi:type="array">
+                <item name="office_range" xsi:type="string">24.157.155.*</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

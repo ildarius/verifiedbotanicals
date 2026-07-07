@@ -10,6 +10,7 @@
 - **Custom Modules:**
   - `Coduzion/Lookbook`: Lookbook functionality.
   - `Magefan/*`: Blog, Admin User Guide, Wysiwyg Advanced, etc.
+    - Blog API integration + IP whitelist note: [dev/notes/blog-api-setup-2026-07-07.md](/home/ildar/projects/magento/dev/notes/blog-api-setup-2026-07-07.md)
   - `Sm/*`: Core and Market theme-specific modules.
   - `Local/PageBuilderDirectiveFix`: Currently an empty shell.
 - **Custom Themes:**
