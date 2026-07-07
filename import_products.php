@@ -271,6 +271,7 @@ $rotationConfig = $objectManager->get(\Local\RotatingSpecialDeals\Service\Rotati
 $resourceConnection = $objectManager->get(\Magento\Framework\App\ResourceConnection::class);
 $indexerRegistry = $objectManager->get(\Magento\Framework\Indexer\IndexerRegistry::class);
 $cacheTypeList = $objectManager->get(\Magento\Framework\App\Cache\TypeListInterface::class);
+$mediaGalleryProcessor = $objectManager->get(\Magento\Catalog\Model\Product\Gallery\Processor::class);
 
 function getFirstRowValue(array $row, array $keys, string $default = ''): string {
     foreach ($keys as $key) {
@@ -387,6 +388,8 @@ function getBundledWhiteKratomRows(): array {
             'sku' => 'WMD',
             'name' => 'White Maeng Da',
             'categories' => 'White Vein Kratom',
+            'primary_image' => 'White-Maeng-da/White-Maeng-da-1x1.png',
+            'additional_images' => 'White-Maeng-da/White Maeng da.png',
             'description' => '<p><strong>White Maeng Da Kratom Powder Product Details</strong></p><p>White Maeng Da is a well-known white-vein kratom powder name used in the botanical trade. Our lots are sourced through established Indonesian farm and collection networks with a focus on mature-leaf harvesting, clean handling, controlled drying, and batch traceability.</p><p>After harvest, material is cleaned, dried, milled, microground, filtered, and verified through standard quality-control checks including contaminant, heavy-metals, and microbial screening. This listing is provided for botanical reference and research catalog purposes only. <strong>Not intended for human consumption.</strong></p>',
             'short_description' => '<p><strong>White Maeng Da</strong> is a white-vein kratom powder name commonly associated with carefully dried mature leaves sourced through established Indonesian farm and collection networks. Lots are selected for consistency, batch traceability, clean handling, and a uniform finished powder. Not intended for human consumption.</p>',
         ],
@@ -394,6 +397,8 @@ function getBundledWhiteKratomRows(): array {
             'sku' => 'WM',
             'name' => 'White Malay',
             'categories' => 'White Vein Kratom',
+            'primary_image' => 'White-Malay/White-Malay-1x1.png',
+            'additional_images' => 'White-Malay/White Malay.png',
             'description' => '<p><strong>White Malay Kratom Powder Product Details</strong></p><p>White Malay is a white-vein kratom powder name used in the botanical marketplace for lots prepared from mature leaves and handled through established regional sourcing networks. The focus is on consistent leaf selection, careful drying, batch traceability, and a clean finished powder.</p><p>Each batch is processed through inspection, drying, milling, microgrinding, contaminant filtration, and routine quality-control checks. This product is offered for botanical reference and research catalog use only. <strong>Not intended for human consumption.</strong></p>',
             'short_description' => '<p><strong>White Malay</strong> is a white-vein kratom powder name linked with mature-leaf sourcing, careful drying, and consistent batch handling for a clean, uniform botanical powder. Not intended for human consumption.</p>',
         ],
@@ -401,6 +406,8 @@ function getBundledWhiteKratomRows(): array {
             'sku' => 'WH',
             'name' => 'White Hulu / White Kapuas',
             'categories' => 'White Vein Kratom',
+            'primary_image' => 'White-Hulu-White-Kapuas/White-Hulu-White-Kapuas-1x1.png',
+            'additional_images' => 'White-Hulu-White-Kapuas/White Hulu White Kapuas.png',
             'description' => '<p><strong>White Hulu / White Kapuas Kratom Powder Product Details</strong></p><p>White Hulu / White Kapuas is a regional white-vein kratom powder name associated with Indonesian sourcing networks and mature-leaf selection. Lots are handled with attention to clean processing, traceability, and consistent post-harvest drying.</p><p>After harvest, material is cleaned, dried, milled, microground, filtered, and verified through routine quality-control checks before release. This listing is for botanical reference and research catalog purposes only. <strong>Not intended for human consumption.</strong></p>',
             'short_description' => '<p><strong>White Hulu / White Kapuas</strong> is a white-vein kratom powder name associated with Indonesian regional sourcing and consistent post-harvest handling for a smooth, uniform botanical powder. Not intended for human consumption.</p>',
         ],
@@ -423,6 +430,11 @@ function getBundledWhiteKratomRows(): array {
             'name' => $definition['name'],
             'description' => $definition['description'],
             'short_description' => $definition['short_description'],
+            'base_image' => $definition['primary_image'],
+            'small_image' => $definition['primary_image'],
+            'thumbnail_image' => $definition['primary_image'],
+            'swatch_image' => $definition['primary_image'],
+            'additional_images' => $definition['additional_images'],
             'is_in_stock' => '1',
         ];
 
@@ -435,6 +447,11 @@ function getBundledWhiteKratomRows(): array {
                 'qty' => '999',
                 'is_in_stock' => '1',
                 'weight' => (string)$weight['weight'],
+                'base_image' => $definition['primary_image'],
+                'small_image' => $definition['primary_image'],
+                'thumbnail_image' => $definition['primary_image'],
+                'swatch_image' => $definition['primary_image'],
+                'additional_images' => $definition['additional_images'],
                 '_internal_size_label' => $weight['label'],
                 '_internal_parent_sku' => $definition['sku'],
             ];
@@ -464,6 +481,148 @@ function mergeMissingRowsBySku(array $productsData, array $additionalRows): arra
     }
 
     return $productsData;
+}
+
+function getRowImageAssignments(array $row): array {
+    $assignments = [];
+    $roleColumns = [
+        'base_image' => 'image',
+        'small_image' => 'small_image',
+        'thumbnail_image' => 'thumbnail',
+    ];
+
+    foreach ($roleColumns as $column => $role) {
+        $value = getFirstRowValue($row, [$column]);
+        if ($value === '') {
+            continue;
+        }
+
+        if (!isset($assignments[$value])) {
+            $assignments[$value] = [];
+        }
+        if (!in_array($role, $assignments[$value], true)) {
+            $assignments[$value][] = $role;
+        }
+    }
+
+    $additionalImages = getFirstRowValue($row, ['additional_images']);
+    if ($additionalImages !== '') {
+        foreach (array_map('trim', explode(',', $additionalImages)) as $value) {
+            if ($value === '') {
+                continue;
+            }
+
+            if (!isset($assignments[$value])) {
+                $assignments[$value] = [];
+            }
+        }
+    }
+
+    return $assignments;
+}
+
+function resolveImportImageSourcePath(string $value): ?string {
+    $value = trim(str_replace('\\', '/', $value));
+    if ($value === '' || preg_match('#^https?://#i', $value)) {
+        return null;
+    }
+
+    $candidates = [
+        BP . '/' . ltrim($value, '/'),
+        BP . '/var/tmp/products/' . ltrim($value, '/'),
+        BP . '/var/tmp/' . ltrim($value, '/'),
+    ];
+
+    foreach (array_unique($candidates) as $candidate) {
+        if (is_file($candidate)) {
+            return $candidate;
+        }
+    }
+
+    return null;
+}
+
+function stageImportImageInMedia(string $sourcePath, string $requestedPath): string {
+    $normalizedPath = trim(str_replace('\\', '/', $requestedPath));
+    if ($normalizedPath === '' || preg_match('#^https?://#i', $normalizedPath)) {
+        $normalizedPath = basename($sourcePath);
+    }
+
+    $normalizedPath = ltrim($normalizedPath, '/');
+    $destinationRelative = 'import/codex-products/' . $normalizedPath;
+    $destinationAbsolute = BP . '/pub/media/' . $destinationRelative;
+    $destinationDir = dirname($destinationAbsolute);
+
+    if (!is_dir($destinationDir) && !mkdir($destinationDir, 0775, true) && !is_dir($destinationDir)) {
+        throw new \RuntimeException('Failed to create media import directory: ' . $destinationDir);
+    }
+
+    if (!is_file($destinationAbsolute)) {
+        if (!copy($sourcePath, $destinationAbsolute)) {
+            throw new \RuntimeException('Failed to stage image in media: ' . $destinationAbsolute);
+        }
+    }
+
+    return $destinationAbsolute;
+}
+
+function getExistingProductMediaFiles($product): array {
+    $files = [];
+    $gallery = $product->getData('media_gallery');
+    if (is_array($gallery) && isset($gallery['images']) && is_array($gallery['images'])) {
+        foreach ($gallery['images'] as $image) {
+            $file = isset($image['file']) ? (string)$image['file'] : '';
+            if ($file !== '') {
+                $files[] = $file;
+            }
+        }
+    }
+
+    foreach (['image', 'small_image', 'thumbnail'] as $attributeCode) {
+        $file = (string)$product->getData($attributeCode);
+        if ($file !== '' && $file !== 'no_selection') {
+            $files[] = $file;
+        }
+    }
+
+    return array_values(array_unique($files));
+}
+
+function applyRowImagesToProduct(array $row, $product, $mediaGalleryProcessor): void {
+    $assignments = getRowImageAssignments($row);
+    if ($assignments === []) {
+        return;
+    }
+
+    $existingFilesByBasename = [];
+    foreach (getExistingProductMediaFiles($product) as $existingFile) {
+        $existingFilesByBasename[pathinfo($existingFile, PATHINFO_BASENAME)] = $existingFile;
+    }
+
+    foreach ($assignments as $requestedPath => $roles) {
+        $sourcePath = resolveImportImageSourcePath($requestedPath);
+        if ($sourcePath === null) {
+            continue;
+        }
+
+        $existingFile = $existingFilesByBasename[basename($requestedPath)] ?? null;
+        if ($existingFile !== null) {
+            foreach ($roles as $role) {
+                $product->setData($role, $existingFile);
+            }
+            continue;
+        }
+
+        $stagedPath = stageImportImageInMedia($sourcePath, $requestedPath);
+        $storedFile = $mediaGalleryProcessor->addImage(
+            $product,
+            $stagedPath,
+            $roles !== [] ? $roles : null,
+            false,
+            false
+        );
+        $existingFilesByBasename[pathinfo($storedFile, PATHINFO_BASENAME)] = $storedFile;
+    }
 }
 
 function getStoredPriceBySku(string $sku, $resourceConnection): float {
@@ -515,7 +674,7 @@ foreach ($productsData as $row) {
     $qty = getRowQty($row);
     
     try {
-        $product = $productRepository->get($sku);
+        $product = $productRepository->get($sku, true, 0, true);
         echo "Product " . $sku . " already exists, updating.\n";
     } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
         $product = $productFactory->create();
@@ -546,6 +705,7 @@ foreach ($productsData as $row) {
         $product->setCategoryIds($categoryIds);
     }
 
+    applyRowImagesToProduct($row, $product, $mediaGalleryProcessor);
     $productRepository->save($product);
     $updatedProductIds[] = (int)$product->getId();
     saveDefaultSourceItem($sku, $qty, $isInStock, $sourceItemFactory, $sourceItemsSave);
@@ -567,7 +727,7 @@ foreach ($productsData as $row) {
     echo "Processing variable product: " . $sku . "\n";
     
     try {
-        $product = $productRepository->get($sku);
+        $product = $productRepository->get($sku, true, 0, true);
         echo "Product " . $sku . " already exists, updating links.\n";
     } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
         $product = $productFactory->create();
@@ -630,6 +790,7 @@ foreach ($productsData as $row) {
         $product->setExtensionAttributes($extensionAttributes);
     }
 
+    applyRowImagesToProduct($row, $product, $mediaGalleryProcessor);
     $productRepository->save($product);
     $updatedProductIds[] = (int)$product->getId();
     echo "Created/Updated configurable product: " . $sku . "\n";
