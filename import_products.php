@@ -389,7 +389,6 @@ function getBundledWhiteKratomRows(): array {
             'name' => 'White Maeng Da',
             'categories' => 'White Vein Kratom',
             'primary_image' => 'White-Maeng-da/White-Maeng-da-1x1.png',
-            'additional_images' => 'White-Maeng-da/White Maeng da.png',
             'description' => '<p><strong>White Maeng Da Kratom Powder Product Details</strong></p><p>White Maeng Da is a well-known white-vein kratom powder name used in the botanical trade. Our lots are sourced through established Indonesian farm and collection networks with a focus on mature-leaf harvesting, clean handling, controlled drying, and batch traceability.</p><p>After harvest, material is cleaned, dried, milled, microground, filtered, and verified through standard quality-control checks including contaminant, heavy-metals, and microbial screening. This listing is provided for botanical reference and research catalog purposes only. <strong>Not intended for human consumption.</strong></p>',
             'short_description' => '<p><strong>White Maeng Da</strong> is a white-vein kratom powder name commonly associated with carefully dried mature leaves sourced through established Indonesian farm and collection networks. Lots are selected for consistency, batch traceability, clean handling, and a uniform finished powder. Not intended for human consumption.</p>',
         ],
@@ -398,7 +397,6 @@ function getBundledWhiteKratomRows(): array {
             'name' => 'White Malay',
             'categories' => 'White Vein Kratom',
             'primary_image' => 'White-Malay/White-Malay-1x1.png',
-            'additional_images' => 'White-Malay/White Malay.png',
             'description' => '<p><strong>White Malay Kratom Powder Product Details</strong></p><p>White Malay is a white-vein kratom powder name used in the botanical marketplace for lots prepared from mature leaves and handled through established regional sourcing networks. The focus is on consistent leaf selection, careful drying, batch traceability, and a clean finished powder.</p><p>Each batch is processed through inspection, drying, milling, microgrinding, contaminant filtration, and routine quality-control checks. This product is offered for botanical reference and research catalog use only. <strong>Not intended for human consumption.</strong></p>',
             'short_description' => '<p><strong>White Malay</strong> is a white-vein kratom powder name linked with mature-leaf sourcing, careful drying, and consistent batch handling for a clean, uniform botanical powder. Not intended for human consumption.</p>',
         ],
@@ -407,7 +405,6 @@ function getBundledWhiteKratomRows(): array {
             'name' => 'White Hulu / White Kapuas',
             'categories' => 'White Vein Kratom',
             'primary_image' => 'White-Hulu-White-Kapuas/White-Hulu-White-Kapuas-1x1.png',
-            'additional_images' => 'White-Hulu-White-Kapuas/White Hulu White Kapuas.png',
             'description' => '<p><strong>White Hulu / White Kapuas Kratom Powder Product Details</strong></p><p>White Hulu / White Kapuas is a regional white-vein kratom powder name associated with Indonesian sourcing networks and mature-leaf selection. Lots are handled with attention to clean processing, traceability, and consistent post-harvest drying.</p><p>After harvest, material is cleaned, dried, milled, microground, filtered, and verified through routine quality-control checks before release. This listing is for botanical reference and research catalog purposes only. <strong>Not intended for human consumption.</strong></p>',
             'short_description' => '<p><strong>White Hulu / White Kapuas</strong> is a white-vein kratom powder name associated with Indonesian regional sourcing and consistent post-harvest handling for a smooth, uniform botanical powder. Not intended for human consumption.</p>',
         ],
@@ -434,7 +431,6 @@ function getBundledWhiteKratomRows(): array {
             'small_image' => $definition['primary_image'],
             'thumbnail_image' => $definition['primary_image'],
             'swatch_image' => $definition['primary_image'],
-            'additional_images' => $definition['additional_images'],
             'is_in_stock' => '1',
         ];
 
@@ -451,7 +447,6 @@ function getBundledWhiteKratomRows(): array {
                 'small_image' => $definition['primary_image'],
                 'thumbnail_image' => $definition['primary_image'],
                 'swatch_image' => $definition['primary_image'],
-                'additional_images' => $definition['additional_images'],
                 '_internal_size_label' => $weight['label'],
                 '_internal_parent_sku' => $definition['sku'],
             ];
@@ -483,42 +478,19 @@ function mergeMissingRowsBySku(array $productsData, array $additionalRows): arra
     return $productsData;
 }
 
-function getRowImageAssignments(array $row): array {
-    $assignments = [];
-    $roleColumns = [
-        'base_image' => 'image',
-        'small_image' => 'small_image',
-        'thumbnail_image' => 'thumbnail',
-    ];
+function normalizePathBasename(string $value): string {
+    return basename(str_replace('\\', '/', trim($value)));
+}
 
-    foreach ($roleColumns as $column => $role) {
+function getRowPrimaryImagePath(array $row): string {
+    foreach (['base_image', 'small_image', 'thumbnail_image'] as $column) {
         $value = getFirstRowValue($row, [$column]);
-        if ($value === '') {
-            continue;
-        }
-
-        if (!isset($assignments[$value])) {
-            $assignments[$value] = [];
-        }
-        if (!in_array($role, $assignments[$value], true)) {
-            $assignments[$value][] = $role;
+        if ($value !== '') {
+            return $value;
         }
     }
 
-    $additionalImages = getFirstRowValue($row, ['additional_images']);
-    if ($additionalImages !== '') {
-        foreach (array_map('trim', explode(',', $additionalImages)) as $value) {
-            if ($value === '') {
-                continue;
-            }
-
-            if (!isset($assignments[$value])) {
-                $assignments[$value] = [];
-            }
-        }
-    }
-
-    return $assignments;
+    return '';
 }
 
 function resolveImportImageSourcePath(string $value): ?string {
@@ -588,41 +560,204 @@ function getExistingProductMediaFiles($product): array {
     return array_values(array_unique($files));
 }
 
-function applyRowImagesToProduct(array $row, $product, $mediaGalleryProcessor): void {
-    $assignments = getRowImageAssignments($row);
-    if ($assignments === []) {
-        return;
+function getMediaImageAttributeIds($resourceConnection): array {
+    static $attributeIds = null;
+    if ($attributeIds !== null) {
+        return $attributeIds;
+    }
+
+    $connection = $resourceConnection->getConnection();
+    $attributeIds = $connection->fetchCol(
+        "SELECT a.attribute_id
+        FROM eav_attribute a
+        JOIN eav_entity_type t ON t.entity_type_id = a.entity_type_id
+        WHERE t.entity_type_code = 'catalog_product'
+          AND a.attribute_code IN ('image', 'small_image', 'thumbnail')"
+    );
+
+    return array_map('intval', $attributeIds);
+}
+
+function hasStoreScopedNoSelectionMediaOverride(int $productId, $resourceConnection): bool {
+    $attributeIds = getMediaImageAttributeIds($resourceConnection);
+    if ($productId <= 0 || $attributeIds === []) {
+        return false;
+    }
+
+    $connection = $resourceConnection->getConnection();
+    $table = $resourceConnection->getTableName('catalog_product_entity_varchar');
+
+    $select = $connection->select()
+        ->from($table, ['value_id'])
+        ->where('entity_id = ?', $productId)
+        ->where('attribute_id IN (?)', $attributeIds)
+        ->where('store_id <> ?', 0)
+        ->where('value = ?', 'no_selection')
+        ->limit(1);
+
+    return (bool)$connection->fetchOne($select);
+}
+
+function clearStoreScopedNoSelectionMediaOverrides(int $productId, $resourceConnection): bool {
+    $attributeIds = getMediaImageAttributeIds($resourceConnection);
+    if ($productId <= 0 || $attributeIds === []) {
+        return false;
+    }
+
+    $connection = $resourceConnection->getConnection();
+    $table = $resourceConnection->getTableName('catalog_product_entity_varchar');
+    $deletedRows = $connection->delete(
+        $table,
+        [
+            'entity_id = ?' => $productId,
+            'attribute_id IN (?)' => $attributeIds,
+            'store_id <> ?' => 0,
+            'value = ?' => 'no_selection',
+        ]
+    );
+
+    return $deletedRows > 0;
+}
+
+function defaultSourceItemMatches(string $sku, float $qty, bool $isInStock, $resourceConnection): bool {
+    $connection = $resourceConnection->getConnection();
+    $table = $resourceConnection->getTableName('inventory_source_item');
+    $row = $connection->fetchRow(
+        $connection->select()
+            ->from($table, ['quantity', 'status'])
+            ->where('source_code = ?', 'default')
+            ->where('sku = ?', $sku)
+            ->limit(1)
+    );
+
+    if (!is_array($row)) {
+        return false;
+    }
+
+    return abs((float)$row['quantity'] - $qty) < 0.0001
+        && (int)$row['status'] === ($isInStock ? 1 : 0);
+}
+
+function sameCategoryIds(array $currentIds, array $desiredIds): bool {
+    $current = array_map('intval', $currentIds);
+    $desired = array_map('intval', $desiredIds);
+    sort($current);
+    sort($desired);
+
+    return $current === $desired;
+}
+
+function sameAssociatedProductIds(int $productId, array $desiredIds, $resourceConnection): bool {
+    $connection = $resourceConnection->getConnection();
+    $table = $resourceConnection->getTableName('catalog_product_super_link');
+    $currentIds = $connection->fetchCol(
+        $connection->select()
+            ->from($table, ['product_id'])
+            ->where('parent_id = ?', $productId)
+    );
+
+    $current = array_map('intval', $currentIds);
+    $desired = array_map('intval', $desiredIds);
+    sort($current);
+    sort($desired);
+
+    return $current === $desired;
+}
+
+function sameConfigurableAttributeIds(int $productId, array $desiredAttributeIds, $resourceConnection): bool {
+    $connection = $resourceConnection->getConnection();
+    $table = $resourceConnection->getTableName('catalog_product_super_attribute');
+    $currentIds = $connection->fetchCol(
+        $connection->select()
+            ->from($table, ['attribute_id'])
+            ->where('product_id = ?', $productId)
+    );
+
+    $current = array_map('intval', $currentIds);
+    $desired = array_map('intval', $desiredAttributeIds);
+    sort($current);
+    sort($desired);
+
+    return $current === $desired;
+}
+
+function productHasPrimaryImage(array $row, $product): bool {
+    $requestedPath = getRowPrimaryImagePath($row);
+    if ($requestedPath === '') {
+        return true;
+    }
+
+    $requestedBasename = normalizePathBasename($requestedPath);
+    if ($requestedBasename === '') {
+        return true;
+    }
+
+    foreach (['image', 'small_image', 'thumbnail'] as $role) {
+        $current = (string)$product->getData($role);
+        if ($current === '' || $current === 'no_selection' || normalizePathBasename($current) !== $requestedBasename) {
+            return false;
+        }
+    }
+
+    foreach (getExistingProductMediaFiles($product) as $existingFile) {
+        if (normalizePathBasename($existingFile) === $requestedBasename) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function applyPrimaryImageToProduct(array $row, $product, $mediaGalleryProcessor): bool {
+    $requestedPath = getRowPrimaryImagePath($row);
+    if ($requestedPath === '') {
+        return false;
     }
 
     $existingFilesByBasename = [];
     foreach (getExistingProductMediaFiles($product) as $existingFile) {
-        $existingFilesByBasename[pathinfo($existingFile, PATHINFO_BASENAME)] = $existingFile;
+        $existingFilesByBasename[normalizePathBasename($existingFile)] = $existingFile;
     }
 
-    foreach ($assignments as $requestedPath => $roles) {
-        $sourcePath = resolveImportImageSourcePath($requestedPath);
-        if ($sourcePath === null) {
-            continue;
-        }
+    $sourcePath = resolveImportImageSourcePath($requestedPath);
+    if ($sourcePath === null) {
+        return false;
+    }
 
-        $existingFile = $existingFilesByBasename[basename($requestedPath)] ?? null;
-        if ($existingFile !== null) {
-            foreach ($roles as $role) {
-                $product->setData($role, $existingFile);
-            }
-            continue;
-        }
+    $requestedBasename = normalizePathBasename($requestedPath);
+    $existingFile = $existingFilesByBasename[$requestedBasename] ?? null;
+    $roles = ['image', 'small_image', 'thumbnail'];
+    $changed = false;
 
+    if ($existingFile === null) {
         $stagedPath = stageImportImageInMedia($sourcePath, $requestedPath);
-        $storedFile = $mediaGalleryProcessor->addImage(
+        $existingFile = $mediaGalleryProcessor->addImage(
             $product,
             $stagedPath,
-            $roles !== [] ? $roles : null,
+            $roles,
             false,
             false
         );
-        $existingFilesByBasename[pathinfo($storedFile, PATHINFO_BASENAME)] = $storedFile;
+        $changed = true;
     }
+
+    foreach ($existingFilesByBasename as $basename => $existingGalleryFile) {
+        if ($basename === $requestedBasename) {
+            continue;
+        }
+
+        $mediaGalleryProcessor->removeImage($product, $existingGalleryFile);
+        $changed = true;
+    }
+
+    foreach ($roles as $role) {
+        if ((string)$product->getData($role) !== (string)$existingFile) {
+            $product->setData($role, $existingFile);
+            $changed = true;
+        }
+    }
+
+    return $changed;
 }
 
 function getStoredPriceBySku(string $sku, $resourceConnection): float {
@@ -672,14 +807,46 @@ foreach ($productsData as $row) {
     echo "Processing variation: " . $sku . "\n";
     $isInStock = isRowInStock($row);
     $qty = getRowQty($row);
+    $parentSku = getRowParentSku($row);
+    if ($parentSku !== '') {
+        $simplesByParent[$parentSku][] = $sku;
+        $simplePricesByParent[$parentSku][] = getRowPrice($row);
+    }
+    $isExistingProduct = true;
     
     try {
         $product = $productRepository->get($sku, true, 0, true);
-        echo "Product " . $sku . " already exists, updating.\n";
     } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
         $product = $productFactory->create();
         $product->setSku($sku);
+        $isExistingProduct = false;
     }
+
+    $categoryIds = getCategoryIds(getRowCategories($row), $categoryCollectionFactory);
+    $weightLabel = getRowWeightLabel($row);
+    $weightOptionValue = ($weightLabel !== '' && isset($optionMap[$weightLabel])) ? (string)$optionMap[$weightLabel] : '';
+    $needsProductSave = !$isExistingProduct
+        || (string)$product->getName() !== getRowName($row)
+        || (string)$product->getTypeId() !== \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE
+        || (int)$product->getAttributeSetId() !== (int)$attributeSetId
+        || abs((float)$product->getPrice() - getRowPrice($row)) >= 0.0001
+        || abs((float)$product->getWeight() - getRowWeightValue($row)) >= 0.0001
+        || (int)$product->getVisibility() !== \Magento\Catalog\Model\Product\Visibility::VISIBILITY_NOT_VISIBLE
+        || (int)$product->getStatus() !== \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
+        || (string)$product->getData($attributeCode) !== $weightOptionValue
+        || !productHasPrimaryImage($row, $product);
+    if ($categoryIds !== [] && !sameCategoryIds((array)$product->getCategoryIds(), $categoryIds)) {
+        $needsProductSave = true;
+    }
+    $needsSourceItemSave = !$isExistingProduct || !defaultSourceItemMatches($sku, $qty, $isInStock, $resourceConnection);
+    $needsMediaOverrideCleanup = $isExistingProduct && hasStoreScopedNoSelectionMediaOverride((int)$product->getId(), $resourceConnection);
+
+    if (!$needsProductSave && !$needsSourceItemSave && !$needsMediaOverrideCleanup) {
+        echo "Skipping simple product: " . $sku . " (no changes detected)\n";
+        continue;
+    }
+
+    echo ($isExistingProduct ? "Updating simple product: " : "Creating simple product: ") . $sku . "\n";
 
     $product->setName(getRowName($row));
     $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
@@ -695,27 +862,25 @@ foreach ($productsData as $row) {
         'qty' => $qty
     ]);
 
-    $weightLabel = getRowWeightLabel($row);
-    if ($weightLabel !== '' && isset($optionMap[$weightLabel])) {
-        $product->setData($attributeCode, $optionMap[$weightLabel]);
+    if ($weightOptionValue !== '') {
+        $product->setData($attributeCode, $weightOptionValue);
     }
 
-    $categoryIds = getCategoryIds(getRowCategories($row), $categoryCollectionFactory);
     if ($categoryIds !== []) {
         $product->setCategoryIds($categoryIds);
     }
+    applyPrimaryImageToProduct($row, $product, $mediaGalleryProcessor);
 
-    applyRowImagesToProduct($row, $product, $mediaGalleryProcessor);
-    $productRepository->save($product);
-    $updatedProductIds[] = (int)$product->getId();
-    saveDefaultSourceItem($sku, $qty, $isInStock, $sourceItemFactory, $sourceItemsSave);
-    echo "Created/Updated simple product: " . $sku . "\n";
-    
-    $parentSku = getRowParentSku($row);
-    if ($parentSku !== '') {
-        $simplesByParent[$parentSku][] = $sku;
-        $simplePricesByParent[$parentSku][] = getRowPrice($row);
+    if ($needsProductSave) {
+        $productRepository->save($product);
     }
+    if ($needsSourceItemSave) {
+        saveDefaultSourceItem($sku, $qty, $isInStock, $sourceItemFactory, $sourceItemsSave);
+    }
+    if (clearStoreScopedNoSelectionMediaOverrides((int)$product->getId(), $resourceConnection) || $needsProductSave || $needsSourceItemSave) {
+        $updatedProductIds[] = (int)$product->getId();
+    }
+    echo "Created/Updated simple product: " . $sku . "\n";
 }
 
 // PASS 2: Create Configurable Products (variables)
@@ -725,20 +890,56 @@ foreach ($productsData as $row) {
 
     $sku = getRowSku($row);
     echo "Processing variable product: " . $sku . "\n";
+    $isExistingProduct = true;
     
     try {
         $product = $productRepository->get($sku, true, 0, true);
-        echo "Product " . $sku . " already exists, updating links.\n";
     } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
         $product = $productFactory->create();
         $product->setSku($sku);
+        $isExistingProduct = false;
     }
+
+    $parentPrices = $simplePricesByParent[$sku] ?? [];
+    $desiredPrice = $parentPrices !== [] ? min($parentPrices) : getRowPrice($row);
+    $categoryIds = getCategoryIds(getRowCategories($row), $categoryCollectionFactory);
+    $associatedIds = [];
+    $attributeValues = [];
+    if (isset($simplesByParent[$sku])) {
+        foreach ($simplesByParent[$sku] as $simpleSku) {
+            $simpleProduct = $productRepository->get($simpleSku, true, 0, true);
+            $associatedIds[] = (int)$simpleProduct->getId();
+            $attributeValues[] = (int)$simpleProduct->getData($attributeCode);
+        }
+    }
+
+    $needsProductSave = !$isExistingProduct
+        || (string)$product->getName() !== getRowName($row)
+        || (string)$product->getTypeId() !== \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE
+        || (int)$product->getAttributeSetId() !== (int)$attributeSetId
+        || abs((float)$product->getPrice() - $desiredPrice) >= 0.0001
+        || (int)$product->getVisibility() !== \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH
+        || (int)$product->getStatus() !== \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
+        || (string)$product->getDescription() !== getRowDescription($row)
+        || (string)$product->getShortDescription() !== getRowShortDescription($row)
+        || abs((float)$product->getWeight() - getRowWeightValue($row)) >= 0.0001
+        || !sameCategoryIds((array)$product->getCategoryIds(), $categoryIds)
+        || !productHasPrimaryImage($row, $product)
+        || !sameAssociatedProductIds((int)$product->getId(), $associatedIds, $resourceConnection)
+        || !sameConfigurableAttributeIds((int)$product->getId(), [(int)$attribute->getId()], $resourceConnection);
+    $needsMediaOverrideCleanup = $isExistingProduct && hasStoreScopedNoSelectionMediaOverride((int)$product->getId(), $resourceConnection);
+
+    if (!$needsProductSave && !$needsMediaOverrideCleanup) {
+        echo "Skipping configurable product: " . $sku . " (no changes detected)\n";
+        continue;
+    }
+
+    echo ($isExistingProduct ? "Updating configurable product: " : "Creating configurable product: ") . $sku . "\n";
 
     $product->setName(getRowName($row));
     $product->setTypeId(\Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE);
     $product->setAttributeSetId($attributeSetId);
-    $parentPrices = $simplePricesByParent[$sku] ?? [];
-    $product->setPrice($parentPrices !== [] ? min($parentPrices) : getRowPrice($row));
+    $product->setPrice($desiredPrice);
     $product->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
     $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
     $product->setDescription(getRowDescription($row));
@@ -750,18 +951,10 @@ foreach ($productsData as $row) {
         'is_in_stock' => 1,
         'qty' => 1
     ]);
-    $product->setCategoryIds(getCategoryIds(getRowCategories($row), $categoryCollectionFactory));
+    $product->setCategoryIds($categoryIds);
 
     // Link simples to configurable
     if (isset($simplesByParent[$sku])) {
-        $associatedIds = [];
-        $attributeValues = [];
-        foreach ($simplesByParent[$sku] as $simpleSku) {
-            $simpleProduct = $productRepository->get($simpleSku);
-            $associatedIds[] = $simpleProduct->getId();
-            $attributeValues[] = $simpleProduct->getData($attributeCode);
-        }
-
         $product->setTypeId(\Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE);
         
         $configurableOptionFactory = $objectManager->get(\Magento\ConfigurableProduct\Api\Data\OptionInterfaceFactory::class);
@@ -790,9 +983,13 @@ foreach ($productsData as $row) {
         $product->setExtensionAttributes($extensionAttributes);
     }
 
-    applyRowImagesToProduct($row, $product, $mediaGalleryProcessor);
-    $productRepository->save($product);
-    $updatedProductIds[] = (int)$product->getId();
+    applyPrimaryImageToProduct($row, $product, $mediaGalleryProcessor);
+    if ($needsProductSave) {
+        $productRepository->save($product);
+    }
+    if (clearStoreScopedNoSelectionMediaOverrides((int)$product->getId(), $resourceConnection) || $needsProductSave) {
+        $updatedProductIds[] = (int)$product->getId();
+    }
     echo "Created/Updated configurable product: " . $sku . "\n";
 }
 
