@@ -24,6 +24,7 @@
 - Prefer minimal, targeted changes that fit Magento conventions.
 - **Configuration:** `app/etc/config.php` (enabled modules) and `app/etc/env.php` (database/env settings) are gitignored but are the source of truth for the local environment.
 - Do not edit `vendor/` unless the user explicitly asks for it.
+- **Secrets in Docs:** Never write real credentials, passwords, bearer tokens, API keys, or other secrets into repo-tracked docs, notes, plans, or examples. Use placeholders only.
 - Preserve existing local changes; this worktree may be dirty.
 - Use `rg` for search and inspect existing module/theme structure before adding files.
 - When the user mentions `tmp` or `/tmp` for project assets, treat that as `var/tmp/` unless they explicitly say otherwise.

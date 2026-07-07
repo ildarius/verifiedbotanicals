@@ -23,7 +23,7 @@ Admin token example:
 ```bash
 curl -k -X POST 'https://magento.ddev.site/rest/V1/integration/admin/token' \
   -H 'Content-Type: application/json' \
-  -d '{"username":"playwright-admin","password":"PWAdmin!23456"}'
+  -d '{"username":"<admin-username>","password":"<admin-password>"}'
 ```
 
 ## IP Whitelist
