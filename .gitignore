@@ -63,4 +63,4 @@ backups/*.sql.gz
 /Thumbs.db
 
 /vendor.broken-20260513/
-*/pub/media/*
+pub/media/*
