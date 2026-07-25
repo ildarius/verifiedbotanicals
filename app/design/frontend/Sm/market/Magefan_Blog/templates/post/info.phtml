@@ -1,0 +1,52 @@
+<?php
+/**
+ * Blog post info template
+ *
+ * @var $block \Magefan\Blog\Block\Post\Info
+ */
+?>
+<?php $_post = $block->getPost(); ?>
+<?php
+$metaItems = [];
+
+if ($_post->isPublishDateEnabled()) {
+    $metaItems[] = sprintf(
+        '<span class="post-meta__item post-meta__date"><time datetime="%s">%s</time></span>',
+        $block->escapeHtmlAttr((string)$_post->getPublishTime()),
+        $block->escapeHtml($_post->getPublishDate())
+    );
+}
+
+if ($_categoriesCount = $_post->getCategoriesCount()) {
+    $categoryLinks = [];
+    foreach ($_post->getParentCategories() as $category) {
+        $categoryLinks[] = sprintf(
+            '<a class="post-meta__link" href="%s">%s</a>',
+            $block->escapeUrl($category->getCategoryUrl()),
+            $block->escapeHtml($category->getTitle())
+        );
+    }
+
+    if ($categoryLinks) {
+        $metaItems[] = '<span class="post-meta__item post-meta__categories">' . implode(', ', $categoryLinks) . '</span>';
+    }
+}
+
+if ($block->authorEnabled() && ($_author = $_post->getAuthor())) {
+    $authorMarkup = $block->escapeHtml($_author->getTitle());
+    if ($block->authorPageEnabled()) {
+        $authorMarkup = sprintf(
+            '<a class="post-meta__link" href="%s">%s</a>',
+            $block->escapeUrl($_author->getAuthorUrl()),
+            $authorMarkup
+        );
+    }
+
+    $metaItems[] = '<span class="post-meta__item post-meta__author">' . $authorMarkup . '</span>';
+}
+?>
+<?php if ($metaItems): ?>
+<div class="post-meta" aria-label="<?= $block->escapeHtmlAttr(__('Post metadata')) ?>">
+    <?= /* @noEscape */ implode('', $metaItems) ?>
+</div>
+<?php endif; ?>

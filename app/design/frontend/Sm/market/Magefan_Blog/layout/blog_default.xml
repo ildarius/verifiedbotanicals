@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="blog.sidebar.featured" remove="true"/>
+        <referenceBlock name="blog.sidebar.popular" remove="true"/>
+        <referenceBlock name="blog.sidebar.custom" remove="true"/>
+        <referenceBlock name="blog.sidebar.custom2" remove="true"/>
+        <referenceBlock name="blog.sidebar.rss" remove="true"/>
+    </body>
+</page>

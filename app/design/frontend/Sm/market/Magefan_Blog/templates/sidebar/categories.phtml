@@ -1,0 +1,33 @@
+<?php
+/**
+ * Blog sidebar categories template
+ *
+ * @var $block \Magefan\Blog\Block\Sidebar\Categories
+ */
+?>
+<?php
+$items = array_values(array_filter(
+    $block->getGroupedChilds(),
+    static fn($item): bool => (int)$item->getPostsCount() > 0
+));
+?>
+<?php if ($items): ?>
+    <div class="widget block block-categories" data-bind="scope: 'categories'">
+        <div class="block-title">
+            <strong><?= $block->escapeHtml(__('Categories')) ?></strong>
+        </div>
+
+        <ul class="accordion" id="accordion-2">
+        <?php foreach ($items as $item): ?>
+            <li>
+                <a title="<?= $block->escapeHtmlAttr($item->getTitle()) ?>" href="<?= $block->escapeUrl($item->getCategoryUrl()) ?>">
+                    <?= $block->escapeHtml($item->getTitle()) ?>
+                </a>
+                <?php if ($block->showPostsCount()): ?>
+                    (<?= $block->escapeHtml($item->getPostsCount()) ?>)
+                <?php endif; ?>
+            </li>
+        <?php endforeach; ?>
+        </ul>
+    </div>
+<?php endif; ?>
