@@ -37,9 +37,6 @@ class BlogPostSyncManagement implements BlogPostSyncManagementInterface
         'is_active',
         'featured_img_alt',
         'featured_list_img_alt',
-        'featured_img',
-        'featured_list_img',
-        'og_img',
     ];
 
     public function __construct(
