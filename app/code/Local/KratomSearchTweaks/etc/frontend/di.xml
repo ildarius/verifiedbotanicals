@@ -9,5 +9,14 @@
         <plugin name="local_kratom_search_tweaks_layerednav_filters"
                 type="Local\KratomSearchTweaks\Plugin\LayeredNavigation\HideDemoFiltersPlugin" />
     </type>
+    <type name="Magento\Framework\App\FrontController">
+        <plugin name="local_kratom_search_tweaks_customer_post_method"
+                type="Local\KratomSearchTweaks\Plugin\FrontController\NormalizeCustomerPostPathPlugin"
+                sortOrder="1" />
+    </type>
+    <type name="Magento\Checkout\Block\Cart\Sidebar">
+        <plugin name="addPayLaterMessageConfig" disabled="true" />
+        <plugin name="local_kratom_search_tweaks_guarded_pay_later_message_config"
+                type="Local\KratomSearchTweaks\Plugin\Checkout\Cart\GuardedPayLaterMessageConfigPlugin" />
+    </type>
 </config>
-

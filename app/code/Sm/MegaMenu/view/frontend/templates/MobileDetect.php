@@ -13,7 +13,7 @@ class MobileDetect
 {
     // External info.
     const VER = '([\w._]+)';
-    protected $userAgent = null;
+    protected $userAgent = '';
 
     // Arrays holding all detection rules.
     protected $httpHeaders;
@@ -216,10 +216,10 @@ protected $detectionType = 'mobile';
         if (!empty($userAgent)) {
             $this->userAgent = $userAgent;
         } else {
-            $this->userAgent = isset($this->httpHeaders['HTTP_USER_AGENT']) ? $this->httpHeaders['HTTP_USER_AGENT'] : null;
+            $this->userAgent = isset($this->httpHeaders['HTTP_USER_AGENT']) ? $this->httpHeaders['HTTP_USER_AGENT'] : '';
 
             if (empty($this->userAgent)) {
-                $this->userAgent = isset($this->httpHeaders['HTTP_X_DEVICE_USER_AGENT']) ? $this->httpHeaders['HTTP_X_DEVICE_USER_AGENT'] : null;
+                $this->userAgent = isset($this->httpHeaders['HTTP_X_DEVICE_USER_AGENT']) ? $this->httpHeaders['HTTP_X_DEVICE_USER_AGENT'] : '';
             }
             // Header can occur on devices using Opera Mini (can expose the real device type). Let's concatenate it (we need this extra info in the regexes).
             if (!empty($this->httpHeaders['HTTP_X_OPERAMINI_PHONE_UA'])) {
@@ -339,7 +339,8 @@ protected $detectionType = 'mobile';
     {
         // Escape the special character which is the delimiter.
         $regex = str_replace('/', '\/', $regex);
-        return (bool)preg_match('/' . $regex . '/is', (!empty($userAgent) ? $userAgent : $this->userAgent));
+        $userAgent = !empty($userAgent) ? $userAgent : $this->userAgent;
+        return (bool)preg_match('/' . $regex . '/is', (string)$userAgent);
     }
 
     /**
@@ -570,8 +571,9 @@ protected $detectionType = 'mobile';
     function version($propertyName)
     {
         $properties = $this->getProperties();
+        $userAgent = (string)$this->userAgent;
         // If the property is found in the User-Agent then move to the next step.
-        if (stripos($this->userAgent, $propertyName) !== false) {
+        if (stripos($userAgent, $propertyName) !== false) {
 
             // Prepare the pattern to be matched.
             // Make sure we always deal with an array (string is converted).
@@ -585,7 +587,7 @@ protected $detectionType = 'mobile';
                 $propertyPattern = str_replace('/', '\/', $propertyPattern);
 
                 // Identify and extract the version.
-                preg_match('/' . $propertyPattern . '/is', $this->userAgent, $match);
+                preg_match('/' . $propertyPattern . '/is', $userAgent, $match);
 
                 if (!empty($match[1])) {
                     $version = $this->prepareVersionNo($match[1]);
