@@ -24,6 +24,7 @@ backups/*.sql.gz
 /var/di/*
 /var/generation/*
 /var/log/*
+/var/mirasvit/
 /var/report/*
 /var/session/*
 /var/tmp/*

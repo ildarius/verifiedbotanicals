@@ -18,9 +18,10 @@
     },
     "version": "2.4.7",
     "require": {
-        "magento/product-community-edition": "2.4.7",
         "magento/composer-dependency-version-audit-plugin": "~0.1",
-        "magento/composer-root-update-plugin": "^2.0.4"
+        "magento/composer-root-update-plugin": "^2.0.4",
+        "magento/product-community-edition": "2.4.7",
+        "mirasvit/module-affiliate": "*"
     },
     "autoload": {
         "exclude-from-classmap": [
@@ -73,6 +74,11 @@
     "prefer-stable": true,
     "repositories": [
         {
+            "name": "mirasvit-afl2",
+            "type": "composer",
+            "url": "https://afl2.packages.mirasvit.com"
+        },
+        {
             "type": "composer",
             "url": "https://repo.magento.com/"
         }
@@ -81,4 +87,3 @@
         "magento-force": "override"
     }
 }
-
