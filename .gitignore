@@ -52,6 +52,7 @@ backups/*.sql.gz
 
 # Test, browser automation, and local tooling artifacts
 /.phpunit.result.cache
+dev/automated_tests/
 /.playwright/
 /.playwright/artifacts/shipping-scenarios/
 /playwright-report/
