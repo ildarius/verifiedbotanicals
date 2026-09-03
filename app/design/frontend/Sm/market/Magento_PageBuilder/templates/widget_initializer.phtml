@@ -1,0 +1,15 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \Magento\PageBuilder\Block\WidgetInitializer $block */
+$mageInit = [
+    'Magento_PageBuilder/js/widget-initializer' => [
+        'config' => json_decode($block->getConfig(), true),
+        'breakpoints' => json_decode($block->getBreakpoints(), true),
+    ],
+];
+?>
+<div hidden data-mage-init='<?= $block->escapeHtmlAttr(json_encode($mageInit, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT)) ?>'></div>

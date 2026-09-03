@@ -31,25 +31,17 @@ if ($productStyle == 'product-8' || $productStyle == 'product-10') {
 if ($productStyle == 'product-23') {
 	 $buttonContainer = '.product-item-info[data-container="product-grid"] .product-item-details .actions-primary'  . $classListContainer . $customContainer;
 }
+
+$mageInit = [
+    'Sm_CartQuickPro/js/quickview-init' => [
+        'isQuickView' => $this->_isQuickView(),
+        'isAjaxCart' => $this->_isAjaxCart(),
+        'product_container' => '.product-item',
+        'button_container' => $buttonContainer,
+        'label_button' => $this->_getConfig('label_button'),
+        'base_url' => $this->getUrl(),
+    ],
+];
 ?>
 
-<script>
-    require([
-        'jquery',
-        'quickView',
-        'domReady!'
-    ], function ($, cartQuickView) {
-        var quickViewCf = {
-            isQuickView: <?php echo $this->_isQuickView() ? 'true' : 'false'; ?>,
-            isAjaxCart: <?php echo $this->_isAjaxCart() ? 'true' : 'false'; ?>,
-            product_container: '.product-item',
-            button_container: '<?php echo $buttonContainer; ?>',
-            label_button: '<?php echo $this->_getConfig('label_button'); ?>',
-            base_url: '<?php echo $this->getUrl();?>'
-        }
-        $(quickViewCf.product_container).cartQuickView(quickViewCf);
-        $(document).on("afterAjaxProductsLoaded", function (event) {
-            $(quickViewCf.product_container).cartQuickView(quickViewCf);
-        });
-    });
-</script>	
+<div hidden data-mage-init='<?= $block->escapeHtmlAttr(json_encode($mageInit, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT)) ?>'></div>

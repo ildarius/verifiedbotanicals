@@ -1,0 +1,22 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/**
+ * Cookie settings initialization script
+ *
+ * @var $block \Magento\Framework\View\Element\Js\Cookie
+ */
+$mageInit = [
+    'mage/cookies' => [
+        'expires' => null,
+        'path' => $block->getPath(),
+        'domain' => $block->getDomain(),
+        'secure' => $block->getSessionConfig()->getCookieSecure(),
+        'lifetime' => (string) $block->getLifetime(),
+    ],
+];
+?>
+<div hidden data-mage-init='<?= $block->escapeHtmlAttr(json_encode($mageInit, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT)) ?>'></div>

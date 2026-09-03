@@ -1,0 +1,20 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \Magento\Customer\Block\SectionConfig $block */
+$mageInit = [
+    'Magento_Customer/js/section-config' => [
+        'sections' => $block->getSections(),
+        'clientSideSections' => $block->getClientSideSections(),
+        'baseUrls' => array_unique([
+            $block->getUrl(null, ['_secure' => true]),
+            $block->getUrl(null, ['_secure' => false]),
+        ]),
+        'sectionNames' => $block->getData('sectionNamesProvider')->getSectionNames(),
+    ],
+];
+?>
+<div hidden data-mage-init='<?= $block->escapeHtmlAttr(json_encode($mageInit, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT)) ?>'></div>

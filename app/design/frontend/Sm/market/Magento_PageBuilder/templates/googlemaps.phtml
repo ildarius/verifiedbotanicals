@@ -1,0 +1,47 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/**
+ * @var Magento\PageBuilder\Block\GoogleMapsApi $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+
+$primaryConfig = [
+    'Magento_PageBuilder/js/require-config' => [
+        'paths' => [
+            'googleMaps' => $block->getLibraryUrl(),
+        ],
+        'config' => [
+            'Magento_PageBuilder/js/utils/map' => [
+                'style' => $block->getStyle(),
+            ],
+            'Magento_PageBuilder/js/content-type/map/preview' => [
+                'apiKey' => $block->getApiKey(),
+                'apiKeyErrorMessage' => $block->getInvalidApiKeyMessage(),
+            ],
+            'Magento_PageBuilder/js/form/element/map' => [
+                'apiKey' => $block->getApiKey(),
+                'apiKeyErrorMessage' => $block->getInvalidApiKeyMessage(),
+            ],
+        ],
+    ],
+];
+?>
+<div hidden data-mage-init='<?= $escaper->escapeHtmlAttr(json_encode($primaryConfig, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT)) ?>'></div>
+<?php if ($block->shouldIncludeGoogleMapsLibrary()) : ?>
+    <?php
+    $shimConfig = [
+        'Magento_PageBuilder/js/require-config' => [
+            'shim' => [
+                'Magento_PageBuilder/js/utils/map' => [
+                    'deps' => ['googleMaps'],
+                ],
+            ],
+        ],
+    ];
+    ?>
+    <div hidden data-mage-init='<?= $escaper->escapeHtmlAttr(json_encode($shimConfig, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT)) ?>'></div>
+<?php endif; ?>

@@ -23,7 +23,20 @@ $customerSession =  $block->getLayout()->createBlock('Sm\CartQuickPro\Block\Cart
 $uniqid = uniqid();
 if(!$customerSession->_isLoggedIn()) : 
 ?>
-<div class="account-info-summary" data-block="popup-login" id="popup-login" style="display:none;">
+<?php
+$mageInit = [
+    'Sm_CartQuickPro/js/popup-login' => [
+        'recaptchaSelector' => '#msp-recaptcha-' . $uniqid . '-container',
+    ],
+];
+?>
+<div
+    class="account-info-summary"
+    data-block="popup-login"
+    id="popup-login"
+    style="display:none;"
+    data-mage-init='<?= $block->escapeHtmlAttr(json_encode($mageInit, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT)) ?>'
+>
     <div class="info-summary-top">
         <div class="block-customer-login">
             <h3><?php echo __('Please login first to add the products to wishlist');?></h3>
@@ -56,37 +69,6 @@ if(!$customerSession->_isLoggedIn()) :
         <p class="secondary"><span class="create-account-question"><?php echo __('New customer?') ?></span> <a class="create-account-link" href="<?php echo $block->getUrl('customer/account/create'); ?>"><?php echo __('Start Here.') ?></a></p>
     </div>
 </div>
-
-<script> 
-require([
-    'jquery',
-    'Magento_Ui/js/modal/modal',
-    "domReady!"
-], function ($, modal) {
-	function _popupLogin() {
-		var options = {
-			type: 'popup',
-			responsive: true,
-			innerScroll: true,
-			modalClass: 'sm_popup_login',
-			buttons: []
-		};
-		$('.action.towishlist').removeAttr("data-post");
-		$('.action.towishlist').click(function (e) {
-			$("#popup-login").modal(options).modal("openModal");
-		});
-	}
-	setTimeout(function () {
-        _popupLogin();
-    }, 1000);
-	$(document).on("afterAjaxLazyLoad", function () {
-        _popupLogin();
-    });
-	if ($('#msp-recaptcha-<?= $uniqid ?>-container').length && ($.fn.applyBindings != undefined)) {
-        $('#msp-recaptcha-<?= $uniqid ?>-container').applyBindings();
-    }
-});
-</script>
 <style>
 	@media (min-width: 1200px) {
 		.modal-popup.sm_popup_login .modal-inner-wrap {

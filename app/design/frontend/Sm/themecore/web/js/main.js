@@ -55,21 +55,21 @@ define([
          * Newsletter popup
          */
         if ($('.enable-newsletter-popup').length && $('#newsletter-popup').length) {
-            var check_cookie = jQuery.cookie('newsletter_popup');
+            var check_cookie = $.cookie('newsletter_popup');
             if (check_cookie == null || check_cookie == 'shown') {
                 popupNewsletter();
             }
-            jQuery('#newsletter-popup .subscribe-bottom input').on('click', function () {
-                if (jQuery(this).parent().find('input:checked').length) {
-                    var check_cookie = jQuery.cookie('newsletter_popup');
+            $('#newsletter-popup .subscribe-bottom input').on('click', function () {
+                if ($(this).parent().find('input:checked').length) {
+                    var check_cookie = $.cookie('newsletter_popup');
                     if (check_cookie == null || check_cookie == 'shown') {
-                        jQuery.cookie('newsletter_popup', 'dontshowitagain');
+                        $.cookie('newsletter_popup', 'dontshowitagain');
                     } else {
-                        jQuery.cookie('newsletter_popup', 'shown');
+                        $.cookie('newsletter_popup', 'shown');
                         popupNewsletter();
                     }
                 } else {
-                    jQuery.cookie('newsletter_popup', 'shown');
+                    $.cookie('newsletter_popup', 'shown');
                 }
             });
 

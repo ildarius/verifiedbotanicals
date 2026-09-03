@@ -7,6 +7,7 @@
 // @codingStandardsIgnoreFile
 
 /** @var $block \Magento\Checkout\Block\Cart\Sidebar */
+/** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
 $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 $priceHelper   = $objectManager->create('Magento\Framework\Pricing\Helper\Data');
 $value         = 0;
@@ -93,9 +94,12 @@ $priceEmpty    = $priceHelper->currency($value, true, false);
             });
         </script>
     <?php endif ?>
-    <script>
-        window.checkout = <?= /* @escapeNotVerified */ $block->getSerializedConfig() ?>;
-    </script>
+    <?= /* @noEscape */ $secureRenderer->renderTag(
+        'script',
+        [],
+        'window.checkout = ' . $block->getSerializedConfig(),
+        false
+    ) ?>
     <script type="text/x-magento-init">
     {
         "[data-block='minicart']": {
@@ -113,5 +117,4 @@ $priceEmpty    = $priceHelper->currency($value, true, false);
 
     </script>
 </div>
-
 

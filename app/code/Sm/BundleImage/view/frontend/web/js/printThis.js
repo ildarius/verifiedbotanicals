@@ -41,8 +41,9 @@
  * Notes:
  *  - the loadCSS will load additional CSS (with or without @media print) into the iframe, adjusting layout
  */
-;
-(function($) {
+define([
+    'jquery'
+], function ($) {
 
     function appendContent($el, content) {
         if (!content) return;
@@ -89,7 +90,7 @@
     var opt;
     $.fn.printThis = function(options) {
         opt = $.extend({}, $.fn.printThis.defaults, options);
-        var $element = this instanceof jQuery ? this : $(this);
+        var $element = this && this.jquery ? this : $(this);
 
         var strFrameName = "printThis-" + (new Date()).getTime();
 
@@ -181,10 +182,10 @@
             // add title of the page
             if (opt.pageTitle) $head.append("<title>" + opt.pageTitle + "</title>");
 
-            // import additional stylesheet(s)
+                // import additional stylesheet(s)
             if (opt.loadCSS) {
                 if ($.isArray(opt.loadCSS)) {
-                    jQuery.each(opt.loadCSS, function(index, value) {
+                    $.each(opt.loadCSS, function(index, value) {
                         $head.append("<link type='text/css' rel='stylesheet' href='" + this + "'>");
                     });
                 } else {
@@ -332,4 +333,5 @@
         beforePrint: null,          // function called before iframe is filled
         afterPrint: null            // function called before iframe is removed
     };
-})(jQuery);
+    return $.fn.printThis;
+});

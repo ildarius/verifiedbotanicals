@@ -12,7 +12,22 @@
 $wishlistHelper = $this->helper('Magento\Wishlist\Helper\Data');
 ?>
 <?php if ($wishlistHelper->isAllow()) : ?>
-    <div class="block block-wishlist header-wishlist" data-bind="scope: 'wishlist'">
+    <?php
+    $mageInit = [
+        'Magento_Ui/js/core/app' => [
+            'components' => [
+                'wishlist' => [
+                    'component' => 'Magento_Wishlist/js/view/wishlist',
+                ],
+            ],
+        ],
+    ];
+    ?>
+    <div
+        class="block block-wishlist header-wishlist"
+        data-bind="scope: 'wishlist'"
+        data-mage-init='<?= $block->escapeHtmlAttr(json_encode($mageInit, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT)) ?>'
+    >
         <a href="<?php echo $this->getUrl('wishlist') ?>" title="<?php echo __('Wishlist') ?>" class="block-title">
             <!-- ko if: wishlist().counter -->
             <span data-bind="text: wishlist().counter" class="count counter"></span>
@@ -25,21 +40,4 @@ $wishlistHelper = $this->helper('Magento\Wishlist\Helper\Data');
             <span class="wishlist-title"><?php echo __('Wishlist') ?></span>
         </a>
     </div>
-    <script type="text/x-magento-init">
-    {
-        "*": {
-            "Magento_Ui/js/core/app": {
-                "components": {
-                    "wishlist": {
-                        "component": "Magento_Wishlist/js/view/wishlist"
-                    }
-                }
-            }
-        }
-    }
-
-
-
-    
-    </script>
 <?php endif ?>

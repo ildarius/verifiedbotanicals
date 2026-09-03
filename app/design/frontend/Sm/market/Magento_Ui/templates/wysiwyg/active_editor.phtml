@@ -1,0 +1,18 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var Magento\Ui\Block\Wysiwyg\ActiveEditor $block */
+$mageInit = [
+    'Magento_Theme/js/require-config' => [
+        'map' => [
+            '*' => [
+                'wysiwygAdapter' => $block->getWysiwygAdapterPath(),
+            ],
+        ],
+    ],
+];
+?>
+<div hidden data-mage-init='<?= $block->escapeHtmlAttr(json_encode($mageInit, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT)) ?>'></div>

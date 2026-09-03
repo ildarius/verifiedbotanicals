@@ -1,0 +1,22 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var $block \Magento\GoogleGtag\Block\Ga */
+
+$analyticsData = $block->getAnalyticsData();
+$mageInit = [];
+
+if ($analyticsData) {
+    $mageInit = [
+        'Magento_GoogleGtag/js/google-analytics' => json_decode($analyticsData, true),
+    ];
+}
+?>
+<?php if ($mageInit): ?>
+    <!-- BEGIN GOOGLE ANALYTICS 4 CODE -->
+    <div hidden data-mage-init='<?= $block->escapeHtmlAttr(json_encode($mageInit, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT)) ?>'></div>
+    <!-- END GOOGLE ANALYTICS 4 CODE -->
+<?php endif; ?>
