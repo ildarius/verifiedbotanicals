@@ -67,3 +67,6 @@ dev/automated_tests/
 
 /vendor.broken-20260513/
 pub/media/*
+
+# Generated test artifacts
+output/artifacts/
