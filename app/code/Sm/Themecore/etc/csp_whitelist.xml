@@ -6,6 +6,8 @@
             <values>
                 <!-- Google -->
                 <value id="google" type="host">*.google.com</value>
+                <!-- Google Tag Manager -->
+                <value id="google-tag-manager" type="host">*.googletagmanager.com</value>
                 <!-- G Static -->
                 <value id="g-static" type="host">*.gstatic.com</value>
             </values>

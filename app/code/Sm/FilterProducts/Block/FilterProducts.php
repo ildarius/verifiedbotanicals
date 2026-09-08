@@ -330,9 +330,13 @@ class FilterProducts extends \Magento\Catalog\Block\Product\AbstractProduct
             ->addAttributeToFilter('special_from_date', ['lteq' => date('Y-m-d  H:i:s', strtotime($now))])
             ->addAttributeToFilter('special_to_date', ['gteq' => date('Y-m-d  H:i:s', strtotime($now))])
             ->addAttributeToFilter('special_to_date', ['lteq' => date('Y-m-d  H:i:s', strtotime($dateToTime))])
-            ->addAttributeToFilter('is_saleable', ['eq' => 1], 'left');
+            ->addAttributeToFilter('status', ['eq' => \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED])
+            ->addAttributeToFilter('type_id', ['eq' => \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE])
+            ->addAttributeToFilter('visibility', ['in' => $this->_catalogProductVisibility->getVisibleInCatalogIds()]);
         $this->applyCategoryFilter($collection, $categoryIds, $connection);
-        $collection->setVisibility($this->_catalogProductVisibility->getVisibleInCatalogIds());
+        $this->_objectManager
+            ->get(\Magento\CatalogInventory\Helper\Stock::class)
+            ->addInStockFilterToCollection($collection);
         $collection->getSelect()->distinct(true)->group('e.entity_id')->limit($count);
         return $collection;
     }

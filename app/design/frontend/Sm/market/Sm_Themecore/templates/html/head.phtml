@@ -1,4 +1,5 @@
 <?php
+/** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
 $_config                 = $this->helper('Sm\Themecore\Helper\Data');
 $_cssLoadFile            = $this->helper('Sm\Themecore\Helper\Cssconfig');
 $bodyFont                = $_config->getGeneral('bodyfont_group/body_font');
@@ -15,6 +16,13 @@ $portableCssStores       = [
 $settingsCssUrl = isset($portableCssStores[$storeCode])
     ? $block->getViewFileUrl($portableCssStores[$storeCode])
     : $_cssLoadFile->getSettingsFile();
+$googleAnalyticsMeasurementId = 'G-CFX106ZF1K';
+$googleAnalyticsScript = <<<SCRIPT
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '{$googleAnalyticsMeasurementId}');
+SCRIPT;
 ?>
 <?php if ($bodyFont == 'google_font') {
     echo $_config->getGeneral('bodyfont_group/body_googlefont_link');
@@ -25,6 +33,8 @@ $settingsCssUrl = isset($portableCssStores[$storeCode])
 } ?>
 
 <link rel="stylesheet" type="text/css" media="all" href="<?php echo $settingsCssUrl ?>"/>
+<script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo $googleAnalyticsMeasurementId; ?>"></script>
+<?= /* @noEscape */ $secureRenderer->renderTag('script', ['type' => 'text/javascript'], $googleAnalyticsScript, false) ?>
 
 <?php if ($enableStoreCode) { ?>
     <script type="text/javascript">
