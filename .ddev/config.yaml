@@ -13,6 +13,10 @@ use_dns_when_possible: true
 composer_version: "2"
 web_environment: []
 corepack_enable: false
+web_extra_daemons:
+    - name: magento-cron
+      command: "sh -c 'while true; do php -d memory_limit=-1 bin/magento cron:run; sleep 60; done'"
+      directory: /var/www/html
 
 # Key features of DDEV's config.yaml:
 
