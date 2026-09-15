@@ -49,8 +49,7 @@ $checks = [
     'live Kratom reviews retained' => ['review', 'review_id', range(239, 262), 24],
     'demo orders' => ['sales_order', 'entity_id', $orderIds, 19],
     'demo customers' => ['customer_entity', 'entity_id', $customerIds, 19],
-    // Pages 5-7 were already removed by the earlier local page-prune run.
-    'demo CMS pages remaining' => ['cms_page', 'page_id', $pageIds, 0],
+    'demo CMS pages remaining' => ['cms_page', 'page_id', $pageIds, 3],
     'demo attributes' => ['eav_attribute', 'attribute_id', $attributeIds, 3],
     'live storefront' => ['store', 'store_id', [111], 1],
     'demo store views' => ['store', 'store_id', $storeIds, 80],

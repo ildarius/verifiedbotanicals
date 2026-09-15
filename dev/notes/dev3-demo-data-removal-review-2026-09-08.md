@@ -1,6 +1,30 @@
 # Dev3 demo-data removal review — 2026-09-08
 
-Scope: read-only reconciliation of `demo-data-audit.md` against the database serving `dev3.verifiedbotanicals.com`, except for one weekly-deals CMS-page test which was reverted in the same session. No cleanup deletion was performed. **CMS blocks are explicitly out of scope.**
+## Cleanup applied — 2026-09-15
+
+The reviewed cleanup inventory was applied with
+`dev/tools/dev3_demo_data_cleanup.php --apply` after a successful guarded dry
+run. Post-cleanup SQL verification found zero remaining target products,
+reviews, orders, customers, CMS pages, attributes, store views, store groups,
+and product URL rewrites.
+
+Protected records were rechecked after the transaction: live store `111`,
+product `470`, Kratom reviews `239`–`262`, CMS page `8`, category root `2`, and
+all CMS blocks remain. The surviving website/group/store chain is valid:
+website `1` uses group `41`, which uses store `111` and category root `2`.
+
+Before cleanup, database and `pub/media` backups were written under `backups/`.
+The database dump excludes only the derived `inventory_stock_1` view because
+that view could not be read by `mysqldump`; its backing catalog/inventory tables
+are present in the dump.
+
+The cleanup initially exposed 21 stale trigger definers left by an obsolete
+database account. Their exact definitions were backed up, then the triggers
+were recreated with the active database account as definer. No trigger logic
+was changed. The catalog and search indexers were rebuilt successfully; the
+CLI required `-d memory_limit=-1` for the search reindex.
+
+Original review scope: read-only reconciliation of `demo-data-audit.md` against the database serving `dev3.verifiedbotanicals.com`, except for one weekly-deals CMS-page test which was reverted in the same session. No cleanup deletion was performed during that review. **CMS blocks are explicitly out of scope.**
 
 ## Decision summary
 
