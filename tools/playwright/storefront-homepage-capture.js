@@ -87,7 +87,7 @@ function makeTimestamp() {
 
 async function main() {
   const localEnv = readLocalEnv();
-  const baseUrl = localEnv.MAGENTO_BASE_URL || 'https://magento.ddev.site';
+  const baseUrl = process.env.MAGENTO_BASE_URL || localEnv.MAGENTO_BASE_URL || 'https://magento.ddev.site';
   const artifactDir = path.resolve(process.cwd(), '.playwright', 'artifacts');
   const historyDir = path.join(artifactDir, 'homepage-history');
   const timestamp = makeTimestamp();
@@ -141,7 +141,8 @@ async function main() {
     badAssetResponses.push({ url, status });
   });
 
-  await page.goto(`${baseUrl}/`, { waitUntil: 'networkidle' });
+  await page.goto(`${baseUrl}/`, { waitUntil: 'domcontentloaded' });
+  await page.waitForLoadState('networkidle', { timeout: 30000 }).catch(() => {});
 
   const dismissedPopupSelector = await dismissNewsletterPopup(page);
 

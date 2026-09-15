@@ -99,7 +99,8 @@ async function main() {
   });
 
   // 1) Search via the actual header search form.
-  await page.goto(new URL('/', config.baseUrl).toString(), { waitUntil: 'networkidle' });
+  await page.goto(new URL('/', config.baseUrl).toString(), { waitUntil: 'domcontentloaded' });
+  await page.waitForLoadState('networkidle', { timeout: 30000 }).catch(() => {});
   await maybeCloseModal(page);
 
   const query = 'Gree Malay';
@@ -120,7 +121,7 @@ async function main() {
     form.submit();
   });
   await page.waitForURL(/\/catalogsearch\/result\/\?.*q=/i, { timeout: 30000 });
-  await page.waitForLoadState('networkidle');
+  await page.waitForLoadState('networkidle', { timeout: 30000 }).catch(() => {});
 
   const search = await extractProductNames(page, 12);
   const searchScreenshotPath = path.join(artifactDir, 'storefront-search-results.png');
@@ -128,7 +129,8 @@ async function main() {
 
   // 2) Category page check (the user-reported broken path).
   const categoryUrl = new URL('/green-vein-kratom.html', config.baseUrl).toString();
-  await page.goto(categoryUrl, { waitUntil: 'networkidle' });
+  await page.goto(categoryUrl, { waitUntil: 'domcontentloaded' });
+  await page.waitForLoadState('networkidle', { timeout: 30000 }).catch(() => {});
   await maybeCloseModal(page);
 
   const categoryEmptyMessage = page.locator('.message.info.empty').first();

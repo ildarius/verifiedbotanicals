@@ -94,7 +94,9 @@ async function main() {
     badAssetResponses.push({ url, status });
   });
 
-  await page.goto('https://magento.ddev.site/', { waitUntil: 'networkidle' });
+  const baseUrl = process.env.MAGENTO_BASE_URL || 'https://magento.ddev.site';
+  await page.goto(`${baseUrl}/`, { waitUntil: 'domcontentloaded' });
+  await page.waitForLoadState('networkidle', { timeout: 30000 }).catch(() => {});
 
   const dismissedPopupSelector = await dismissNewsletterPopup(page);
 
