@@ -45,6 +45,7 @@ backups/*.sql.gz
 # Application configuration and secrets
 /app/etc/env.php
 /auth.json
+/.local/remote-db.cnf
 
 # Composer and frontend dependencies
 /vendor/

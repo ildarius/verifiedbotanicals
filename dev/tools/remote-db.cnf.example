@@ -7,3 +7,23 @@ database=your-remote-db-name
 # Optional:
 # protocol=TCP
 # ssl-mode=REQUIRED
+
+# Connection coordinates used by automated-tests. Credentials stay in
+# automated-tests/.env.db.local; do not put credentials in these sections.
+[ddev]
+host=127.0.0.1
+port=32768
+database=db
+charset=utf8mb4
+
+[dev]
+host=your-dev-db-host
+port=3306
+database=your-dev-db-name
+charset=utf8mb4
+
+[prod]
+host=your-prod-db-host
+port=3306
+database=your-prod-db-name
+charset=utf8mb4

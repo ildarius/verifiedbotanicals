@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-DEFAULTS_FILE="${ROOT_DIR}/var/tmp/remote-db.cnf"
+DEFAULTS_FILE="${ROOT_DIR}/.local/remote-db.cnf"
 CONTAINER_NAME="ddev-magento-web"
 
 read_cnf_value() {
@@ -60,7 +60,7 @@ fi
 
 if [[ ! -f "${DEFAULTS_FILE}" ]]; then
     echo "Missing credentials file: ${DEFAULTS_FILE}" >&2
-    echo "Copy dev/tools/remote-db.cnf.example to var/tmp/remote-db.cnf and fill in the remote credentials." >&2
+    echo "Copy dev/tools/remote-db.cnf.example to .local/remote-db.cnf and fill in the remote credentials." >&2
     exit 1
 fi
 

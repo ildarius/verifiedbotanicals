@@ -128,8 +128,9 @@ After these fixes, rerunning `import_products.php` and normal theme widgets shou
   - Idempotent for the current seeded review text set: reruns skip exact existing review bodies instead of duplicating them.
   - Run with: `docker exec -u 1000 ddev-magento-web php dev/tools/add_kratom_reviews.php`
 - `dev/tools/remote_db.sh`: Remote MySQL harness for read/query access to the non-DDEV store database.
-  - Credentials file path: `var/tmp/remote-db.cnf`
+  - Credentials and connection-profile file path: `.local/remote-db.cnf`
   - Template: `dev/tools/remote-db.cnf.example`
+  - The `[client]` section is used by `dev/tools/remote_db.sh`. Target-specific `[ddev]`, `[dev]`, and `[prod]` sections store connection coordinates for `automated-tests`; their credentials remain in `automated-tests/.env.db.local`.
   - Execution path: runs `mysql` inside the `ddev-magento-web` container, so DDEV must be running.
   - File format is MySQL option-file format:
     ```ini
