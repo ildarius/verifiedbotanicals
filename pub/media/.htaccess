@@ -17,7 +17,9 @@ SetHandler default-handler
 
 # Uploaded media must never be served as executable or source code.  This
 # covers variants not included in the legacy Magento handler override above.
-<FilesMatch "(?i)\.(php[3457]?|phtml?|phar|inc|shtml?|module|cgi|pl|py|jsp|asp)$">
+# Matches any dot-segment, not just the last one: cPanel's AddHandler for PHP also
+# executes names like "x.php.png".  php_flag above is ignored under PHP-FPM.
+<FilesMatch "(?i)\.(ph(p\d*|t|tml?|ar|ps)|inc|module|shtml?|cgi|pl|py|jsp|asp|sh)(\.|$)">
     Require all denied
 </FilesMatch>
 
@@ -31,6 +33,12 @@ SetHandler default-handler
 
     ## you can put here your pub/media folder path relative to web root
     #RewriteBase /magento/pub/media/
+
+############################################
+## PolyShell (APSB25-94): never serve uploaded custom option files.
+## Must live here: this file's RewriteEngine replaces the parent rules.
+
+    RewriteRule ^custom_options/ - [F,L,NC]
 
 ############################################
 ## never rewrite for existing files

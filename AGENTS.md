@@ -194,6 +194,7 @@ After these fixes, rerunning `import_products.php` and normal theme widgets shou
 
 - If a task depends on archived assets in `theme_files/`, inspect package compatibility with the current Magento version before installation.
 - Record any required post-install commands in the final handoff.
+- Magento 2.4.9 upgrade spike (SM Market v10.14) and PolyShell follow-ups are tracked in [dev/plans/magento-2.4.9-upgrade-spike.md](/home/ildar/projects/magento/dev/plans/magento-2.4.9-upgrade-spike.md).
 - Rotating special deals discovery and implementation notes are documented in [dev/notes/rotating-special-deals.md](/home/ildar/projects/magento/dev/notes/rotating-special-deals.md).
 - The confirmed DDEV scheduler recovery for the rotating-deals widget is documented in [dev/notes/rotating-deals-scheduler-recovery-2026-09-10.md](/home/ildar/projects/magento/dev/notes/rotating-deals-scheduler-recovery-2026-09-10.md). The homepage widget is MySQL/EAV-backed; catalog-search mview triggers matter only indirectly when they prevent product saves.
 

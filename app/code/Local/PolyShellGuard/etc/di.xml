@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- PolyShell (APSB25-94): REST cart items could write arbitrary files via custom option file_info. -->
+    <type name="Magento\Catalog\Model\Webapi\Product\Option\Type\File\Processor">
+        <plugin name="local_polyshell_guard_block_custom_option_file_upload"
+                type="Local\PolyShellGuard\Plugin\BlockCustomOptionFileUploadPlugin"/>
+    </type>
+    <!-- Defense in depth for the other base64 image upload paths (product media, customer attributes). -->
+    <type name="Magento\Framework\Api\ImageProcessor">
+        <plugin name="local_polyshell_guard_restrict_image_content"
+                type="Local\PolyShellGuard\Plugin\RestrictImageContentPlugin"/>
+    </type>
+</config>

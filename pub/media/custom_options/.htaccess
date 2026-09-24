@@ -1,7 +1,2 @@
-<IfVersion < 2.4>
-    order deny,allow
-    deny from all
-</IfVersion>
-<IfVersion >= 2.4>
-    Require all denied
-</IfVersion>
+# Plain directive: production Apache has no mod_version, so <IfVersion> wrappers error out.
+Require all denied
