@@ -129,7 +129,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $color = str_pad(dechex($color + $adjustAmount), 2, '0', STR_PAD_LEFT);
         }
 
-        return implode($hexCode);
+        return implode('', $hexCode);
     }
 
     public function getLabelProduct($_product)
