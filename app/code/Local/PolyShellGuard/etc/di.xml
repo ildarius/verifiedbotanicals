@@ -6,6 +6,11 @@
         <plugin name="local_polyshell_guard_block_custom_option_file_upload"
                 type="Local\PolyShellGuard\Plugin\BlockCustomOptionFileUploadPlugin"/>
     </type>
+    <!-- 2.4.9+ routes the same REST file_info through ImageContentProcessor (class absent in 2.4.7). -->
+    <type name="Magento\Catalog\Model\Product\Option\Type\File\ImageContentProcessor">
+        <plugin name="local_polyshell_guard_block_image_content_processor"
+                type="Local\PolyShellGuard\Plugin\BlockImageContentProcessorPlugin"/>
+    </type>
     <!-- Defense in depth for the other base64 image upload paths (product media, customer attributes). -->
     <type name="Magento\Framework\Api\ImageProcessor">
         <plugin name="local_polyshell_guard_restrict_image_content"

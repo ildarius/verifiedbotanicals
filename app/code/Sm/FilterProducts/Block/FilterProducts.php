@@ -199,6 +199,34 @@ class FilterProducts extends \Magento\Catalog\Block\Product\AbstractProduct
     }
 
     /**
+     * Render prices without the category listing's special_price_map.
+     *
+     * Since 2.4.9, ListProduct stores a map of its own collection on the shared
+     * product.price.render.default block; widget products missing from that map
+     * trigger "Undefined array key" in FinalPriceBox::hasSpecialPrice().
+     */
+    public function getProductPriceHtml(
+        \Magento\Catalog\Model\Product $product,
+        $priceType = null,
+        $renderZone = \Magento\Framework\Pricing\Render::ZONE_ITEM_LIST,
+        array $arguments = []
+    ) {
+        $priceRender = $this->getLayout()->getBlock('product.price.render.default');
+        if (!$priceRender || !$priceRender->hasData('special_price_map')) {
+            return parent::getProductPriceHtml($product, $priceType, $renderZone, $arguments);
+        }
+
+        $map = $priceRender->getData('special_price_map');
+        $isProductList = $priceRender->getData('is_product_list');
+        $priceRender->unsetData('special_price_map')->unsetData('is_product_list');
+        try {
+            return parent::getProductPriceHtml($product, $priceType, $renderZone, $arguments);
+        } finally {
+            $priceRender->setData('special_price_map', $map)->setData('is_product_list', $isProductList);
+        }
+    }
+
+    /**
      * @param $type
      * @return bool|\Magento\Framework\View\Element\AbstractBlock|\Magento\Framework\View\Element\Template|null
      */
