@@ -47,7 +47,8 @@ SetHandler default-handler
 ############################################
 ## rewrite everything else to get.php
 
-    RewriteRule .* ../get.php [L]
+    ## 2.4.9 (APSB25-94 native fix): only asset extensions are routed to get.php.
+    RewriteRule .*.(ico|jpg|jpeg|png|gif|svg|svgz|webp|avif|avifs|js|css|eot|ttf|otf|woff|woff2)$ ../get.php [L]
 </IfModule>
 
 ############################################
