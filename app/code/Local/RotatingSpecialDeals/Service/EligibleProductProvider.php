@@ -8,6 +8,7 @@ use Magento\Catalog\Model\Product\Attribute\Source\Status;
 use Magento\Catalog\Model\Product\Visibility;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
+use Magento\Store\Model\StoreManagerInterface;
 
 class EligibleProductProvider
 {
@@ -19,16 +20,20 @@ class EligibleProductProvider
 
     private ProductGroupResolver $productGroupResolver;
 
+    private StoreManagerInterface $storeManager;
+
     public function __construct(
         RotationConfig $rotationConfig,
         CollectionFactory $productCollectionFactory,
         Visibility $catalogProductVisibility,
-        ProductGroupResolver $productGroupResolver
+        ProductGroupResolver $productGroupResolver,
+        StoreManagerInterface $storeManager
     ) {
         $this->rotationConfig = $rotationConfig;
         $this->productCollectionFactory = $productCollectionFactory;
         $this->catalogProductVisibility = $catalogProductVisibility;
         $this->productGroupResolver = $productGroupResolver;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -38,7 +43,7 @@ class EligibleProductProvider
     public function getPools(array $excludedProductIds = []): array
     {
         $collection = $this->productCollectionFactory->create();
-        $collection->setStoreId(1)
+        $collection->setStoreId((int)$this->storeManager->getDefaultStoreView()->getId())
             ->addAttributeToSelect(['name', 'price', 'special_price'])
             ->addCategoriesFilter(['in' => $this->rotationConfig->getGroupCategoryIds()])
             ->addAttributeToFilter('status', Status::STATUS_ENABLED)
