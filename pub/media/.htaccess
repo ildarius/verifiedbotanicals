@@ -15,6 +15,12 @@ Options -ExecCGI
 SetHandler default-handler
 </FilesMatch>
 
+# Uploaded media must never be served as executable or source code.  This
+# covers variants not included in the legacy Magento handler override above.
+<FilesMatch "(?i)\.(php[3457]?|phtml?|phar|inc|shtml?|module|cgi|pl|py|jsp|asp)$">
+    Require all denied
+</FilesMatch>
+
 <IfModule mod_rewrite.c>
 
 ############################################
