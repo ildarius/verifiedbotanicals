@@ -1,10 +1,29 @@
 # Magento 2.4.9 Upgrade Spike (keep SM Market v10.14)
 
-Status: **in progress**. Branch: `spike/2.4.9` (created from master `a16d85b7`). Owner: next agent session.
+Status: **spike complete (2026-09-24); DDEV restored to 2.4.7**. Branch: `spike/2.4.9` (local, 4 commits on top of
+master `a16d85b7`, not pushed).
 Started: 2026-09-24.
 
-This file tracks the whole 2.4.9 effort. Update the checklist and log as you go; when the work is
-finished or abandoned, move this file to `dev/notes/` per `AGENTS.md`.
+This note records the complete 2.4.9 compatibility spike, its restore, and its production follow-ups.
+
+## Dev3 migration execution (2026-09-24)
+
+- Deployed the reviewed `spike/2.4.9` branch to dev3 using PHP 8.3.33.
+- Fresh rollback assets were created before the migration:
+  - database: `backups/dev3-pre-2.4.9-20260924_190143.sql.gz` (gzip integrity verified)
+  - filesystem: `backups/dev3-pre-2.4.9-20260924_190143/` (`vendor/`, Composer files, Magento config/environment, DDEV config)
+- `composer install` applied the locked Magento 2.4.9 dependency set. Composer rewrote the known deployment files;
+  restored the reviewed branch versions of root/public/media `.htaccess` files and `.user.ini` files afterward.
+- `setup:upgrade`, `setup:di:compile`, and `setup:static-content:deploy -f en_US` all completed successfully.
+  Static content deployed for Magento blank/Luma/backend and all SM themes, including `Sm/market` and mobile.
+- Restored the pre-upgrade `app/etc/env.php` after `setup:upgrade` altered it, preserving the database `initStatements`
+  and cache configuration.
+- Rebuilt all indexers. The Catalog Search indexer had a stale pre-existing lock (working since July); reset it through
+  Magento CLI and rebuilt it successfully. All indexers are now ready, and all enabled cache types were flushed.
+- Local HTTPS smoke checks through the dev3 web server: storefront returned HTTP 200 with the SM Market stylesheet and
+  RequireJS assets; the admin login document and its static assets rendered. The unauthenticated local admin request
+  returned the configured 403 access response.
+- `local:rotating-special-deals:rotate` completed successfully and found active cycle 12, confirming the store-ID fix.
 
 ## Why
 
@@ -135,7 +154,9 @@ The theme's own copies of core templates must be checked against 2.4.9 by hand.
 - [x] `bin/magento setup:di:compile`: exit 0, **no errors** (32 s). Runtime class-load sweep done separately (see Findings)
 - [x] `bin/magento setup:static-content:deploy -f en_US`: exit 0 for all 9 themes; **`Sm/themecore` failure is gone**.
       A/B (market deploy with the four v10.14 LESS folders removed): `styles-m.css` still builds, identical size (598106 B),
-      so the fix comes from 2.4.9 itself, not the v10.14 LESS copies. Note: SCD quick strategy skips existing output;
+      so the fix comes from 2.4.9 itself, not the v10.14 LESS copies. **Correction after restore:** SCD also succeeded
+      on the restored 2.4.7 (exit 0, market + themecore CSS built), so the old `Sm/themecore` failure does not reproduce
+      in the current state on either version; it is not evidence for or against 2.4.9. Note: SCD quick strategy skips existing output;
       delete `pub/static/frontend/<theme>` first when re-testing.
 - [x] `bin/magento indexer:reindex` + `cache:flush`: all indexers OK incl. Catalog Search on OpenSearch 2.19.5;
       `inventory_stock_1` still the correct view, all 6 kratom parents `is_salable=1`, 216 price-index rows
@@ -186,11 +207,21 @@ The theme's own copies of core templates must be checked against 2.4.9 by hand.
         `x.phtml.jpg`, and a valid-PNG polyglot containing `<?php`**, saved under the client's filename.
 
 ### 6. Restore DDEV to 2.4.7
-- [ ] Restore DB, `vendor/`, `composer.*`, `app/etc/*`, `.ddev/config.yaml`; check out `master`
-- [ ] `setup:upgrade` / `di:compile` / static deploy / `cache:flush`; homepage capture matches the baseline
+- [x] Restore DB, `vendor/`, `composer.*`, `app/etc/*`, `.ddev/config.yaml`; check out `master`
+      - `git checkout master` restored `composer.*`, `config.php`, `.ddev/config.yaml` (all `cmp`-identical to the backup)
+      - `app/etc/env.php` had been **rewritten by 2.4.9 `setup:upgrade`** (dropped `initStatements` and DDEV's
+        `#ddev-generated` marker); restored from backup
+      - `vendor/`: spike copy moved to the session scratchpad, backup copied back (103209 entries)
+      - `ddev restart` -> PHP 8.2.30
+      - DB: `DROP DATABASE db; CREATE DATABASE db` then import **as root** (`mysql -uroot -proot db`). Importing as `db`
+        fails at line 978 with `ERROR 1227 ... SUPER, SET USER privilege(s)` because the dump carries trigger
+        `DEFINER=db@%`. Verified 865 tables, 54 triggers, 14 orders (spike test order gone), rotation cycle max 5.
+- [x] `setup:upgrade` / `di:compile` / static deploy / `cache:flush`: all exit 0 on 2.4.7 (`env.php` untouched this time).
+      Homepage capture `20260924-173140` matches the baseline (incl. the pre-existing empty deals block), 0 console/page
+      errors. The "JQueryUI Compat" browser warning also fires on 2.4.7, so it is pre-existing.
 
 ### 7. Report
-- [ ] Fill in "Findings" and "Recommendation" below
+- [x] Fill in "Findings" and "Recommendation" below
 
 ## Separate, higher-priority item: 2.4.7 security release
 
@@ -209,11 +240,76 @@ The theme's own copies of core templates must be checked against 2.4.9 by hand.
   renders "We can't find products matching the selection."; `composer.json` requires
   `mirasvit/module-affiliate` but it is not installed in `vendor/` and its modules were already dropped from
   `config.php`.
+- 2026-09-24 16:35-17:25: PHP 8.3, composer to 2.4.9, v10.14 merge, build, verification, fixes (see checklist).
+  Spike work committed on `spike/2.4.9`: `34709270`, `a167f37d`, `c4602069`, `9bc447ea`.
+- 2026-09-24 17:25-17:32: DDEV restored to 2.4.7 (master `a16d85b7`) and verified against the baseline.
 
 ## Findings
 
-_(fill in during the spike)_
+**Bottom line: Magento 2.4.9 + SM Market v10.14 runs this store on DDEV.** Getting there took one composer
+workaround and four small code fixes. All build steps passed first time, and every storefront, checkout and admin flow
+tested passes.
+
+What broke on 2.4.9, and the fix (all on `spike/2.4.9`):
+
+| # | Problem | Severity | Fix | Effort |
+|---|---------|----------|-----|--------|
+| 1 | `magento-force: override` overwrites root/`pub` `.htaccess`, media `.htaccess`, `.user.ini`: loses admin IP allowlist, PolyShell denies, cPanel `ea-php83` handler, no-`mod_version` fix | **Critical for prod** (site/security) | restore ours from git, merge 2.4.9's narrowed media `get.php` rewrite | 30 min, but must be in the deploy runbook |
+| 2 | `market/Magento_Theme/templates/root.phtml` override drops 2.4.9's `$headCritical`/`$headAssets`: storefront completely unstyled, JS dead | Blocker | 2 lines (`?? ''`, also safe on 2.4.7) | 15 min |
+| 3 | `Local_PolyShellGuard` bypassed: REST `file_info` moved to new `ImageContentProcessor` | **Critical (security)** | new `BlockImageContentProcessorPlugin` + `di.xml` (2.4.9-only) | 1 h |
+| 4 | `Undefined array key` in core configurable `FinalPriceBox` via SM FilterProducts widget on category pages (fatal in default/developer mode, warning in production) | Medium | `FilterProducts::getProductPriceHtml()` override | 30 min |
+| 5 | `composer require` refused for the metapackage; 2.4.7 `require-dev` conflicts | Low | `composer require-commerce ... --force-root-updates` | 10 min |
+| 6 | `setup:upgrade` rewrites `app/etc/env.php` (drops `initStatements`) | Low (note for prod: keep a copy) | none needed | - |
+
+What worked without changes: `setup:upgrade`, `setup:di:compile` (no SM preference/plugin signature errors; a runtime
+class-load sweep of all 644 `app/code` classes, `var/tmp/spike_class_load_sweep.php`, also found 0 problems), static
+deploy for all 9 themes, all indexers (incl. OpenSearch 2.19.5 catalog search), MariaDB 10.6, PHP 8.3, SM
+ShopBy/AttributesSearch/MegaMenu/FilterProducts/CartQuickPro, Magefan Blog, Coduzion Lookbook admin, Page Builder, MSI
+view `inventory_stock_1`, MatrixRate shipping (24/24), Canada tax (13/13), Interac e-Transfer order placement.
+
+PolyShell on native 2.4.9 (guard disabled): Adobe's fix validates extensions and image content, but still accepts
+`x.php.png` / `x.phtml.jpg` names and PNG/PHP polyglots and stores them under the client's filename. On prod's cPanel
+Apache (`AddHandler` for `.php`), **2.4.9 alone is not enough; keep `Local_PolyShellGuard` (with fix #3) and the
+`.htaccess` denies.** DDEV nginx serves these uploads (200) because it ignores `.htaccess`; test the Apache side in a
+throwaway `httpd` container or on dev3.
+
+Pre-existing problems found on the way (not 2.4.9):
+- **Rotating deals broken since 2026-09-24 16:00**: `EligibleProductProvider` hard-codes store id 1 (DB has only 111);
+  the cron swallows the exception. Fix is commit `34709270` on `spike/2.4.9` and should be cherry-picked to master.
+  Check prod's store id.
+- Mirasvit affiliate: required in `composer.json` but never installed; its repo needs a license (HTTP 401) and blocks
+  any `composer` command. Remove it from master's `composer.json` too unless a license is coming.
+- `AGENTS.md` is stale: homepage CMS page is now `home` (page_id 45), not `home-demo-37`; deploy mode is `default`.
+- SK tax $2.58 vs expected $2.57 (rate-combining rounding), same on 2.4.7.
+- `jquery/compat` "JQueryUI Compat" warning on storefront, same on 2.4.7.
+
+Not covered by this spike (do these on dev3 before prod):
+- Official 2.4.9 matrix is MariaDB 11.8/12.3 + OpenSearch 3 + Valkey. DDEV ran on MariaDB 10.6 / OpenSearch 2.19,
+  which worked but is unsupported. Check what prod's host actually provides.
+- Production mode (DDEV is in `default` mode), cron consumers, transactional email, Braintree (not configured
+  locally), GraphQL, `Local_BlogApi`, customer registration/login, admin *save* flows (only page loads were tested),
+  `Sm/smtheme_mobile` on a mobile UA.
+
+Spike harnesses (kept, gitignored under `var/tmp/`): `spike_class_load_sweep.php`, `spike_admin_check.js`,
+`spike_admin_pagebuilder_check.js`, `spike_rotate_trace.php`, `spike_polyshell_fixture.php`.
+Repo keys for repo.magento.com are in project-root `auth.json` (gitignored).
 
 ## Recommendation
 
-_(fill in at the end: keep SM + 2.4.9 / Hyvä / Luma child theme, with effort estimate)_
+**Keep SM Market (v10.14) and upgrade to Magento 2.4.9.** The theme needed 2 small fixes, the extensions none. This is
+far cheaper than Hyvä (licence + rebuild of every SM-driven homepage section, MegaMenu, ShopBy, FilterProducts widgets:
+weeks) or a Luma child theme (same rebuild without Hyvä's tooling: weeks).
+
+Estimated remaining effort to reach production: **about 2-3 working days**
+- 0.5 d: land `spike/2.4.9` as a real upgrade branch (review the 4 commits, drop DDEV-only bits, keep the tracker)
+- 0.5 d: stage on dev3 with prod-like Apache/cPanel: run the full `automated-tests` suite, PolyShell probe against Apache,
+  admin save flows, production mode, cron
+- 0.5 d: confirm prod host versions (MariaDB/OpenSearch/Redis vs the 2.4.9 matrix) and upgrade services if needed
+  (unknown: could add more if the host can't provide MariaDB 11.8 / OpenSearch 3)
+- 0.5-1 d: prod cutover with a runbook: backups, `composer update`, **restore `.htaccess`/`.user.ini` from git before
+  going live**, `setup:upgrade`, `di:compile`, static deploy, check `env.php`, smoke tests
+
+Do first, regardless of the upgrade:
+1. Cherry-pick `34709270` (rotating-deals store fix) to master and deploy; homepage deals are empty until then.
+2. The 2.4.7-pN security release item below (2.4.7-p10 is available on repo.magento.com). Note that the PolyShellGuard
+   hook currently on master does not cover 2.4.9's path, so fix #3 must ship with the 2.4.9 upgrade.
