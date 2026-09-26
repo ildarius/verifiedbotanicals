@@ -372,6 +372,8 @@ return [
         'Magefan_BlogGraphQl' => 1,
         'Local_BlogApi' => 1,
         'Magefan_WysiwygAdvanced' => 1,
+        'Mirasvit_Affiliate' => 1,
+        'Mirasvit_Core' => 1,
         'Local_KratomSearchTweaks' => 1,
         'PayPal_BraintreeCustomerBalance' => 1,
         'PayPal_BraintreeGiftCard' => 1,
