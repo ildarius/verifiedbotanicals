@@ -39,6 +39,8 @@ if (strpos((string)$bodyAttributes, 'cms-index-index') !== false) {
     <head <?= /* @noEscape */ $headAttributes ?>>
         <?= /* @noEscape */ $requireJs ?>
         <?= /* @noEscape */ $headContentOutput ?>
+        <?= /* @noEscape */ $headCritical ?? '' ?>
+        <?= /* @noEscape */ $headAssets ?? '' ?>
         <?= /* @noEscape */ $headAdditional ?>
     </head>
     <body data-container="body"

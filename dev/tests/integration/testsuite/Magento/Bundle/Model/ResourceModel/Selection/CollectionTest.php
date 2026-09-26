@@ -9,6 +9,7 @@ namespace Magento\Bundle\Model\ResourceModel\Selection;
 
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\TestFramework\Helper\Bootstrap;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class CollectionTest extends \Magento\Bundle\Model\Product\BundlePriceAbstract
 {
@@ -30,8 +31,8 @@ class CollectionTest extends \Magento\Bundle\Model\Product\BundlePriceAbstract
      * @magentoAppIsolation enabled
      * @magentoDbIsolation disabled
      * @group indexer_dimension
-     * @dataProvider getTestCases
      */
+    #[DataProvider('getTestCases')]
     public function testAddPriceDataWithIndexerDimensionMode(array $strategy, int $expectedCount)
     {
         $this->prepareFixture($strategy, 'bundle_product');
@@ -48,17 +49,17 @@ class CollectionTest extends \Magento\Bundle\Model\Product\BundlePriceAbstract
         $this->assertCount($expectedCount, $items);
     }
 
-    public function getTestCases()
+    public static function getTestCases()
     {
         return [
             'Dynamic bundle product with three Simple products' => [
-                'variation' => $this->getBundleConfiguration(),
+                'strategy' => self::getBundleConfiguration(),
                 'expectedCount' => 1
             ]
         ];
     }
 
-    private function getBundleConfiguration()
+    private static function getBundleConfiguration()
     {
         $optionsData = [
             [
