@@ -1,12 +1,12 @@
 # Production Security Incident Tracker — 2026-09-28
 
-Status: **active containment and remediation**
+Status: **application containment complete; account and host remediation active**
 
 This is the active tracker for the September 2026 Magento production incident. It deliberately omits credentials, request payloads, and other sensitive data. Preserve the evidence referenced below; do not restore files from the contaminated backup.
 
 ## Executive finding
 
-The production codebase was compromised and remains compromised as of 2026-09-28. `app/etc/env.php` contains a request-triggered, obfuscated PHP backdoor before the normal Magento configuration array. The implant was created on 2026-09-10 and was executed by an attacker. The current file is byte-identical to the `env.php` captured in the 2026-09-24 upgrade backup, indicating that the upgrade restored an already-infected configuration file rather than establishing a newly written implant.
+The production codebase was compromised. At the start of this investigation on 2026-09-28, `app/etc/env.php` contained a request-triggered, obfuscated PHP backdoor before the normal Magento configuration array. The implant was created on 2026-09-10 and was executed by an attacker. It was preserved in a sealed evidence bundle and removed on 2026-09-28. The former live file is byte-identical to the `env.php` captured in the 2026-09-24 upgrade backup, indicating that the upgrade restored an already-infected configuration file rather than establishing a newly written implant.
 
 The evidence most directly attributes the initial compromise to the **StyleSmuggler** chain, CVE-2026-75650 / APSB26-146. The prior local note characterized the event as PolyShell; the quarantined `custom_options` files remain evidence of separate upload/polyglot activity, but the access-log and Magento-report evidence ties the `env.php` implant to StyleSmuggler.
 
@@ -44,17 +44,29 @@ Magento Open Source is at `2.4.9`, but the required Adobe `VULN-39341_249.patch`
 - [x] Confirmed that `VULN-39341_249.patch` has not been applied by an official forward dry-run.
 - [x] Identified archived post-cleanup StyleSmuggler attempts on 2026-09-26–27.
 
+## 2026-09-28 remediation record
+
+- Created [the preservation bundle](/home/verifiedbota/public_html/var/tmp/incident-20260928-preservation.tar.gz), SHA-256 `bb41851dfaf295922e4a5d9114d882645d73c040f5a82a735a2dfb647e171d61`; its containing directory is mode 0700 and contents are mode 0600.
+- Removed the malicious `env.php` preamble, retained the legitimate configuration array, linted it successfully, and restricted the file to mode 0600.
+- Applied and reverse-verified Adobe's official `VULN-39341_249.patch`, SHA-256 `8df23110e1909e2d5f0c2f0ecbe7f803670dfb0c9c3d15a527371c04b7825bf7`, across all nine affected paths. The tracked [hotfix](/home/verifiedbota/public_html/m2-hotfixes/VULN-39341_249.patch) and [verification/apply script](/home/verifiedbota/public_html/dev/tools/apply-vuln-39341-hotfix.sh) must be used after every Composer vendor rebuild.
+- Installed temporary root and `pub` request blocks for the observed StyleSmuggler query pattern. A harmless external probe returned HTTP 403; the storefront returned HTTP 200.
+- Restarted the two long-running Magento consumers as detached account-owned processes with a 1 GB CLI memory limit. The account has no visible PHP-FPM pool; the cPanel PHP-FPM restart API requires hosting/root privileges.
+- Re-scanned `pub/media`: zero script-like files and zero embedded PHP markers. The known backdoor marker has zero remaining matches outside preserved evidence and contaminated backups.
+- Magento CLI reports version 2.4.9 and maintenance mode disabled. Composer manifest validation completed with only pre-existing schema warnings (version field, root PSR-0, and an exact Magento version constraint).
+
 ## Active remediation tasks
 
 ### Application containment and repair — Codex
 
-- [ ] Create a timestamped preservation bundle of the live implant, relevant logs, and relevant Magento reports before modifying runtime files.
-- [ ] Put a temporary web-server-level block in place for the observed malicious request patterns while remediation is in progress.
-- [ ] Remove the malicious preamble from `app/etc/env.php`, preserving only the legitimate Magento configuration array.
-- [ ] Apply Adobe's official `VULN-39341_249.patch` for CVE-2026-75650 and record its hash and verification result.
-- [ ] Verify that no executable files or PHP markers remain in writable web paths after the repair.
-- [ ] Restart PHP-FPM and Magento long-running consumers so no process retains the old bootstrap state.
-- [ ] Run narrow Magento/configuration validation and update this tracker with results.
+- [x] Create a timestamped preservation bundle of the live implant, relevant logs, and relevant Magento reports before modifying runtime files.
+- [x] Put a temporary web-server-level block in place for the observed malicious request patterns while remediation is in progress.
+- [x] Remove the malicious preamble from `app/etc/env.php`, preserving only the legitimate Magento configuration array.
+- [x] Apply Adobe's official `VULN-39341_249.patch` for CVE-2026-75650 and record its hash and verification result.
+- [x] Verify that no executable files or PHP markers remain in public media after the repair.
+- [x] Restart the two Magento long-running consumers so no worker retains the old bootstrap state.
+- [ ] Obtain hosting-provider confirmation that the web PHP handler has been reloaded (or that this account uses a non-persistent handler). The account shell cannot access the cPanel PHP-FPM restart API and no account PHP-FPM pool is visible.
+- [ ] Build and verify a clean vendor tree outside the live document root, then deploy it atomically in a maintenance window. Do not use the contaminated backup as a source; run `dev/tools/apply-vuln-39341-hotfix.sh` after Composer populates the clean vendor tree.
+- [x] Run narrow Magento/configuration validation and update this tracker with results.
 
 ### Hosting and account actions — owner / hosting provider
 
@@ -74,7 +86,7 @@ Magento Open Source is at `2.4.9`, but the required Adobe `VULN-39341_249.patch`
 
 ## Required validation and monitoring
 
-- [ ] Confirm the storefront and Admin login work after repair; run checkout only after payment credentials and integration state are reviewed.
+- [ ] Confirm an authenticated Admin login works after repair; storefront availability returned HTTP 200. Do not run checkout until payment credentials and integration state are reviewed.
 - [ ] Confirm normal product-image upload works and malicious/polyglot upload probes are rejected in staging.
 - [ ] Monitor for at least 72 hours: new executable files under writable web paths, `env.php` changes, new cron entries, `Local_PolyShellGuard` warnings, and StyleSmuggler-shaped requests.
 - [ ] Retain access logs and PHP error logs covering 2026-09-08 through the conclusion of monitoring.

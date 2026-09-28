@@ -141,6 +141,15 @@
     Options +FollowSymLinks
     RewriteEngine on
 
+    # INCIDENT-20260928: temporary containment for the observed StyleSmuggler
+    # request vector and the upload endpoint used in the September intrusion.
+    # Keep these rules until host-level WAF coverage is confirmed.
+    RewriteCond %{QUERY_STRING} (^|[&;])styles(?:%5B|\[) [NC]
+    RewriteRule ^ - [F,L]
+    RewriteCond %{REQUEST_METHOD} POST
+    RewriteCond %{REQUEST_URI} ^/(pub/)?customer/address_file/upload/?$ [NC]
+    RewriteRule ^ - [F,L]
+
 ############################################
 ## You can put here your magento root folder
 ## path relative to web root
