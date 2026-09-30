@@ -18,11 +18,19 @@ if [[ "$actual_sha256" != "$expected_sha256" ]]; then
 fi
 
 cd "$project_root"
-if patch --dry-run --batch -R -p1 < "$patch_file" >/dev/null; then
+# --force (never --batch): --batch makes patch "assume reversed", so a -R dry-run
+# would succeed on an unpatched tree and the hotfix would be silently skipped.
+is_applied() { patch --dry-run --force -R -p1 < "$patch_file" >/dev/null 2>&1; }
+
+if is_applied; then
     echo 'VULN-39341 is already applied.'
     exit 0
 fi
 
-patch --batch -p1 < "$patch_file"
-patch --dry-run --batch -R -p1 < "$patch_file" >/dev/null
+patch --dry-run --forward --force -p1 < "$patch_file" >/dev/null
+patch --forward --force -p1 < "$patch_file"
+if ! is_applied; then
+    echo 'VULN-39341 verification failed after applying.' >&2
+    exit 1
+fi
 echo 'VULN-39341 applied and verified.'

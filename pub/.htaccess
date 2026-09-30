@@ -141,13 +141,25 @@
     Options +FollowSymLinks
     RewriteEngine on
 
-    # INCIDENT-20260928: temporary containment for the observed StyleSmuggler
-    # request vector and the upload endpoint used in the September intrusion.
-    # Keep these rules until host-level WAF coverage is confirmed.
-    RewriteCond %{QUERY_STRING} (^|[&;])styles(?:%5B|\[) [NC]
+    # INCIDENT-20260928 (durable): StyleSmuggler / CVE-2026-75650 edge rules.
+    # Defense in depth on top of VULN-39341_249.patch; keep even after host WAF
+    # coverage exists. Blocks any "styles" query parameter, including forms PHP
+    # normalises back to it (leading "+"/%20 are stripped, %00 truncates).
+    RewriteCond %{QUERY_STRING} (?:^|[&;])(?:\+|%20|%09)*styles(?:%00|%5B|\[|=|&|$) [NC]
     RewriteRule ^ - [F,L]
-    RewriteCond %{REQUEST_METHOD} POST
-    RewriteCond %{REQUEST_URI} ^/(pub/)?customer/address_file/upload/?$ [NC]
+    # Magento template directives ({{block}}, {{styles}}, ...) never belong in a URL.
+    RewriteCond %{QUERY_STRING} (?:%7B|\{)(?:%7B|\{)(?:%20|%09|%0A|%0D|\+)*(?:block|layout|widget|var|config|template|customvar|css|inlinecss|media|store|trans|depend|if|for|protocol|view|styles)(?:%20|%09|%0A|%0D|\+|%7D|\})? [NC]
+    RewriteRule ^ - [F,L]
+    # Admin API logins (REST admin token, SOAP admin token service): allowlisted IPs only.
+    RewriteCond %{REQUEST_URI} ^/+(?:pub/+)?(?:index\.php/+)?rest/+(?:[a-z0-9_]+/+)?(?:async/+(?:bulk/+)?)?V1/+integration/+admin/+token [NC]
+    RewriteCond %{REMOTE_ADDR} !^24\.157\.155\.[0-9]{1,3}$
+    RewriteRule .* - [F,L]
+    RewriteCond %{REQUEST_URI} ^/+(?:pub/+)?(?:index\.php/+)?soap/ [NC]
+    RewriteCond %{QUERY_STRING} integrationAdminTokenService [NC]
+    RewriteCond %{REMOTE_ADDR} !^24\.157\.155\.[0-9]{1,3}$
+    RewriteRule .* - [F,L]
+    # Customer address file upload controller, on every route form and method.
+    RewriteCond %{REQUEST_URI} ^/+(?:pub/+)?(?:index\.php/+)?(?:[a-z0-9_]+/+)?customer/+address_file/+upload(?:/|$) [NC]
     RewriteRule ^ - [F,L]
 
 ############################################
