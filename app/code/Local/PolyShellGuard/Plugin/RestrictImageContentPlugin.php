@@ -47,6 +47,29 @@ class RestrictImageContentPlugin
         return [$entityType, $imageContent];
     }
 
+    /**
+     * 2.4.9+ ImageContentUploaderInterface: moveFromTmpDir() keeps the client-supplied file name,
+     * so apply the same checks before anything is written. Not called on 2.4.7 (method absent).
+     */
+    public function beforeSaveToTmpDir(
+        ImageProcessor $subject,
+        ImageContentInterface $imageContent,
+        bool $validate = true
+    ): array {
+        $reason = $this->getRejectionReason($imageContent);
+        if ($reason !== null) {
+            $this->logger->warning('PolyShellGuard: blocked image upload via API.', [
+                'reason' => $reason,
+                'entity_type' => 'tmp_upload',
+                'name' => (string)$imageContent->getName(),
+                'remote_addr' => $_SERVER['REMOTE_ADDR'] ?? null,
+            ]);
+            throw new InputException(new Phrase('The image content is invalid. Verify the content and try again.'));
+        }
+
+        return [$imageContent, $validate];
+    }
+
     private function getRejectionReason(ImageContentInterface $imageContent): ?string
     {
         $segments = explode('.', (string)$imageContent->getName());
