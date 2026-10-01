@@ -13,6 +13,7 @@
     - Blog API integration + IP whitelist note: [dev/notes/blog-api-setup-2026-07-07.md](/home/ildar/projects/magento/dev/notes/blog-api-setup-2026-07-07.md)
   - `Sm/*`: Core and Market theme-specific modules.
   - `Local/PageBuilderDirectiveFix`: Currently an empty shell.
+  - `Local/GuestToCustomer`: Converts every guest order into a customer account (or attaches it to the existing account for that email). Notes: [dev/notes/guest-to-customer.md](/home/verifiedbota/public_html/dev/notes/guest-to-customer.md).
 - **Custom Themes:**
   - `Sm/market`: Primary theme (active, ID 5).
   - `Sm/market_2`, `Sm/market_3`, `Sm/market_4`: Available theme variants (inactive).
@@ -195,6 +196,7 @@ After these fixes, rerunning `import_products.php` and normal theme widgets shou
 - If a task depends on archived assets in `theme_files/`, inspect package compatibility with the current Magento version before installation.
 - Record any required post-install commands in the final handoff.
 - Magento 2.4.9 upgrade spike (SM Market v10.14) findings and PolyShell follow-ups are documented in [dev/notes/magento-2.4.9-upgrade-spike-2026-09-24.md](/home/verifiedbota/public_html/dev/notes/magento-2.4.9-upgrade-spike-2026-09-24.md).
+- Guest orders are auto-converted to customer accounts by `Local/GuestToCustomer`; backfill older guest orders with `local:guest-to-customer:convert --dry-run` first. See [dev/notes/guest-to-customer.md](/home/verifiedbota/public_html/dev/notes/guest-to-customer.md).
 - Rotating special deals discovery and implementation notes are documented in [dev/notes/rotating-special-deals.md](/home/ildar/projects/magento/dev/notes/rotating-special-deals.md).
 - The confirmed DDEV scheduler recovery for the rotating-deals widget is documented in [dev/notes/rotating-deals-scheduler-recovery-2026-09-10.md](/home/ildar/projects/magento/dev/notes/rotating-deals-scheduler-recovery-2026-09-10.md). The homepage widget is MySQL/EAV-backed; catalog-search mview triggers matter only indirectly when they prevent product saves.
 
