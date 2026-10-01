@@ -363,6 +363,7 @@ return [
         'Coduzion_Lookbook' => 1,
         'Magefan_Community' => 1,
         'Local_CanadaTaxSetup' => 1,
+        'Local_CheckoutAutofill' => 1,
         'Local_GuestToCustomer' => 1,
         'Local_InteracETransfer' => 1,
         'PayPal_Braintree' => 1,
