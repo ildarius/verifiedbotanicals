@@ -28,6 +28,8 @@ backups/*.sql.gz
 /var/report/*
 /var/session/*
 /var/tmp/*
+/var/.maintenance.*
+/var/backups-*
 
 # Magento static assets and media cache
 /pub/static/*
