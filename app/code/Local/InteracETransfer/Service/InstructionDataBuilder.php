@@ -77,7 +77,7 @@ class InstructionDataBuilder
             'reference_instruction' => $referenceInstruction,
             'security_question' => 'What is verified?',
             'security_answer' => 'Botanicals',
-            'shipping_cutoff_instruction' => 'Orders paid before 12:00 PM PST are processed and shipped the same business day. Orders received after the cutoff, on weekends, or on holidays ship the next business day.',
+            'shipping_cutoff_instruction' => 'Orders paid before 12:00 PM EST are processed and shipped the same business day. Orders received after the cutoff, on weekends, or on holidays ship the next business day.',
             'followup_instruction' => 'You\'ll receive a shipping confirmation email with your tracking number once your order is on its way. Thank you for your order!',
         ];
     }
