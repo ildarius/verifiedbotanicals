@@ -23,7 +23,8 @@
 ## Working Rules
 
 - Prefer minimal, targeted changes that fit Magento conventions.
-- **Configuration:** `app/etc/config.php` (enabled modules) and `app/etc/env.php` (database/env settings) are gitignored but are the source of truth for the local environment.
+- **Commit and push every change:** This directory is the live site's working tree on `master`. Once a change is made and verified, commit it and `git push origin master` right away without asking first. Don't create feature branches. Stage only the files the change touched; leave unrelated dirty or untracked files alone. Each commit is one focused change with a descriptive message.
+- **Configuration:** `app/etc/config.php` (enabled modules) is tracked, so commit it whenever a module is enabled or disabled. `app/etc/env.php` (database/env settings) is gitignored and is the source of truth for the local environment.
 - Do not edit `vendor/` unless the user explicitly asks for it.
 - **Secrets in Docs:** Never write real credentials, passwords, bearer tokens, API keys, or other secrets into repo-tracked docs, notes, plans, or examples. Use placeholders only.
 - Preserve existing local changes; this worktree may be dirty.
