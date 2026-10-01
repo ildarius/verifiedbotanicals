@@ -56,7 +56,7 @@ class InteracETransfer extends AbstractMethod
             ? (int)$this->getInfoInstance()->getOrder()->getStoreId()
             : null;
 
-        $stateObject->setData('state', Order::STATE_PENDING_PAYMENT);
+        $stateObject->setData('state', Order::STATE_NEW);
         $stateObject->setData('status', $this->config->getOrderStatus($storeId));
         $stateObject->setData('is_notified', false);
 

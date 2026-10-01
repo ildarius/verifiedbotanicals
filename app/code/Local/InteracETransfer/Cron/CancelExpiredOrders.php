@@ -36,7 +36,7 @@ class CancelExpiredOrders
         $paymentTable = $this->resourceConnection->getTableName('sales_order_payment');
 
         $collection->addFieldToSelect(['entity_id', 'increment_id', 'status', 'state', 'created_at'])
-            ->addFieldToFilter('main_table.state', Order::STATE_PENDING_PAYMENT)
+            ->addFieldToFilter('main_table.state', Order::STATE_NEW)
             ->addFieldToFilter('main_table.status', $this->config->getOrderStatus())
             ->addFieldToFilter('main_table.created_at', ['lteq' => $cutoff]);
 
