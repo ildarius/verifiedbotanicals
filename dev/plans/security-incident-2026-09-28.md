@@ -23,6 +23,7 @@ Magento Open Source is at `2.4.9`, but the required Adobe `VULN-39341_249.patch`
 | Initial attack | On 2026-09-10, access logs show an attacker using `/customer/address_file/upload` and `/graphql?styles[...]`, then the implant timestamp appears at 20:50 EDT. |
 | Persistence | Prior investigation recorded a rogue `/var/tmp/.sysd-verifi/sync.sh` cron. It is absent now; the current user crontab contains only Magento cron. |
 | Renewed attempts | 43 StyleSmuggler-shaped GraphQL requests reached the site on 2026-09-26–27 from multiple sources. No second persistence file has been confirmed. |
+| Attacker mail test | Found 2026-10-02 in the account's local mailbox, as a bounce. On 2026-09-10 at 20:52 EDT, two minutes after the implant was created, code `eval()`'d by the `env.php` backdoor sent a test email (`To: a@b`, subject `s`, body `b`) through PHP `mail()`. The request was `pub/health_check.php` from **139.28.18.122**, which is not in the current access log. It was a capability probe and carried no site data. Add 139.28.18.122 to any WAF/blocklist. |
 | Current media scan | `pub/media` currently has zero script-like extensions and zero embedded PHP markers. |
 
 ## Scope and confidence

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+    The CartQuickPro wishlist popup login (popup-login/login-mini-form.phtml) renders the layout block
+    "mini-login-msp-recaptcha", a leftover from the old MSP reCAPTCHA module that Magento 2.4 no longer
+    provides. Without it the popup has no reCAPTCHA, and its loginPost submits fail once customer_login
+    reCAPTCHA is enabled. Define the block with Magento's own reCAPTCHA. As a child of the popup's login
+    block it renders only where the template asks for it.
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="customer_form_login">
+            <block class="Magento\ReCaptchaUi\Block\ReCaptcha"
+                   name="mini-login-msp-recaptcha"
+                   template="Magento_ReCaptchaFrontendUi::recaptcha.phtml"
+                   ifconfig="recaptcha_frontend/type_for/customer_login">
+                <arguments>
+                    <argument name="recaptcha_for" xsi:type="string">customer_login</argument>
+                    <argument name="jsLayout" xsi:type="array">
+                        <item name="components" xsi:type="array">
+                            <item name="recaptcha" xsi:type="array">
+                                <item name="component" xsi:type="string">Magento_ReCaptchaFrontendUi/js/reCaptcha</item>
+                            </item>
+                        </item>
+                    </argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

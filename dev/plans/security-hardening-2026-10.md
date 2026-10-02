@@ -4,7 +4,7 @@ Follow-up to the [September 2026 incident](security-incident-2026-09-28.md). Tha
 
 ## Where we left off
 
-- **Current step:** Phase 1, item 5 (reCAPTCHA). **Waiting on the owner** for Google reCAPTCHA keys (see item 5). Items 1–4 and 6 are done.
+- **Current step:** Phase 1, item 5 (reCAPTCHA). It is live and blocks bots. **Waiting on the owner** for one real-browser check: log in, and place a test order (see item 5 results). Also confirm monitor test email #2 arrived.
 - **Queued:** the Magefan Blog CVE-2026-79323 fix and module updates (see "Queued tasks"). It is ready to run in its own session.
 - **Next:** Phase 2, ongoing habits, worked through one at a time with the owner, starting with A.
 - **Last updated:** 2026-10-02.
@@ -19,7 +19,7 @@ Follow-up to the [September 2026 incident](security-incident-2026-09-28.md). Tha
 - [x] **2. Remove `pub/php-probe.php`.** It is publicly reachable (HTTP 200) and leaks the PHP version and ini paths.
 - [x] **3. Admin IP allowlist bypass.** The rule in `.htaccess` matches `/admin_y312l0` but not `/index.php/admin_y312l0`. Magento currently redirects the latter to the blocked path, but the edge rule should cover it too, like the REST token rule does.
 - [x] **4. Production mode.** The site runs in `default` mode, so Magento generates static files on demand into the web-served `pub/static`. Switch to `production`. Known risk: `Sm/themecore` static-deploy issue (AGENTS.md "Run Findings"). After this, code changes need `setup:di:compile` and theme changes need `setup:static-content:deploy`.
-- [ ] **5. reCAPTCHA.** The modules are installed, but no form uses them. Enable for customer login, create account, forgot password, and place order (card testing). **Needs from owner:** Google reCAPTCHA site key and secret key.
+- [~] **5. reCAPTCHA.** The modules are installed, but no form uses them. Enable for customer login, create account, forgot password, and place order (card testing). **Needs from owner:** Google reCAPTCHA site key and secret key.
 - [x] **6. HSTS header.** Not sent. Start with a short `max-age` and raise it to 1 year once it has proven stable. Omit `includeSubDomains` until every subdomain is confirmed HTTPS-only.
 
 ### Phase 1 results (2026-10-02)
@@ -36,7 +36,12 @@ Follow-up to the [September 2026 incident](security-incident-2026-09-28.md). Tha
     - Chrome, Puppeteer and at-spi processes are allowed.
     - Every alert is still written to `alerts.log`, but it prints, and so emails, only when the alert set changes, once a day while alerts persist, and once when they clear.
   - The crontab now has `MAILTO="ildarius@gmail.com"`.
-  - A test email was sent on 2026-10-02 ~08:12. *Owner: confirm it arrived and isn't in spam.*
+  - Test email #1 (~08:12) **never arrived**. Cron's mail and that test went out as `verifiedbota@66-206-23-226.boulat.net`, the server hostname. That has no SPF or DKIM, so Gmail rejects it; Gmail bounced the same way in April 2026. The 2,125 cron mails in `~/mail/new` were the old monitor's output, delivered locally.
+  - Fix (09:25):
+    - `monitor.sh` now sends its own mail through `sendmail -f verifiedbota@verifiedbotanicals.com`. SPF `ip4:66.206.23.226` passes, and cPanel DKIM-signs for the domain.
+    - Cron mail is turned off (`MAILTO=""`).
+    - Test email #2 was sent the same way at 09:25. *Owner: confirm it arrived.*
+  - `~/.env`'s SMTP password for `verifiedbota@verifiedbotanicals.com` is stale (`535 Incorrect authentication data`), probably since the 09-29 mailbox password change. Whatever reads `~/.env` cannot send mail.
   - Pre-change copies are in `~/incident-monitor/state/` (`monitor.sh.pre-20261002`, `crontab.pre-20261002`).
   - The monitor script lives outside the repo, at `~/incident-monitor/`.
 - **2. Probe removed.** Commit `a634140e`. `/php-probe.php` now returns 404.
@@ -53,6 +58,18 @@ Follow-up to the [September 2026 incident](security-incident-2026-09-28.md). Tha
     - It copies `generated/.htaccess` into the build.
   - AGENTS.md updated: production-mode rules and the module-change sequence (`setup:upgrade --keep-generated`).
   - Correction to the 10-02 audit wording: `default` mode does not display exceptions to visitors either. The real gains are that `pub/static` is no longer written on demand from the web, plus performance.
+- **5. reCAPTCHA live** (2026-10-02 ~09:28).
+  - Invisible v2 keys (owner-created) are stored encrypted in `core_config_data`.
+  - Enabled for: customer login, create account, forgot password, place order, contact, resend confirmation email.
+  - Verified:
+    - The widget renders with valid keys on all of those pages ("protected by reCAPTCHA", no key or domain error).
+    - A headless browser gets Google's image challenge, as intended for bots.
+    - A login POST without a token is rejected ("Can not resolve reCAPTCHA parameter").
+    - REST `payment-information` (place order) without a token returns 400 "ReCaptcha validation failed".
+  - **Newsletter left off on purpose.** The theme's footer form `newsletter-footer-validate-detail` renders no reCAPTCHA, so enforcing it would break every footer signup. Follow-up below.
+  - **Wishlist pop-up login fixed.** `Sm_CartQuickPro`'s pop-up template looks for a layout block `mini-login-msp-recaptcha` from the old MSP module, which no longer exists, so it had no widget and would have failed. The new theme layout `app/design/frontend/Sm/market/Sm_CartQuickPro/layout/default.xml` defines it with Magento's reCAPTCHA. Separately, clicking the wishlist heart as a guest opens no pop-up, with or without this change; that is an existing theme issue.
+  - Not yet proven: that the secret key validates a real, human-solved token. Owner to test a login and a checkout in a normal browser.
+  - **Cache gotcha:** after adding the layout file, `cache:flush` left stale entries in `var/cache` (Symfony file cache, 1,198 of 1,237 files kept) and in `var/page_cache`. Emptying both directories fixed it. A later test showed flush and clean do invalidate new entries; the cause of the stale ones is unknown (possibly entries from around the production switch). **If a layout or config change doesn't show after `cache:flush`, run `rm -rf var/cache/* var/page_cache/*`.**
 - **6. HSTS live.** Commit `dd86cdfe`. `Strict-Transport-Security: max-age=86400` on pages, 403s and 404s. HTTP already redirects to HTTPS.
 
 ### Follow-ups from Phase 1
@@ -60,7 +77,10 @@ Follow-up to the [September 2026 incident](security-incident-2026-09-28.md). Tha
 - [ ] **Item 5:** owner creates reCAPTCHA keys at https://www.google.com/recaptcha/admin/create. Choose **Challenge (v2) → Invisible reCAPTCHA badge**, domain `verifiedbotanicals.com`. Then Claude configures them and tests login, registration and checkout, including the custom InteracETransfer payment method.
 - [ ] **On or after 2026-10-09:** raise HSTS to `max-age=31536000`, if there were no certificate problems.
 - [ ] **On or after 2026-10-05:** delete `~/build-prod-20261002/rollback` (the pre-production `generated/` and symlinked `pub/static`).
-- [ ] **Owner decision:** delete `~/env.php.bak-20261001173951`. It is a full copy of the current secrets and differs only by the session path.
+- [x] Deleted `~/env.php.bak-20261001173951` (owner approved 2026-10-02).
+- [ ] Add reCAPTCHA to the theme's footer newsletter form, then enable `recaptcha_frontend/type_for/newsletter`.
+- [ ] Update or retire the stale SMTP password in `~/.env`. First find what uses it.
+- [ ] Wishlist heart does nothing for guests (existing theme bug, not security).
 - [ ] Not security, noted while auditing:
   - `var/log/cron.log` is 805 MB and has no rotation.
   - Braintree is enabled but unconfigured, which logs "merchantId needs to be set" about 30 times a day.
@@ -128,6 +148,7 @@ Each habit gets a short discussion and decision, then setup, then a recorded res
 
 ## Log
 
+- 2026-10-02 — reCAPTCHA live (item 5, owner check pending). Monitor email fixed (sender domain). Old env.php backup deleted. Found the attacker's 09-10 mail() probe from 139.28.18.122; added to the incident tracker.
 - 2026-10-02 — Patch-alert design decided: sources Adobe + Magefan + Mirasvit, phone push (Pushover recommended), "major" and "patched" rules set by Claude. Not built yet.
 - 2026-10-02 — Owner requested unmissable, repeating patch alerts; added under Phase 2 A (to plan later).
 - 2026-10-02 — Phase 1 items 1–4 and 6 done (details above). Magefan task queued. Item 5 waiting on reCAPTCHA keys.
