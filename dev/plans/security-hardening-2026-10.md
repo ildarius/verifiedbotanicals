@@ -81,6 +81,17 @@ Each habit gets a short discussion and decision, then setup, then a recorded res
   - Subscribe to Adobe security bulletins (APSB) and the Magento release notes.
   - Agree a rule: critical isolated patches within 72 hours, full patch releases within 2 weeks.
   - Write the upgrade and patch runbook, including re-applying `m2-hotfixes/` after any Composer rebuild.
+  - [ ] **Unmissable patch alerts** (owner request 2026-10-02; plan later). When a new security patch is discovered for anything this site runs (Magento core, extensions, PHP, and so on), send the owner an alert that keeps repeating until the patch is applied:
+    - Normal patches: at least once a day, every day, until applied.
+    - Major or critical vulnerabilities: every 6 hours.
+    - Every alert states how much time has passed since the first alert for that patch ("first alerted 2 days 6 hours ago").
+    - It should be impossible to ignore. Stopping it requires applying the patch, or the owner explicitly acknowledging it.
+    - To decide when planning:
+      - Sources: Adobe APSB bulletins, Sansec, the Packagist/GitHub advisory database (`composer audit`), Magefan and Mirasvit release notes.
+      - How to tell "major" from "normal" (for example CVSS ≥ 9 or Adobe priority 1).
+      - Delivery channels: email plus something louder, such as SMS or a phone push notification.
+      - Where the alert state lives.
+      - How "patched" is detected automatically.
 - [ ] **B. WAF / virtual patching.**
   - Choose between Cloudflare (free or Pro, with managed rules) and Sansec Shield.
   - Put it in front of the site and restrict the origin to it.
@@ -98,5 +109,6 @@ Each habit gets a short discussion and decision, then setup, then a recorded res
 
 ## Log
 
+- 2026-10-02 — Owner requested unmissable, repeating patch alerts; added under Phase 2 A (to plan later).
 - 2026-10-02 — Phase 1 items 1–4 and 6 done (details above). Magefan task queued. Item 5 waiting on reCAPTCHA keys.
 - 2026-10-02 — Tracker created. Live audit: Magento 2.4.9 + VULN-39341 hotfix, PHP 8.3, admin 2FA (Google) forced with 1 user enrolled, admin IP-restricted, `env.php` 0600, no scripts in media/static, `.git`/`env.php`/logs not web-reachable, DB clean of injected scripts (core_config_data, CMS blocks/pages, status labels).
