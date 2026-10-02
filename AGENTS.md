@@ -6,7 +6,8 @@
 - Composer-based install rooted at this directory
 - Custom PHP code belongs in `app/code/`
 - Custom themes belong in `app/design/frontend/`
-- **Current Mode:** `production` (requires `setup:di:compile` and `setup:static-content:deploy` for most changes).
+- **Current Mode:** `production` (switched for real on 2026-10-02; before that the live site ran in `default` mode). Do not run `setup:di:compile` or `setup:static-content:deploy` directly against the live tree. Use `dev/tools/deploy-production.sh`, which builds both in a copy outside the web root and swaps them in with ~15s of maintenance. Needed after JS/CSS/LESS/knockout-template/theme-asset changes and after di.xml/plugin/constructor/module changes. PHP method bodies and `.phtml` edits only need `cache:flush`.
+- **Module installs/upgrades/enable/disable in production:** put the code or `config.php` change in place, `maintenance:enable`, `setup:upgrade --keep-generated` (without the flag it wipes `generated/` and `pub/static`, which breaks the live site), then `dev/tools/deploy-production.sh`; it turns maintenance off at the end.
 - **Custom Modules:**
   - `Coduzion/Lookbook`: Lookbook functionality.
   - `Magefan/*`: Blog, Admin User Guide, Wysiwyg Advanced, etc.
@@ -165,8 +166,7 @@ After these fixes, rerunning `import_products.php` and normal theme widgets shou
 
 ## Common Commands
 
-- Dependency injection compile: `php bin/magento setup:di:compile`
-- Static content deploy: `php bin/magento setup:static-content:deploy -f`
+- Production deploy (DI compile + static content, built off-site then swapped in): `dev/tools/deploy-production.sh` (`--build-only` to just test the build)
 - Cache clean: `php bin/magento cache:clean`
 - Cache flush: `php bin/magento cache:flush`
 - Upgrade setup scripts/schema: `php bin/magento setup:upgrade`
@@ -329,7 +329,7 @@ SELECT
 - `market_theme_install_import_shop1`
 - `market_theme_install_import_fresh1`
 - If Playwright clicks fail on those controls because they are hidden, invoking the page's own button handlers by DOM ID is a workable fallback.
-- `php bin/magento setup:static-content:deploy -f` still has a vendor theme compatibility issue in `Sm/themecore`; the storefront can still serve in current mode, but production-mode hardening is still unfinished.
+- (Resolved 2026-10-02) The old `Sm/themecore` static-deploy issue no longer reproduces: `setup:static-content:deploy -f --strategy standard -t Sm/market -l en_US` completes cleanly, and the site now runs in production mode.
 - A DDEV restart during this run left `ddev-magento-web` stuck in `/pre-start.sh` without launching `/start.sh`. Manually starting `/start.sh` inside the container restored nginx/php-fpm and brought the site back.
 
 ## Hand-off
