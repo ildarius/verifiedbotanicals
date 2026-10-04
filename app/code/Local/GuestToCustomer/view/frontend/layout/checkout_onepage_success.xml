@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Local_GuestToCustomer::css/success.css"/>
+    </head>
+    <body>
+        <!-- Rendered inside checkout.success, right under "Your order # is ..." -->
+        <referenceContainer name="order.success.additional.info">
+            <block class="Local\GuestToCustomer\Block\Success\Account"
+                   name="local.guest_to_customer.success"
+                   template="Local_GuestToCustomer::success/account.phtml"
+                   cacheable="false"/>
+        </referenceContainer>
+        <!-- Core "Create an Account" box: only shown by our template when the order is still a guest order. -->
+        <move element="checkout.registration" destination="local.guest_to_customer.success"/>
+    </body>
+</page>

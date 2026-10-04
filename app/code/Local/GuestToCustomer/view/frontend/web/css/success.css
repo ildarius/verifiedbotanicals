@@ -1,0 +1,49 @@
+.local-g2c {
+    margin: 20px 0 24px;
+    max-width: 980px;
+    padding: 22px 24px;
+    border: 1px solid #d9e5dc;
+    border-left: 4px solid #2c5b45;
+    background: #f7fbf8;
+}
+
+.local-g2c [hidden] {
+    display: none !important;
+}
+
+.local-g2c__title {
+    margin: 0 0 8px;
+    font-size: 20px;
+}
+
+.local-g2c__text {
+    margin: 0 0 16px;
+    line-height: 1.6;
+}
+
+.local-g2c__form {
+    max-width: 380px;
+}
+
+.local-g2c__form .field {
+    margin-bottom: 14px;
+}
+
+.local-g2c__form input[readonly] {
+    background: #eef3ef;
+    color: #444;
+}
+
+.local-g2c .actions-toolbar {
+    margin: 4px 0 12px;
+}
+
+.local-g2c__note {
+    margin: 0;
+    font-size: 13px;
+    color: #5d7165;
+}
+
+.local-g2c__error {
+    margin-bottom: 14px;
+}

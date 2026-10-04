@@ -8,4 +8,9 @@
             </argument>
         </arguments>
     </type>
+    <type name="Local\GuestToCustomer\Model\NewAccountSession">
+        <arguments>
+            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
 </config>

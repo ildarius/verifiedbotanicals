@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Customer:etc/sections.xsd">
+    <!-- The shopper is signed in by this request: refresh the header/account sections. -->
+    <action name="guesttocustomer/account/setpassword">
+        <section name="*"/>
+    </action>
+</config>

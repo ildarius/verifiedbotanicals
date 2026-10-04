@@ -1,0 +1,86 @@
+<?php
+/**
+ * @var \Local\GuestToCustomer\Block\Success\Account $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+$mode = $block->getMode();
+?>
+<?php if ($mode === $block::MODE_FALLBACK): ?>
+    <?= $block->getChildHtml('checkout.registration') ?>
+<?php elseif ($mode === $block::MODE_SET_PASSWORD): ?>
+    <div class="local-g2c" data-mage-init='{"Local_GuestToCustomer/js/set-password": {}}'>
+        <div data-role="form-state">
+            <h2 class="local-g2c__title"><?= $escaper->escapeHtml(__('Your order is saved to your account')) ?></h2>
+            <p class="local-g2c__text">
+                <?= $escaper->escapeHtml(
+                    __('We\'ve created an account for %1. Set a password now to track your order and check out faster next time.', '<strong>' . $escaper->escapeHtml($block->getEmail()) . '</strong>'),
+                    ['strong']
+                ) ?>
+            </p>
+            <form class="local-g2c__form" action="<?= $escaper->escapeUrl($block->getSetPasswordUrl()) ?>" method="post" novalidate>
+                <?= $block->getBlockHtml('formkey') ?>
+                <div class="field">
+                    <label class="label" for="g2c-email"><span><?= $escaper->escapeHtml(__('Email')) ?></span></label>
+                    <div class="control">
+                        <input type="email" id="g2c-email" class="input-text" readonly
+                               value="<?= $escaper->escapeHtmlAttr($block->getEmail()) ?>" autocomplete="username">
+                    </div>
+                </div>
+                <div class="field required">
+                    <label class="label" for="g2c-password"><span><?= $escaper->escapeHtml(__('Password')) ?></span></label>
+                    <div class="control">
+                        <input type="password" name="password" id="g2c-password" class="input-text"
+                               data-password-min-length="<?= (int)$block->getMinimumPasswordLength() ?>"
+                               data-password-min-character-sets="<?= (int)$block->getRequiredCharacterClassesNumber() ?>"
+                               data-validate="{required:true, 'validate-customer-password':true}"
+                               autocomplete="new-password">
+                    </div>
+                </div>
+                <div class="field required">
+                    <label class="label" for="g2c-password-confirmation"><span><?= $escaper->escapeHtml(__('Confirm Password')) ?></span></label>
+                    <div class="control">
+                        <input type="password" name="password_confirmation" id="g2c-password-confirmation" class="input-text"
+                               data-validate="{required:true, equalTo:'#g2c-password'}"
+                               autocomplete="new-password">
+                    </div>
+                </div>
+                <div class="message error local-g2c__error" data-role="error" hidden><div></div></div>
+                <div class="actions-toolbar">
+                    <button type="submit" class="action primary"><span><?= $escaper->escapeHtml(__('Set your password')) ?></span></button>
+                </div>
+                <p class="local-g2c__note">
+                    <?= $escaper->escapeHtml(
+                        __('Not now? You can set it any time with %1 on the sign-in page.', '<a href="' . $escaper->escapeUrl($block->getForgotPasswordUrl()) . '">' . $escaper->escapeHtml(__('Forgot Your Password?')) . '</a>'),
+                        ['a']
+                    ) ?>
+                </p>
+            </form>
+        </div>
+        <div data-role="done-state" hidden>
+            <h2 class="local-g2c__title"><?= $escaper->escapeHtml(__('You\'re all set')) ?></h2>
+            <p class="local-g2c__text"><?= $escaper->escapeHtml(__('Your password is saved and you\'re signed in.')) ?></p>
+            <div class="actions-toolbar">
+                <a class="action primary" href="<?= $escaper->escapeUrl($block->getOrderViewUrl()) ?>"><span><?= $escaper->escapeHtml(__('View your order')) ?></span></a>
+            </div>
+        </div>
+    </div>
+<?php elseif ($mode === $block::MODE_EXISTING): ?>
+    <div class="local-g2c">
+        <h2 class="local-g2c__title"><?= $escaper->escapeHtml(__('Your order is saved to your account')) ?></h2>
+        <p class="local-g2c__text">
+            <?= $escaper->escapeHtml(
+                __('This order is saved to the account for %1. Sign in to track it.', '<strong>' . $escaper->escapeHtml($block->getEmail()) . '</strong>'),
+                ['strong']
+            ) ?>
+        </p>
+        <div class="actions-toolbar">
+            <a class="action primary" href="<?= $escaper->escapeUrl($block->getLoginUrl()) ?>"><span><?= $escaper->escapeHtml(__('Sign in')) ?></span></a>
+        </div>
+        <p class="local-g2c__note">
+            <?= $escaper->escapeHtml(
+                __('Haven\'t set a password yet? Use %1 to set one.', '<a href="' . $escaper->escapeUrl($block->getForgotPasswordUrl()) . '">' . $escaper->escapeHtml(__('Forgot Your Password?')) . '</a>'),
+                ['a']
+            ) ?>
+        </p>
+    </div>
+<?php endif; ?>

@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace Local\GuestToCustomer\Observer;
 
 use Local\GuestToCustomer\Model\Config;
+use Local\GuestToCustomer\Model\NewAccountSession;
 use Local\GuestToCustomer\Service\GuestOrderConverter;
+use Magento\Framework\App\Area;
+use Magento\Framework\App\State;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Sales\Api\Data\OrderInterface;
@@ -20,6 +23,8 @@ class ConvertGuestOrderObserver implements ObserverInterface
     public function __construct(
         private readonly Config $config,
         private readonly GuestOrderConverter $converter,
+        private readonly NewAccountSession $newAccountSession,
+        private readonly State $appState,
         private readonly LoggerInterface $logger
     ) {
     }
@@ -39,6 +44,13 @@ class ConvertGuestOrderObserver implements ObserverInterface
                     $order,
                     $this->config->isLinkExisting((int)$order->getStoreId())
                 );
+
+                // Lets the success page offer "Set your password" to this shopper (storefront only, not admin orders).
+                if ($result['result'] === GuestOrderConverter::RESULT_CREATED
+                    && $this->appState->getAreaCode() !== Area::AREA_ADMINHTML
+                ) {
+                    $this->newAccountSession->remember($order, (int)$result['customer_id']);
+                }
             } catch (\Throwable $exception) {
                 $this->logger->error(
                     sprintf('GuestToCustomer: could not convert order #%s', $order->getIncrementId()),

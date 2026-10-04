@@ -10,6 +10,6 @@
 - `dev/notes/homepage-asset-portability-handoff.md` — Completed homepage asset portability handoff and tracked-asset migration notes.
 - `dev/notes/kratom-product-import-csv-format.md` — Product import CSV format reference.
 - `dev/notes/checkout-e-transfer-flow.md` — Interac e-Transfer checkout, success-page, and email flow notes.
-- `dev/notes/guest-to-customer.md` — Automatic guest-order → customer account conversion (`Local/GuestToCustomer`), admin settings, backfill CLI.
+- `dev/notes/guest-to-customer.md` — Automatic guest-order → customer account conversion (`Local/GuestToCustomer`), success-page "Set your password" form, admin settings, backfill CLI.
 - `dev/notes/rotating-special-deals.md` — Rotating special deals implementation background and module behavior.
 - `dev/notes/search-and-category-opensearch-fix-2026-05-20.md` — OpenSearch/category fix notes.
