@@ -4,10 +4,10 @@ Follow-up to the [September 2026 incident](security-incident-2026-09-28.md). Tha
 
 ## Where we left off
 
-- **Current step:** Phase 1, item 5 (reCAPTCHA). It is live and blocks bots. **Waiting on the owner** for one real-browser check: log in, and place a test order (see item 5 results). Also confirm monitor test email #2 arrived.
+- **Current step:** Phase 1, item 5 (reCAPTCHA). It is live and blocks bots. **Waiting on the owner** for one real-browser check: log in, and place a test order (see item 5 results). Monitor email works (fixed 2026-10-04 via Gmail SMTP).
 - **Queued:** the Magefan Blog CVE-2026-79323 fix and module updates (see "Queued tasks"). It is ready to run in its own session.
 - **Next:** Phase 2, ongoing habits, worked through one at a time with the owner, starting with A.
-- **Last updated:** 2026-10-02.
+- **Last updated:** 2026-10-04.
 
 ## Phase 1 — Quick fixes (Claude, owner approved 2026-10-02)
 
@@ -40,7 +40,14 @@ Follow-up to the [September 2026 incident](security-incident-2026-09-28.md). Tha
   - Fix (09:25):
     - `monitor.sh` now sends its own mail through `sendmail -f verifiedbota@verifiedbotanicals.com`. SPF `ip4:66.206.23.226` passes, and cPanel DKIM-signs for the domain.
     - Cron mail is turned off (`MAILTO=""`).
-    - Test email #2 was sent the same way at 09:25. *Owner: confirm it arrived.*
+    - Test email #2 was sent the same way at 09:25. **It never arrived either.**
+  - **2026-10-04: email delivery fixed for real.**
+    - Tests #1–3, all sent through the server's own mail (exim, including as `@verifiedbotanicals.com`), never reached the Gmail account, not even Spam or Trash; checked through the Gmail connector. No bounces came back. Exim's log is root-only, so the cause is unknown.
+    - New `~/incident-monitor/notify.php` sends through Magento's own authenticated SMTP account (Gmail SMTP as `verifiedbotanicals@gmail.com`), the route the store's order emails already use. The password is read from Magento config at send time and never stored or printed. Magento's config reader already decrypts encrypted fields, so the script decrypts only a still-encrypted value.
+    - `monitor.sh` `notify()` uses it, falls back to sendmail, and logs any failure to `monitor.log`.
+    - Test #4 (`notify.php`) and test #5 (the monitor's own `notify()`) both landed in the **inbox** on 2026-10-04 at 07:39.
+    - Dependency: alerts now rely on the store's Gmail app password. If Google revokes it, store emails and monitor emails fail together, and the failure is logged in `monitor.log`. Phase 2's phone push will be the independent second channel.
+    - Process alerts now include the parent PID. The 2026-10-04 00:45 alert for a bare `[php]` process was most likely a PHP process caught mid-exit (its command line already cleared); it happened once and no other check fired.
   - `~/.env`'s SMTP password for `verifiedbota@verifiedbotanicals.com` is stale (`535 Incorrect authentication data`), probably since the 09-29 mailbox password change. Whatever reads `~/.env` cannot send mail.
   - Pre-change copies are in `~/incident-monitor/state/` (`monitor.sh.pre-20261002`, `crontab.pre-20261002`).
   - The monitor script lives outside the repo, at `~/incident-monitor/`.
@@ -81,6 +88,8 @@ Follow-up to the [September 2026 incident](security-incident-2026-09-28.md). Tha
 - [ ] Add reCAPTCHA to the theme's footer newsletter form, then enable `recaptcha_frontend/type_for/newsletter`.
 - [ ] Update or retire the stale SMTP password in `~/.env`. First find what uses it.
 - [ ] Wishlist heart does nothing for guests (existing theme bug, not security).
+- [ ] Owner: is **71.14.241.66** yours? It logged into cPanel on 2026-04-17 and 2026-04-29 (`~/.lastlogin`), before the incident; every other login is 24.157.155.108.
+- [ ] Server mail (exim) apparently doesn't reach Gmail. Anything else relying on it, such as PHP `mail()` or cPanel notices, is probably silent too. Low priority; Magento uses Gmail SMTP.
 - [ ] Not security, noted while auditing:
   - `var/log/cron.log` is 805 MB and has no rotation.
   - Braintree is enabled but unconfigured, which logs "merchantId needs to be set" about 30 times a day.
@@ -148,6 +157,7 @@ Each habit gets a short discussion and decision, then setup, then a recorded res
 
 ## Log
 
+- 2026-10-04 — Monitor email fixed: it now sends through Magento's Gmail SMTP; tests #4 and #5 confirmed in the inbox. Process alerts include the parent PID.
 - 2026-10-02 — reCAPTCHA live (item 5, owner check pending). Monitor email fixed (sender domain). Old env.php backup deleted. Found the attacker's 09-10 mail() probe from 139.28.18.122; added to the incident tracker.
 - 2026-10-02 — Patch-alert design decided: sources Adobe + Magefan + Mirasvit, phone push (Pushover recommended), "major" and "patched" rules set by Claude. Not built yet.
 - 2026-10-02 — Owner requested unmissable, repeating patch alerts; added under Phase 2 A (to plan later).
