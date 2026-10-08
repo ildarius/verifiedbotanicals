@@ -7,7 +7,7 @@ Follow-up to the [September 2026 incident](security-incident-2026-09-28.md). Tha
 - **Current step:** Phase 1, item 5 (reCAPTCHA). It is live and blocks bots. **Waiting on the owner** for one real-browser check: log in, and place a test order (see item 5 results). Monitor email works (fixed 2026-10-04 via Gmail SMTP).
 - **Queued:** the Magefan Blog CVE-2026-79323 fix and module updates (see "Queued tasks"). It is ready to run in its own session.
 - **Next:** Phase 2, ongoing habits, worked through one at a time with the owner, starting with A.
-- **Last updated:** 2026-10-04.
+- **Last updated:** 2026-10-08.
 
 ## Phase 1 — Quick fixes (Claude, owner approved 2026-10-02)
 
@@ -88,6 +88,13 @@ Follow-up to the [September 2026 incident](security-incident-2026-09-28.md). Tha
 - [ ] Add reCAPTCHA to the theme's footer newsletter form, then enable `recaptcha_frontend/type_for/newsletter`.
 - [ ] Update or retire the stale SMTP password in `~/.env`. First find what uses it.
 - [ ] Wishlist heart does nothing for guests (existing theme bug, not security).
+- [ ] **Webmail login alert, 2026-10-08.** `webmaild - serving 182.8.195.240`, 14 alerts from 03:45 onward.
+  - Investigated: it is the first-ever webmail login of `web@verifiedbotanicals.com` (the mailbox shared with the Indonesian SEO contractor), at 03:55 EDT / 14:55 WIB.
+  - The IP is in Semarang, Central Java, on Telkomsel mobile (AS23693). One session.
+  - Activity: only the default-folder setup; nothing sent, read or deleted. No forwarders, filters or identity changes.
+  - Looks legitimate. **Owner to confirm with the employee.**
+  - Then add a webmail rule: report each new (mailbox, mobile network) pair once, from the Roundcube session tables, instead of alerting on the `webmaild` process. An IP allowlist won't work, because mobile IPs rotate.
+  - Bug fixed: alert signatures included PIDs, so one ongoing condition re-emailed every 15 minutes. They are now ignored in the signature.
 - [ ] Owner: is **71.14.241.66** yours? It logged into cPanel on 2026-04-17 and 2026-04-29 (`~/.lastlogin`), before the incident; every other login is 24.157.155.108.
 - [ ] Server mail (exim) apparently doesn't reach Gmail. Anything else relying on it, such as PHP `mail()` or cPanel notices, is probably silent too. Low priority; Magento uses Gmail SMTP.
 - [ ] Not security, noted while auditing:
@@ -157,6 +164,7 @@ Each habit gets a short discussion and decision, then setup, then a recorded res
 
 ## Log
 
+- 2026-10-08 — Webmail login alert investigated (web@, Telkomsel Indonesia, looks legitimate, awaiting confirmation). Fixed alert re-sending caused by changing PIDs.
 - 2026-10-04 — Monitor email fixed: it now sends through Magento's Gmail SMTP; tests #4 and #5 confirmed in the inbox. Process alerts include the parent PID.
 - 2026-10-02 — reCAPTCHA live (item 5, owner check pending). Monitor email fixed (sender domain). Old env.php backup deleted. Found the attacker's 09-10 mail() probe from 139.28.18.122; added to the incident tracker.
 - 2026-10-02 — Patch-alert design decided: sources Adobe + Magefan + Mirasvit, phone push (Pushover recommended), "major" and "patched" rules set by Claude. Not built yet.
