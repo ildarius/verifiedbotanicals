@@ -95,6 +95,17 @@ Follow-up to the [September 2026 incident](security-incident-2026-09-28.md). Tha
   - Looks legitimate. **Owner to confirm with the employee.**
   - Then add a webmail rule: report each new (mailbox, mobile network) pair once, from the Roundcube session tables, instead of alerting on the `webmaild` process. An IP allowlist won't work, because mobile IPs rotate.
   - Bug fixed: alert signatures included PIDs, so one ongoing condition re-emailed every 15 minutes. They are now ignored in the signature.
+- [ ] **Outage, 2026-10-08, 02:31:40 to about 07:27 EDT (about 5 h, whole server).**
+  - Cause: the nightly ModSecurity vendor update installed a Comodo WAF rule that the server's regex engine rejects: `comodo_apache/30_Apps_OtherApps.conf` line 6035, "invalid range in character class". The nightly restart stopped Apache, and it could not start again.
+  - cPanel's service monitor could not recover it, because the config was invalid.
+  - Fixed by the owner as root:
+    - `whmapi1 modsec_make_config_inactive config=modsec_vendor_configs/comodo_apache/30_Apps_OtherApps.conf`
+    - `apachectl -t` → Syntax OK
+    - `restartsrv_httpd`
+  - Verified afterwards: storefront, product, cart, login, GraphQL and static files all return 200; admin returns 403 from outside the allowlist.
+  - Follow-ups:
+    - Sysadmin: re-enable the file once Comodo ships a fixed rule set, and stop a bad vendor update from taking Apache down. Emailed 2026-10-08.
+    - **Monitor: add an uptime check** that alerts when the store doesn't return 200. This outage went unnoticed for about 5 hours.
 - [ ] Owner: is **71.14.241.66** yours? It logged into cPanel on 2026-04-17 and 2026-04-29 (`~/.lastlogin`), before the incident; every other login is 24.157.155.108.
 - [ ] Server mail (exim) apparently doesn't reach Gmail. Anything else relying on it, such as PHP `mail()` or cPanel notices, is probably silent too. Low priority; Magento uses Gmail SMTP.
 - [ ] Not security, noted while auditing:
@@ -164,6 +175,7 @@ Each habit gets a short discussion and decision, then setup, then a recorded res
 
 ## Log
 
+- 2026-10-08 — Server-wide outage 02:31–07:27 caused by a broken Comodo WAF rule update; the rule file was disabled and Apache restarted. An uptime check is to be added to the monitor.
 - 2026-10-08 — Webmail login alert investigated (web@, Telkomsel Indonesia, looks legitimate, awaiting confirmation). Fixed alert re-sending caused by changing PIDs.
 - 2026-10-04 — Monitor email fixed: it now sends through Magento's Gmail SMTP; tests #4 and #5 confirmed in the inbox. Process alerts include the parent PID.
 - 2026-10-02 — reCAPTCHA live (item 5, owner check pending). Monitor email fixed (sender domain). Old env.php backup deleted. Found the attacker's 09-10 mail() probe from 139.28.18.122; added to the incident tracker.
