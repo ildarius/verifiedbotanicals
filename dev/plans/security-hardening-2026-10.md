@@ -185,6 +185,7 @@ Each habit gets a short discussion and decision, then setup, then a recorded res
 
 ## Log
 
+- 2026-10-08 — Monitor false positive at 08:45 (it caught uptime.sh and its curl mid-run); both are now allowlisted in the process check, verified with 10 samples and 0 leaks.
 - 2026-10-08 — Uptime and content check live, every 5 minutes with email alerts.
 - 2026-10-08 — Server-wide outage 02:31–07:27 caused by a broken Comodo WAF rule update; the rule file was disabled and Apache restarted. An uptime check is to be added to the monitor.
 - 2026-10-08 — Webmail login alert investigated (web@, Telkomsel Indonesia, looks legitimate, awaiting confirmation). Fixed alert re-sending caused by changing PIDs.
