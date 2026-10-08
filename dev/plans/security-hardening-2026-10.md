@@ -105,7 +105,17 @@ Follow-up to the [September 2026 incident](security-incident-2026-09-28.md). Tha
   - Verified afterwards: storefront, product, cart, login, GraphQL and static files all return 200; admin returns 403 from outside the allowlist.
   - Follow-ups:
     - Sysadmin: re-enable the file once Comodo ships a fixed rule set, and stop a bad vendor update from taking Apache down. Emailed 2026-10-08.
-    - **Monitor: add an uptime check** that alerts when the store doesn't return 200. This outage went unnoticed for about 5 hours.
+    - [x] **Uptime and content check added** (2026-10-08): `~/incident-monitor/uptime.sh`, run from cron every 5 minutes.
+      - A page counts as healthy only with HTTP 200 **and** the expected content:
+        - Homepage: at least 3 product links and 3 prices, plus the store name.
+        - The versioned `require.js` loads and is real JS.
+        - The first homepage product page has an add-to-cart button and a price.
+        - Category `red-vein-kratom.html` has products and the toolbar.
+        - Cart shows "Shopping Cart"; the login form is present.
+        - Every page has a complete `</html>` and the footer, and takes 15 s or less.
+      - Emails via `notify.php`: after 2 consecutive failures (5 to 10 minutes), every 60 minutes while still down, with time since the first failure, and once on recovery with the total downtime. Log: `~/incident-monitor/uptime.log`.
+      - Tested: a page returning 200 but missing store content was flagged. The `[TEST] STORE DOWN` and `[TEST] RECOVERED` emails reached the inbox. Test overrides: `UPTIME_BASE`, `UPTIME_STATE`, `UPTIME_LOG`, `UPTIME_TEST=1`.
+      - Limit: it alerts through Magento's Gmail SMTP login. If the database is also down, sending may fail (logged). Phase 2's phone push is the independent channel.
 - [ ] Owner: is **71.14.241.66** yours? It logged into cPanel on 2026-04-17 and 2026-04-29 (`~/.lastlogin`), before the incident; every other login is 24.157.155.108.
 - [ ] Server mail (exim) apparently doesn't reach Gmail. Anything else relying on it, such as PHP `mail()` or cPanel notices, is probably silent too. Low priority; Magento uses Gmail SMTP.
 - [ ] Not security, noted while auditing:
@@ -175,6 +185,7 @@ Each habit gets a short discussion and decision, then setup, then a recorded res
 
 ## Log
 
+- 2026-10-08 — Uptime and content check live, every 5 minutes with email alerts.
 - 2026-10-08 — Server-wide outage 02:31–07:27 caused by a broken Comodo WAF rule update; the rule file was disabled and Apache restarted. An uptime check is to be added to the monitor.
 - 2026-10-08 — Webmail login alert investigated (web@, Telkomsel Indonesia, looks legitimate, awaiting confirmation). Fixed alert re-sending caused by changing PIDs.
 - 2026-10-04 — Monitor email fixed: it now sends through Magento's Gmail SMTP; tests #4 and #5 confirmed in the inbox. Process alerts include the parent PID.
