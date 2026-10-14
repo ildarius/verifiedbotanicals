@@ -7,7 +7,7 @@ Follow-up to the [September 2026 incident](security-incident-2026-09-28.md). Tha
 - **Current step:** Phase 1, item 5 (reCAPTCHA). It is live and blocks bots. **Waiting on the owner** for one real-browser check: log in, and place a test order (see item 5 results). Monitor email works (fixed 2026-10-04 via Gmail SMTP).
 - **Queued:** the Magefan Blog CVE-2026-79323 fix and module updates (see "Queued tasks"). It is ready to run in its own session.
 - **Next:** Phase 2, ongoing habits, worked through one at a time with the owner, starting with A.
-- **Last updated:** 2026-10-08.
+- **Last updated:** 2026-10-14.
 
 ## Phase 1 — Quick fixes (Claude, owner approved 2026-10-02)
 
@@ -88,12 +88,13 @@ Follow-up to the [September 2026 incident](security-incident-2026-09-28.md). Tha
 - [ ] Add reCAPTCHA to the theme's footer newsletter form, then enable `recaptcha_frontend/type_for/newsletter`.
 - [ ] Update or retire the stale SMTP password in `~/.env`. First find what uses it.
 - [ ] Wishlist heart does nothing for guests (existing theme bug, not security).
-- [ ] **Webmail login alert, 2026-10-08.** `webmaild - serving 182.8.195.240`, 14 alerts from 03:45 onward.
+- [x] **Webmail login alert, 2026-10-08.** `webmaild - serving 182.8.195.240`, 14 alerts from 03:45 onward.
   - Investigated: it is the first-ever webmail login of `web@verifiedbotanicals.com` (the mailbox shared with the Indonesian SEO contractor), at 03:55 EDT / 14:55 WIB.
   - The IP is in Semarang, Central Java, on Telkomsel mobile (AS23693). One session.
   - Activity: only the default-folder setup; nothing sent, read or deleted. No forwarders, filters or identity changes.
   - Looks legitimate. **Owner to confirm with the employee.**
   - Then add a webmail rule: report each new (mailbox, mobile network) pair once, from the Roundcube session tables, instead of alerting on the `webmaild` process. An IP allowlist won't work, because mobile IPs rotate.
+  - **Closed 2026-10-14 (owner decision): webmail logins are not flagged at all.** The process check now ignores every `webmaild - serving <IP>`, not just 24.157.155.x. From 10-08 to 10-14 the contractor's session (182.8.195.226, same Telkomsel range) caused 277 alerts. Their mailbox activity was checked: nothing sent, no forwarders, filters or identity changes. The per-mailbox rule was dropped. Trade-off: a stolen mailbox password used through webmail will no longer show up in the monitor.
   - Bug fixed: alert signatures included PIDs, so one ongoing condition re-emailed every 15 minutes. They are now ignored in the signature.
 - [ ] **Outage, 2026-10-08, 02:31:40 to about 07:27 EDT (about 5 h, whole server).**
   - Cause: the nightly ModSecurity vendor update installed a Comodo WAF rule that the server's regex engine rejects: `comodo_apache/30_Apps_OtherApps.conf` line 6035, "invalid range in character class". The nightly restart stopped Apache, and it could not start again.
@@ -185,6 +186,7 @@ Each habit gets a short discussion and decision, then setup, then a recorded res
 
 ## Log
 
+- 2026-10-14 — Owner decision: the monitor no longer flags webmail logins (`webmaild` from any IP). This ends the 277 repeat alerts from the contractor's web@ session (182.8.195.226). The 10-08 webmail item is closed.
 - 2026-10-08 — Monitor false positive at 08:45 (it caught uptime.sh and its curl mid-run); both are now allowlisted in the process check, verified with 10 samples and 0 leaks.
 - 2026-10-08 — Uptime and content check live, every 5 minutes with email alerts.
 - 2026-10-08 — Server-wide outage 02:31–07:27 caused by a broken Comodo WAF rule update; the rule file was disabled and Apache restarted. An uptime check is to be added to the monitor.
