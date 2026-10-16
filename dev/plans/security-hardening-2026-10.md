@@ -186,6 +186,7 @@ Each habit gets a short discussion and decision, then setup, then a recorded res
 
 ## Log
 
+- 2026-10-16 — The 10-14 webmail rule missed finished sessions: an exited webmaild child that has not been reaped shows in `ps` as `[webmaild - serv] <defunct>` (name cut to 15 characters). That caused 9 alerts from 10-16 02:00 onward. Those lines are now ignored too. Backup: `incident-monitor/state/monitor.sh.bak-2026-10-16`.
 - 2026-10-14 — Owner decision: the monitor no longer flags webmail logins (`webmaild` from any IP). This ends the 277 repeat alerts from the contractor's web@ session (182.8.195.226). The 10-08 webmail item is closed.
 - 2026-10-08 — Monitor false positive at 08:45 (it caught uptime.sh and its curl mid-run); both are now allowlisted in the process check, verified with 10 samples and 0 leaks.
 - 2026-10-08 — Uptime and content check live, every 5 minutes with email alerts.
