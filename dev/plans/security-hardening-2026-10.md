@@ -7,7 +7,7 @@ Follow-up to the [September 2026 incident](security-incident-2026-09-28.md). Tha
 - **Current step:** Phase 1, item 5 (reCAPTCHA). It is live and blocks bots. **Waiting on the owner** for one real-browser check: log in, and place a test order (see item 5 results). Monitor email works (fixed 2026-10-04 via Gmail SMTP).
 - **Queued:** the Magefan Blog CVE-2026-79323 fix and module updates (see "Queued tasks"). It is ready to run in its own session.
 - **Next:** Phase 2, ongoing habits, worked through one at a time with the owner, starting with A.
-- **Last updated:** 2026-10-14.
+- **Last updated:** 2026-10-28.
 
 ## Phase 1 — Quick fixes (Claude, owner approved 2026-10-02)
 
@@ -186,6 +186,9 @@ Each habit gets a short discussion and decision, then setup, then a recorded res
 
 ## Log
 
+- 2026-10-28 — Two alerts reviewed, both legitimate:
+  - `authorized_keys` changed on 10-23 17:12. Only one line was appended, an `ildar@Claude-PC` ed25519 key (`SHA256:BLuuKlPo…JiJ5Q`). The owner confirmed it is theirs. The old baseline hash equals the current file without that line. The monitor was re-baselined after 445 repeat alerts.
+  - `[php]` (PPID 1) process alerts, about 15 since 10-04. These were Magento `cron:run` children caught on the 15-minute tick while starting or exiting. In that instant their cmdline is empty, so `ps` shows `[php]` and the allowlist misses it. This was reproduced live at 08:24:08. Fix: the process check now waits 5 s and alerts only on PIDs that are still unrecognised. Tested: a persistent unknown process still alerts, and a short-lived one does not. Backup: `incident-monitor/state/monitor.sh.pre-recheck-20261028`.
 - 2026-10-16 — The 10-14 webmail rule missed finished sessions: an exited webmaild child that has not been reaped shows in `ps` as `[webmaild - serv] <defunct>` (name cut to 15 characters). It caused 9 alerts between 10-10 and 10-16. Those lines are now ignored too. Backup: `incident-monitor/state/monitor.sh.bak-2026-10-16`.
 - 2026-10-14 — Owner decision: the monitor no longer flags webmail logins (`webmaild` from any IP). This ends the 277 repeat alerts from the contractor's web@ session (182.8.195.226). The 10-08 webmail item is closed.
 - 2026-10-08 — Monitor false positive at 08:45 (it caught uptime.sh and its curl mid-run); both are now allowlisted in the process check, verified with 10 samples and 0 leaks.
