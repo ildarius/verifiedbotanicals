@@ -7,7 +7,7 @@ Follow-up to the [September 2026 incident](security-incident-2026-09-28.md). Tha
 - **Current step:** Phase 1, item 5 (reCAPTCHA). It is live and blocks bots. **Waiting on the owner** for one real-browser check: log in, and place a test order (see item 5 results). Monitor email works (fixed 2026-10-04 via Gmail SMTP).
 - **Queued:** the Magefan Blog CVE-2026-79323 fix and module updates (see "Queued tasks"). It is ready to run in its own session.
 - **Next:** Phase 2, ongoing habits, worked through one at a time with the owner, starting with A.
-- **Last updated:** 2026-10-28.
+- **Last updated:** 2026-10-29.
 
 ## Phase 1 — Quick fixes (Claude, owner approved 2026-10-02)
 
@@ -186,6 +186,11 @@ Each habit gets a short discussion and decision, then setup, then a recorded res
 
 ## Log
 
+- 2026-10-29 — Process allowlist tightened (owner approved). The old list was bare substrings matched anywhere in the command line (`tr`, `sleep`, `node `, `cut`, `find`…), so almost any process slipped past. For example, `/tmp/.x --start` passed because "start" contains "tr".
+  - The new check trusts whole process trees by origin: Claude Code's remote server, SSH logins under root's sshd, and crontab jobs under root's cron (the crontab is hash-checked).
+  - Outside those trees, it allows only exact command lines: php-fpm pool workers and webmail under their root masters, detached Magento `cron:run` and queue workers, and the `systemd --user` services. Where the parent does not vouch for a process, its real binary (`/proc/PID/exe`) must also match. Children of php-fpm are never trusted, so a webshell is still flagged.
+  - Tested: the live process list is clean. Five orphaned fakes are all flagged, including copies of the exact Magento worker command line and `systemd --user`, plus `/tmp/.x --start sleep node`. Backup: `incident-monitor/state/monitor.sh.pre-anchored-allowlist-20261029`.
+  - Known gap: a new kind of long-running process outside these trees (for example, a Claude background job that outlives its session) will now alert. Review it and extend the rules if it is legitimate.
 - 2026-10-28 — Two alerts reviewed, both legitimate:
   - `authorized_keys` changed on 10-23 17:12. Only one line was appended, an `ildar@Claude-PC` ed25519 key (`SHA256:BLuuKlPo…JiJ5Q`). The owner confirmed it is theirs. The old baseline hash equals the current file without that line. The monitor was re-baselined after 445 repeat alerts.
   - `[php]` (PPID 1) process alerts, about 15 since 10-04. These were Magento `cron:run` children caught on the 15-minute tick while starting or exiting. In that instant their cmdline is empty, so `ps` shows `[php]` and the allowlist misses it. This was reproduced live at 08:24:08. Fix: the process check now waits 5 s and alerts only on PIDs that are still unrecognised. Tested: a persistent unknown process still alerts, and a short-lived one does not. Backup: `incident-monitor/state/monitor.sh.pre-recheck-20261028`.
