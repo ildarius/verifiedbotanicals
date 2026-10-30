@@ -256,6 +256,17 @@
     margin: 0 0 1.2em;
 }
 
+/* Pull quotes: Magento's lib default is 1.4rem (14px at the theme's 62.5% root), smaller than the 20px body. */
+.blog-post-view .post-body blockquote {
+    font-size: 2.4rem;
+    line-height: 1.5;
+}
+
+.blog-post-view .post-body blockquote p {
+    font-size: inherit;
+    line-height: inherit;
+}
+
 .blog-post-view .post-body h2 {
     margin: 2.35em 0 0.75em;
     font-size: clamp(1.7rem, 3vw, 2rem);
