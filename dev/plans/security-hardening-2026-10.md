@@ -186,6 +186,11 @@ Each habit gets a short discussion and decision, then setup, then a recorded res
 
 ## Log
 
+- 2026-10-29 — Blog editor access (owner request). Admin UI allowlist in `.htaccess` now also admits **36.77.200.0/24** (Telkom Indonesia) for blog editor `agus`. The admin API token rules (`.htaccess`, `pub/.htaccess`) still allow only 24.157.155.x. Monitor re-baselined.
+  - New role **Blog Editor** (role_id 30), user `agus` (user_id 27). Allowed: blog posts (view/save/publish), tags (save), categories (view only), media gallery for images. Denied (checked via ACL): post delete, category edit, comments, import, blog config, sales, customers, catalog, CMS pages, system/users/integrations, `Local_BlogApi`. 2FA (Google) is forced; agus enrolls on first login via the emailed link.
+  - Trade-off: the whole /24 can reach the admin login page, not just agus. Remove the range from `.htaccess` when the engagement ends, and deactivate the user.
+  - Noticed, not touched: `authorization_role` has ~25 orphan `U` rows (theme demo leftovers like `mageplaza`, `ytcdemo`) with no matching `admin_user`. Harmless but worth a cleanup.
+
 - 2026-10-29 — Process allowlist tightened (owner approved). The old list was bare substrings matched anywhere in the command line (`tr`, `sleep`, `node `, `cut`, `find`…), so almost any process slipped past. For example, `/tmp/.x --start` passed because "start" contains "tr".
   - The new check trusts whole process trees by origin: Claude Code's remote server, SSH logins under root's sshd, and crontab jobs under root's cron (the crontab is hash-checked).
   - Outside those trees, it allows only exact command lines: php-fpm pool workers and webmail under their root masters, detached Magento `cron:run` and queue workers, and the `systemd --user` services. Where the parent does not vouch for a process, its real binary (`/proc/PID/exe`) must also match. Children of php-fpm are never trusted, so a webshell is still flagged.
