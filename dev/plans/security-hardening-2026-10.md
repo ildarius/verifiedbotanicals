@@ -191,6 +191,7 @@ Each habit gets a short discussion and decision, then setup, then a recorded res
   - Trade-off: the whole /24 can reach the admin login page, not just agus. Remove the range from `.htaccess` when the engagement ends, and deactivate the user.
   - 2026-10-30 fix: agus logged in but always landed on `tfa/tfa/accessdenied` ("Sorry, you need permissions"). Forced 2FA requires `Magento_TwoFactorAuth::tfa` on the role to enroll or verify (`ControllerActionPredispatch`); the role lacked it. Granted it alone (not `Magento_User::acl`, not `Magento_TwoFactorAuth::config`), so users still can't see or manage other users. Any future restricted role needs it too.
   - 2026-10-30: second Blog Editor user `blogger` (user_id 28, the store's own Gmail address). No new IP added; it can log in only from an allowlisted range.
+  - 2026-11-01 (owner request): admin UI allowlist also admits **180.245.0.0/16** (Telkom Indonesia). That is a whole /16 (65,536 addresses), so the login page plus forced 2FA are the only barrier for that range. Admin API token rules unchanged.
   - Noticed, not touched: `authorization_role` has ~25 orphan `U` rows (theme demo leftovers like `mageplaza`, `ytcdemo`) with no matching `admin_user`. Harmless but worth a cleanup.
 
 - 2026-10-29 — Process allowlist tightened (owner approved). The old list was bare substrings matched anywhere in the command line (`tr`, `sleep`, `node `, `cut`, `find`…), so almost any process slipped past. For example, `/tmp/.x --start` passed because "start" contains "tr".
