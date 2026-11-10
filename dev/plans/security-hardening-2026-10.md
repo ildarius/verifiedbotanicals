@@ -7,7 +7,8 @@ Follow-up to the [September 2026 incident](security-incident-2026-09-28.md). Tha
 - **Current step:** Phase 1, item 5 (reCAPTCHA). It is live and blocks bots. **Waiting on the owner** for one real-browser check: log in, and place a test order (see item 5 results). Monitor email works (fixed 2026-10-04 via Gmail SMTP).
 - **Queued:** the Magefan Blog CVE-2026-79323 fix and module updates (see "Queued tasks"). It is ready to run in its own session.
 - **Next:** Phase 2, ongoing habits, worked through one at a time with the owner, starting with A.
-- **Last updated:** 2026-10-29.
+- **Open from the 2026-11-07 alert review (see Log):** several sign-ins await owner confirmation. The monitor gaps it found were fixed and the monitor re-baselined on 2026-11-08. **After any composer install or deploy, run `~/incident-monitor/monitor.sh --baseline`**, or the new webroot file check alerts on every added vendor file.
+- **Last updated:** 2026-11-08.
 
 ## Phase 1 — Quick fixes (Claude, owner approved 2026-10-02)
 
@@ -186,6 +187,27 @@ Each habit gets a short discussion and decision, then setup, then a recorded res
 
 ## Log
 
+- 2026-11-08 — Fixed the monitor gaps from the 11-07 review (owner request) and re-baselined. Backup: `incident-monitor/state/monitor.sh.pre-blindspots-20261108`.
+  - **New PHP/script files anywhere in the webroot**, including git-ignored `vendor/`: a new `webroot_scripts` list (about 171k files, `state/webroot-scripts.base`) alerts on additions. The writable dirs keep their existing check. composer installs add files here, so re-baseline after a deploy.
+  - **Log check** now also matches `<?php`, `<?=`, `base64_decode` and "Requested store is not found" (which appears only on attack days), and reports the line count. Against the 10-07 to 10-19 logs it catches all 41 injection lines instead of 1. No benign log line matches.
+  - **Git check** records each uncommitted change with a hash of the file's content and alerts only on new lines. Committing a change that existed at baseline no longer leaves a repeating alert, which caused the daily `Tracked code changed: >` emails from 10-29 to 11-07. A further edit to an already-modified file still alerts.
+  - **Email wording:** alert emails and the "Cleared" email now say that log alerts clear on the next check whether or not anyone reviewed them.
+  - Tested on a copy with mail stubbed out: a clean run, a simulated new `pub/` file and a new `vendor/` file, an uncommitted edit, the rewound 10-07 system log, and the Cleared email. A live check after the re-baseline returned `ok`. The 8 minutes the re-baseline skipped in the logs were checked by hand: no matches.
+- 2026-11-07 — Reviewed security emails from 10-19 to 11-07 (owner request). No sign of a server compromise; nothing was changed on the site or in the monitor.
+  - **Real attacks, both failed:**
+    - 10-19 00:46: 75.127.12.183 (HostPapa, `python-requests`) sent log-injection payloads through `/graphql` to write the webshell `pub/session_XIhq2m.php`, then requested it and got 404s. The file does not exist, every PHP file in `pub/` is tracked, and no PHP outside `generated/`, `var/` and `pub/static/` changed since 10-03 other than committed code and `app/etc/config.php`. `env.php` has no backdoor markers, and the VULN-39341 hotfix is applied.
+    - 10-20 and 10-24: 193.242.184.224 (Rockhoster) sent 15 POSTs to the address-file upload path; all returned 403 or 404. The alert's "NOT blocked" wording only means non-403.
+  - **False alarms or expected:**
+    - `Tracked code changed: >` (daily since 10-29): the baseline ran while `.htaccess` was uncommitted, and the commit followed seconds later. The changes are the three allowlist additions the owner requested (confirmed in session history). The alert repeats until the next re-baseline.
+    - `pkgacct` (10-20, 10-31, 11-07): looks like cPanel's nightly backup, but this account can't read the root backup logs, so it is not confirmed.
+    - `authorized_keys` and `[php]` alerts: already reviewed on 10-28; the key fingerprint still matches.
+    - The `systemd --user` restart at 02:26 on 11-07 was system-wide: root and bizousoft restarted too, right after cron restarted.
+  - **Admin access checked:** three admin users only (`playwright-admin`, `agus`, `blogger`). The three Indonesian IPs made 1,441 admin requests with one browser signature and none reached sales, customer, user, integration or config pages. Only 180.245.68.212 has been seen in the allowed 180.245.0.0/16.
+  - **Monitor gaps found, not fixed:**
+    - New PHP files outside `pub/media`, `pub/static`, `var`, `generated` and temp directories go unnoticed: the script scan skips the rest of the webroot, and the git check ignores untracked files. That includes the 10-19 target path.
+    - The log check only matches `eval(` and similar strings, so 1 of the 41 PHP-injection log lines since 10-01 alerted.
+    - "Cleared" only means no new log lines appeared, not that anything was reviewed.
+  - **Awaiting owner confirmation:** Google sign-ins (10-25 `certifiedkratom` on "Google emulator", 10-25 `verifiedbotanicals` on Windows, 11-02 `ildarius` and `ikhakimov.mocap` on Windows); the 10-25 Instagram hacked-account lock on `ildee` and the login code that followed; and, from the host, the 11-07 backup plus root logins on 11-01 to 11-04 from 172.103.231.225, 146.112.64.89 and 64.114.31.106.
 - 2026-10-29 — Blog editor access (owner request). Admin UI allowlist in `.htaccess` now also admits **36.77.200.0/24** (Telkom Indonesia) for blog editor `agus`. The admin API token rules (`.htaccess`, `pub/.htaccess`) still allow only 24.157.155.x. Monitor re-baselined.
   - New role **Blog Editor** (role_id 30), user `agus` (user_id 27). Allowed: blog posts (view/save/publish), tags (save), categories (view only), media gallery for images. Denied (checked via ACL): post delete, category edit, comments, import, blog config, sales, customers, catalog, CMS pages, system/users/integrations, `Local_BlogApi`. 2FA (Google) is forced; agus enrolls on first login via the emailed link.
   - Trade-off: the whole /24 can reach the admin login page, not just agus. Remove the range from `.htaccess` when the engagement ends, and deactivate the user.
