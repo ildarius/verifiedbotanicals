@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <!-- Every admin password login must pass 2FA again (see the observer for why). -->
+    <event name="backend_auth_user_login_success">
+        <observer name="local_polyshellguard_reset_tfa_grant_on_login"
+                  instance="Local\PolyShellGuard\Observer\ResetTwoFactorGrantOnLogin"/>
+    </event>
+</config>
