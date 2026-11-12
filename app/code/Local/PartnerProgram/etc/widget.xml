@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget id="local_partner_program_page" class="Local\PartnerProgram\Block\Widget\PartnerPage">
+        <label translate="true">Partner Program Page</label>
+        <description translate="true">Partner program explainer with a commission table computed from live prices, the affiliate cart rule and the affiliate program.</description>
+        <parameters>
+            <parameter name="program_id" xsi:type="text" visible="true" required="true">
+                <label translate="true">Mirasvit Affiliate program ID</label>
+                <value>1</value>
+            </parameter>
+            <parameter name="size_attribute" xsi:type="text" visible="true" required="true">
+                <label translate="true">Pack size attribute code</label>
+                <value>kratom_weight</value>
+            </parameter>
+            <parameter name="pack_sizes" xsi:type="text" visible="true" required="true">
+                <label translate="true">Pack sizes in the commission table (option labels, comma separated)</label>
+                <value>100g,250g,500g</value>
+            </parameter>
+            <parameter name="example_sizes" xsi:type="text" visible="true">
+                <label translate="true">Pack sizes in the regulars example (comma separated, empty hides the example)</label>
+                <value>100g,250g</value>
+            </parameter>
+            <parameter name="example_regulars" xsi:type="text" visible="true">
+                <label translate="true">Numbers of regulars in the example (comma separated)</label>
+                <value>25,50</value>
+            </parameter>
+            <parameter name="contact_name" xsi:type="text" visible="true">
+                <label translate="true">Contact name in How to join</label>
+            </parameter>
+            <parameter name="contact_phone" xsi:type="text" visible="true">
+                <label translate="true">Contact phone in How to join</label>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

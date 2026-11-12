@@ -15,6 +15,7 @@
   - `Sm/*`: Core and Market theme-specific modules.
   - `Local/PageBuilderDirectiveFix`: Currently an empty shell.
   - `Local/GuestToCustomer`: Converts every guest order into a customer account (or attaches it to the existing account for that email). Notes: [dev/notes/guest-to-customer.md](/home/verifiedbota/public_html/dev/notes/guest-to-customer.md).
+  - `Local/PartnerProgram`: Public `/partner-program` page for smoke shops; prices, discount, commission and hold period are read live. Quickstart: [app/code/Local/PartnerProgram/README.md](/home/verifiedbota/public_html/app/code/Local/PartnerProgram/README.md). Tracker: [dev/plans/partner-landing-page-progress.md](/home/verifiedbota/public_html/dev/plans/partner-landing-page-progress.md).
 - **Custom Themes:**
   - `Sm/market`: Primary theme (active, ID 5).
   - `Sm/market_2`, `Sm/market_3`, `Sm/market_4`: Available theme variants (inactive).

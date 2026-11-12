@@ -1,0 +1,274 @@
+<?php
+/**
+ * Partner program page. Words only: every price and percentage comes from the block (live data).
+ * Writing rules: plain words, no em dashes, no effect or health claims.
+ *
+ * @var \Local\PartnerProgram\Block\Widget\PartnerPage $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+$m = $block->getModel();
+$rates = $m['rates'];
+$pct = static fn (float $v): string => $escaper->escapeHtml($block->formatPercent($v));
+$money = static fn (float $v): string => $escaper->escapeHtml($block->formatMoney($v));
+$size = static fn (string $s): string => $escaper->escapeHtml($block->formatSize($s));
+$hold = (int)$m['holding_days'];
+$contactName = $block->getContactName();
+$contactPhone = $block->getContactPhone();
+$sameRate = $rates && abs($rates['commission_first'] - $rates['commission_other']) < 0.001;
+?>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&amp;family=IBM+Plex+Sans:wght@400;600;700&amp;display=swap">
+<style>
+.vbpp{--vbpp-green:#065f46;--vbpp-brand:#22ab5a;--vbpp-mint:#ecf7f1;--vbpp-mint-text:#d4ede1;--vbpp-zebra:#f6faf8;--vbpp-ink:#1b2430;--vbpp-muted:#3f4a55;--vbpp-rule:#d5dbe0;
+  font-family:'IBM Plex Sans',system-ui,sans-serif;color:var(--vbpp-ink);max-width:1040px;margin:0 auto;padding:24px 0 56px;font-size:16px;line-height:1.6}
+.vbpp *{box-sizing:border-box}
+.vbpp h1,.vbpp h2,.vbpp h3{font-family:inherit;color:var(--vbpp-ink);text-transform:none;letter-spacing:-0.01em;margin:0}
+.vbpp p{margin:0}
+.vbpp-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--vbpp-green)}
+.vbpp-hero h1{margin-top:12px;font-size:46px;line-height:1.08;font-weight:700}
+.vbpp .vbpp-lead{margin-top:20px;font-size:18px;color:var(--vbpp-muted);max-width:680px}
+.vbpp-stats{margin-top:32px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.vbpp-stat{border-radius:6px;padding:20px 24px;background:var(--vbpp-mint)}
+.vbpp-stat--dark{background:var(--vbpp-green);color:#fff}
+.vbpp-stat-num{font-size:56px;font-weight:700;line-height:1;color:var(--vbpp-green)}
+.vbpp-stat--dark .vbpp-stat-num{color:#fff}
+.vbpp-stat-label{margin-top:8px;font-size:17px;font-weight:600}
+.vbpp-stat-note{margin-top:4px;font-size:15px;color:var(--vbpp-muted)}
+.vbpp-stat--dark .vbpp-stat-note{color:var(--vbpp-mint-text)}
+.vbpp-section{margin-top:56px}
+.vbpp-section h2{font-size:32px;line-height:1.15;font-weight:700}
+.vbpp-section > .vbpp-eyebrow + h2{margin-top:8px}
+.vbpp .vbpp-intro{margin-top:12px;color:var(--vbpp-muted);max-width:720px}
+.vbpp-steps{margin:20px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.vbpp-steps li{margin:0;border-top:2px solid var(--vbpp-brand);padding-top:14px}
+.vbpp-step-num{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;color:var(--vbpp-green)}
+.vbpp-steps h3,.vbpp-details h3{margin-top:6px;font-size:18px;font-weight:600}
+.vbpp .vbpp-steps p,.vbpp .vbpp-details p{margin-top:6px;font-size:15px;color:var(--vbpp-muted)}
+.vbpp-table-wrap{margin-top:24px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.vbpp table{width:100%;min-width:560px;border-collapse:collapse;font-size:15px;margin:0}
+.vbpp .vbpp-table-title{margin:0 0 10px;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--vbpp-muted)}
+.vbpp th,.vbpp td{padding:9px 12px;text-align:right;vertical-align:bottom;border:0}
+.vbpp th:first-child,.vbpp td:first-child{text-align:left}
+.vbpp-table--main thead tr{background:var(--vbpp-green);color:#fff}
+.vbpp-table--main thead th{font-weight:600;font-size:14px;line-height:1.3;color:#fff}
+.vbpp tbody th{font-weight:400;color:var(--vbpp-ink)}
+.vbpp-table--example thead tr{border-bottom:2px solid var(--vbpp-green)}
+.vbpp-table--example thead th{font-weight:600;font-size:14px;line-height:1.3}
+.vbpp tbody tr{border-bottom:1px solid var(--vbpp-rule)}
+.vbpp tbody tr:nth-child(even){background:var(--vbpp-zebra)}
+.vbpp-earn{font-weight:600;color:var(--vbpp-green)}
+.vbpp-earn--strong{font-weight:700;color:var(--vbpp-green)}
+.vbpp-from{font-size:12px;color:var(--vbpp-muted);font-weight:400}
+.vbpp .vbpp-note{margin-top:10px;font-size:14px;color:var(--vbpp-muted)}
+.vbpp-details{margin-top:20px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 40px}
+.vbpp-details ul{margin:6px 0 0;padding-left:20px;font-size:15px;color:var(--vbpp-muted)}
+.vbpp-details li{margin:2px 0}
+.vbpp-join{margin-top:56px;background:var(--vbpp-ink);color:#fff;border-radius:8px;padding:32px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px 32px}
+.vbpp-join h2{color:#fff;font-size:30px;font-weight:700}
+.vbpp .vbpp-join p{margin-top:8px;color:#d3dae0;max-width:560px}
+.vbpp-join-phone{display:inline-block;font-size:26px;font-weight:700;color:#fff !important;text-decoration:none;background:var(--vbpp-green);border-radius:6px;padding:12px 20px;white-space:nowrap}
+.vbpp-join-phone:hover,.vbpp-join-phone:focus{background:#044a37;color:#fff;text-decoration:none}
+.vbpp-fine{margin-top:28px;border-top:1px solid var(--vbpp-rule);padding-top:14px;font-size:13px;color:var(--vbpp-muted)}
+.vbpp-fine p + p{margin-top:4px}
+@media (max-width:767px){
+  .vbpp{padding:8px 0 40px;font-size:16px}
+  .vbpp-hero h1{font-size:34px}
+  .vbpp-lead{font-size:17px}
+  .vbpp-stats,.vbpp-steps,.vbpp-details{grid-template-columns:minmax(0,1fr)}
+  .vbpp-stat-num{font-size:46px}
+  .vbpp-section{margin-top:44px}
+  .vbpp-section h2{font-size:26px}
+  .vbpp-join{padding:24px 20px}
+  .vbpp-join h2{font-size:24px}
+  .vbpp-join-phone{font-size:22px}
+}
+</style>
+
+<div class="vbpp">
+<?php if (!$rates): ?>
+    <section class="vbpp-hero">
+        <div class="vbpp-eyebrow"><?= $escaper->escapeHtml(__('Partner program for smoke shops and head shops')) ?></div>
+        <h1><?= $escaper->escapeHtml(__('How our partner program works')) ?></h1>
+        <p class="vbpp-lead"><?= $escaper->escapeHtml(__('Shops that join hand out Verified Botanicals shop cards. Customers who order with the shop\'s code get a discount, and the shop earns a commission on their orders. The program details are being updated. Please contact us for the current terms.')) ?></p>
+    </section>
+<?php else: ?>
+    <section class="vbpp-hero">
+        <div class="vbpp-eyebrow"><?= $escaper->escapeHtml(__('Partner program for smoke shops and head shops')) ?></div>
+        <h1><?= $escaper->escapeHtml(__('How our partner program works')) ?></h1>
+        <p class="vbpp-lead">
+            <?= $escaper->escapeHtml(__('Partner shops get Verified Botanicals shop cards to hand out at the counter. Each card carries the shop\'s partner code and a QR code with the shop\'s link.')) ?>
+            <?php if ($sameRate): ?>
+                <?= $escaper->escapeHtml(__('A customer who orders with the code saves %1 on their first order, and the shop earns %2 of what they spend on that order and on every order after it.', $block->formatPercent($rates['discount']), $block->formatPercent($rates['commission_other']))) ?>
+            <?php else: ?>
+                <?= $escaper->escapeHtml(__('A customer who orders with the code saves %1 on their first order. The shop earns %2 of what they spend on that order and %3 on every order after it.', $block->formatPercent($rates['discount']), $block->formatPercent($rates['commission_first']), $block->formatPercent($rates['commission_other']))) ?>
+            <?php endif; ?>
+        </p>
+        <div class="vbpp-stats">
+            <div class="vbpp-stat">
+                <div class="vbpp-stat-num"><?= $pct($rates['discount']) ?></div>
+                <div class="vbpp-stat-label"><?= $escaper->escapeHtml(__('off for your customers')) ?></div>
+                <div class="vbpp-stat-note"><?= $escaper->escapeHtml(__('on their first order with your code')) ?></div>
+            </div>
+            <div class="vbpp-stat vbpp-stat--dark">
+                <div class="vbpp-stat-num"><?= $pct($rates['commission_other']) ?></div>
+                <div class="vbpp-stat-label"><?= $escaper->escapeHtml(__('commission for your shop')) ?></div>
+                <div class="vbpp-stat-note"><?= $escaper->escapeHtml(__('of every order they place, before tax and shipping')) ?></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="vbpp-section" aria-labelledby="vbpp-how">
+        <div class="vbpp-eyebrow"><?= $escaper->escapeHtml(__('How it works')) ?></div>
+        <h2 id="vbpp-how"><?= $escaper->escapeHtml(__('Three steps')) ?></h2>
+        <ol class="vbpp-steps">
+            <li>
+                <div class="vbpp-step-num">01</div>
+                <h3><?= $escaper->escapeHtml(__('Hand out a card')) ?></h3>
+                <p><?= $escaper->escapeHtml(__('Keep a stack at the counter and give one to any customer who asks about kratom.')) ?></p>
+            </li>
+            <li>
+                <div class="vbpp-step-num">02</div>
+                <h3><?= $escaper->escapeHtml(__('They order online')) ?></h3>
+                <p><?= $escaper->escapeHtml(__('The customer scans the QR code or enters your partner code at checkout. Either one links them to your shop. The %1 off applies when they enter the code.', $block->formatPercent($rates['discount']))) ?></p>
+            </li>
+            <li>
+                <div class="vbpp-step-num">03</div>
+                <h3><?= $escaper->escapeHtml(__('Your shop earns')) ?></h3>
+                <p>
+                    <?php if ($sameRate): ?>
+                        <?= $escaper->escapeHtml(__('%1 of their first order, and of every order they place after it.', $block->formatPercent($rates['commission_other']))) ?>
+                    <?php else: ?>
+                        <?= $escaper->escapeHtml(__('%1 of their first order, and %2 of every order they place after it.', $block->formatPercent($rates['commission_first']), $block->formatPercent($rates['commission_other']))) ?>
+                    <?php endif; ?>
+                </p>
+            </li>
+        </ol>
+    </section>
+
+    <?php if ($m['rows']): ?>
+    <section class="vbpp-section" aria-labelledby="vbpp-earn">
+        <div class="vbpp-eyebrow"><?= $escaper->escapeHtml(__('Commission')) ?></div>
+        <h2 id="vbpp-earn"><?= $escaper->escapeHtml(__('What your shop can earn')) ?></h2>
+        <p class="vbpp-intro">
+            <?= $escaper->escapeHtml(__('The commission is a share of what the customer pays for the products, before tax and shipping. A new customer gets %1 off their first order with your code, so on that order your shop earns %2 of our regular price. Every order after that is at full price, and your shop earns %3 of it for as long as the customer keeps ordering.', $block->formatPercent($rates['discount']), $block->formatPercent($m['first_order_share']), $block->formatPercent($rates['commission_other']))) ?>
+        </p>
+
+        <div class="vbpp-table-wrap">
+            <div class="vbpp-eyebrow vbpp-table-title" id="vbpp-t1"><?= $escaper->escapeHtml(__('Per order, by pack size')) ?></div>
+            <table class="vbpp-table--main" aria-labelledby="vbpp-t1">
+                <thead>
+                    <tr>
+                        <th scope="col"><?= $escaper->escapeHtml(__('Pack size')) ?></th>
+                        <th scope="col"><?= $escaper->escapeHtml(__('Regular price')) ?></th>
+                        <th scope="col"><?= $escaper->escapeHtml(__('First order:')) ?><br><?= $escaper->escapeHtml(__('customer pays')) ?></th>
+                        <th scope="col"><?= $escaper->escapeHtml(__('First order:')) ?><br><?= $escaper->escapeHtml(__('your shop earns')) ?></th>
+                        <th scope="col"><?= $escaper->escapeHtml(__('Every order after:')) ?><br><?= $escaper->escapeHtml(__('your shop earns')) ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($m['rows'] as $row): ?>
+                    <tr>
+                        <th scope="row"><?= $size($row['size']) ?></th>
+                        <td><?php if ($row['from']): ?><span class="vbpp-from"><?= $escaper->escapeHtml(__('from')) ?></span> <?php endif; ?><?= $money($row['price']) ?></td>
+                        <td><?= $money($row['first_pays']) ?></td>
+                        <td class="vbpp-earn"><?= $money($row['first_earn']) ?></td>
+                        <td class="vbpp-earn--strong"><?= $money($row['later_earn']) ?></td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+
+        <?php if ($m['examples']): ?>
+        <div class="vbpp-table-wrap">
+            <div class="vbpp-eyebrow vbpp-table-title" id="vbpp-t2"><?= $escaper->escapeHtml(__('Example: regulars who buy one pack a month')) ?></div>
+            <table class="vbpp-table--example" aria-labelledby="vbpp-t2">
+                <thead>
+                    <tr>
+                        <th scope="col"><?= $escaper->escapeHtml(__('Regulars')) ?></th>
+                        <?php foreach ($m['example_sizes'] as $exampleSize): ?>
+                            <th scope="col"><?= $escaper->escapeHtml(__('%1 a month:', $block->formatSize($exampleSize))) ?><br><?= $escaper->escapeHtml(__('per month')) ?></th>
+                            <th scope="col"><?= $escaper->escapeHtml(__('%1 a month:', $block->formatSize($exampleSize))) ?><br><?= $escaper->escapeHtml(__('first year')) ?></th>
+                        <?php endforeach; ?>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($m['examples'] as $example): ?>
+                    <tr>
+                        <th scope="row"><?= $escaper->escapeHtml(__('%1 regulars', $example['regulars'])) ?></th>
+                        <?php foreach ($example['cells'] as $cell): ?>
+                            <td><?= $money($cell['per_month']) ?></td>
+                            <td class="vbpp-earn--strong"><?= $money($cell['first_year']) ?></td>
+                        <?php endforeach; ?>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+        <p class="vbpp-note"><?= $escaper->escapeHtml(__('Per month is from the second month on, when every order is at full price. First year is one discounted first order plus %1 full-price orders per regular. These examples are illustrations, not a forecast.', $m['later_orders_in_first_year'])) ?></p>
+        <?php endif; ?>
+    </section>
+    <?php endif; ?>
+
+    <section class="vbpp-section" aria-labelledby="vbpp-details">
+        <div class="vbpp-eyebrow"><?= $escaper->escapeHtml(__('The details')) ?></div>
+        <h2 id="vbpp-details"><?= $escaper->escapeHtml(__('How customers, commission and payouts work')) ?></h2>
+        <div class="vbpp-details">
+            <div>
+                <h3><?= $escaper->escapeHtml(__('How a customer is linked to your shop')) ?></h3>
+                <ul>
+                    <li><?= $escaper->escapeHtml(__('They arrive through your shop link or QR code.')) ?></li>
+                    <li><?= $escaper->escapeHtml(__('They enter your partner code at checkout.')) ?></li>
+                    <li><?= $escaper->escapeHtml(__('You send us their name or email and we link them for you.')) ?></li>
+                </ul>
+            </div>
+            <div>
+                <h3><?= $escaper->escapeHtml(__('Repeat orders')) ?></h3>
+                <p><?= $escaper->escapeHtml(__('A linked customer stays linked to your shop. Your shop earns %1 on every later order they place, at full price.', $block->formatPercent($rates['commission_other']))) ?></p>
+            </div>
+            <div>
+                <h3><?= $escaper->escapeHtml(__('When commission is earned')) ?></h3>
+                <p>
+                    <?php if ($hold > 0): ?>
+                        <?= $escaper->escapeHtml(__('When the order is complete (paid and shipped). It is then held %1 days in case of a return. Cancelled or refunded orders do not earn.', $hold)) ?>
+                    <?php else: ?>
+                        <?= $escaper->escapeHtml(__('When the order is complete (paid and shipped). Cancelled or refunded orders do not earn.')) ?>
+                    <?php endif; ?>
+                </p>
+            </div>
+            <div>
+                <h3><?= $escaper->escapeHtml(__('Getting paid')) ?></h3>
+                <p>
+                    <?php if ($hold > 0): ?>
+                        <?= $escaper->escapeHtml(__('By e-Transfer, once the %1-day hold is over.', $hold)) ?>
+                    <?php else: ?>
+                        <?= $escaper->escapeHtml(__('By e-Transfer.')) ?>
+                    <?php endif; ?>
+                </p>
+            </div>
+        </div>
+    </section>
+<?php endif; ?>
+
+    <section class="vbpp-join" aria-labelledby="vbpp-join">
+        <div>
+            <h2 id="vbpp-join"><?= $escaper->escapeHtml(__('How to join')) ?></h2>
+            <p>
+                <?php if ($contactName !== ''): ?>
+                    <?= $escaper->escapeHtml(__('Call or text %1. We set up your shop\'s partner code and make your shop cards.', $contactName)) ?>
+                <?php else: ?>
+                    <?= $escaper->escapeHtml(__('Call or text us. We set up your shop\'s partner code and make your shop cards.')) ?>
+                <?php endif; ?>
+            </p>
+        </div>
+        <?php if ($contactPhone !== ''): ?>
+            <a class="vbpp-join-phone" href="<?= $escaper->escapeUrl($block->getContactPhoneHref()) ?>"><?= $escaper->escapeHtml($contactPhone) ?></a>
+        <?php endif; ?>
+    </section>
+
+    <div class="vbpp-fine">
+        <?php if ($rates && $m['rows']): ?>
+            <p><?= $escaper->escapeHtml(__('Prices shown are our current regular prices and update when our prices change.')) ?></p>
+        <?php endif; ?>
+        <p><?= $escaper->escapeHtml(__('Not intended for human consumption. Sold for botanical reference or research purposes.')) ?></p>
+    </div>
+</div>

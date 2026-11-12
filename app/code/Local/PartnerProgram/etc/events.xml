@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <!-- The partner page shows the cart rule discount and the affiliate config: refresh it when they change. -->
+    <event name="salesrule_rule_save_after">
+        <observer name="local_partner_program_clean_page_cache" instance="Local\PartnerProgram\Observer\CleanPartnerPageCache"/>
+    </event>
+    <event name="admin_system_config_changed_section_affiliate">
+        <observer name="local_partner_program_clean_page_cache" instance="Local\PartnerProgram\Observer\CleanPartnerPageCache"/>
+    </event>
+</config>
