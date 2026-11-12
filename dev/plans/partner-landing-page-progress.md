@@ -6,8 +6,8 @@ Module: `app/code/Local/PartnerProgram` (README has the Quickstart). Live: https
 
 ## Where we left off (2026-11-12)
 
-English page is live and verified. Open: French page; the guest loophole in the one-use-per-customer limit
-(see Open points); OpenSearch is down on prod.
+English page is live and verified. The one-use limit now covers guests too (Local_CouponLimitByEmail).
+Open: French page; Ildar's copy review; OpenSearch is down on prod (own session).
 
 ## Checklist
 
@@ -22,7 +22,7 @@ English page is live and verified. Open: French page; the guest loophole in the 
 - [x] Verified in Playwright: desktop 1366 px and phone 390 px, no console errors, numbers match the catalog
 - [ ] Ildar reviews the page copy
 - [ ] French page `/programme-partenaires` (English first, French next: Ildar, 2026-11-12)
-- [ ] Decide on the guest loophole below
+- [x] Guest loophole closed: `Local_CouponLimitByEmail` counts uses of rule 1 by email (Ildar: "fix it here", 2026-11-12). Tested: used email loses the discount at the shipping step, the code is refused once the email is known, and the order is refused if the discount is still on; a new email keeps it
 - [ ] Copy this tracker to `Sunny Kratom/site/affiliate_setup/partner-landing-page-progress.md` on the PC and link it from `kb/sunny-kratom.md` (the session ran on the server and could not reach those files)
 
 ## Numbers on 2026-11-12 (for checking only, the page computes them)
@@ -38,11 +38,9 @@ $3,274.50 / $6,549.00 (25 x ($8.88 + 11 x $11.10)).
 
 ## Open points
 
-- **Guests can reuse the code.** Magento only enforces "Uses per Customer" for logged-in customers
-  (`Magento\SalesRule\Model\Utility::canProcessRule` checks the quote's customer ID). Most orders here are guest
-  checkouts (Local_GuestToCustomer turns them into accounts after the order), so a returning customer who checks
-  out as a guest can use the code again. Fix option: a small plugin that rejects the affiliate rule for a guest
-  whose email already has an order with that rule.
+- **Guest reuse: fixed 2026-11-12.** Magento only enforces "Uses per Customer" by customer ID, so guests could
+  reuse the code. `Local_CouponLimitByEmail` now also counts by email (canceled orders don't count). A customer
+  can still get it again with a different email address.
 - **The QR link alone does not apply the discount.** It links the customer to the shop (cookie, 365 days), but
   the 20% off needs the code entered at checkout. The page says so in step 2.
 - **OpenSearch is not running on prod** (nothing on localhost:9200). `setup:upgrade` refuses to run, so this

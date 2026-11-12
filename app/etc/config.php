@@ -376,6 +376,7 @@ return [
         'Local_BlogApi' => 1,
         'Magefan_WysiwygAdvanced' => 1,
         'Local_PartnerProgram' => 1,
+        'Local_CouponLimitByEmail' => 1,
         'Mirasvit_Core' => 1,
         'Local_KratomSearchTweaks' => 1,
         'PayPal_BraintreeCustomerBalance' => 1,
