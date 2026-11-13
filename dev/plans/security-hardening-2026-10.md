@@ -5,7 +5,7 @@ Follow-up to the [September 2026 incident](security-incident-2026-09-28.md). Tha
 ## Where we left off
 
 - **Current step:** Phase 1, item 5 (reCAPTCHA). It is live and blocks bots. **Waiting on the owner** for one real-browser check: log in, and place a test order (see item 5 results). Monitor email works (fixed 2026-10-04 via Gmail SMTP).
-- **Magefan updates done 2026-11-13** (owner: "update asap" after the admin notice "Blog extension extremely outdated, latest 2.17.1"). Steps 1–2 of the queued task are done; step 3 (turn off native comments) still needs the owner's yes. **CrowdSec** requested the same day (Phase 2 B); see that item.
+- **Magefan updates done 2026-11-13** (owner: "update asap" after the admin notice "Blog extension extremely outdated, latest 2.17.1"). Steps 1–2 of the queued task are done; step 3 (turn off native comments) still needs the owner's yes. **CrowdSec** requested the same day (Phase 2 B): installer ready, **waiting on the owner to run it as root**.
 - **OpenSearch is down on prod** (nothing on :9200). `setup:upgrade` refuses to run; use `setup:db-schema:upgrade` + `setup:db-data:upgrade` instead (same schema/data steps, no search check). Catalog search is likely affected; needs root/host to fix.
 - **Next:** Phase 2, ongoing habits, worked through one at a time with the owner, starting with A.
 - **Open from the 2026-11-07 alert review (see Log):** several sign-ins await owner confirmation. The monitor gaps it found were fixed and the monitor re-baselined on 2026-11-08. **After any composer install or deploy, run `~/incident-monitor/monitor.sh --baseline`**, or the new webroot file check alerts on every added vendor file.
@@ -171,7 +171,16 @@ Each habit gets a short discussion and decision, then setup, then a recorded res
     - Alert state (first-seen time, last-sent time, ack) lives in a small state file next to the security monitor (`~/incident-monitor/`), outside the web root.
     - Watcher runs from cron on this server. Run frequency and the exact feed URLs are settled at build time.
     - Known risk: Mirasvit changelogs are web pages, not feeds, so scraping them may break. The watcher must alert when a source can't be fetched or parsed. Failing silently would defeat the purpose.
-- [ ] **B. WAF / virtual patching.**
+- [~] **B. WAF / virtual patching.**
+  - **CrowdSec (owner request 2026-11-13, "setup crowdsec").** Installer written and committed: `dev/tools/crowdsec/install-crowdsec.sh`. It needs **root**, which `verifiedbota` doesn't have, so **waiting on the owner to run it** (WHM > Terminal: `bash /home/verifiedbota/public_html/dev/tools/crowdsec/install-crowdsec.sh`).
+    - Engine + `crowdsec-firewall-bouncer-iptables`. Reads ea-nginx `/var/log/nginx/access.log` + `error.log` (all requests, real client IPs, including proxy-cache hits that Apache never sees), `auth.log` (sshd), `mail.log` (dovecot), `lfd.log`, cPanel `login_log`, `exim_mainlog`.
+    - Collections: linux, sshd, nginx, base-http-scenarios, http-cve, whitelist-good-actors, cpanel (+LFD), exim, dovecot. Community blocklist comes with the engine.
+    - Whitelist: 127.0.0.1, the server 66.206.23.226 (our own Playwright/monitor traffic), owner 24.157.155.108. **Not** the 36.0.0.0/8 admin range.
+    - `http-crawl-non_statics` starts in simulation (Magento AJAX could look like crawling). Review after a few days, then enforce.
+    - CSF flushes iptables on restart, so `/usr/local/csf/bin/csfpost.sh` restarts the bouncer; `csf.pignore` gets the two crowdsec binaries.
+    - Status for non-root tooling: `/var/lib/crowdsec-status/status.txt` (root cron every 10 min, group `verifiedbota`).
+    - Not covered yet: CrowdSec's Magento extension (the `crowdsecurity/magento` collection: admin brute force, card stuffing) and AppSec/WAF request inspection (needs a bouncer inside nginx; ea-nginx is cPanel-managed). Possible later steps.
+  - Cloudflare / Sansec Shield decision still open.
   - Choose between Cloudflare (free or Pro, with managed rules) and Sansec Shield.
   - Put it in front of the site and restrict the origin to it.
   - Overlaps open incident items "host-level WAF coverage" and "restrict origin access".
@@ -188,6 +197,7 @@ Each habit gets a short discussion and decision, then setup, then a recorded res
 
 ## Log
 
+- 2026-11-13 — CrowdSec installer written (`dev/tools/crowdsec/install-crowdsec.sh`), waiting on the owner to run it as root (Phase 2 B).
 - 2026-11-13 — Magefan modules updated to the latest free versions (Blog 2.10.13 → 2.13.1) and BlogGraphQl disabled (CVE-2026-79323). Details in [magefan-blog-cve-2026-79323.md](magefan-blog-cve-2026-79323.md). Backups: `~/backup-pre-magefan-20261113-171741.sql.gz`, `~/backup-magefan-code-20261113-171741.tar.gz`.
 - 2026-11-08 — Fixed the monitor gaps from the 11-07 review (owner request) and re-baselined. Backup: `incident-monitor/state/monitor.sh.pre-blindspots-20261108`.
   - **New PHP/script files anywhere in the webroot**, including git-ignored `vendor/`: a new `webroot_scripts` list (about 171k files, `state/webroot-scripts.base`) alerts on additions. The writable dirs keep their existing check. composer installs add files here, so re-baseline after a deploy.
