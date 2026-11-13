@@ -35,7 +35,7 @@ class Comment extends Template implements IdentityInterface
     public function __construct(
         Template\Context $context,
         array $data = [],
-        TimezoneInterface $timezone = null
+        ?TimezoneInterface $timezone = null
     ) {
         $this->timezone = $timezone ?: \Magento\Framework\App\ObjectManager::getInstance()
             ->get(TimezoneInterface::class);
@@ -111,10 +111,10 @@ class Comment extends Template implements IdentityInterface
         );
 
         $gmtDate = $this->getComment()->getPublishDate();
-        $gmtTime = strtotime($gmtDate);
+        $gmtTime = strtotime((string)$gmtDate);
 
         $localTime = strtotime(
-            $this->timezone->date($gmtTime)->format('Y-m-d H:i:s')
+            (string)$this->timezone->date($gmtTime)->format('Y-m-d H:i:s')
         );
 
         return \Magefan\Blog\Helper\Data::getTranslatedDate(

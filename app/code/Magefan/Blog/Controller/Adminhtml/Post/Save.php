@@ -34,6 +34,13 @@ class Save extends \Magefan\Blog\Controller\Adminhtml\Post
             $model->setAuthorId($authSession->getUser()->getId());
         }
 
+        /* Prepare empty categories and coauthors */
+        foreach (['categories', 'coauthors'] as $key) {
+            if (!$request->getPost($key)) {
+                $model->setData($key, []);
+            }
+        }
+
         /* Prepare relative links */
         $data = $request->getPost('data');
         $links = isset($data['links']) ? $data['links'] : ['post' => [], 'product' => []];
@@ -55,37 +62,7 @@ class Save extends \Magefan\Blog\Controller\Adminhtml\Post
         }
 
         /* Prepare images */
-        $data = $model->getData();
-        foreach (['featured_img', 'featured_list_img', 'og_img'] as $key) {
-            if (isset($data[$key]) && is_array($data[$key])) {
-                if (!empty($data[$key]['delete'])) {
-                    $model->setData($key, null);
-                } else {
-                    if (isset($data[$key][0]['name']) && isset($data[$key][0]['tmp_name'])) {
-                        $image = $data[$key][0]['name'];
-
-                        $imageUploader = $this->_objectManager->get(
-                            \Magefan\Blog\ImageUpload::class
-                        );
-                        $image = $imageUploader->moveFileFromTmp($image, true);
-
-                        $model->setData($key, $image);
-                    } else {
-                        if (isset($data[$key][0]['url'])
-                            && false != ($position = strpos($data[$key][0]['url'], '/media/'))) {
-                            $model->setData(
-                                $key,
-                                substr($data[$key][0]['url'],  $position + strlen('/media/'))
-                            );
-                        } elseif (isset($data[$key][0]['name'])) {
-                            $model->setData($key, $data[$key][0]['name']);
-                        }
-                    }
-                }
-            } else {
-                $model->setData($key, null);
-            }
-        }
+        $this->prepareImagesBeforeSave($model, ['featured_img', 'featured_list_img', 'og_img']);
 
         /* Prepare Media Gallery */
         $data = $model->getData();

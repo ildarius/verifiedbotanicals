@@ -20,11 +20,10 @@ use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Framework\GraphQl\Exception\GraphQlNoSuchEntityException;
 use Magento\Framework\GraphQl\Exception\GraphQlAuthorizationException;
 use Magento\Store\Model\ScopeInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Psr\Log\LoggerInterface;
 
-/**
- * Class AddCommentToPost
- */
 class AddCommentToPost implements ResolverInterface
 {
     /**
@@ -48,28 +47,36 @@ class AddCommentToPost implements ResolverInterface
     private $customerRepository;
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * AddCommentToPost constructor.
      * @param ScopeConfigInterface $scopeConfig
      * @param CommentRepositoryInterface $commentRepository
      * @param PostRepositoryInterface $postRepository
      * @param CustomerRepositoryInterface $customerRepository
+     * @param LoggerInterface $logger
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         CommentRepositoryInterface $commentRepository,
         PostRepositoryInterface $postRepository,
-        CustomerRepositoryInterface $customerRepository
+        CustomerRepositoryInterface $customerRepository,
+        LoggerInterface $logger
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->commentRepository = $commentRepository;
         $this->postRepository = $postRepository;
         $this->customerRepository = $customerRepository;
+        $this->logger = $logger;
     }
 
     /**
      * @inheritdoc
      */
-    public function resolve(Field $field, $context, ResolveInfo $info, array $value = null, array $args = null)
+    public function resolve(Field $field, $context, ResolveInfo $info, ?array $value = null, ?array $args = null)
     {
         if (!$this->scopeConfig->getValue(Config::XML_PATH_EXTENSION_ENABLED, ScopeInterface::SCOPE_STORE)) {
             throw new GraphQlNoSuchEntityException(__(
@@ -150,7 +157,9 @@ class AddCommentToPost implements ResolverInterface
                 }
 
                 if (!$parentComment->isActive()) {
-                    throw new GraphQlNoSuchEntityException(__('You cannot reply to this comment. Comment is not longer exist.'));
+                    throw new GraphQlNoSuchEntityException(
+                        __('You cannot reply to this comment. Comment is not longer exist.')
+                    );
                 }
                 if (!$parentComment->getPost()
                     || $parentComment->getPost()->getId() != $post->getId()
@@ -163,8 +172,11 @@ class AddCommentToPost implements ResolverInterface
             }
 
             $this->commentRepository->save($comment);
-        } catch (\Exception $e) {
-            throw new GraphQlNoSuchEntityException(__($e->getMessage()));
+        } catch (LocalizedException $e) {
+            throw new GraphQlInputException(__($e->getMessage()));
+        } catch (\Throwable $e) {
+            $this->logger->critical($e);
+            throw new GraphQlInputException(__('Could not save the comment.'));
         }
 
         $commentsCollection = $post->getComments()

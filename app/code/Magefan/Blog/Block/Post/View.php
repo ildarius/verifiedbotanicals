@@ -21,7 +21,11 @@ class View extends AbstractPost implements \Magento\Framework\DataObject\Identit
      */
     public function getIdentities()
     {
-        return $this->getPost()->getIdentities();
+        if ($this->getPost()) {
+            return $this->getPost()->getIdentities();
+        } else {
+            return [];
+        }
     }
 
     /**
@@ -39,12 +43,20 @@ class View extends AbstractPost implements \Magento\Framework\DataObject\Identit
             $this->pageConfig->setKeywords($post->getMetaKeywords());
             $this->pageConfig->setDescription($post->getMetaDescription());
 
-            if ($this->config->getDisplayCanonicalTag(\Magefan\Blog\Model\Config::CANONICAL_PAGE_TYPE_POST)) {
-                $this->pageConfig->addRemotePageAsset(
-                    $post->getCanonicalUrl(),
-                    'canonical',
-                    ['attributes' => ['rel' => 'canonical']]
-                );
+            $layoutUpdate = $post->getData('layout_update_xml') ?: '';
+            if (false === strpos($layoutUpdate, 'rel="canonical"')) {
+                if ($this->config->getDisplayCanonicalTag(\Magefan\Blog\Model\Config::CANONICAL_PAGE_TYPE_POST)) {
+                    $this->pageConfig->addRemotePageAsset(
+                        $post->getCanonicalUrl(),
+                        'canonical',
+                        ['attributes' => ['rel' => 'canonical']]
+                    );
+                }
+            }
+
+            $robots = $post->getData('meta_robots');
+            if ($robots) {
+                $this->pageConfig->setRobots($robots);
             }
 
             $pageMainTitle = $this->getLayout()->getBlock('page.main.title');
@@ -138,5 +150,17 @@ class View extends AbstractPost implements \Magento\Framework\DataObject\Identit
             $this->_template = $template;
         }
         return parent::getTemplate();
+    }
+
+    /**
+     * Retrieve 1 if display reading time is enabled
+     * @return int
+     */
+    public function readingTimeEnabled()
+    {
+        return (int) $this->_scopeConfig->getValue(
+            'mfblog/post_view/reading_time/enabled',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 }

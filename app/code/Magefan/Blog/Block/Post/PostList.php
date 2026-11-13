@@ -33,15 +33,24 @@ class PostList extends \Magefan\Blog\Block\Post\PostList\AbstractList
      */
     protected function _prepareLayout()
     {
-        $page = (int)$this->_request->getParam(
-            \Magefan\Blog\Block\Post\PostList\Toolbar::PAGE_PARM_NAME
-        );
+        $page = (int)$this->_request->getParam($this->getPageParamName());
 
         if ($page > 1) {
             //$this->pageConfig->setRobots('NOINDEX,FOLLOW');
+            $prefix = (__('Page') . ' ' . $page) . ' - ';
+            $this->pageConfig->getTitle()->set(
+                $prefix . $this->pageConfig->getTitle()->getShortHeading()
+            );
+            if ($description = $this->pageConfig->getDescription()) {
+                $this->pageConfig->setDescription($prefix . $description);
+            }
 
-            $title = (__('Page') . ' ' . $page) . ' - ' . $this->pageConfig->getTitle()->getShortHeading();
-            $this->pageConfig->getTitle()->set($title);
+            $pageMainTitle = $this->getLayout()->getBlock('page.main.title');
+            if ($pageMainTitle) {
+                $pageMainTitle->setPageTitle(
+                    $prefix . $pageMainTitle->getPageTitle()
+                );
+            }
         }
 
         return parent::_prepareLayout();
@@ -64,6 +73,11 @@ class PostList extends \Magefan\Blog\Block\Post\PostList\AbstractList
      */
     public function getTemplate()
     {
+        if (!in_array($this->_template, ['post/list.phtml', 'Magefan_Blog::post/list.phtml'])) {
+            /* If template was not customized in layout */
+            return parent::getTemplate();
+        }
+
         if ($template = $this->templatePool->getTemplate('blog_post_list', $this->getPostTemplateType())) {
             $this->_template = $template;
         }

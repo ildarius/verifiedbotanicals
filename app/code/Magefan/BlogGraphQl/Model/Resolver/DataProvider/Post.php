@@ -11,24 +11,15 @@ use Magefan\Blog\Api\PostRepositoryInterface;
 use Magefan\Blog\Model\Config;
 use Magento\Framework\App\Area;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\App\ScopeResolverInterface;
 use Magento\Framework\App\State;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\DesignInterface;
 use Magento\Framework\View\Design\Theme\ThemeProviderInterface;
 use Magento\Store\Model\ScopeInterface;
-use Magento\Widget\Model\Template\FilterEmulate;
 
-/**
- * Class Post
- * @package Magefan\BlogGraphQl\Model\Resolver\DataProvider
- */
 class Post
 {
-    /**
-     * @var FilterEmulate
-     */
-    private $widgetFilter;
-
     /**
      * @var Tag
      */
@@ -70,9 +61,13 @@ class Post
     private $scopeConfig;
 
     /**
+     * @var ScopeResolverInterface
+     */
+    private $scopeResolver;
+
+    /**
      * Post constructor.
      * @param PostRepositoryInterface $postRepository
-     * @param FilterEmulate $widgetFilter
      * @param Tag $tagDataProvider
      * @param Category $categoryDataProvider
      * @param Author $authorDataProvider
@@ -80,20 +75,20 @@ class Post
      * @param DesignInterface $design
      * @param ThemeProviderInterface $themeProvider
      * @param ScopeConfigInterface $scopeConfig
+     * @param ScopeResolverInterface $scopeResolver
      */
     public function __construct(
         PostRepositoryInterface $postRepository,
-        FilterEmulate $widgetFilter,
         Tag $tagDataProvider,
         Category $categoryDataProvider,
         Author $authorDataProvider,
         State $state,
         DesignInterface $design,
         ThemeProviderInterface $themeProvider,
-        ScopeConfigInterface $scopeConfig
+        ScopeConfigInterface $scopeConfig,
+        ScopeResolverInterface $scopeResolver
     ) {
         $this->postRepository = $postRepository;
-        $this->widgetFilter = $widgetFilter;
         $this->tagDataProvider = $tagDataProvider;
         $this->categoryDataProvider = $categoryDataProvider;
         $this->authorDataProvider = $authorDataProvider;
@@ -101,18 +96,29 @@ class Post
         $this->design = $design;
         $this->themeProvider = $themeProvider;
         $this->scopeConfig = $scopeConfig;
+        $this->scopeResolver = $scopeResolver;
     }
 
     /**
-     * @param string $postId
+     * Get post data
+     *
+     * @param mixed $postId
      * @param array|null $fields
+     * @param null|int|string $storeId
      * @return array
      * @throws NoSuchEntityException
      */
-    public function getData(string $postId, $fields = null, $storeId = null): array
+    public function getData($postId, $fields = null, $storeId = null): array
     {
-        $post = $this->postRepository->getFactory()->create();
-        $post->getResource()->load($post, $postId);
+        if (is_object($postId)) {
+            $post = $postId;
+        } else {
+            try {
+                $post = $this->postRepository->getById((int)$postId);
+            } catch (\Exception $e) {
+                throw new NoSuchEntityException();
+            }
+        }
 
         if (!$post->isActive()) {
             throw new NoSuchEntityException();
@@ -128,7 +134,7 @@ class Post
                 );
                 $theme = $this->themeProvider->getThemeById($themeId);
                 $this->design->setDesignTheme($theme, Area::AREA_FRONTEND);
-                $post->setStoreId($storeId);
+                $post->setStoreId((int)$storeId);
                 $data = $this->getDynamicData($post, $fields);
 
                 return $data;
@@ -140,7 +146,8 @@ class Post
 
     /**
      * Prepare all additional data
-     * @param $post
+     *
+     * @param mixed $post
      * @param null|array $fields
      * @return array
      */
@@ -166,11 +173,18 @@ class Post
         foreach ($keys as $key) {
             if (null === $fields || array_key_exists($key, $fields)) {
                 $method = 'get' . str_replace(
-                        '_',
-                        '',
-                        ucwords($key, '_')
-                    );
+                    '_',
+                    '',
+                    ucwords($key, '_')
+                );
                 $data[$key] = $post->$method();
+                if ($key === 'post_url') {
+                    $data[$key] = str_replace(
+                        '/' . $this->scopeResolver->getScope()->getCode() . '/',
+                        '/',
+                        $data[$key]
+                    );
+                }
             }
         }
 
@@ -179,7 +193,7 @@ class Post
             foreach ($post->getRelatedTags() as $tag) {
                 $tags[] = $this->tagDataProvider->getDynamicData(
                     $tag
-                // isset($fields['tags']) ? $fields['tags'] : null
+                    // isset($fields['tags']) ? $fields['tags'] : null
                 );
             }
             $data['tags'] = $tags;
@@ -254,7 +268,7 @@ class Post
             if ($author = $post->getAuthor()) {
                 $data['author'] = $this->authorDataProvider->getDynamicData(
                     $author
-                //isset($fields['author']) ? $fields['author'] : null
+                    //isset($fields['author']) ? $fields['author'] : null
                 );
             }
         }

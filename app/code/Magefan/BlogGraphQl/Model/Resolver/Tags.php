@@ -16,10 +16,6 @@ use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magefan\Blog\Api\TagRepositoryInterface;
 
-/**
- * Class Tags
- * @package Magefan\BlogGraphQl\Model\Resolver
- */
 class Tags implements ResolverInterface
 {
     /**
@@ -80,8 +76,8 @@ class Tags implements ResolverInterface
         Field $field,
         $context,
         ResolveInfo $info,
-        array $value = null,
-        array $args = null
+        ?array $value = null,
+        ?array $args = null
     ) {
         $searchCriteria = $this->searchCriteriaBuilder->build('magefan_blog_tags', $args);
         $statusFilter = $this->filterBuilder
@@ -97,7 +93,7 @@ class Tags implements ResolverInterface
 
         $scopeFilter = $this->filterBuilder
             ->setField('store_id')
-            ->setValue($scope)
+            ->setValue($args['storeId'] ?? $scope)
             ->setConditionType('eq')
             ->create();
         $filterGroups[] = $this->filterGroupBuilder->addFilter($scopeFilter)->create();
@@ -108,7 +104,7 @@ class Tags implements ResolverInterface
         $items = $searchResult->getItems();
 
         foreach ($items as $k => $data) {
-            $items[$k] = $this->tagDataProvider->getData($data['tag_id']);
+            $items[$k] = $this->tagDataProvider->getData($data);
         }
 
         return [

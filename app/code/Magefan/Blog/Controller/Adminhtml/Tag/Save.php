@@ -45,4 +45,15 @@ class Save extends \Magefan\Blog\Controller\Adminhtml\Tag
 
         return $data;
     }
+
+    /**
+     * @param $model
+     * @param $request
+     * @return void
+     */
+    protected function _beforeSave($model, $request)
+    {
+        /* Prepare images */
+        $this->prepareImagesBeforeSave($model, ['tag_img']);
+    }
 }

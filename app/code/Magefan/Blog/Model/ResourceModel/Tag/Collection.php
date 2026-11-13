@@ -13,6 +13,20 @@ namespace Magefan\Blog\Model\ResourceModel\Tag;
  */
 class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection
 {
+    /**
+     * @inheritDoc
+     */
+    protected $_eventPrefix = 'mfblog_tag_collection';
+
+    /**
+     * @inheritDoc
+     */
+    protected $_eventObject = 'blog_tag_collection';
+
+    /**
+     * @inheritDoc
+     */
+    protected $_idFieldName = 'tag_id';
 
     /**
      * @var int
@@ -50,12 +64,22 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
                 $condition = isset($condition[0]) ? $condition[0] : $condition;
             }
         }
-        
+
         if ($field === 'store_id' || $field === 'store_ids') {
             return $this->addStoreFilter($condition);
         }
 
         return parent::addFieldToFilter($field, $condition);
+    }
+
+    /**
+     * Add search filter to collection
+     * @param string $term
+     * @return $this
+     */
+    public function addSearchFilter(string $term)
+    {
+        return $this->addFieldToFilter('title', ['like' => '%' . $term . '%']);
     }
 
     /**
@@ -186,5 +210,13 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
             );
         }
         parent::_renderFiltersBefore();
+    }
+
+    /**
+     * @return int
+     */
+    public function getStoreId():int
+    {
+        return (int)$this->_storeId;
     }
 }

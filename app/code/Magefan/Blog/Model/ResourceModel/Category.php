@@ -19,6 +19,11 @@ class Category extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
     protected $dateTime;
 
     /**
+     * @var array
+     */
+    protected static $allStoreIds;
+
+    /**
      * Construct
      *
      * @param \Magento\Framework\Model\ResourceModel\Db\Context $context
@@ -109,7 +114,7 @@ class Category extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
      */
     protected function _afterSave(\Magento\Framework\Model\AbstractModel $object)
     {
-        $oldStoreIds = $this->lookupStoreIds($object->getId());
+        $oldStoreIds = $this->lookupStoreIds($object->getId(), false);
         $newStoreIds = (array)$object->getStoreIds();
         if (!$newStoreIds || in_array(0, $newStoreIds)) {
             $newStoreIds = [0];
@@ -226,7 +231,7 @@ class Category extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
      *
      * @param string $identifier
      * @param int|array $storeId
-     * @return int
+     * @return false|string
      */
     public function checkIdentifier($identifier, $storeIds)
     {
@@ -235,29 +240,56 @@ class Category extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
         }
         $storeIds[] = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
         $select = $this->_getLoadByIdentifierSelect($identifier, $storeIds);
-        $select->reset(\Zend_Db_Select::COLUMNS)->columns('cp.category_id')->order('cps.store_id DESC')->limit(1);
+        $select->reset(\Zend_Db_Select::COLUMNS)->columns(['cp.category_id', 'cp.identifier'])->order('cps.store_id DESC')->limit(1);
 
-        return $this->getConnection()->fetchOne($select);
+        $row = $this->getConnection()->fetchRow($select);
+        if (isset($row['category_id']) && isset($row['identifier'])
+            && $row['identifier'] == $identifier) {
+            return (string)$row['category_id'];
+        }
+
+        return false;
     }
 
     /**
      * Get store ids to which specified item is assigned
      *
-     * @param int $categoryId
-     * @return array
+     * @param $categoryId
+     * @param bool $useCache
+     * @return array|mixed
      */
-    public function lookupStoreIds($categoryId)
+    public function lookupStoreIds($categoryId, $useCache = true)
     {
-        $adapter = $this->getConnection();
+        if (null === self::$allStoreIds || !$useCache) {
+            $adapter = $this->getConnection();
 
-        $select = $adapter->select()->from(
-            $this->getTable('magefan_blog_category_store'),
-            'store_id'
-        )->where(
-            'category_id = ?',
-            (int)$categoryId
-        );
+            $select = $adapter->select()->from(
+                $this->getTable('magefan_blog_category_store')
+            );
 
-        return $adapter->fetchCol($select);
+            $result = [];
+            foreach ($adapter->fetchAll($select) as $item) {
+                if (!isset($result[$item['category_id']])) {
+                    $result[$item['category_id']] = [];
+                }
+                $result[$item['category_id']][] = $item['store_id'];
+            }
+
+            self::$allStoreIds = $result;
+        }
+
+        if (isset(self::$allStoreIds[$categoryId])) {
+            return self::$allStoreIds[$categoryId];
+        }
+
+        return [];
+    }
+
+    /**
+     * @return string
+     */
+    public function getEntityType()
+    {
+        return 'category';
     }
 }

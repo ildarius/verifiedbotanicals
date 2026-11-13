@@ -16,6 +16,12 @@ use Magefan\Blog\Api\AuthorCollectionInterface;
  */
 class Collection extends AbstractCollection implements AuthorCollectionInterface
 {
+
+    /**
+     * @inheritDoc
+     */
+    protected $_idFieldName = 'user_id';
+    
     /**
      * Constructor
      * Configures collection

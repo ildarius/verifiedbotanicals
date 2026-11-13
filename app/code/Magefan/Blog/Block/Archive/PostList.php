@@ -8,7 +8,6 @@
 
 namespace Magefan\Blog\Block\Archive;
 
-use Magefan\Blog\Block\Post\PostList\Toolbar;
 use Magento\Store\Model\ScopeInterface;
 
 /**
@@ -16,6 +15,8 @@ use Magento\Store\Model\ScopeInterface;
  */
 class PostList extends \Magefan\Blog\Block\Post\PostList
 {
+    use Archive;
+
     /**
      * Prepare posts collection
      * @return \Magefan\Blog\Model\ResourceModel\Post\Collection
@@ -30,44 +31,35 @@ class PostList extends \Magefan\Blog\Block\Post\PostList
     }
 
     /**
-     * Get archive month
-     * @return string
-     */
-    public function getMonth()
-    {
-        return (int)$this->_coreRegistry->registry('current_blog_archive_month');
-    }
-
-    /**
-     * Get archive year
-     * @return string
-     */
-    public function getYear()
-    {
-        return (int)$this->_coreRegistry->registry('current_blog_archive_year');
-    }
-
-    /**
      * Preparing global layout
      *
      * @return $this
      */
     protected function _prepareLayout()
     {
-        $title = $this->_getTitle();
+        $title = $this->filterContent((string)$this->_getConfigValue('title'));
         $this->_addBreadcrumbs($title, 'blog_search');
-        $this->pageConfig->getTitle()->set($title);
+
+        $this->pageConfig->getTitle()->set(
+            $this->_getConfigValue('meta_title') ? $this->filterContent($this->_getConfigValue('meta_title')) : $title
+        );
+
+        $this->pageConfig->setKeywords($this->filterContent((string)$this->_getConfigValue('meta_keywords')));
+        $this->pageConfig->setDescription($this->filterContent((string)$this->_getConfigValue('meta_description')));
 
         if ($this->config->getDisplayCanonicalTag(\Magefan\Blog\Model\Config::CANONICAL_PAGE_TYPE_ARCHIVE)) {
-
+            $month = '';
+            if ($this->getMonth()) {
+                $month = '-' . str_pad($this->getMonth(), 2, '0', STR_PAD_LEFT);
+            }
             $canonicalUrl = $this->_url->getUrl(
-                $this->getYear() . '-' . str_pad($this->getMonth(), 2, '0', STR_PAD_LEFT),
+                $this->getYear() . $month,
                 \Magefan\Blog\Model\Url::CONTROLLER_ARCHIVE
             );
-            $page = (int)$this->_request->getParam(Toolbar::PAGE_PARM_NAME);
+            $page = (int)$this->_request->getParam($this->getPageParamName());
             if ($page > 1) {
                 $canonicalUrl .= ((false === strpos($canonicalUrl, '?')) ? '?' : '&')
-                    . Toolbar::PAGE_PARM_NAME . '=' . $page;
+                    . $this->getPageParamName() . '=' . $page;
             }
 
             $this->pageConfig->addRemotePageAsset(
@@ -76,7 +68,7 @@ class PostList extends \Magefan\Blog\Block\Post\PostList
                 ['attributes' => ['rel' => 'canonical']]
             );
         }
-        $this->pageConfig->setRobots('NOINDEX,FOLLOW');
+        $this->pageConfig->setRobots($this->_getConfigValue('robots'));
 
         $pageMainTitle = $this->getLayout()->getBlock('page.main.title');
         if ($pageMainTitle) {
@@ -89,16 +81,14 @@ class PostList extends \Magefan\Blog\Block\Post\PostList
     }
 
     /**
-     * Retrieve title
-     * @return string
+     * @param $param
+     * @return mixed
      */
-    protected function _getTitle()
+    protected function _getConfigValue($param)
     {
-        $time = strtotime($this->getYear().'-'.$this->getMonth().'-01');
-        return sprintf(
-            __('Monthly Archives: %s %s'),
-            __(date('F', $time)),
-            date('Y', $time)
+        return $this->_scopeConfig->getValue(
+            'mfblog/archive/'.$param,
+            ScopeInterface::SCOPE_STORE
         );
     }
 }

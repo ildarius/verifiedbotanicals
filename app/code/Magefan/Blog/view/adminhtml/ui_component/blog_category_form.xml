@@ -47,7 +47,7 @@
             </item>
         </argument>
     </dataSource>
-    <fieldset name="general">
+    <fieldset name="general" sortOrder="0">
         <argument name="data" xsi:type="array">
             <item name="config" xsi:type="array">
                 <item name="label" xsi:type="string"/>
@@ -145,7 +145,25 @@
                         <item name="true" xsi:type="number">1</item>
                         <item name="false" xsi:type="number">0</item>
                     </item>
-                    <item name="default" xsi:type="number">0</item>
+                    <item name="default" xsi:type="number">1</item>
+                </item>
+            </argument>
+        </field>
+        <field name="include_in_sidebar_tree">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">boolean</item>
+                    <item name="label" xsi:type="string" translate="true">Include In Sidebar Tree</item>
+                    <item name="formElement" xsi:type="string">checkbox</item>
+                    <item name="prefer" xsi:type="string">toggle</item>
+                    <item name="source" xsi:type="string">category</item>
+                    <item name="sortOrder" xsi:type="number">55</item>
+                    <item name="dataScope" xsi:type="string">include_in_sidebar_tree</item>
+                    <item name="valueMap" xsi:type="array">
+                        <item name="true" xsi:type="number">1</item>
+                        <item name="false" xsi:type="number">0</item>
+                    </item>
+                    <item name="default" xsi:type="number">1</item>
                 </item>
             </argument>
         </field>
@@ -167,6 +185,7 @@
                     <item name="wysiwyg" xsi:type="boolean">true</item>
                     <item name="dataScope" xsi:type="string">content</item>
                     <item name="additionalClasses" xsi:type="string">admin__field-wide</item>
+                    <item name="template" xsi:type="string">ui/form/field</item>
                 </item>
             </argument>
         </field>
@@ -191,6 +210,81 @@
                     <item name="default" xsi:type="string">0</item>
                 </item>
             </argument>
+            <settings>
+                <switcherConfig>
+                    <rules>
+                        <rule name="0">
+                            <value>0</value>
+                            <actions>
+                                <action name="0">
+                                    <target>blog_category_form.blog_category_form.display_settings.posts_sort_by</target>
+                                    <callback>show</callback>
+                                </action>
+                                <action name="1">
+                                    <target>blog_category_form.blog_category_form.display_settings.posts_list_template</target>
+                                    <callback>show</callback>
+                                </action>
+                                <action name="2">
+                                    <target>blog_category_form.blog_category_form.display_settings.posts_per_page</target>
+                                    <callback>show</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                        <rule name="1">
+                            <value>1</value>
+                            <actions>
+                                <action name="0">
+                                    <target>blog_category_form.blog_category_form.display_settings.posts_sort_by</target>
+                                    <callback>show</callback>
+                                </action>
+                                <action name="1">
+                                    <target>blog_category_form.blog_category_form.display_settings.posts_list_template</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="2">
+                                    <target>blog_category_form.blog_category_form.display_settings.posts_per_page</target>
+                                    <callback>hide</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                        <rule name="2">
+                            <value>2</value>
+                            <actions>
+                                <action name="0">
+                                    <target>blog_category_form.blog_category_form.display_settings.posts_sort_by</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="1">
+                                    <target>blog_category_form.blog_category_form.display_settings.posts_list_template</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="2">
+                                    <target>blog_category_form.blog_category_form.display_settings.posts_per_page</target>
+                                    <callback>hide</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                        <rule name="3">
+                            <value>3</value>
+                            <actions>
+                                <action name="0">
+                                    <target>blog_category_form.blog_category_form.display_settings.posts_sort_by</target>
+                                    <callback>show</callback>
+                                </action>
+                                <action name="1">
+                                    <target>blog_category_form.blog_category_form.display_settings.posts_list_template</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="2">
+                                    <target>blog_category_form.blog_category_form.display_settings.posts_per_page</target>
+                                    <callback>hide</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                    </rules>
+                    <enabled>true</enabled>
+                </switcherConfig>
+            </settings>
         </field>
         <field name="posts_sort_by">
             <argument name="data" xsi:type="array">
@@ -238,17 +332,27 @@
                 <item name="sortOrder" xsi:type="number">40</item>
             </item>
         </argument>
-        <field name="identifier">
+        <container name="url_key_group" component="Magento_Ui/js/form/components/group">
             <argument name="data" xsi:type="array">
+                <item name="type" xsi:type="string">group</item>
                 <item name="config" xsi:type="array">
-                    <item name="dataType" xsi:type="string">text</item>
-                    <item name="label" xsi:type="string" translate="true">URL Key</item>
-                    <item name="formElement" xsi:type="string">input</item>
-                    <item name="source" xsi:type="string">category</item>
-                    <item name="dataScope" xsi:type="string">identifier</item>
+                    <item name="required" xsi:type="boolean">false</item>
                 </item>
             </argument>
-        </field>
+
+            <field name="identifier">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="dataType" xsi:type="string">text</item>
+                        <item name="label" xsi:type="string" translate="true">URL Key</item>
+                        <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">category</item>
+                        <item name="dataScope" xsi:type="string">identifier</item>
+                        <item name="sortOrder" xsi:type="number">10</item>
+                    </item>
+                </argument>
+            </field>
+        </container>
         <field name="meta_title">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
@@ -279,6 +383,18 @@
                     <item name="formElement" xsi:type="string">textarea</item>
                     <item name="source" xsi:type="string">category</item>
                     <item name="dataScope" xsi:type="string">meta_description</item>
+                </item>
+            </argument>
+        </field>
+        <field name="meta_robots">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Magefan\Blog\Model\Config\Source\TagRobots</item>
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Meta Robots</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="source" xsi:type="string">category</item>
+                    <item name="dataScope" xsi:type="string">meta_robots</item>
                 </item>
             </argument>
         </field>

@@ -48,19 +48,21 @@ class Tag extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
      */
     protected function _beforeSave(\Magento\Framework\Model\AbstractModel $object)
     {
-        $object->setTitle(
-            trim(($object->getTitle()))
-        );
-
-        $tag = $object->getCollection()
-            ->addFieldToFilter('title', $object->getTitle())
-            ->addFieldToFilter('tag_id', ['neq' => $object->getId()])
-            ->setPageSize(1)
-            ->getFirstItem();
-        if ($tag->getId()) {
-            throw new \Magento\Framework\Exception\LocalizedException(
-                __('The tag is already exist.')
+        if ($object->getTitle()) {
+            $object->setTitle(
+                trim(($object->getTitle()))
             );
+
+            $tag = $object->getCollection()
+                ->addFieldToFilter('title', $object->getTitle())
+                ->addFieldToFilter('tag_id', ['neq' => $object->getId()])
+                ->setPageSize(1)
+                ->getFirstItem();
+            if ($tag->getId()) {
+                throw new \Magento\Framework\Exception\LocalizedException(
+                    __('The tag is already exist.')
+                );
+            }
         }
 
         $identifierGenerator = \Magento\Framework\App\ObjectManager::getInstance()
@@ -76,6 +78,13 @@ class Tag extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
         if ($this->isNumericPageIdentifier($object)) {
             throw new \Magento\Framework\Exception\LocalizedException(
                 __('The tag URL key cannot be made of only numbers.')
+            );
+        }
+
+        $id = $this->checkIdentifier($object->getData('identifier'), $object->getData('store_ids'));
+        if ($id && $id !== $object->getId()) {
+            throw new \Magento\Framework\Exception\LocalizedException(
+                __('URL key is already in use by another tag item.')
             );
         }
 
@@ -154,6 +163,61 @@ class Tag extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
     protected function isValidPageIdentifier(\Magento\Framework\Model\AbstractModel $object)
     {
         return preg_match('/^([^?#<>@!&*()$%^\\+=,{}"\']+)?$/', (string)$object->getData('identifier'));
+    }
+
+    /**
+     * Check if tag identifier exist for specific store
+     * return tag id if tag exists
+     *
+     * @param string $identifier
+     * @param int|array $storeId
+     * @return false|string
+     */
+    public function checkIdentifier($identifier, $storeIds)
+    {
+        if (!is_array($storeIds)) {
+            $storeIds = [$storeIds];
+        }
+        $storeIds[] = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
+        $select = $this->_getLoadByIdentifierSelect($identifier, $storeIds);
+        $select->reset(\Zend_Db_Select::COLUMNS)->columns(['cp.tag_id', 'cp.identifier'])->order('cps.store_id DESC')->limit(1);
+
+
+
+        $row = $this->getConnection()->fetchRow($select);
+        if (isset($row['tag_id']) && isset($row['identifier'])
+            && $row['identifier'] == $identifier) {
+            return (string)$row['tag_id'];
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if tag identifier exist for specific store
+     * return tag id if tag exists
+     *
+     * @param string $identifier
+     * @param int $storeId
+     * @return int
+     */
+    protected function _getLoadByIdentifierSelect($identifier, $storeIds)
+    {
+        $select = $this->getConnection()->select()->from(
+            ['cp' => $this->getMainTable()]
+        )->join(
+            ['cps' => $this->getTable('magefan_blog_tag_store')],
+            'cp.tag_id = cps.tag_id',
+            []
+        )->where(
+            'cp.identifier = ?',
+            $identifier
+        )->where(
+            'cps.store_id IN (?)',
+            $storeIds
+        );
+
+        return $select;
     }
 
     /**
@@ -275,5 +339,13 @@ class Tag extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
         );
 
         return $adapter->fetchAll($select);
+    }
+
+    /**
+     * @return string
+     */
+    public function getEntityType()
+    {
+        return 'tag';
     }
 }

@@ -15,54 +15,79 @@ use Magento\Store\Model\ScopeInterface;
 class Richsnippets extends Opengraph
 {
     /**
-     * @param  array
+     * @param array
      */
     protected $_options;
+
 
     /**
      * Retrieve snipet params
      *
      * @return array
      */
-    public function getOptions()
+    public function getOptions(): array
     {
-        if ($this->_options === null) {
+        if (null === $this->_options) {
             $post = $this->getPost();
-
-            $logoBlock = $this->getLayout()->getBlock('logo');
-            if (!$logoBlock) {
-                $logoBlock = $this->getLayout()->getBlock('amp.logo');
+            $snippetOption = $post->getData('structure_data_type');
+            switch ($snippetOption) {
+                case '1':
+                    $this->_options = $this->getOptionsByType('NewsArticle');
+                    break;
+                case '2':
+                    $this->_options = [];
+                    break;
+                case '3':
+                    $this->_options = $this->getOptionsByType('Article');
+                    break;
+                default:
+                    $this->_options = $this->getOptionsByType('BlogPosting');
+                    break;
             }
+        }
+        return $this->_options;
+    }
 
-            $this->_options = [
-                '@context' => 'http://schema.org',
-                '@type' => 'BlogPosting',
-                '@id' => $post->getPostUrl(),
-                'author' => $this->getAuthor(),
-                'headline' => $this->getTitle(),
-                'description' => $this->getDescription(),
-                'datePublished' => $post->getPublishDate('c'),
-                'dateModified' => $post->getUpdateDate('c'),
-                'image' => [
-                    '@type' => 'ImageObject',
-                    'url' => $this->getImage() ?:
-                        ($logoBlock ? $logoBlock->getLogoSrc() : ''),
-                    'width' => 720,
-                    'height' => 720,
-                ],
-                'publisher' => [
-                    '@type' => 'Organization',
-                    'name' => $this->getPublisher(),
-                    'logo' => [
-                        '@type' => 'ImageObject',
-                        'url' => $logoBlock ? $logoBlock->getLogoSrc() : '',
-                    ],
-                ],
-                'mainEntityOfPage' => $this->_url->getBaseUrl(),
-            ];
+    /**
+     * @param $type
+     * @return array
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function getOptionsByType($type)
+    {
+        $post = $this->getPost();
+
+        $logoBlock = $this->getLayout()->getBlock('logo');
+        if (!$logoBlock) {
+            $logoBlock = $this->getLayout()->getBlock('amp.logo');
         }
 
-        return $this->_options;
+        $options = [
+            '@context' => 'http://schema.org',
+            '@type' => $type,
+            '@id' => $post->getPostUrl(),
+            'author' => $this->getAuthor(),
+            'headline' => $this->getTitle(),
+            'description' => $this->getDescription(),
+            'datePublished' => $post->getPublishDate('c'),
+            'dateModified' => $post->getUpdateDate('c'),
+            'image' => [
+                '@type' => 'ImageObject',
+                'url' => $this->getImage() ?:
+                    ($logoBlock ? $logoBlock->getLogoSrc() : '')
+            ],
+            'publisher' => [
+                '@type' => 'Organization',
+                'name' => $this->getPublisher(),
+                'logo' => [
+                    '@type' => 'ImageObject',
+                    'url' => $logoBlock ? $logoBlock->getLogoSrc() : '',
+                ],
+            ],
+            'mainEntityOfPage' => $this->_url->getBaseUrl(),
+        ];
+
+        return $options;
     }
 
     /**
@@ -75,13 +100,36 @@ class Richsnippets extends Opengraph
         if ($author = $this->getPost()->getAuthor()) {
             if ($author->getTitle()) {
                 $authorPageEnabled = $this->config->getConfig(
-                      'mfblog/author/page_enabled'
+                    'mfblog/author/page_enabled'
                 );
-                return [
+
+                $result = [
+                    '@context' => 'http://schema.org',
                     '@type' => 'Person',
                     'name' => $author->getTitle(),
-                    'url' => $authorPageEnabled ? $author->getAuthorUrl() : $this->getUrl()
+                    'url' => $authorPageEnabled ? $author->getAuthorUrl() : $this->getUrl(),
+                    'mainEntityOfPage' => [
+                        '@type' => 'WebPage',
+                        '@id' => $authorPageEnabled ? $author->getAuthorUrl() : $this->getUrl(),
+                    ]
                 ];
+
+                $sameAs = [];
+                foreach (['facebook_page_url', 'twitter_page_url', 'instagram_page_url', 'googleplus_page_url', 'linkedin_page_url'] as $key) {
+                    if ($value = trim($author->getData($key) ?: '')) {
+                        $sameAs[] = $value;
+                    }
+                }
+
+                if ($sameAs) {
+                    $result['sameAs'] = $sameAs;
+                }
+
+                if ($value = trim($author->getData('role') ?: '')) {
+                    $result['jobTitle'] = $value;
+                }
+
+                return $result;
             }
         }
 
@@ -106,14 +154,6 @@ class Richsnippets extends Opengraph
         }
 
         return $publisherName;
-
-        /*
-        return [
-            '@type' => 'Organization',
-            'name' => $publisherName,
-            'url' => $this->getUrl()
-        ];
-        */
     }
 
     /**
@@ -123,8 +163,59 @@ class Richsnippets extends Opengraph
      */
     protected function _toHtml()
     {
+        $options = $this->getOptions();
+        if (!$options) {
+            return '';
+        }
         return '<script type="application/ld+json">'
-            . json_encode($this->getOptions())
+            . json_encode($options)
             . '</script>';
+    }
+
+
+    /**
+     * Retrieve page title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->stripTags(
+            $this->getPost()->getMetaTitle()
+        );
+    }
+
+    /**
+     * Retrieve page short description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->stripTags(
+            $this->getPost()->getMetaDescription()
+        );
+    }
+
+    /**
+     * Retrieve page main image
+     *
+     * @return string | null
+     */
+    public function getImage()
+    {
+        $image = null;
+
+        if (!$image) {
+            $image = $this->getPost()->getFeaturedImage();
+        }
+
+        if (!$image) {
+            $image = $this->getPost()->getFirstImage();
+        }
+
+        if ($image) {
+            return $this->stripTags($image);
+        }
     }
 }

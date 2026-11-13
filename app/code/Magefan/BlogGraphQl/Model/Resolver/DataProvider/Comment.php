@@ -17,9 +17,6 @@ use Magento\Framework\View\DesignInterface;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Widget\Model\Template\FilterEmulate;
 
-/**
- * Class Comment
- */
 class Comment
 {
     /**
@@ -68,8 +65,7 @@ class Comment
         DesignInterface $design,
         ThemeProviderInterface $themeProvider,
         ScopeConfigInterface $scopeConfig
-    )
-    {
+    ) {
         $this->commentRepository = $commentRepository;
         $this->widgetFilter = $widgetFilter;
         $this->state = $state;
@@ -79,15 +75,24 @@ class Comment
     }
 
     /**
-     * @param string $commentId
-     * @param null $fields
+     * Get comment data
+     *
+     * @param mixed $commentId
+     * @param null|array $fields
      * @return array
      * @throws NoSuchEntityException
      */
-    public function getData(string $commentId, $fields = null): array
+    public function getData($commentId, $fields = null): array
     {
-        $comment = $this->commentRepository->getFactory()->create();
-        $comment->getResource()->load($comment, $commentId);
+        if (is_object($commentId)) {
+            $comment = $commentId;
+        } else {
+            try {
+                $comment = $this->commentRepository->getById((int)$commentId);
+            } catch (\Exception $e) {
+                throw new NoSuchEntityException();
+            }
+        }
 
         if (!$comment->isActive()) {
             throw new NoSuchEntityException();
@@ -115,8 +120,9 @@ class Comment
 
     /**
      * Prepare all additional data
-     * @param $comment
-     * @param null $fields
+     *
+     * @param mixed $comment
+     * @param null|array $fields
      * @return mixed
      */
     public function getDynamicData($comment, $fields = null)

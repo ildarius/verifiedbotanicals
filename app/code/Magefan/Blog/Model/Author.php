@@ -29,6 +29,11 @@ class Author extends AbstractModel implements AuthorInterface
     protected $shortContentExtractor;
 
     /**
+     * @var Url
+     */
+    protected $_url;
+
+    /**
      * Initialize dependencies.
      *
      * @param \Magento\Framework\Model\Context $context
@@ -46,8 +51,8 @@ class Author extends AbstractModel implements AuthorInterface
         Url $url,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
-        \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
+        ?\Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
+        ?\Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
         array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -95,7 +100,7 @@ class Author extends AbstractModel implements AuthorInterface
             $title = $this->getTitle();
         }
 
-        return trim($title);
+        return trim($title ?: '');
     }
 
     /**
@@ -105,15 +110,21 @@ class Author extends AbstractModel implements AuthorInterface
     public function getMetaDescription()
     {
         $desc = $this->getData('meta_description');
-
         if (!$desc) {
-            $desc = $this->getShortContentExtractor()->execute($this->getData('content'));
-            $desc = str_replace(['<p>', '</p>'], [' ', ''], $desc);
+            $desc = $this->getShortContentExtractor()->execute($this->getData('content'), 500);
         }
 
-        $desc = strip_tags($desc);
-        if (mb_strlen($desc) > 200) {
-            $desc = mb_substr($desc, 0, 200);
+        $stylePattern = "~<style\b[^>]*>.*?</style>~is";
+        $desc = preg_replace($stylePattern, '', $desc);
+        $desc = trim(strip_tags((string)$desc));
+        $desc = str_replace(["\r\n", "\n\r", "\r", "\n"], ' ', $desc);
+
+        if (mb_strlen($desc) > 160) {
+            $desc = mb_substr($desc, 0, 160);
+            $lastSpace = mb_strrpos($desc, ' ');
+            if ($lastSpace !== false) {
+                $desc = mb_substr($desc, 0, $lastSpace) . '...';
+            }
         }
 
         return trim($desc);

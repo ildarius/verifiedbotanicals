@@ -227,6 +227,27 @@ class Post extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
      * @param  Array  $rowData
      * @return void
      */
+    public function updateLinks(
+        \Magento\Framework\Model\AbstractModel $object,
+        array $newRelatedIds,
+        array $oldRelatedIds,
+        $tableName,
+        $field,
+        $rowData = []
+    ) {
+        return $this->_updateLinks($object, $newRelatedIds, $oldRelatedIds, $tableName, $field, $rowData);
+    }
+
+    /**
+     * Update post connections
+     * @param  \Magento\Framework\Model\AbstractModel $object
+     * @param  Array $newRelatedIds
+     * @param  Array $oldRelatedIds
+     * @param  String $tableName
+     * @param  String  $field
+     * @param  Array  $rowData
+     * @return void
+     */
     protected function _updateLinks(
         \Magento\Framework\Model\AbstractModel $object,
         array $newRelatedIds,
@@ -378,7 +399,7 @@ class Post extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
      *
      * @param string $identifier
      * @param int|array $storeId
-     * @return int
+     * @return false|string
      */
     public function checkIdentifier($identifier, $storeIds)
     {
@@ -387,9 +408,15 @@ class Post extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
         }
         $storeIds[] = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
         $select = $this->_getLoadByIdentifierSelect($identifier, $storeIds);
-        $select->reset(\Zend_Db_Select::COLUMNS)->columns('cp.post_id')->order('cps.store_id DESC')->limit(1);
+        $select->reset(\Zend_Db_Select::COLUMNS)->columns(['cp.post_id', 'cp.identifier'])->order('cps.store_id DESC')->limit(1);
 
-        return $this->getConnection()->fetchOne($select);
+        $row = $this->getConnection()->fetchRow($select);
+        if (isset($row['post_id']) && isset($row['identifier'])
+            && $row['identifier'] == $identifier) {
+            return (string)$row['post_id'];
+        }
+
+        return false;
     }
 
     /**
@@ -454,6 +481,17 @@ class Post extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
      * @param  string $field
      * @return array
      */
+    public function lookupIds($postId, $tableName, $field)
+    {
+        return $this->_lookupIds($postId, $tableName, $field);
+    }
+    /**
+     * Get ids to which specified item is assigned
+     * @param  int $postId
+     * @param  string $tableName
+     * @param  string $field
+     * @return array
+     */
     protected function _lookupIds($postId, $tableName, $field)
     {
         $adapter = $this->getConnection();
@@ -488,5 +526,13 @@ class Post extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
         );
 
         return $adapter->fetchAll($select);
+    }
+
+    /**
+     * @return string
+     */
+    public function getEntityType()
+    {
+        return 'post';
     }
 }

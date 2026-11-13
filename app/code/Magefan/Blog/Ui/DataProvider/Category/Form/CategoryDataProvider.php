@@ -79,7 +79,22 @@ class CategoryDataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         /** @var $category \Magefan\Blog\Model\Category */
         foreach ($items as $category) {
             $category = $category->load($category->getId()); //temporary fix
-            $this->loadedData[$category->getId()] = $category->getData();
+            $data = $category->getData();
+            /* Prepare Featured Image */
+            $map = [
+                'category_img' => 'getCategoryImage',
+            ];
+            foreach ($map as $key => $method) {
+                if (isset($data[$key])) {
+                    $name = $data[$key];
+                    unset($data[$key]);
+                    $data[$key][0] = [
+                        'name' => $name,
+                        'url' => $category->$method(),
+                    ];
+                }
+            }
+            $this->loadedData[$category->getId()] = $data;
         }
 
         $data = $this->dataPersistor->get('blog_category_form_data');

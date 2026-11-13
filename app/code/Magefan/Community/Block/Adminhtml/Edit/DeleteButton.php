@@ -4,17 +4,18 @@
  * Please visit Magefan.com for license details (https://magefan.com/end-user-license-agreement).
  */
 
+declare(strict_types=1);
+
 namespace Magefan\Community\Block\Adminhtml\Edit;
 
 use Magento\Framework\View\Element\UiComponent\Control\ButtonProviderInterface;
 
-/**
- * Class DeleteButton
- */
 class DeleteButton extends GenericButton implements ButtonProviderInterface
 {
 
     /**
+     * Get button config
+     *
      * @return array
      */
     public function getButtonData()
@@ -34,6 +35,8 @@ class DeleteButton extends GenericButton implements ButtonProviderInterface
     }
 
     /**
+     * Get delete url
+     *
      * @return string
      */
     public function getDeleteUrl()

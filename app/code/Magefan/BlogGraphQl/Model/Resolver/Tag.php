@@ -14,10 +14,6 @@ use Magento\Framework\GraphQl\Exception\GraphQlNoSuchEntityException;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 
-/**
- * Class Tag
- * @package Magefan\BlogGraphQl\Model\Resolver
- */
 class Tag implements ResolverInterface
 {
     /**
@@ -41,8 +37,8 @@ class Tag implements ResolverInterface
         Field $field,
         $context,
         ResolveInfo $info,
-        array $value = null,
-        array $args = null
+        ?array $value = null,
+        ?array $args = null
     ) {
         $tagId = $this->getTagId($args);
         $tagData = $this->getTagData($tagId);
@@ -50,6 +46,8 @@ class Tag implements ResolverInterface
     }
 
     /**
+     * Get tag id
+     *
      * @param array $args
      * @return string
      * @throws GraphQlInputException
@@ -64,6 +62,8 @@ class Tag implements ResolverInterface
     }
 
     /**
+     * Get tag data
+     *
      * @param string $tagId
      * @return array
      * @throws GraphQlNoSuchEntityException

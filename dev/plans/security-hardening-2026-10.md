@@ -5,10 +5,11 @@ Follow-up to the [September 2026 incident](security-incident-2026-09-28.md). Tha
 ## Where we left off
 
 - **Current step:** Phase 1, item 5 (reCAPTCHA). It is live and blocks bots. **Waiting on the owner** for one real-browser check: log in, and place a test order (see item 5 results). Monitor email works (fixed 2026-10-04 via Gmail SMTP).
-- **Queued:** the Magefan Blog CVE-2026-79323 fix and module updates (see "Queued tasks"). It is ready to run in its own session.
+- **Magefan updates done 2026-11-13** (owner: "update asap" after the admin notice "Blog extension extremely outdated, latest 2.17.1"). Steps 1–2 of the queued task are done; step 3 (turn off native comments) still needs the owner's yes. **CrowdSec** requested the same day (Phase 2 B); see that item.
+- **OpenSearch is down on prod** (nothing on :9200). `setup:upgrade` refuses to run; use `setup:db-schema:upgrade` + `setup:db-data:upgrade` instead (same schema/data steps, no search check). Catalog search is likely affected; needs root/host to fix.
 - **Next:** Phase 2, ongoing habits, worked through one at a time with the owner, starting with A.
 - **Open from the 2026-11-07 alert review (see Log):** several sign-ins await owner confirmation. The monitor gaps it found were fixed and the monitor re-baselined on 2026-11-08. **After any composer install or deploy, run `~/incident-monitor/monitor.sh --baseline`**, or the new webroot file check alerts on every added vendor file.
-- **Last updated:** 2026-11-08.
+- **Last updated:** 2026-11-13.
 
 ## Phase 1 — Quick fixes (Claude, owner approved 2026-10-02)
 
@@ -127,9 +128,9 @@ Follow-up to the [September 2026 incident](security-incident-2026-09-28.md). Tha
 
 ## Queued tasks
 
-- [ ] **Magefan Blog CVE-2026-79323 + Magefan module updates.** Added by the owner 2026-10-02. Full brief: [magefan-blog-cve-2026-79323.md](magefan-blog-cve-2026-79323.md); read its "Corrections" section first, because the site is now in production mode.
-  - [ ] Step 1: disable `Magefan_BlogGraphQl`. Approved. Anonymous `blogComments` currently exposes commenter emails; there are 0 comments today.
-  - [ ] Step 2: update Blog, BlogGraphQl, Community, WysiwygAdvanced and AdminUserGuide to the latest free versions. Approved.
+- [~] **Magefan Blog CVE-2026-79323 + Magefan module updates.** Added by the owner 2026-10-02. Full brief: [magefan-blog-cve-2026-79323.md](magefan-blog-cve-2026-79323.md); read its "Corrections" section first, because the site is now in production mode.
+  - [x] Step 1 (2026-11-13): disable `Magefan_BlogGraphQl`. Approved. The `blogComments` probe now returns "Cannot query field". Anonymous `blogComments` currently exposes commenter emails; there are 0 comments today.
+  - [x] Step 2 (2026-11-13): update Blog, BlogGraphQl, Community, WysiwygAdvanced and AdminUserGuide to the latest free versions. Approved. Results in the brief's "Results 2026-11-13".
   - [ ] Step 3: turn off native blog comments. **Ask the owner first.**
 
 ## Phase 2 — Ongoing habits (one at a time, with the owner)
@@ -187,6 +188,7 @@ Each habit gets a short discussion and decision, then setup, then a recorded res
 
 ## Log
 
+- 2026-11-13 — Magefan modules updated to the latest free versions (Blog 2.10.13 → 2.13.1) and BlogGraphQl disabled (CVE-2026-79323). Details in [magefan-blog-cve-2026-79323.md](magefan-blog-cve-2026-79323.md). Backups: `~/backup-pre-magefan-20261113-171741.sql.gz`, `~/backup-magefan-code-20261113-171741.tar.gz`.
 - 2026-11-08 — Fixed the monitor gaps from the 11-07 review (owner request) and re-baselined. Backup: `incident-monitor/state/monitor.sh.pre-blindspots-20261108`.
   - **New PHP/script files anywhere in the webroot**, including git-ignored `vendor/`: a new `webroot_scripts` list (about 171k files, `state/webroot-scripts.base`) alerts on additions. The writable dirs keep their existing check. composer installs add files here, so re-baseline after a deploy.
   - **Log check** now also matches `<?php`, `<?=`, `base64_decode` and "Requested store is not found" (which appears only on attack days), and reports the line count. Against the 10-07 to 10-19 logs it catches all 41 injection lines instead of 1. No benign log line matches.

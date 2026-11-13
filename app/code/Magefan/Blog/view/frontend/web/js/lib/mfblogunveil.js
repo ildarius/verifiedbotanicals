@@ -23,7 +23,13 @@ define(['jquery'], function($) {
             /*source = source || this.getAttribute("data-src");*/
             if (source) {
                 /*this.setAttribute("src", source);*/
+
+                if (window.MagefanWebP && window.MagefanWebP.canUseWebP() && !source.includes('mf_webp')) {
+                    source = window.MagefanWebP.getWebUrl(source);
+                }
+                
                 var style = this.getAttribute('style') ? (this.getAttribute('style') + '; ') : '';
+                source = source.replace('"', '\\"');
                 style = style + 'background-image: url("' + source + '");'
                 this.setAttribute('style', style);
 

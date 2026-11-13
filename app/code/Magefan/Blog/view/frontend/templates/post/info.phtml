@@ -75,6 +75,26 @@
                 <?php if ($authorPageEnabled) { ?>
                 </a>
                 <?php } ?>
+
+                <?php
+                    $coAuthors = $_post->getRelatedCoauthors();
+                    $coAuthorsCount = count($coAuthors);
+                ?>
+                <?php if ($coAuthorsCount) { ?>
+                    <?= $block->escapeHtml(__('and')) ?>
+                    <?php $z = 0 ?>
+                    <?php foreach($coAuthors as $coAuthor) { ?>
+                        <?php $z++; ?>
+                        <?php if ($block->authorPageEnabled()) { ?>
+                            <a title="<?= $block->escapeHtml($coAuthor->getTitle()) ?>"
+                               href="<?= $block->escapeUrl($coAuthor->getAuthorUrl()) ?>"><?= $block->escapeHtml($coAuthor->getTitle()) ?></a><?php if ($z != $coAuthorsCount) echo ', ' ?>
+                        <?php } else { ?>
+                            <?= $block->escapeHtml($coAuthor->getTitle()) ?><?php if ($z != $coAuthorsCount) echo ', ' ?>
+                        <?php } ?>
+                    <?php } ?>
+                <?php } ?>
+
+
             </span>
         </div>
         <?php } ?>
@@ -90,6 +110,14 @@
                 </span>
             </div>
         <?php } ?>
+    <?php } ?>
+
+    <!-- reading time -->
+    <?php if ($block->readingTimeEnabled() && $_post->getReadingTime()) { ?>
+        <div class="item post-reading-time">
+            <i class="mf-blog-icon mfbi-reading-time"></i>
+            <span class="value"><?= $block->escapeHtml($_post->getReadingTime()) . ' ' . __('min read') ?></span>
+        </div>
     <?php } ?>
 
 </div>

@@ -94,8 +94,8 @@ class Comment extends AbstractModel implements \Magento\Framework\DataObject\Ide
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magefan\Blog\Api\AuthorInterfaceFactory $userFactory,
         \Magefan\Blog\Model\ResourceModel\Comment\CollectionFactory $commentCollectionFactory,
-        \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
-        \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
+        ?\Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
+        ?\Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
         array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -146,6 +146,16 @@ class Comment extends AbstractModel implements \Magento\Framework\DataObject\Ide
     public function isActive()
     {
         return ($this->getStatus() == \Magefan\Blog\Model\Config\Source\CommentStatus::APPROVED);
+    }
+
+    /**
+     * Retrieve if is visible on store
+     * @return bool
+     */
+    public function isVisibleOnStore($storeId)
+    {
+        return $this->isActive()
+            && (null === $storeId || array_intersect([0, $storeId], [$this->getStoreId()]));
     }
 
     /**

@@ -14,6 +14,21 @@ namespace Magefan\Blog\Model\ResourceModel\Category;
 class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection
 {
     /**
+     * @inheritDoc
+     */
+    protected $_eventPrefix = 'mfblog_category_collection';
+
+    /**
+     * @inheritDoc
+     */
+    protected $_eventObject = 'blog_category_collection';
+
+    /**
+     * @inheritDoc
+     */
+    protected $_idFieldName = 'category_id';
+
+    /**
      * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
@@ -44,7 +59,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         $connection = null,
-        \Magento\Framework\Model\ResourceModel\Db\AbstractDb $resource = null
+        ?\Magento\Framework\Model\ResourceModel\Db\AbstractDb $resource = null
     ) {
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
         $this->_storeManager = $storeManager;
@@ -87,6 +102,16 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
         }
 
         return parent::addFieldToFilter($field, $condition);
+    }
+
+    /**
+     * Add search filter to collection
+     * @param string $term
+     * @return $this
+     */
+    public function addSearchFilter(string $term)
+    {
+        return $this->addFieldToFilter('title', ['like' => '%' . $term . '%']);
     }
 
     /**
@@ -159,33 +184,21 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
     {
         $items = $this->getColumnValues('category_id');
         if (count($items)) {
-            $connection = $this->getConnection();
-            $select = $connection->select()->from(['cps' => $this->getTable('magefan_blog_category_store')])
-                ->where('cps.category_id IN (?)', $items);
 
-            $result = [];
-            foreach ($connection->fetchAll($select) as $item) {
-                if (!isset($result[$item['category_id']])) {
-                    $result[$item['category_id']] = [];
+            foreach ($this as $item) {
+                $categoryId = $item->getData('category_id');
+                $storeIds = $this->getResource()->lookupStoreIds($categoryId);
+                if (!$storeIds) {
+                    continue;
                 }
-                $result[$item['category_id']][] = $item['store_id'];
-            }
-
-            if ($result) {
-                foreach ($this as $item) {
-                    $categoryId = $item->getData('category_id');
-                    if (!isset($result[$categoryId])) {
-                        continue;
-                    }
-                    if ($result[$categoryId] == 0) {
-                        $stores = $this->_storeManager->getStores(false, true);
-                        $storeId = current($stores)->getId();
-                    } else {
-                        $storeId = $result[$item->getData('category_id')];
-                    }
-                    $item->setData('_first_store_id', $storeId);
-                    $item->setData('store_ids', $result[$categoryId]);
+                if (in_array(0, $storeIds)) {
+                    $stores = $this->_storeManager->getStores(false, true);
+                    $storeId = current($stores)->getId();
+                } else {
+                    $storeId = $storeIds[0];
                 }
+                $item->setData('_first_store_id', $storeId);
+                $item->setData('store_ids', $storeIds);
             }
 
             if ($this->_storeId) {
@@ -261,5 +274,13 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
                 $this->_toTree($i->getId(), $childs, $tree);
             }
         }
+    }
+
+    /**
+     * @return int
+     */
+    public function getStoreId():int
+    {
+        return (int)$this->_storeId;
     }
 }

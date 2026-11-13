@@ -59,7 +59,7 @@ class UrlResolver implements UrlResolverInterface
     /**
      * @var Config|mixed
      */
-    private  $config;
+    protected $config;
 
     /**
      * UrlResolver constructor.
@@ -78,7 +78,7 @@ class UrlResolver implements UrlResolverInterface
         AuthorInterfaceFactory $authorFactory,
         TagFactory $tagFactory,
         StoreManagerInterface $storeManager,
-        Config $config = null
+        ?Config $config = null
     ) {
         $this->url = $url;
         $this->postFactory = $postFactory;
@@ -187,7 +187,8 @@ class UrlResolver implements UrlResolverInterface
                             $factory = Url::CONTROLLER_POST . 'Factory';
                             $model = $this->$factory->create()->load($postId);
 
-                            if (!$model->getCategoriesCount() || !$model->getParentCategories()->getItemById($categoryId)) {
+                            $parentCategories = $model->getParentCategories();
+                            if (!count($parentCategories) || !isset($parentCategories[$categoryId])) {
                                 return null;
                             }
                         }
@@ -321,10 +322,14 @@ class UrlResolver implements UrlResolverInterface
     protected function _isArchiveIdentifier($identifier)
     {
         $info = explode('-', $identifier);
-        return count($info) == 2
+        if (!empty($info[1])) {
+            $month = strlen($info[1]) == 2 && is_numeric($info[1]);
+        } else {
+            $month = true;
+        }
+        return (count($info) == 2 || count($info) == 1)
             && strlen($info[0]) == 4
-            && strlen($info[1]) == 2
             && is_numeric($info[0])
-            && is_numeric($info[1]);
+            && $month;
     }
 }

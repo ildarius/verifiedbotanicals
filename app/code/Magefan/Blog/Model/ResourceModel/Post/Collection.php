@@ -14,6 +14,26 @@ namespace Magefan\Blog\Model\ResourceModel\Post;
 class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection
 {
     /**
+     * @inheritDoc
+     */
+    protected $_idFieldName = 'post_id';
+
+    /**
+     * @inheritDoc
+     */
+    protected $_eventPrefix = 'mfblog_post_collection';
+
+    /**
+     * @inheritDoc
+     */
+    protected $_eventObject = 'blog_post_collection';
+
+    /**
+     * @var string[]
+     */
+    protected $_ftiCollumns = ['title', 'meta_keywords', 'meta_description', 'identifier', 'content'];
+
+    /**
      * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
@@ -55,16 +75,17 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
      * @param \Magefan\Blog\Api\CategoryRepositoryInterface|null $categoryRepository
      */
     public function __construct(
-        \Magento\Framework\Data\Collection\EntityFactory $entityFactory,
-        \Psr\Log\LoggerInterface $logger,
+        \Magento\Framework\Data\Collection\EntityFactory             $entityFactory,
+        \Psr\Log\LoggerInterface                                     $logger,
         \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\Framework\Stdlib\DateTime\DateTime $date,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
-        $connection = null,
-        \Magento\Framework\Model\ResourceModel\Db\AbstractDb $resource = null,
-        \Magefan\Blog\Api\CategoryRepositoryInterface $categoryRepository = null
-    ) {
+        \Magento\Framework\Event\ManagerInterface                    $eventManager,
+        \Magento\Framework\Stdlib\DateTime\DateTime                  $date,
+        \Magento\Store\Model\StoreManagerInterface                   $storeManager,
+                                                                     $connection = null,
+        ?\Magento\Framework\Model\ResourceModel\Db\AbstractDb        $resource = null,
+        ?\Magefan\Blog\Api\CategoryRepositoryInterface               $categoryRepository = null
+    )
+    {
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
         $this->_date = $date;
         $this->_storeManager = $storeManager;
@@ -136,12 +157,16 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
             return $this->addSearchFilter($condition);
         }
 
+        if ($field == 'authors') {
+            return parent::addFieldToFilter('author_id', $condition);
+        }
+
         return parent::addFieldToFilter($field, $condition);
     }
 
     /**
      * Add store filter to collection
-     * @param array|int|\Magento\Store\Model\Store  $store
+     * @param array|int|\Magento\Store\Model\Store $store
      * @param boolean $withAdmin
      * @return $this
      */
@@ -203,7 +228,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
 
     /**
      * Add posts filter to collection
-     * @param array|int|string  $category
+     * @param array|int|string $category
      * @return $this
      */
     public function addPostsFilter($postIds)
@@ -230,7 +255,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
 
     /**
      * Add category filter to collection
-     * @param array|int|\Magefan\Blog\Model\Category  $category
+     * @param array|int|\Magefan\Blog\Model\Category $category
      * @return $this
      */
     public function addCategoryFilter($category)
@@ -266,13 +291,36 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
                     }
                 }
             } else {
+                $allIsNumeric = true;
+                foreach ($categories as $k => $id) {
+                    if (!is_numeric($id)) {
+                        if (is_array($id)) {
+                            foreach ($id as $_id) {
+                                if (!is_numeric($_id)) {
+                                    $allIsNumeric = false;
+                                    break 2;
+                                }
+                            }
+                        } else {
+                            $allIsNumeric = false;
+                            break;
+                        }
+                    }
+                }
                 $select = $connection->select()
-                    ->from(['t' => $tableName], 'category_id')
-                    ->where(
+                    ->from(['t' => $tableName], 'category_id');
+
+                if ($allIsNumeric) {
+                    $select->where(
+                        $connection->prepareSqlCondition('t.category_id', $categories)
+                    );
+                } else {
+                    $select->where(
                         $connection->prepareSqlCondition('t.identifier', $categories)
                         . ' OR ' .
                         $connection->prepareSqlCondition('t.category_id', $categories)
                     );
+                }
 
                 $categories = [];
                 foreach ($connection->fetchAll($select) as $item) {
@@ -306,8 +354,11 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
     public function addArchiveFilter($year, $month)
     {
         $this->getSelect()
-            ->where('YEAR(publish_time) = ?', $year)
-            ->where('MONTH(publish_time) = ?', $month);
+            ->where('YEAR(main_table.publish_time) = ?', $year);
+        if ($month) {
+            $this->getSelect()->where('MONTH(main_table.publish_time) = ?', $month);
+        }
+
         return $this;
     }
 
@@ -318,6 +369,10 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
      */
     public function addSearchFilter($term)
     {
+        if (!$term) {
+            $term = '__EMPTY_SEARCH_VALUE__';
+        }
+
         $tagPostIds = [];
         $connection = $this->getConnection();
         $select = $connection->select()
@@ -355,11 +410,10 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
                 $tagPostIds = array_slice($tagPostIds, 0, 200);
             }
 
-            $fullExpression = '(0 ' .
-                '+ FORMAT(MATCH (title, meta_keywords, meta_description, identifier, content) AGAINST ('
-                . $this->getConnection()->quote($term)
-                . '), 4) ' .
-                '+ IF(main_table.post_id IN (' . implode(',', $tagPostIds) . '), "1", "0"))';
+            $fullExpression = $this->getSearchRateExpression($term, $this->_ftiCollumns);
+            $fullExpression = substr($fullExpression, 0, strrpos($fullExpression, ')'));
+            $fullExpression = $fullExpression .
+                ' + IF(main_table.post_id IN (' . implode(',', $tagPostIds) . '), "1", "0"))';
 
             $fullExpression = new \Zend_Db_Expr($fullExpression);
             $this->getSelect()->columns(['search_rate' => $fullExpression]);
@@ -374,13 +428,9 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
                 ]
             );
 
-            $fullExpression = '(0 ' .
-                '+ FORMAT(MATCH (title, meta_keywords, meta_description, identifier, content) AGAINST ('
-                . $this->getConnection()->quote($term)
-                . '), 4))';
-
-            $fullExpression = new \Zend_Db_Expr($fullExpression);
+            $fullExpression = new \Zend_Db_Expr($this->getSearchRateExpression($term, $this->_ftiCollumns));
             $this->getSelect()->columns(['search_rate' => $fullExpression]);
+
             //$this->expressionFieldsToSelect['search_rate'] = $fullExpression;
         }
 
@@ -388,8 +438,18 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
     }
 
     /**
+     * @param $term
+     * @param array $columns
+     * @return string
+     */
+    public function getSearchRateExpression($term, array $columns): string
+    {
+        return '(0 + FORMAT(MATCH (' . implode(',', $columns) . ') AGAINST (' . $this->getConnection()->quote($term) . '), 4)) ';
+    }
+
+    /**
      * Add tag filter to collection
-     * @param array|int|string|\Magefan\Blog\Model\Tag  $tag
+     * @param array|int|string|\Magefan\Blog\Model\Tag $tag
      * @return $this
      */
     public function addTagFilter($tag)
@@ -422,13 +482,36 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
                     }
                 }
             } else {
+                $allIsNumeric = true;
+                foreach ($tag as $k => $id) {
+                    if (!is_numeric($id)) {
+                        if (is_array($id)) {
+                            foreach ($id as $_id) {
+                                if (!is_numeric($_id)) {
+                                    $allIsNumeric = false;
+                                    break 2;
+                                }
+                            }
+                        } else {
+                            $allIsNumeric = false;
+                            break;
+                        }
+                    }
+                }
                 $select = $connection->select()
-                    ->from(['t' => $tableName], 'tag_id')
-                    ->where(
+                    ->from(['t' => $tableName], 'tag_id');
+
+                if ($allIsNumeric) {
+                    $select->where(
+                        $connection->prepareSqlCondition('t.tag_id', $tag)
+                    );
+                } else {
+                    $select->where(
                         $connection->prepareSqlCondition('t.identifier', $tag)
                         . ' OR ' .
                         $connection->prepareSqlCondition('t.tag_id', $tag)
                     );
+                }
 
                 $tag = [];
                 foreach ($connection->fetchAll($select) as $item) {
@@ -444,7 +527,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
 
     /**
      * Add author filter to collection
-     * @param array|int|\Magefan\Blog\Model\Author  $author
+     * @param array|int|\Magefan\Blog\Model\Author $author
      * @return $this
      */
     public function addAuthorFilter($author)
@@ -480,7 +563,8 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
                 }
             }
 
-            $this->addFilter('author_id', ['in' => $author], 'public');
+            //$this->addFilter('author_id', ['in' => $author], 'public');
+            $this->addFieldToFilter('authors', ['in' => $author]);
             $this->setFlag('author_filter_added', 1);
         }
         return $this;
@@ -650,8 +734,8 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
     /**
      * Add select order
      *
-     * @param   string $field
-     * @param   string $direction
+     * @param string $field
+     * @param string $direction
      * @return  $this
      */
     public function setOrder($field, $direction = self::SORT_ORDER_DESC)
@@ -662,5 +746,13 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
             parent::setOrder('post_id', $direction);
         }
         return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStoreId():int
+    {
+        return (int)$this->_storeId;
     }
 }

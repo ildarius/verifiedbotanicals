@@ -4,16 +4,15 @@
  * Please visit Magefan.com for license details (https://magefan.com/end-user-license-agreement).
  */
 
+declare(strict_types=1);
+
 namespace Magefan\Community\Cron;
 
 use Magefan\Community\Model\SectionFactory;
 use Magefan\Community\Model\Section\Info;
+use Magefan\Community\Model\SetLinvFlag;
 use Magento\Framework\App\ResourceConnection;
 
-/**
- * Class Sections
- * @package Magefan\Community
- */
 class Sections
 {
     /**
@@ -32,23 +31,34 @@ class Sections
     protected $resource;
 
     /**
+     * @var SetLinvFlag
+     */
+    private $setLinvFlag;
+
+    /**
      * Sections constructor.
+     *
      * @param ResourceConnection $resource
      * @param SectionFactory $sectionFactory
      * @param Info $info
+     * @param SetLinvFlag $setLinvFlag
      */
     public function __construct(
         ResourceConnection $resource,
         SectionFactory $sectionFactory,
-        Info $info
+        Info $info,
+        SetLinvFlag $setLinvFlag
     ) {
         $this->resource = $resource;
         $this->sectionFactory = $sectionFactory;
         $this->info = $info;
+        $this->setLinvFlag = $setLinvFlag;
     }
 
     /**
      * Execute cron job
+     *
+     * @return void
      */
     public function execute()
     {
@@ -65,7 +75,7 @@ class Sections
 
         $sections = [];
         foreach ($connection->fetchAll($select) as $config) {
-            $matches = false;
+            $matches = [];
             preg_match("/(.*)\/" . str_replace('/', '\/', $path) . "/", $config['path'], $matches);
             if (empty($matches[1])) {
                 continue;
@@ -86,7 +96,12 @@ class Sections
 
             if ($data && is_array($data)) {
                 foreach ($data as $module => $item) {
+                    if (!isset($sections[$module])) {
+                        continue;
+                    }
                     $section = $sections[$module];
+                    $errorMessage = $data[$module . '_errorMsg'] ?? '';
+
                     if (!$section->validate($data)) {
                         $connection->update(
                             $table,
@@ -95,6 +110,10 @@ class Sections
                             ],
                             ['path = ? ' => $section->getName() . '/' . $path]
                         );
+
+                        $this->setLinvFlag->execute($section->getName(), 1, $errorMessage);
+                    } else {
+                        $this->setLinvFlag->execute($section->getName(), 0, $errorMessage);
                     }
                 }
             }

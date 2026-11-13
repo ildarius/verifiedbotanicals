@@ -69,6 +69,14 @@ class LayoutGenerateBlocksAfter implements ObserverInterface
             return;
         }
 
+        // Local patch (2026-11-13): page_cache/block/render replays the original full action name but
+        // has no current category/tag/author registered, so getPostCollection() fatals (HTTP 500).
+        foreach (['getCategory', 'getTag', 'getAuthor'] as $getter) {
+            if (method_exists($productListBlock, $getter) && !$productListBlock->$getter()) {
+                return;
+            }
+        }
+
         $toolbar = $productListBlock->getToolbarBlock();
         $toolbar->setCollection($productListBlock->getPostCollection());
 
@@ -95,6 +103,5 @@ class LayoutGenerateBlocksAfter implements ObserverInterface
                 ['attributes' => ['rel' => 'next']]
             );
         }
-
     }
 }

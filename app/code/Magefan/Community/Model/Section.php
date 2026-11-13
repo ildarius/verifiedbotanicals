@@ -4,6 +4,8 @@
  * Please visit Magefan.com for license details (https://magefan.com/end-user-license-agreement).
  */
 
+declare(strict_types=1);
+
 namespace Magefan\Community\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
@@ -14,20 +16,33 @@ use Magento\Framework\App\ProductMetadataInterface;
  * Class Section
  * @package Magefan\Community\Model
  */
+// @codingStandardsIgnoreLine
 final class Section
 {
-    const MODULE = 'mfmodule';
+    public const MODULE = 'mfmodule';
 
-    const ENABLED = 'enabled';
+    public const ENABLED = 'enabled';
 
-    const KEY = 'key';
+    public const KEY = 'key';
 
-    const TYPE = 'mftype';
+    public const TYPE = 'mftype';
+
+    public const ACTIVE = 'mfactive';
 
     /**
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     * @var ScopeConfigInterface
      */
     private $scopeConfig;
+
+    /**
+     * @var GetModuleVersion
+     */
+    private $getModuleVersion;
+
+    /**
+     * @var HyvaThemeDetection
+     */
+    private $hyvaThemeDetection;
 
     /**
      * @var string
@@ -44,40 +59,70 @@ final class Section
      */
     protected $metadata;
 
-
+    // @codingStandardsIgnoreStart
     /**
-     * Section constructor.
      * @param ScopeConfigInterface $scopeConfig
      * @param ProductMetadataInterface $metadata
-     * @param null $name
-     * @param null $key
+     * @param GetModuleVersion $getModuleVersion
+     * @param HyvaThemeDetection $hyvaThemeDetection
+     * @param $name
+     * @param $key
      */
     final public function __construct(
         ScopeConfigInterface $scopeConfig,
         ProductMetadataInterface $metadata,
+        GetModuleVersion $getModuleVersion,
+        HyvaThemeDetection $hyvaThemeDetection,
         $name = null,
         $key = null
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->metadata = $metadata;
+        $this->getModuleVersion = $getModuleVersion;
+        $this->hyvaThemeDetection = $hyvaThemeDetection;
         $this->name = $name;
         $this->key = $key;
     }
 
     /**
+     * Check if enabled
+     *
      * @return bool
      */
     final public function isEnabled()
     {
-        return (bool) $this->getConfig(self::ENABLED);
+        return (bool)$this->getConfig(self::ENABLED);
     }
 
     /**
-     * @return string
+     * Get module name
+     *
+     * @param false $e
+     * @return false|string
      */
-    final public function getModule()
+    final public function getModuleName($e = false)
     {
-        $module = (string) $this->getConfig(self::MODULE);
+        $fs = $e ? [self::MODULE] : [self::MODULE . 'e', self::MODULE . 'p', self::MODULE];
+        foreach ($fs as $f) {
+            $module = (string)$this->getConfig($f);
+            if ($module) {
+                break;
+            }
+        }
+
+        return $module;
+    }
+
+    /**
+     * Get module
+     *
+     * @param false $e
+     * @return false|string
+     */
+    final public function getModule($e = false)
+    {
+        $module = $this->getModuleName();
+
         $url = $this->scopeConfig->getValue(
             'web/unsecure/base' . '_' . 'url',
             ScopeInterface::SCOPE_STORE,
@@ -85,10 +130,13 @@ final class Section
         );
 
         if (\Magefan\Community\Model\UrlChecker::showUrl($url)) {
-            if ($module
-                && (!$this->getConfig(self::TYPE)
-                    || $this->getConfig(self::TYPE) && $this->metadata->getEdition() != 'C' . 'omm' . 'un' . 'ity'
-                )
+            if ($module && $this->getType()) {
+                return $module;
+            }
+
+            if ($module == ('B' . 'l' . 'o' . 'g')
+                && version_compare($this->getModuleVersion->execute('Ma' . 'ge' . 'fa' . 'n_' . $module), '2.' . '11' . '.4', '>=')
+                && $this->hyvaThemeDetection->execute()
             ) {
                 return $module;
             }
@@ -97,6 +145,20 @@ final class Section
     }
 
     /**
+     * Get type
+     *
+     * @return bool
+     */
+    final public function getType()
+    {
+        return (!$this->getConfig(self::TYPE)
+            || $this->getConfig(self::TYPE) && $this->metadata->getEdition() != 'C' . 'omm' . 'un' . 'ity'
+        );
+    }
+
+    /**
+     * Get key
+     *
      * @return string
      */
     final public function getKey()
@@ -109,6 +171,8 @@ final class Section
     }
 
     /**
+     * Get name
+     *
      * @return string
      */
     final public function getName()
@@ -117,8 +181,9 @@ final class Section
     }
 
     /**
+     * Validate data
+     *
      * @param $data
-     * @param null $k
      * @return bool
      */
     final public function validate($data)
@@ -127,19 +192,23 @@ final class Section
             return !empty($data[$this->getModule()]);
         }
 
-        $id = $this->getModule();
         $k = $this->getKey();
 
-        $result = $this->validateIDK($id, $k);
-        if (!$result) {
-            $id .= 'Plus';
-            $result = $this->validateIDK($id, $k);
+        foreach ([$this->getModule(), $this->getModule(true)] as $id) {
+            foreach (['', 'Plus', 'Extra'] as $e) {
+                if ($result = $this->validateIDK($id . $e, $k)) {
+                    return true;
+                }
+            }
         }
 
-        return $result;
+        return false;
     }
+    // @codingStandardsIgnoreEnd
 
     /**
+     * Validate
+     *
      * @param string $id
      * @param string $k
      * @return bool
@@ -155,6 +224,8 @@ final class Section
     }
 
     /**
+     * Get config
+     *
      * @param string $field
      * @return mixed
      */

@@ -48,7 +48,7 @@
             </item>
         </argument>
     </dataSource>
-    <fieldset name="general">
+    <fieldset name="general" sortOrder="0">
         <argument name="data" xsi:type="array">
             <item name="config" xsi:type="array">
                 <item name="label" xsi:type="string"/>
@@ -171,6 +171,7 @@
                     <item name="source" xsi:type="string">post</item>
                     <item name="wysiwyg" xsi:type="boolean">true</item>
                     <item name="dataScope" xsi:type="string">content</item>
+                    <item name="template" xsi:type="string">ui/form/field</item>
                     <item name="additionalClasses" xsi:type="string">admin__field-wide</item>
                     <item name="sortOrder" xsi:type="number">50</item>
                 </item>
@@ -203,6 +204,8 @@
                     <item name="formElement" xsi:type="string">wysiwyg</item>
                     <item name="source" xsi:type="string">post</item>
                     <item name="wysiwyg" xsi:type="boolean">true</item>
+                    <item name="template" xsi:type="string">ui/form/field</item>
+                    <item name="additionalClasses" xsi:type="string">admin__field-wide</item>
                     <item name="dataScope" xsi:type="string">short_content</item>
                     <item name="sortOrder" xsi:type="number">60</item>
                 </item>
@@ -243,6 +246,8 @@
                         <previewTmpl>Magento_Catalog/image-preview</previewTmpl>
                         <openDialogTitle>Featured Image</openDialogTitle>
                         <initialMediaGalleryOpenSubpath>magefan_blog</initialMediaGalleryOpenSubpath>
+                        <allowedExtensions>jpg jpeg png</allowedExtensions>
+                        <maxFileSize>4194304</maxFileSize>
                     </settings>
                 </imageUploader>
             </formElements>
@@ -407,6 +412,18 @@
                 </item>
             </argument>
         </field>
+        <field name="reading_time">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">integer</item>
+                    <item name="label" xsi:type="string" translate="true">Reading time (In minutes)</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">post</item>
+                    <item name="sortOrder" xsi:type="number">90</item>
+                    <item name="dataScope" xsi:type="string">reading_time</item>
+                </item>
+            </argument>
+        </field>
     </fieldset>
     <fieldset name="gallery">
         <argument name="data" xsi:type="array">
@@ -435,18 +452,29 @@
                 <item name="sortOrder" xsi:type="number">30</item>
             </item>
         </argument>
-        <field name="identifier">
+
+        <container name="url_key_group" component="Magento_Ui/js/form/components/group">
             <argument name="data" xsi:type="array">
+                <item name="type" xsi:type="string">group</item>
                 <item name="config" xsi:type="array">
-                    <item name="dataType" xsi:type="string">text</item>
-                    <item name="label" xsi:type="string" translate="true">URL Key</item>
-                    <item name="formElement" xsi:type="string">input</item>
-                    <item name="source" xsi:type="string">post</item>
-                    <item name="dataScope" xsi:type="string">identifier</item>
-                    <item name="sortOrder" xsi:type="number">10</item>
+                    <item name="required" xsi:type="boolean">false</item>
                 </item>
             </argument>
-        </field>
+
+            <field name="identifier">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="dataType" xsi:type="string">text</item>
+                        <item name="label" xsi:type="string" translate="true">URL Key</item>
+                        <item name="formElement" xsi:type="string">input</item>
+                        <item name="template" xsi:type="string">ui/form/field</item>
+                        <item name="source" xsi:type="string">post</item>
+                        <item name="dataScope" xsi:type="string">identifier</item>
+                        <item name="sortOrder" xsi:type="number">10</item>
+                    </item>
+                </argument>
+            </field>
+        </container>
         <field name="meta_title">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
@@ -483,6 +511,48 @@
                 </item>
             </argument>
         </field>
+        <field name="structure_data_type">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">int</item>
+                    <item name="label" xsi:type="string" translate="true">Rich Snippet / Structured Data</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="source" xsi:type="string">post</item>
+                    <item name="dataScope" xsi:type="string">structure_data_type</item>
+                    <item name="sortOrder" xsi:type="number">50</item>
+                </item>
+                <item name="options" xsi:type="array">
+                    <item name="blog_posting" xsi:type="array">
+                        <item name="label" xsi:type="string" translate="true">Blog Posting</item>
+                        <item name="value" xsi:type="number">0</item>
+                    </item>
+                    <item name="news_article" xsi:type="array">
+                        <item name="label" xsi:type="string" translate="true">News Article</item>
+                        <item name="value" xsi:type="number">1</item>
+                    </item>
+                    <item name="article" xsi:type="array">
+                        <item name="label" xsi:type="string" translate="true">Article</item>
+                        <item name="value" xsi:type="number">3</item>
+                    </item>
+                    <item name="none" xsi:type="array">
+                        <item name="label" xsi:type="string" translate="true">None</item>
+                        <item name="value" xsi:type="number">2</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="meta_robots">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Magefan\Blog\Model\Config\Source\TagRobots</item>
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Meta Robots</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="source" xsi:type="string">post</item>
+                    <item name="dataScope" xsi:type="string">meta_robots</item>
+                </item>
+            </argument>
+        </field>
     </fieldset>
     <fieldset name="og_metadata">
         <argument name="data" xsi:type="array">
@@ -498,6 +568,7 @@
                     <item name="dataType" xsi:type="string">text</item>
                     <item name="label" xsi:type="string" translate="true">OG Title</item>
                     <item name="formElement" xsi:type="string">input</item>
+                    <item name="template" xsi:type="string">ui/form/field</item>
                     <item name="source" xsi:type="string">post</item>
                     <item name="dataScope" xsi:type="string">og_title</item>
                     <item name="sortOrder" xsi:type="number">10</item>
@@ -541,6 +612,8 @@
                         <previewTmpl>Magento_Catalog/image-preview</previewTmpl>
                         <openDialogTitle>Media Gallery</openDialogTitle>
                         <initialMediaGalleryOpenSubpath>magefan_blog</initialMediaGalleryOpenSubpath>
+                        <allowedExtensions>jpg jpeg png</allowedExtensions>
+                        <maxFileSize>4194304</maxFileSize>
                     </settings>
                 </imageUploader>
             </formElements>
@@ -1004,6 +1077,17 @@
                     <item name="formElement" xsi:type="string">textarea</item>
                     <item name="source" xsi:type="string">post</item>
                     <item name="dataScope" xsi:type="string">layout_update_xml</item>
+                </item>
+            </argument>
+        </field>
+        <field name="custom_css">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Custom CSS</item>
+                    <item name="formElement" xsi:type="string">textarea</item>
+                    <item name="source" xsi:type="string">post</item>
+                    <item name="dataScope" xsi:type="string">custom_css</item>
                 </item>
             </argument>
         </field>

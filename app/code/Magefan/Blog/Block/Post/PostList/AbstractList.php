@@ -24,6 +24,7 @@ abstract class AbstractList extends Template implements IdentityInterface
     protected $_filterProvider;
 
     /**
+    /**
      * @var \Magento\Cms\Model\Page
      */
     protected $_post;
@@ -58,9 +59,9 @@ abstract class AbstractList extends Template implements IdentityInterface
      */
     protected $templatePool;
 
-    const POSTS_SORT_FIELD_BY_PUBLISH_TIME = 'publish_time';
+    const POSTS_SORT_FIELD_BY_PUBLISH_TIME = 'main_table.publish_time';
     const POSTS_SORT_FIELD_BY_POSITION = 'position';
-    const POSTS_SORT_FIELD_BY_TITLE = 'title';
+    const POSTS_SORT_FIELD_BY_TITLE = 'main_table.title';
 
     /**
      * AbstractList constructor.
@@ -255,5 +256,25 @@ abstract class AbstractList extends Template implements IdentityInterface
         }
 
         return $viewModel;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPageParamName()
+    {
+        return $this->config->getPagePaginationType() !== 'p' ? 'page' : 'p';
+    }
+
+    /**
+     * Retrieve 1 if display reading time is enabled
+     * @return int
+     */
+    public function readingTimeEnabled()
+    {
+        return (int) $this->_scopeConfig->getValue(
+            'mfblog/post_view/reading_time/enabled',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 }

@@ -15,19 +15,10 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\DesignInterface;
 use Magento\Framework\View\Design\Theme\ThemeProviderInterface;
 use Magento\Store\Model\ScopeInterface;
-use Magento\Widget\Model\Template\FilterEmulate;
+use Magento\Framework\App\ScopeResolverInterface;
 
-/**
- * Class Category
- * @package Magefan\BlogGraphQl\Model\Resolver\DataProvider
- */
 class Category
 {
-    /**
-     * @var FilterEmulate
-     */
-    private $widgetFilter;
-
     /**
      * @var CategoryRepositoryInterface
      */
@@ -54,40 +45,54 @@ class Category
     private $scopeConfig;
 
     /**
+     * @var ScopeResolverInterface
+     */
+    private $scopeResolver;
+
+    /**
      * Category constructor.
      * @param CategoryRepositoryInterface $categoryRepository
-     * @param FilterEmulate $widgetFilter
      * @param State $state
      * @param DesignInterface $design
      * @param ThemeProviderInterface $themeProvider
      * @param ScopeConfigInterface $scopeConfig
+     * @param ScopeResolverInterface $scopeResolver
      */
     public function __construct(
         CategoryRepositoryInterface $categoryRepository,
-        FilterEmulate $widgetFilter,
         State $state,
         DesignInterface $design,
         ThemeProviderInterface $themeProvider,
-        ScopeConfigInterface $scopeConfig
+        ScopeConfigInterface $scopeConfig,
+        ScopeResolverInterface $scopeResolver
     ) {
         $this->categoryRepository = $categoryRepository;
-        $this->widgetFilter = $widgetFilter;
         $this->state = $state;
         $this->design = $design;
         $this->themeProvider = $themeProvider;
         $this->scopeConfig = $scopeConfig;
+        $this->scopeResolver = $scopeResolver;
     }
 
     /**
-     * @param string $categoryId
-     * @param null $fields
+     * Get category data
+     *
+     * @param mixed $categoryId
+     * @param null|array $fields
      * @return array
      * @throws NoSuchEntityException
      */
-    public function getData(string $categoryId, $fields = null): array
+    public function getData($categoryId, $fields = null): array
     {
-        $category = $this->categoryRepository->getFactory()->create();
-        $category->getResource()->load($category, $categoryId);
+        if (is_object($categoryId)) {
+            $category = $categoryId;
+        } else {
+            try {
+                $category = $this->categoryRepository->getById((int)$categoryId);
+            } catch (\Exception $e) {
+                throw new NoSuchEntityException();
+            }
+        }
 
         if (!$category->isActive()) {
             throw new NoSuchEntityException();
@@ -115,8 +120,9 @@ class Category
 
     /**
      * Prepare all additional data
-     * @param $category
-     * @param null $fields
+     *
+     * @param mixed $category
+     * @param null|array $fields
      * @return mixed
      */
     public function getDynamicData($category, $fields = null)
@@ -131,11 +137,18 @@ class Category
 
         foreach ($keys as $key) {
             $method = 'get' . str_replace(
-                    '_',
-                    '',
-                    ucwords($key, '_')
-                );
+                '_',
+                '',
+                ucwords($key, '_')
+            );
             $data[$key] = $category->$method();
+            if ($key === 'category_url') {
+                $data[$key] = str_replace(
+                    '/' . $this->scopeResolver->getScope()->getCode() . '/',
+                    '/',
+                    $data[$key]
+                );
+            }
         }
 
         if (is_array($fields) && array_key_exists('breadcrumbs', $fields)) {

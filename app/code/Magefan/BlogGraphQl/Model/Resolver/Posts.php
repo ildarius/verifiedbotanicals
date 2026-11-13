@@ -18,10 +18,6 @@ use Magefan\Blog\Api\PostRepositoryInterface;
 use Magento\Framework\Api\SortOrderBuilder;
 use Magento\Framework\App\ScopeResolverInterface;
 
-/**
- * Class Posts
- * @package Magefan\BlogGraphQl\Model\Resolver
- */
 class Posts implements ResolverInterface
 {
     /**
@@ -90,8 +86,8 @@ class Posts implements ResolverInterface
         Field $field,
         $context,
         ResolveInfo $info,
-        array $value = null,
-        array $args = null
+        ?array $value = null,
+        ?array $args = null
     ) {
         $storeId = (int)$context->getExtensionAttributes()->getStore()->getId();
         $searchCriteria = $this->searchCriteriaBuilder->build('di_build_magefan_blog_post', $args);
@@ -108,7 +104,7 @@ class Posts implements ResolverInterface
 
         $scopeFilter = $this->filterBuilder
             ->setField('store_id')
-            ->setValue($scope)
+            ->setValue($args['storeId'] ?? $scope)
             ->setConditionType('eq')
             ->create();
         $filterGroups[] = $this->filterGroupBuilder->addFilter($scopeFilter)->create();
@@ -161,7 +157,7 @@ class Posts implements ResolverInterface
 
         foreach ($items as $k => $data) {
             $items[$k] = $this->postDataProvider->getData(
-                $data['post_id'],
+                $data,
                 isset($fields['items']) ? $fields['items'] : null,
                 $storeId
             );

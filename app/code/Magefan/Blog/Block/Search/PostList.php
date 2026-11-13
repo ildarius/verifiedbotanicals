@@ -21,7 +21,7 @@ class PostList extends \Magefan\Blog\Block\Post\PostList
      */
     public function getQuery()
     {
-        return (string)urldecode((string)$this->getRequest()->getParam('q'));
+        return urldecode((string)$this->getRequest()->getParam('q'));
     }
 
     /**
@@ -62,7 +62,7 @@ class PostList extends \Magefan\Blog\Block\Post\PostList
         $this->_addBreadcrumbs($title, 'blog_search');
         $this->pageConfig->getTitle()->set($title);
         /*
-        $page = $this->_request->getParam(\Magefan\Blog\Block\Post\PostList\Toolbar::PAGE_PARM_NAME);
+        $page = $this->_request->getParam($this->getPageParamName());
         if ($page < 2) {
         */
             $robots = $this->config->getSearchRobots();
@@ -91,5 +91,24 @@ class PostList extends \Magefan\Blog\Block\Post\PostList
     protected function _getTitle()
     {
         return __('Search "%1"', $this->getQuery());
+    }
+
+    /**
+     * Get template type
+     *
+     * @return string
+     */
+    public function getPostTemplateType()
+    {
+        $template = (string)$this->_scopeConfig->getValue(
+            'mfblog/search/template',
+            ScopeInterface::SCOPE_STORE
+        );
+
+        if ($template) {
+            return $template;
+        }
+
+        return parent::getPostTemplateType();
     }
 }

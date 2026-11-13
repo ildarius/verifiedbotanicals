@@ -115,7 +115,7 @@ class Image extends AbstractHelper
                 $this->_newFile = $path . '/' . $this->_baseFile;
                 if (!$this->fileExists($this->_newFile)) {
                     try {
-                        $this->resizeBaseFile($width, $height, $keepFrame);    
+                        $this->resizeBaseFile($width, $height, $keepFrame);
                     } catch (\Exception $e) {
                         $this->_newFile = $this->_baseFile;
                     }
@@ -124,6 +124,30 @@ class Image extends AbstractHelper
             }
         }
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getWidthAndHeigth(): array
+    {
+        $file = $this->_newFile ?: $this->_baseFile;
+        if (!$file) {
+            return [];
+        }
+
+        if ($this->fileExists($file)) {
+            $file = $this->_mediaDirectory->getAbsolutePath($file);
+            $imageSize = @getimagesize($file);
+            if ($imageSize) {
+                return [
+                    'width' => (int)$imageSize[0],
+                    'height' => (int)$imageSize[1]
+                ];
+            }
+        }
+
+        return [];
     }
 
     /**

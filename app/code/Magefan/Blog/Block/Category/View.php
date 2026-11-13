@@ -61,10 +61,10 @@ class View extends \Magefan\Blog\Block\Post\PostList
                 $layoutUpdate = $category->getData('layout_update_xml') ?: '';
                 if (false === strpos($layoutUpdate, 'rel="canonical"')) {
                     $canonicalUrl = $category->getCanonicalUrl();
-                    $page = (int)$this->_request->getParam(Toolbar::PAGE_PARM_NAME);
+                    $page = (int)$this->_request->getParam($this->getPageParamName());
                     if ($page > 1) {
                         $canonicalUrl .= ((false === strpos($canonicalUrl, '?')) ? '?' : '&')
-                            . Toolbar::PAGE_PARM_NAME . '=' . $page;
+                            . $this->getPageParamName() . '=' . $page;
                     }
 
                     $this->pageConfig->addRemotePageAsset(
@@ -73,6 +73,11 @@ class View extends \Magefan\Blog\Block\Post\PostList
                         ['attributes' => ['rel' => 'canonical']]
                     );
                 }
+            }
+
+            $robots = $category->getData('meta_robots');
+            if ($robots) {
+                $this->pageConfig->setRobots($robots);
             }
 
             $pageMainTitle = $this->getLayout()->getBlock('page.main.title');
@@ -120,7 +125,7 @@ class View extends \Magefan\Blog\Block\Post\PostList
             ]);
         }
     }
-    
+
     /**
      * Retrieve identities
      *
@@ -128,6 +133,6 @@ class View extends \Magefan\Blog\Block\Post\PostList
      */
     public function getIdentities()
     {
-        return $this->getCategory()->getIdentities();
+        return $this->getCategory() ? $this->getCategory()->getIdentities() : [];
     }
 }

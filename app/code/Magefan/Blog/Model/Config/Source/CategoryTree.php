@@ -63,6 +63,7 @@ class CategoryTree implements \Magento\Framework\Option\ArrayInterface
             foreach ($childs[$itemId] as $item) {
                 $data = [
                     'label' => $item->getTitle() .
+                        (' (ID: ' . $item->getId() . ')') .
                         ($item->getIsActive() ? '' : ' ('.__('Disabled').')'),
                     'value' => $item->getId(),
                 ];
@@ -81,6 +82,7 @@ class CategoryTree implements \Magento\Framework\Option\ArrayInterface
     {
         if ($this->_childs === null) {
             $this->_childs =  $this->_categoryCollectionFactory->create()
+                ->setOrder('position')
                 ->getGroupedChilds();
         }
         return $this->_childs;

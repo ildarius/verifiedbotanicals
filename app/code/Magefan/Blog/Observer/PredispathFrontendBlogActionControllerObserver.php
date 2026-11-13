@@ -14,9 +14,6 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magefan\Blog\Model\NoSlashUrlRedirect;
 use Magefan\Blog\Model\SlashUrlRedirect;
 
-/**
- * Class Predispath Frontend Blog Action Controller Observer
- */
 class PredispathFrontendBlogActionControllerObserver implements ObserverInterface
 {
     /**
@@ -43,7 +40,7 @@ class PredispathFrontendBlogActionControllerObserver implements ObserverInterfac
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         NoSlashUrlRedirect $noSlashUrlRedirect,
-        SlashUrlRedirect $slashUrlRedirect = null
+        ?SlashUrlRedirect $slashUrlRedirect = null
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->noSlashUrlRedirect = $noSlashUrlRedirect;

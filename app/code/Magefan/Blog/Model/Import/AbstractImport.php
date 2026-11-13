@@ -99,7 +99,7 @@ abstract class AbstractImport extends \Magento\Framework\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * @var \Zend\Db\Adapter\Adapter
+     * @var \Laminas\Db\Adapter\Adapter
      */
     protected $dbAdapter;
 
@@ -136,8 +136,10 @@ abstract class AbstractImport extends \Magento\Framework\Model\AbstractModel
         \Magefan\Blog\Model\TagFactory $tagFactory,
         \Magefan\Blog\Model\CommentFactory $commentFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
-        \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
+        \Magento\Framework\Filesystem $filesystem,
+        \Magento\Framework\Filesystem\Io\File $file,
+        ?\Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
+        ?\Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
         array $data = [],
         $authorFactory = null,
         $productRepository = null
@@ -147,7 +149,8 @@ abstract class AbstractImport extends \Magento\Framework\Model\AbstractModel
         $this->_tagFactory = $tagFactory;
         $this->_commentFactory = $commentFactory;
         $this->_storeManager = $storeManager;
-
+        $this->fileSystem = $filesystem;
+        $this->file = $file;
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $this->_authorFactory = $authorFactory ?: $objectManager->get(\Magefan\Blog\Api\AuthorInterfaceFactory::class);
         $this->productRepository = $productRepository ?: $objectManager->get(\Magento\Catalog\Model\ProductRepository::class);
@@ -248,7 +251,7 @@ abstract class AbstractImport extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * @return \Zend\Db\Adapter\Adapter
+     * @return \Laminas\Db\Adapter\Adapter
      */
     protected function getDbAdapter()
     {
@@ -265,12 +268,59 @@ abstract class AbstractImport extends \Magento\Framework\Model\AbstractModel
                 $connectionConf['host'] = $this->getData('dbhost');
             }
 
-            $this->dbAdapter = new \Zend\Db\Adapter\Adapter($connectionConf);
+            $this->dbAdapter = new \Laminas\Db\Adapter\Adapter($connectionConf);
 
-            if (!$this->dbAdapter) {
-                throw  new \Zend_Db_Exception("Failed connect to magento database");
+            try {
+                $this->dbAdapter->query('SELECT 1')->execute();
+            } catch (\Exception $e) {
+                throw  new \Exception("Failed connect to the database.");
             }
+            
         }
         return $this->dbAdapter;
+    }
+
+    protected function getFeaturedImgBySrc($src)
+    {
+        $mediaPath = $this->fileSystem->getDirectoryRead(\Magento\Framework\App\Filesystem\DirectoryList::MEDIA)->getAbsolutePath() . '/magefan_blog';
+
+        $this->file->mkdir($mediaPath, 0775);
+
+        $imageName = explode('?', $src);
+        $imageName = explode('/', $imageName[0]);
+        $imageName = end($imageName);
+        $imageName = str_replace(['%20', ' '], '-', $imageName);
+        $imageName = urldecode($imageName);
+
+        $hasFormat = false;
+        foreach (['jpg','jpeg', 'png', 'gif', 'webp'] as $format) {
+            if (false !== stripos($imageName, $format)) {
+                $hasFormat = true;
+                break;
+            }
+        }
+        if (!$hasFormat) {
+            $imageName .= '.jpg';
+        }
+        
+        $imagePath = $mediaPath . '/' . $imageName;
+        $imageSource = false;
+        if (!$this->file->fileExists($imagePath)) {
+            try {
+                $imageData = $this->file->read($src);
+                $this->file->write($imagePath, $imageData);
+                $imageSource = true;
+            } catch (\Exception $e) {
+                $imageSource = false;
+            }
+        } else {
+            $imageSource = true;
+        }
+
+        if ($imageSource) {
+            return 'magefan_blog/' . $imageName;
+        } else {
+            return false;
+        }
     }
 }

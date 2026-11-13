@@ -15,6 +15,9 @@
         <referenceBlock name="head.additional">
             <block class="Magefan\Blog\Block\Post\View\Comments\HeadFbApi" name="mfblog.head.fb_api" />
         </referenceBlock>
+        <referenceBlock name="blog.sidebar">
+            <block class="Magefan\Blog\Block\Sidebar\PostRelatedProducts" name="blog.sidebar.postrelatedproducts" template="Magefan_Blog::sidebar/post-related-products.phtml" />
+        </referenceBlock>
         <referenceContainer name="content">
             <block class="Magefan\Blog\Block\Post\View\ViewsCount" name="blog.posts.views.count" template="post/view/views_count.phtml"></block>
             <block class="Magefan\Blog\Block\Post\View" name="blog.post" template="post/view.phtml">
@@ -58,6 +61,7 @@
                     <block class="Magefan\Blog\Block\Social\AddThis" name="addthis.js.init" as="addthisJs" template="Magefan_Blog::addthis-js.phtml"/>
                 </container>
             </block>
+            <block class="Magefan\Blog\Block\Post\View\CustomCss" name="magefan.blog.post.custom.css" />
         </referenceContainer>
     </body>
 </page>
