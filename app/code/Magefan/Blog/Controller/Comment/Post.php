@@ -83,6 +83,15 @@ class Post extends \Magefan\Blog\App\Action\Action
             return $this->_forwardNoroute();
         }
 
+        // Local patch (2026-11-13): upstream accepts comments even when "Comments" is set to Disabled
+        // (it only checks that the blog is enabled). Refuse unless native Magefan comments are switched on.
+        if (\Magefan\Blog\Model\Config\Source\CommetType::MAGEFAN !== (string)$this->getConfigValue(
+            'mfblog/post_view/comments/type',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        )) {
+            return $this->_forwardNoroute();
+        }
+
         $comment = $this->commentFactory->create();
         $comment->setData($request->getPostValue());
 

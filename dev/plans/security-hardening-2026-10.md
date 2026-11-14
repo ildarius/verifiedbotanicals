@@ -5,7 +5,7 @@ Follow-up to the [September 2026 incident](security-incident-2026-09-28.md). Tha
 ## Where we left off
 
 - **Current step:** Phase 1, item 5 (reCAPTCHA). It is live and blocks bots. **Waiting on the owner** for one real-browser check: log in, and place a test order (see item 5 results). Monitor email works (fixed 2026-10-04 via Gmail SMTP).
-- **Magefan updates done 2026-11-13** (owner: "update asap" after the admin notice "Blog extension extremely outdated, latest 2.17.1"). Steps 1–2 of the queued task are done; step 3 (turn off native comments) still needs the owner's yes. **CrowdSec** requested the same day (Phase 2 B): installed by the owner 2026-11-13 and verified (see B). **~2026-11-17: review the simulated `http-crawl-non_statics` hits, then decide whether to enforce it.**
+- **Magefan updates done 2026-11-13** (owner: "update asap" after the admin notice "Blog extension extremely outdated, latest 2.17.1"). All three steps of the queued task are done, including turning off native comments. **CrowdSec** requested the same day (Phase 2 B): installed by the owner 2026-11-13 and verified (see B). **~2026-11-17: review the simulated `http-crawl-non_statics` hits, then decide whether to enforce it.**
 - **OpenSearch is down on prod** (nothing on :9200). `setup:upgrade` refuses to run; use `setup:db-schema:upgrade` + `setup:db-data:upgrade` instead (same schema/data steps, no search check). Catalog search is likely affected; needs root/host to fix.
 - **Next:** Phase 2, ongoing habits, worked through one at a time with the owner, starting with A.
 - **Open from the 2026-11-07 alert review (see Log):** several sign-ins await owner confirmation. The monitor gaps it found were fixed and the monitor re-baselined on 2026-11-08. **After any composer install or deploy, run `~/incident-monitor/monitor.sh --baseline`**, or the new webroot file check alerts on every added vendor file.
@@ -128,10 +128,10 @@ Follow-up to the [September 2026 incident](security-incident-2026-09-28.md). Tha
 
 ## Queued tasks
 
-- [~] **Magefan Blog CVE-2026-79323 + Magefan module updates.** Added by the owner 2026-10-02. Full brief: [magefan-blog-cve-2026-79323.md](magefan-blog-cve-2026-79323.md); read its "Corrections" section first, because the site is now in production mode.
+- [x] **Magefan Blog CVE-2026-79323 + Magefan module updates.** Added by the owner 2026-10-02. Full brief: [magefan-blog-cve-2026-79323.md](magefan-blog-cve-2026-79323.md); read its "Corrections" section first, because the site is now in production mode.
   - [x] Step 1 (2026-11-13): disable `Magefan_BlogGraphQl`. Approved. The `blogComments` probe now returns "Cannot query field". Anonymous `blogComments` currently exposes commenter emails; there are 0 comments today.
   - [x] Step 2 (2026-11-13): update Blog, BlogGraphQl, Community, WysiwygAdvanced and AdminUserGuide to the latest free versions. Approved. Results in the brief's "Results 2026-11-13".
-  - [ ] Step 3: turn off native blog comments. **Ask the owner first.**
+  - [x] Step 3 (2026-11-13, owner said yes): native blog comments off. `mfblog/post_view/comments/type=0` (Disabled) and `guest_comments=0`; the old values were `magefan` and `1`. Upstream's `Controller/Comment/Post.php` still accepted posts while comments were Disabled (it only checks that the blog is enabled), so a local guard now returns 404 unless the type is `magefan`. Verified: no comment form on posts; a POST with a valid form key and session returns 404; 0 comments in the DB.
 
 ## Phase 2 — Ongoing habits (one at a time, with the owner)
 
@@ -201,6 +201,7 @@ Each habit gets a short discussion and decision, then setup, then a recorded res
 
 ## Log
 
+- 2026-11-13 — Native blog comments turned off (owner approved), plus a local guard on the comment POST endpoint, which upstream left open.
 - 2026-11-13 — CrowdSec installed by the owner and verified: 64 scanner bans in the first ~2.5 h, no false positives seen, site unaffected.
 - 2026-11-13 — CrowdSec installer written (`dev/tools/crowdsec/install-crowdsec.sh`), waiting on the owner to run it as root (Phase 2 B).
 - 2026-11-13 — Magefan modules updated to the latest free versions (Blog 2.10.13 → 2.13.1) and BlogGraphQl disabled (CVE-2026-79323). Details in [magefan-blog-cve-2026-79323.md](magefan-blog-cve-2026-79323.md). Backups: `~/backup-pre-magefan-20261113-171741.sql.gz`, `~/backup-magefan-code-20261113-171741.tar.gz`.
