@@ -5,7 +5,7 @@ Follow-up to the [September 2026 incident](security-incident-2026-09-28.md). Tha
 ## Where we left off
 
 - **Current step:** Phase 1, item 5 (reCAPTCHA). It is live and blocks bots. **Waiting on the owner** for one real-browser check: log in, and place a test order (see item 5 results). Monitor email works (fixed 2026-10-04 via Gmail SMTP).
-- **Magefan updates done 2026-11-13** (owner: "update asap" after the admin notice "Blog extension extremely outdated, latest 2.17.1"). Steps 1–2 of the queued task are done; step 3 (turn off native comments) still needs the owner's yes. **CrowdSec** requested the same day (Phase 2 B): installer ready, **waiting on the owner to run it as root**.
+- **Magefan updates done 2026-11-13** (owner: "update asap" after the admin notice "Blog extension extremely outdated, latest 2.17.1"). Steps 1–2 of the queued task are done; step 3 (turn off native comments) still needs the owner's yes. **CrowdSec** requested the same day (Phase 2 B): installed by the owner 2026-11-13 and verified (see B). **~2026-11-17: review the simulated `http-crawl-non_statics` hits, then decide whether to enforce it.**
 - **OpenSearch is down on prod** (nothing on :9200). `setup:upgrade` refuses to run; use `setup:db-schema:upgrade` + `setup:db-data:upgrade` instead (same schema/data steps, no search check). Catalog search is likely affected; needs root/host to fix.
 - **Next:** Phase 2, ongoing habits, worked through one at a time with the owner, starting with A.
 - **Open from the 2026-11-07 alert review (see Log):** several sign-ins await owner confirmation. The monitor gaps it found were fixed and the monitor re-baselined on 2026-11-08. **After any composer install or deploy, run `~/incident-monitor/monitor.sh --baseline`**, or the new webroot file check alerts on every added vendor file.
@@ -172,7 +172,11 @@ Each habit gets a short discussion and decision, then setup, then a recorded res
     - Watcher runs from cron on this server. Run frequency and the exact feed URLs are settled at build time.
     - Known risk: Mirasvit changelogs are web pages, not feeds, so scraping them may break. The watcher must alert when a source can't be fetched or parsed. Failing silently would defeat the purpose.
 - [~] **B. WAF / virtual patching.**
-  - **CrowdSec (owner request 2026-11-13, "setup crowdsec").** Installer written and committed: `dev/tools/crowdsec/install-crowdsec.sh`. It needs **root**, which `verifiedbota` doesn't have, so **waiting on the owner to run it** (WHM > Terminal: `bash /home/verifiedbota/public_html/dev/tools/crowdsec/install-crowdsec.sh`).
+  - **CrowdSec (owner request 2026-11-13, "setup crowdsec").** Installer written and committed: `dev/tools/crowdsec/install-crowdsec.sh`. It needs **root**; the owner ran it 2026-11-13 (~17:40 EST).
+    - **Verified 2026-11-13 20:00 EST** from `/var/lib/crowdsec-status/status.txt`: engine and bouncer active, iptables rules present, community blocklist pulled (~15k IPs), signal sharing on. Nginx access log 100.9k lines read, 100.9k parsed, 0 unparsed. In ~2.5 h: 64 local bans, all scanners (WordPress scans, `.env`/sensitive files, CVE-2017-9841, admin probing, bad user agents, LFD/dovecot brute force), almost all from cloud/hosting ASNs. Owner IP, server IP and 36.x never banned. Storefront 200 throughout; uptime monitor clean.
+    - Bans are server-wide: the nginx log covers every cPanel account, so some bans come from other sites' traffic (e.g. 31.76.32.38 BT, 104.28.228.78 Cloudflare WARP/iCloud Relay; neither appears in our domlog). Default ban is 4 h.
+    - `http-crawl-non_statics` (simulation): 16 simulated bans so far, all Google Cloud/Azure/hosting IPs, none residential. Re-check in a few days, then `cscli simulation disable crowdsecurity/http-crawl-non_statics` (root).
+    - Unparsed `auth.log`/`mail.log`/`exim_mainlog` lines are normal (only auth failures are parsed). Exim has had 0 matches so far; re-check once real SMTP brute force shows up in LFD.
     - Engine + `crowdsec-firewall-bouncer-iptables`. Reads ea-nginx `/var/log/nginx/access.log` + `error.log` (all requests, real client IPs, including proxy-cache hits that Apache never sees), `auth.log` (sshd), `mail.log` (dovecot), `lfd.log`, cPanel `login_log`, `exim_mainlog`.
     - Collections: linux, sshd, nginx, base-http-scenarios, http-cve, whitelist-good-actors, cpanel (+LFD), exim, dovecot. Community blocklist comes with the engine.
     - Whitelist: 127.0.0.1, the server 66.206.23.226 (our own Playwright/monitor traffic), owner 24.157.155.108. **Not** the 36.0.0.0/8 admin range.
@@ -197,6 +201,7 @@ Each habit gets a short discussion and decision, then setup, then a recorded res
 
 ## Log
 
+- 2026-11-13 — CrowdSec installed by the owner and verified: 64 scanner bans in the first ~2.5 h, no false positives seen, site unaffected.
 - 2026-11-13 — CrowdSec installer written (`dev/tools/crowdsec/install-crowdsec.sh`), waiting on the owner to run it as root (Phase 2 B).
 - 2026-11-13 — Magefan modules updated to the latest free versions (Blog 2.10.13 → 2.13.1) and BlogGraphQl disabled (CVE-2026-79323). Details in [magefan-blog-cve-2026-79323.md](magefan-blog-cve-2026-79323.md). Backups: `~/backup-pre-magefan-20261113-171741.sql.gz`, `~/backup-magefan-code-20261113-171741.tar.gz`.
 - 2026-11-08 — Fixed the monitor gaps from the 11-07 review (owner request) and re-baselined. Backup: `incident-monitor/state/monitor.sh.pre-blindspots-20261108`.
