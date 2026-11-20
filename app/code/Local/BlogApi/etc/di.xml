@@ -7,6 +7,7 @@
         <arguments>
             <argument name="allowedIpPatterns" xsi:type="array">
                 <item name="office_range" xsi:type="string">24.157.155.*</item>
+                <item name="owner_starlink" xsi:type="string">143.105.*.*</item>
             </argument>
         </arguments>
     </type>
