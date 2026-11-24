@@ -11,7 +11,8 @@ use Magefan\Blog\Model\ResourceModel\Post\Collection;
  *
  * Every Magefan listing (index, tag, category, archive, author, search, RSS, sidebar and widgets, related posts,
  * next/previous links) builds its collection through addActiveFilter(); the post page itself does not use a
- * collection. Registered in etc/frontend/di.xml only, so the admin grid, cron (sitemap) and REST are unaffected.
+ * collection. Registered for the frontend, webapi_rest and webapi_soap areas (the post list service there is
+ * anonymous), so the admin grid and cron (sitemap) are unaffected.
  */
 class ExcludeShopProfilesFromListings
 {
