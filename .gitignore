@@ -74,3 +74,6 @@ pub/media/*
 
 # Generated test artifacts
 output/artifacts/
+
+# Generated daily by Magento cron (sitemap_generate)
+/pub/sitemap*.xml
